@@ -138,7 +138,8 @@
         j0ni-haskell
         j0ni-org
         j0ni-python
-        j0ni-complete))
+        j0ni-complete
+        j0ni-snippets))
 
 ;; For now - migrate the useful stuff to my config later
 (packages-require
@@ -347,30 +348,6 @@
 (add-to-list 'auto-mode-alist '("\\.markdown\\'" . markdown-mode))
 (add-to-list 'auto-mode-alist '("\\.mdown\\'" . markdown-mode))
 (setq markdown-command "redcarpet")
-
-;; yasnippets and autocompletion
-(require 'yasnippet)
-(add-to-list 'yas-snippet-dirs "~/.emacs.d/vendor-snippets/js-yasnippets")
-(add-to-list 'yas-snippet-dirs "~/.emacs.d/vendor-snippets/yasnippets")
-
-(require 'dropdown-list)
-
-(setq yas-prompt-functions '(yas-dropdown-prompt
-                             yas-ido-prompt
-                             yas-completing-prompt))
-
-(setq hippie-expand-try-functions-list '(yas-hippie-try-expand
-                                         try-expand-dabbrev
-                                         try-expand-dabbrev-all-buffers
-                                         try-expand-dabbrev-from-kill
-                                         try-complete-file-name-partially
-                                         try-complete-file-name
-                                         try-expand-all-abbrevs
-                                         try-expand-list
-                                         try-expand-line
-                                         try-complete-lisp-symbol-partially
-                                         try-complete-lisp-symbol))
-
 
 ;; for mutt
 (progn
