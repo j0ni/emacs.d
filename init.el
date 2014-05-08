@@ -127,6 +127,7 @@
       '(j0ni-defuns
         j0ni-gui
         j0ni-powerline
+        j0ni-snippets
         j0ni-lisp
         j0ni-flycheck
         j0ni-ido
@@ -135,11 +136,11 @@
         j0ni-git
         j0ni-ruby
         j0ni-markup
+        j0ni-markdown
         j0ni-haskell
         j0ni-org
         j0ni-python
-        j0ni-complete
-        j0ni-snippets))
+        j0ni-complete))
 
 ;; For now - migrate the useful stuff to my config later
 (packages-require
@@ -175,30 +176,10 @@
     auto-compile
     popup
 
-    company
-    company-go
-    company-inf-python
-    company-inf-ruby
-    company-tern
-    auto-complete ;; elpy needs this to be present :(
-    ;; ac-slime
-    ;; go-autocomplete
-    ;; ac-js2
-    ;; ac-nrepl
-
-    autopair
-
     find-file-in-project
     dash
     undo-tree
     browse-kill-ring
-
-
-    markdown-mode
-    ;; python
-    virtualenv
-    py-autopep8
-    elpy
 
     sr-speedbar
 
@@ -341,13 +322,6 @@
   (add-to-list 'auto-mode-alist '("\\.java\\'" . java-mode)))
 
 (add-hook 'puppet-mode 'turn-on-smartparens-mode)
-
-;; markdown
-(autoload 'markdown-mode "markdown-mode" nil t)
-(add-to-list 'auto-mode-alist '("\\.md\\'" . markdown-mode))
-(add-to-list 'auto-mode-alist '("\\.markdown\\'" . markdown-mode))
-(add-to-list 'auto-mode-alist '("\\.mdown\\'" . markdown-mode))
-(setq markdown-command "redcarpet")
 
 ;; for mutt
 (progn

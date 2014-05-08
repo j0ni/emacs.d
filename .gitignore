@@ -1,4 +1,4 @@
-elpa*
+/elpa*
 custom.el
 *elc
 .DS_Store
@@ -14,10 +14,10 @@ history
 .session
 *~
 ac-comphist.dat
-url
+/url
 private.el
 .org*
-undohist
+/undohist
 /srecode-map.el
 /semanticdb
 /saveplace
@@ -26,4 +26,4 @@ undohist
 /abbrev_defs
 /swank
 /ede-projects.el
-.smex-items
+/.smex-items
