@@ -8,10 +8,6 @@
 ;; set uo css-mode
 (package-require 'css-mode)
 (autoload 'css-mode "css-mode" nil t)
-(defun css-mode-custom ()
-  (setq css-indent-level 2)
-  (setq css-indent-offset 2))
-(add-hook 'css-mode-hook 'css-mode-custom)
 
 ;; disable scss compilation
 (package-require 'scss-mode)

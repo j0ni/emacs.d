@@ -9,6 +9,7 @@ places
 url/cookies
 session*
 tramp
+projectile-bookmarks.eld
 \#*
 history
 .session

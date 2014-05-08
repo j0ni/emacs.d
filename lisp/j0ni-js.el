@@ -22,8 +22,7 @@
                "define"))
     (add-to-list 'js2-additional-externs s)))
 
-(setq js2-basic-offset 2
-      js2-indent-on-enter-key t
+(setq js2-indent-on-enter-key t
       js2-enter-indents-newline t
       js2-auto-indent nil
       js2-mirror-mode nil
@@ -88,8 +87,7 @@
   '(progn
      (define-key js-mode-map "{" 'paredit-open-curly)
      (define-key js-mode-map "}" 'paredit-close-curly)
-     (add-hook 'js-mode-hook 'esk-paredit-nonlisp)
-     (setq js-indent-level 2)))
+     (add-hook 'js-mode-hook 'esk-paredit-nonlisp)))
 
 (add-hook 'coffee-mode-hook
           (lambda ()

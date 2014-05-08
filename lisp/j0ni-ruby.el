@@ -3,8 +3,6 @@
 (package-require 'ruby-mode)
 (autoload 'ruby-mode "ruby-mode" nil t)
 
-(setq-default ruby-indent-level 2)
-
 (package-require 'ruby-dev)
 (autoload 'turn-on-ruby-dev "ruby-dev" nil t)
 
