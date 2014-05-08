@@ -137,7 +137,8 @@
         j0ni-markup
         j0ni-haskell
         j0ni-org
-        j0ni-python))
+        j0ni-python
+        j0ni-complete))
 
 ;; For now - migrate the useful stuff to my config later
 (packages-require
@@ -403,17 +404,6 @@
 
 (abbrev-mode 1)
 
-;; company-mode
-(progn
-  ;; (add-hook 'after-init-hook 'global-company-mode)
-
-  (eval-after-load 'company
-    '(progn
-       (add-to-list 'company-backends 'company-cider)
-       (add-to-list 'company-backends 'company-go)
-       (add-to-list 'company-backends 'company-inf-python)
-       (add-to-list 'company-backends 'company-inf-ruby))))
-
 ;; for sr-speedbar in 24.3.90+
 ;; (defun ad-advised-definition-p (definition)
 ;;   "Return non-nil if DEFINITION was generated from advice information."
@@ -424,6 +414,5 @@
 
 (setq speedbar-use-images nil)
 
-(add-to-list 'load-path (concat-home "Scratch/emacs/ws-butler"))
 (require 'ws-butler)
 (ws-butler-global-mode)
