@@ -1,9 +1,9 @@
 ;;; j0ni-powerline.el
 
-(package-require 'powerline)
-(require 'powerline)
-
 (when (display-graphic-p)
+  (package-require 'powerline)
+  (require 'powerline)
+
   (defun clean-powerline ()
     (interactive)
     (powerline-default-theme)

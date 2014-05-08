@@ -61,12 +61,13 @@
 (setq compilation-ask-about-save nil)
 
 ;; Setup exec-path and PATH environment variable, in case shell has failed to do so
-(let ((paths (mapcar (lambda (i) (concat (getenv "HOME") "/" i)) j0ni-path)))
+(let ((paths j0ni-path))
   (setenv "PATH" (apply 'concat
                         (append (mapcar (lambda (i) (concat i ":")) paths)
                                 (list (getenv "PATH")))))
   (dolist (path paths) (when (file-directory-p path)
                          (add-to-list 'exec-path path))))
+
 
 ;; Always ask for y/n keypress instead of typing out 'yes' or 'no'
 (defalias 'yes-or-no-p 'y-or-n-p)
@@ -125,27 +126,27 @@
 (setq j0ni-pkg-full
       '(j0ni-defuns
         j0ni-gui
+        j0ni-powerline
         j0ni-lisp
         j0ni-flycheck
-        j0ni-powerline
         j0ni-ido
         j0ni-go
         j0ni-js
         j0ni-git
         j0ni-ruby
         j0ni-markup
-        j0ni-haskell))
+        j0ni-haskell
+        j0ni-org
+        j0ni-python))
 
 ;; For now - migrate the useful stuff to my config later
 (packages-require
- '( starter-kit-bindings
+ '(starter-kit-bindings
    starter-kit-lisp
    starter-kit-eshell))
 
 (dolist (file j0ni-pkg-full)
   (require file))
-
-
 
 
 
@@ -168,11 +169,7 @@
     dropdown-list
     projectile
 
-
-    flycheck
-
     adaptive-wrap
-    ;; auto-indent-mode
     auto-compile
     popup
 
@@ -196,28 +193,12 @@
 
 
     markdown-mode
-    org
-    org-fstree
-    org-bullets
-    org-journal
-    deft
-
     ;; python
     virtualenv
     py-autopep8
     elpy
 
     sr-speedbar
-
-    ;; haskell-mode
-    ;; ghc
-    ;; ghci-completion
-    ;; shm
-    flycheck-haskell
-
-    ;; idris-mode
-
-    ;; erlang
 
     apache-mode
     puppet-mode
@@ -234,14 +215,8 @@
     smooth-scrolling
     diminish
 
-    ;; scala-mode
     scala-mode2
 
-    ;; malabar-mode
-    jabber
-
-    ;; confluence
-    ;; confluence-edit
     csv-nav
     figlet
     http-twiddle
@@ -291,20 +266,6 @@
   (hippie-expand nil))
 
 (define-key read-expression-map [(shift tab)] 'hippie-unexpand)
-
-;; recentf
-
-;; ido extras
-;; (progn
-;;   (autoload 'ido-at-point-mode "ido-at-point")
-;;   (ido-vertical-mode 1)
-;;   (flx-ido-mode 1)
-;;   (ido-at-point-mode)
-;;   (setq ido-use-faces nil
-;;         flx-ido-use-faces t
-;;         ido-use-filename-at-point nil))
-
-;; go
 
 ;; key mappings
 (defun map-local-ret ()
@@ -357,68 +318,6 @@
 ;; don't auto-save
 (setq auto-save-default nil)
 
-;; org mode
-(progn
-  (setq
-   ;; Set to the location of your Org files on your local system
-   ;; (setq org-directory "~/.org")
-   org-directory j0ni-org-dir
-   ;; org-journal
-   org-journal-dir j0ni-org-journal-dir
-   ;; Set to the name of the file where new notes will be stored
-   org-mobile-inbox-for-pull (concat j0ni-org-dir "/flagged.org")
-   ;; Set to <your Dropbox root directory>/MobileOrg.
-   ;; (setq org-mobile-directory "~/Dropbox/MobileOrg")
-   org-mobile-directory j0ni-org-dropbox
-   ;; Set agenda file(s)
-   org-agenda-files (list (concat j0ni-org-dir "/notebook.org"))
-   ;; track TODO completion
-   org-log-done 'time
-   ;; indentation for org-mode
-   org-startup-indented t)
-
-  ;; org-babel
-  (org-babel-do-load-languages
-   'org-babel-load-languages
-   '((emacs-lisp . t)
-     (gnuplot . t)
-     (python . t)
-     (ruby . t)
-     (sh . t)
-     (clojure . t)
-     (js . t)
-     (lisp . t)
-     (sql . t)
-     (scheme . t)))
-
-  ;; Use cider as the clojure execution backend
-  (setq org-babel-clojure-backend 'cider)
-
-  ;; Let's have pretty source code blocks
-  (setq org-edit-src-content-indentation 0
-        org-src-tab-acts-natively t
-        org-src-fontify-natively t
-        org-confirm-babel-evaluate nil)
-  ;; hook for clojure programming
-  ;; (defun babel-custom ()
-  ;;   (require 'ob-clojure))
-  ;; (add-hook 'clojure-mode-hook 'babel-custom)
-  ;; Key-bindings for some global commands
-  (global-set-key "\C-cl" 'org-store-link)
-  (global-set-key "\C-cc" 'org-capture)
-  (global-set-key "\C-ca" 'org-agenda)
-  (global-set-key "\C-cb" 'org-iswitchb)
-
-  ;; org-fstree
-  (require 'org-fstree))
-
-;; deft
-(progn
-  (setq deft-extension "org"
-        deft-directory j0ni-org-dir
-        deft-text-mode 'org-mode
-        deft-use-filename-as-title t
-        deft-auto-save-interval 0))
 
 ;; python
 (progn
@@ -490,30 +389,6 @@
 (setq display-time-format "%H:%M")
 (display-time-mode t)
 
-;; jabber
-
-(progn
-  (eval-after-load 'starttls
-    '(setq starttls-use-gnutls t
-           starttls-gnutls-program "gnutls-cli"
-           starttls-extra-arguments '("--insecure")))
-
-  (require 'starttls)
-
-  (setq jabber-account-list '(("jonathan.irving@turn.com"
-                               (:network-server . "conf.turn.com")
-                               ;; (:password . "tf@C^ng6")
-                               (:connection-type . starttls))
-                              ("jonathan.irving@gmail.com"
-                               (:network-serer . "talk.google.com")
-                               (:connection-type . ssl)
-                               (:password . "ajlhiqdndvfejfuh"))
-                              ("j@lollyshouse.ca"
-                               (:connection-type . starttls)
-                               (:password . "tf@C^ng6")))
-        ;; jabber-muc-autojoin '("automatons@conference.turn.com")
-        ))
-
 (define-abbrev-table 'global-abbrev-table
   '(("alpha" "α")
     ("beta" "β")
@@ -527,37 +402,6 @@
     ("pi" "π")))
 
 (abbrev-mode 1)
-
-;; flycheck
-;; (eval-after-load 'flycheck
-;;   '(add-hook 'flycheck-mode-hook #'flycheck-haskell-setup))
-
-;; haskell
-(progn
-  ;; (require 'inf-haskell)
-  ;; (add-hook 'haskell-mode-hook (lambda ()
-  ;;                                (turn-on-haskell-indent)
-  ;;                                (turn-on-haskell-doc-mode)
-  ;;                                (ghc-init)
-  ;;                                (smartparens-mode)))
-
-  ;; (define-key haskell-mode-map (kbd "C-c C-s")
-  ;;   (lambda () (interactive)
-  ;;     (let ((sym (haskell-ident-at-point)))
-  ;;       (inferior-haskell-type sym t))))
-
-
-  ;; (eval-after-load "haskell-mode"
-  ;;   '(progn
-  ;;      (define-key haskell-mode-map (kbd "C-x C-d") nil)
-  ;;      (define-key haskell-mode-map (kbd "C-c C-z") 'haskell-interactive-switch)
-  ;;      (define-key haskell-mode-map (kbd "C-c C-l") 'haskell-process-load-file)
-  ;;      (define-key haskell-mode-map (kbd "C-c C-b") 'haskell-interactive-switch)
-  ;;      (define-key haskell-mode-map (kbd "C-c C-t") 'haskell-process-do-type)
-  ;;      (define-key haskell-mode-map (kbd "C-c C-i") 'haskell-process-do-info)
-  ;;      (define-key haskell-mode-map (kbd "C-c M-.") nil)
-  ;;      (define-key haskell-mode-map (kbd "C-c C-d") nil)))
-  )
 
 ;; company-mode
 (progn

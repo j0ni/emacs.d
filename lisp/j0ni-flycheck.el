@@ -1,6 +1,6 @@
 ;;; j0ni-flycheck.el --- Flycheck setup
 
-(package-require 'flycheck)
+(packages-require '(s f flycheck))
 (add-hook 'find-file-hook
           (lambda ()
             (when (not (equal 'emacs-lisp-mode major-mode))
