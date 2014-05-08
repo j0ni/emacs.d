@@ -132,7 +132,9 @@
         j0ni-go
         j0ni-js
         j0ni-git
-        j0ni-ruby))
+        j0ni-ruby
+        j0ni-markup
+        j0ni-haskell))
 
 ;; For now - migrate the useful stuff to my config later
 (packages-require
@@ -193,18 +195,6 @@
     browse-kill-ring
 
 
-    less-css-mode
-    css-mode
-    haml-mode
-    sass-mode
-    scss-mode
-    jade-mode
-    handlebars-mode
-    mustache-mode
-    lorem-ipsum
-    stylus-mode
-    textile-mode
-
     markdown-mode
     org
     org-fstree
@@ -219,15 +209,13 @@
 
     sr-speedbar
 
-    web-beautify
-
-    haskell-mode
-    ghc
-    ghci-completion
-    shm
+    ;; haskell-mode
+    ;; ghc
+    ;; ghci-completion
+    ;; shm
     flycheck-haskell
 
-    idris-mode
+    ;; idris-mode
 
     ;; erlang
 
@@ -236,7 +224,6 @@
     log4j-mode
 
     highlight-symbol
-    highlight-indentation
     highlight-parentheses
     yasnippet
     rainbow-delimiters
@@ -258,9 +245,6 @@
     csv-nav
     figlet
     http-twiddle
-    httpcode
-    iplayer
-    nodejs-repl
     paredit-everywhere
 
 ))
@@ -283,24 +267,12 @@
 ;; wc-mode
 (require 'wc-mode)
 
-
-;; (when (display-graphic-p)
-;;   (load-theme j0ni-theme)
-;;   (set-face-attribute 'default nil :font j0ni-font)
-;;   (menu-bar-mode +1)
-;;   (require 'git-gutter-fringe))
-
-;; (normalize-fonts)
-
 (remove-hook 'prog-mode-hook 'esk-pretty-lambdas)
 (remove-hook 'prog-mode-hook 'esk-pretty-functions)
 (remove-hook 'prog-mode-hook 'idle-highlight-mode)
 (remove-hook 'text-mode-hook 'turn-on-flyspell)
 
 (add-hook 'prog-mode-hook 'linum-mode)
-;; (add-hook 'prog-mode-hook 'normalize-fonts)
-;; (add-hook 'text-mode-hook 'normalize-fonts)
-;; (add-hook 'before-save-hook 'delete-trailing-whitespace)
 
 (autoload 'elisp-slime-nav-mode "elisp-slime-nav")
 (add-hook 'emacs-lisp-mode-hook (lambda () (elisp-slime-nav-mode t)))
@@ -313,15 +285,6 @@
 
 (require 'smartparens-config)
 ;; (smartparens-global-mode 1)
-
-;; set uo css-mode
-(autoload 'css-mode "css-mode" nil t)
-(defun css-mode-custom ()
-  (setq css-indent-level 2)
-  (setq css-indent-offset 2))
-(add-hook 'css-mode-hook 'css-mode-custom)
-
-(setq scss-compile-at-save nil)
 
 (defun hippie-unexpand ()
   (interactive)
@@ -358,14 +321,6 @@
 ;; map start of file and end of file commands to nicer key combos
 (global-set-key (read-kbd-macro "M-[") 'beginning-of-buffer)
 (global-set-key (read-kbd-macro "M-]") 'end-of-buffer)
-
-;; full-screen mode?
-(global-set-key (kbd "C-0") 'ns-toggle-fullscreen)
-;; is this necessary after the global setting
-(defun map-local-fullscreen ()
-  (local-set-key (kbd "C-0") 'ns-toggle-fullscreen))
-
-;; (add-hook 'prog-mode-hook 'map-local-fullscreen)
 
 ;; disable tab indent
 (setq-default indent-tabs-mode nil)
@@ -474,10 +429,6 @@
   (delete 'highlight-indentation-mode elpy-default-minor-modes)
   (delete 'auto-complete-mode elpy-default-minor-modes))
 
-;; scss
-(setq scss-compile-at-save nil)
-(add-hook 'scss-mode-hook 'turn-on-smartparens-mode)
-
 ;; ack
 (defalias 'ack 'ack-and-a-half)
 (defalias 'ack-same 'ack-and-a-half-same)
@@ -490,25 +441,12 @@
 
 (add-hook 'puppet-mode 'turn-on-smartparens-mode)
 
-;; web
-(add-to-list 'auto-mode-alist '("\\.html\\'" . web-mode))
-(add-to-list 'auto-mode-alist '("\\.erb\\'" . web-mode))
-(add-to-list 'auto-mode-alist '("\\.rjs\\'" . web-mode))
-
-(add-hook 'rhtml-mode-hook 'turn-off-auto-fill)
-(add-hook 'html-mode-hook 'turn-off-auto-fill)
-(add-hook 'web-mode-hook 'turn-off-auto-fill)
-
 ;; markdown
 (autoload 'markdown-mode "markdown-mode" nil t)
 (add-to-list 'auto-mode-alist '("\\.md\\'" . markdown-mode))
 (add-to-list 'auto-mode-alist '("\\.markdown\\'" . markdown-mode))
 (add-to-list 'auto-mode-alist '("\\.mdown\\'" . markdown-mode))
 (setq markdown-command "redcarpet")
-
-;; jade and stylus modes
-(add-to-list 'auto-mode-alist '("\\.styl$" . stylus-mode))
-(add-to-list 'auto-mode-alist '("\\.jade$" . jade-mode))
 
 ;; yasnippets and autocompletion
 (require 'yasnippet)
@@ -597,16 +535,16 @@
 ;; haskell
 (progn
   ;; (require 'inf-haskell)
-  (add-hook 'haskell-mode-hook (lambda ()
-                                 (turn-on-haskell-indent)
-                                 (turn-on-haskell-doc-mode)
-                                 (ghc-init)
-                                 (smartparens-mode)))
+  ;; (add-hook 'haskell-mode-hook (lambda ()
+  ;;                                (turn-on-haskell-indent)
+  ;;                                (turn-on-haskell-doc-mode)
+  ;;                                (ghc-init)
+  ;;                                (smartparens-mode)))
 
-  (define-key haskell-mode-map (kbd "C-c C-s")
-    (lambda () (interactive)
-      (let ((sym (haskell-ident-at-point)))
-        (inferior-haskell-type sym t))))
+  ;; (define-key haskell-mode-map (kbd "C-c C-s")
+  ;;   (lambda () (interactive)
+  ;;     (let ((sym (haskell-ident-at-point)))
+  ;;       (inferior-haskell-type sym t))))
 
 
   ;; (eval-after-load "haskell-mode"

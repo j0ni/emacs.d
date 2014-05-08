@@ -1,0 +1,77 @@
+;;; j0ni-haskell.el
+
+(package-require 'haskell-mode)
+(package-require 'ghc)
+(package-require 'shm)
+(package-require 'auto-complete)
+
+;; auto-complete source using ghc-doc
+(defun ac-haskell-candidates ()
+  (let ((pattern (buffer-substring (ghc-completion-start-point) (point)))
+        (symbols (ghc-select-completion-symbol)))
+    (all-completions pattern symbols)))
+
+;; Setup auto-complete for haskell-mode
+(eval-after-load "auto-complete"
+  '(progn
+     (add-to-list 'ac-modes 'haskell-mode)
+     (ac-define-source ghc
+       '((candidates . ac-haskell-candidates)))))
+
+;; Setup haskell-mode hooks
+(eval-after-load "haskell-mode"
+  '(custom-set-variables
+    '(haskell-mode-hook
+      '(turn-on-haskell-indentation
+        turn-on-haskell-doc-mode
+        ghc-init
+        structured-haskell-mode
+        (lambda ()
+          (add-to-list 'ac-sources 'ac-source-ghc)
+          (auto-complete-mode +1)
+          (company-mode -1))))))
+
+;; Add a keybinding for (inferior-haskell-type t) to insert
+;; inferred type signature for function at point
+(define-key haskell-mode-map (kbd "C-c C-s")
+  (lambda () (interactive)
+    (let ((sym (haskell-ident-at-point)))
+      (inferior-haskell-type sym t))))
+
+;; Put ghc-show-info in a popup
+(package-require 'popup)
+(defun ghc-show-info-popup ()
+  (interactive)
+  (popup-tip (ghc-get-info (ghc-things-at-point))
+             :around t :scroll-bar t))
+(define-key haskell-mode-map (kbd "C-c TAB") 'ghc-show-info-popup)
+(define-key haskell-mode-map (kbd "C-c C-i") 'ghc-show-info-popup)
+(define-key haskell-mode-map (kbd "C-c C-S-i") 'ghc-show-info)
+
+;; Use standard keybinding for inferior-haskell-find-definition
+(define-key haskell-mode-map (kbd "M-.")
+  (lambda () (interactive)
+    (inferior-haskell-find-definition (haskell-ident-at-point))))
+
+;; Run test suite
+(defun haskell-mode-run-test-suite ()
+  (interactive)
+  (require 'compile)
+  (compile (concat "cd " (projectile-project-root) "; cabal test")))
+(define-key haskell-mode-map (kbd "C-c C-,") 'haskell-mode-run-test-suite)
+
+
+;;; Idris (for want of a better place to put it)
+(package-require 'idris-mode)
+(add-to-list 'auto-mode-alist '("\\.idr$" . idris-mode))
+
+
+;;; PureScript cheat mode
+(define-derived-mode purescript-mode haskell-mode "PureScript"
+  "Major mode for PureScript")
+(add-to-list 'auto-mode-alist (cons "\\.purs\\'" 'purescript-mode))
+
+
+(provide 'j0ni-haskell)
+
+

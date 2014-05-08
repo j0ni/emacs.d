@@ -46,13 +46,15 @@
 ;; extra stuff, mostly for rails
 (packages-require
  '(rinari
-   rhtml-mode
    feature-mode
    web-mode
    robe
    ruby-electric
    ruby-tools
    rbenv))
+
+(package-require 'rhtml-mode)
+(add-hook 'rhtml-mode-hook 'turn-off-auto-fill)
 
 ;; set up yaml mode, for want of a better place
 (package-require 'yaml-mode)
