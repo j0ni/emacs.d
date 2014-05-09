@@ -6,7 +6,6 @@
 
 (defun js2-mode-custom ()
   (interactive)
-  (map-local-ret)
   (smartparens-mode +1)
   (linum-mode +1)
   (when (fboundp 'auto-fill)
@@ -31,13 +30,13 @@
       js2-pretty-multiline-declarations t
       js2-allow-keywords-as-property-names t)
 
-;; (setq-default js2-show-parse-errors nil)
+(setq-default js2-show-parse-errors nil)
 (setq-default js2-strict-inconsistent-return-warning nil)
-;; (setq-default js2-strict-var-hides-function-arg-warning nil)
-;; (setq-default js2-strict-missing-semi-warning nil)
-;; (setq-default js2-strict-trailing-comma-warning nil)
-;; (setq-default js2-strict-cond-assign-warning nil)
-;; (setq-default js2-strict-var-redeclaration-warning nil)
+(setq-default js2-strict-var-hides-function-arg-warning nil)
+(setq-default js2-strict-missing-semi-warning nil)
+(setq-default js2-strict-trailing-comma-warning nil)
+(setq-default js2-strict-cond-assign-warning nil)
+(setq-default js2-strict-var-redeclaration-warning nil)
 
 ;; Use tern instead of builtin parsing
 (package-require 'tern)

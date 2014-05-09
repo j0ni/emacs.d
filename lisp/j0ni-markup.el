@@ -18,7 +18,7 @@
 
 ;; Colourise colour names in certain modes
 (package-require 'rainbow-mode)
-(dolist (mode '(css-mode less-css-mode html-mode nxhtml-mode nxhtml-mumamo-mode web-mode))
+(dolist (mode '(css-mode less-css-mode html-mode nxhtml-mode nxhtml-mumamo-mode))
   (add-hook (intern (concat (symbol-name mode) "-hook"))
             (lambda () (rainbow-mode))))
 
@@ -67,7 +67,6 @@
 (add-to-list 'auto-mode-alist '("\\.html\\'" . web-mode))
 
 (add-hook 'html-mode-hook 'turn-off-auto-fill)
-(add-hook 'web-mode-hook 'turn-off-auto-fill)
 
 ;; jade and stylus modes
 (packages-require '(jade-mode stylus-mode))
@@ -80,6 +79,7 @@
    ;; (setq web-mode-indent-style 2) ;; Indent content of HTML tags
    (setq web-mode-markup-indent-offset 2)
    (setq web-mode-css-indent-offset 2)
-   (setq web-mode-code-indent-offset 2)))
+   (setq web-mode-code-indent-offset 2)
+   (turn-off-auto-fill)))
 
 (provide 'j0ni-markup)
