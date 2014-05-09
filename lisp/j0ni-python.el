@@ -18,12 +18,5 @@
 (package-require 'smartparens)
 (add-hook 'python-mode-hook 'turn-on-smartparens-mode)
 
-(package-require 'elpy)
-(elpy-enable)
-(elpy-clean-modeline)
-
-(delete 'highlight-indentation-mode elpy-default-minor-modes)
-(delete 'auto-complete-mode elpy-default-minor-modes)
-
 
 (provide 'j0ni-python)
