@@ -20,9 +20,6 @@
 (packages-require '(eval-sexp-fu hl-sexp))
 (add-lisp-hook 'hl-sexp-mode)
 
-;; I like line numbers
-(add-lisp-hook 'linum-mode)
-
 ;; Paredit for all lisps
 (packages-require '(paredit diminish))
 

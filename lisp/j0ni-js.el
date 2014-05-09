@@ -4,10 +4,12 @@
  '(js2-mode
    smartparens))
 
+(package-require 'flycheck)
+(setq-default flycheck-jshintrc (concat dotfiles-dir ".jshintrc"))
+
 (defun js2-mode-custom ()
   (interactive)
   (smartparens-mode +1)
-  (linum-mode +1)
   (when (fboundp 'auto-fill)
     (auto-fill -1))
 

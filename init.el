@@ -126,8 +126,8 @@
 (setq j0ni-pkg-full
       '(j0ni-esk
         j0ni-defuns
-        j0ni-misc
         j0ni-gui
+        j0ni-misc
         j0ni-powerline
         j0ni-snippets
         j0ni-codestyle

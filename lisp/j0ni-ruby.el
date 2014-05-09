@@ -21,7 +21,6 @@
   (setq ruby-deep-arglist t
         ruby-deep-indent-paren nil
         show-trailing-whitespace nil)
-  (linum-mode +1)
   (smartparens-mode +1)
   ;; (turn-on-ruby-dev)
   )

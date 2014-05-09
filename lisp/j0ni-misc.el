@@ -30,6 +30,12 @@
    http-twiddle
    paredit-everywhere))
 
+;; Let's see what we're running on
+(setq on-console (null window-system))
+
+;; Don't defer screen updates when performing operations
+(setq redisplay-dont-pause t)
+
 ;; find-file-in-project
 (package-require 'find-file-in-project)
 (setq ffip-full-paths t)
@@ -47,8 +53,23 @@
 ;; wc-mode
 (require 'wc-mode)
 
-;; linum-mode in all programming buffers
-(add-hook 'prog-mode-hook 'linum-mode)
+;; Show current function in modeline
+;; (which-function-mode)
+
+;; Show line numbers in buffers
+(global-linum-mode t)
+
+;; Show column numbers in modeline
+(setq column-number-mode t)
+
+;; Redefine linum-on to ignore terminal buffers, because just turning
+;; it off in term-mode-hook doesn't work.
+(setq linum-disabled-modes
+      '(term-mode slime-repl-mode magit-status-mode help-mode
+                  nrepl-mode cider-repl-mode lisp-interaction-mode))
+(defun linum-on ()
+  (unless (or (minibufferp) (member major-mode linum-disabled-modes))
+    (linum-mode 1)))
 
 (defun turn-off-auto-fill ()
   (auto-fill-mode -1))
