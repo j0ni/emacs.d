@@ -3,30 +3,19 @@
 (packages-require
  '(diminish
    dash
-
    ssh-config-mode
    dropdown-list
-
    adaptive-wrap
    auto-compile
-
    browse-kill-ring
-
    apache-mode
    log4j-mode
-
    highlight-symbol
    highlight-parentheses
    smart-tab
    csv-mode
-   wc-mode
-   smooth-scrolling
-   diminish
-
    scala-mode2
-
    csv-nav
-   figlet
    http-twiddle
    paredit-everywhere))
 
@@ -51,6 +40,7 @@
 (diminish 'projectile-mode)
 
 ;; wc-mode
+(package-require 'wc-mode)
 (require 'wc-mode)
 
 ;; Show current function in modeline
