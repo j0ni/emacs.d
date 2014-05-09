@@ -3,7 +3,7 @@
 (require 'j0ni-defuns)
 
 (setq j0ni-lisp-modes
-      '(scheme-mode emacs-lisp-mode lisp-mode clojure-mode cider-nrepl-mode))
+      '(scheme-mode emacs-lisp-mode lisp-mode clojure-mode cider-repl-mode))
 
 (defun add-lisp-hook (func)
   (add-hooks j0ni-lisp-modes func))

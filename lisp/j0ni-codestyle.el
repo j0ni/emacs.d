@@ -32,8 +32,8 @@
 (setq sentence-end-double-space nil)
 
 ;; Enforce proper whitespace
-(require 'ws-butler)
-(ws-butler-global-mode)
+(package-require 'ethan-wspace)
+(global-ethan-wspace-mode 1)
 
 ;; Clojure indentation rules
 (eval-after-load "clojure-mode"
