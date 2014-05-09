@@ -3,18 +3,19 @@ j0ni's Emacs Configuration
 
 Some things which are assumed to be installed:
 
-* For Flycheck
-    * jshint
-    * pandoc
-    * rubocop
-    * ruby-lint
-    * pylint
-    * ghc
+* Flycheck
+    * jshint (JavaScript/Node)
+    * rubocop (Ruby)
+    * ruby-lint (Ruby)
+    * pylint (Python)
+    * flake8 (Python)
+    * ghc (Haskell)
+
+* Haskell
     * ghc-mod
-    * hlint
     * hoogle
 
-* For the python save hook
+* Python save hook
     * pep8
 
 * Various languages/runtimes
@@ -28,3 +29,5 @@ Some things which are assumed to be installed:
     * Haskell
     * Idris
 
+* Markdown
+    * pandoc (Haskell)
