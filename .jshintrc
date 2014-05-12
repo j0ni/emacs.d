@@ -11,5 +11,6 @@
     "angular": true,
     "define": true
   },
-  "node": true
+  "node": true,
+  "eqnull": true
 }

@@ -10,9 +10,6 @@
 (defun js2-mode-custom ()
   (interactive)
   (smartparens-mode +1)
-  (when (fboundp 'auto-fill)
-    (auto-fill -1))
-
   (dolist (s '("describe"
                "it"
                "before"
@@ -40,16 +37,13 @@
 (setq-default js2-strict-cond-assign-warning nil)
 (setq-default js2-strict-var-redeclaration-warning nil)
 
-;; Use tern instead of builtin parsing
+;; Tern
 (package-require 'tern)
 (add-hook 'js2-mode-hook (lambda () (tern-mode t)))
 
 ;; Skewer
 (package-require 'skewer-mode)
 (add-hook 'js2-mode-hook 'skewer-mode)
-(add-hook 'css-mode-hook 'skewer-css-mode)
-(add-hook 'html-mode-hook 'skewer-html-mode)
-(add-hook 'web-mode-hook 'skewer-html-mode)
 
 (eval-after-load 'js2-mode
   '(progn
@@ -61,7 +55,8 @@
                      (replace-regexp-in-string "[\n\t ]+" " " (buffer-substring-no-properties 1 (buffer-size)) t t))))
          (setq js2-additional-externs
                (split-string
-                (if (string-match "/\\* *global *\\(.*?\\) *\\*/" btext) (match-string-no-properties 1 btext) "")
+                (if (string-match "/\\* *global *\\(.*?\\) *\\*/" btext)
+                    (match-string-no-properties 1 btext) "")
                 " *, *" t))))))
 
 ;; add buffer-local indicator for whether prog-mode-hook has run.

@@ -47,7 +47,7 @@
 ;; (which-function-mode)
 
 ;; Show line numbers in buffers
-(global-linum-mode t)
+;; (global-linum-mode t)
 
 ;; Show column numbers in modeline
 (setq column-number-mode t)
@@ -55,14 +55,20 @@
 ;; Redefine linum-on to ignore terminal buffers, because just turning
 ;; it off in term-mode-hook doesn't work.
 (setq linum-disabled-modes
-      '(term-mode slime-repl-mode magit-status-mode help-mode
+      '(term-mode slime-repl-mode magit-status-mode help-mode org-mode
                   nrepl-mode cider-repl-mode lisp-interaction-mode))
 (defun linum-on ()
   (unless (or (minibufferp) (member major-mode linum-disabled-modes))
     (linum-mode 1)))
+(add-hook 'prog-mode-hook 'linum-on)
 
+;; Make it easy
 (defun turn-off-auto-fill ()
   (auto-fill-mode -1))
+
+;; In general we only want this for comments
+(auto-fill-mode 1)
+(setq comment-auto-fill-only-comments t)
 
 (package-require 'smartparens)
 (require 'smartparens-config)

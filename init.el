@@ -28,24 +28,31 @@
 (defun concat-home (dir)
   (concat (getenv "HOME") "/" dir))
 
+;; Go bits
+(defvar j0ni-go-path (list (concat-home "Scratch/go")
+                           (concat-home "Scratch/goeg")))
+
+;; Path elements
 (defvar j0ni-path (list (concat-home ".rbenv/shims")
                         (concat-home ".rbenv/bin")
                         (concat-home ".cabal/bin")
+                        (concat-home "Scratch/go/bin")
                         "/usr/local/bin"))
+;; Where are the system Git contrubutions?
 (defvar j0ni-git-contrib-dir "/usr/local/share/git-core/contrib/emacs")
+
+;; Org mode locations
 (defvar j0ni-org-dir (concat-home "Dropbox/OrgMode"))
 (defvar j0ni-notebook (concat j0ni-org-dir "/notebook.org"))
 (defvar j0ni-org-dropbox (concat-home "Dropbox/Apps/MobileOrg"))
 (defvar j0ni-agenda-files (list j0ni-notebook))
 (defvar j0ni-org-journal-dir (concat j0ni-org-dir "/Journal"))
-(defvar j0ni-go-path (list (concat-home "Scratch/go")
-                           (concat-home "Scratch/goeg")))
 
-;; switch some stuff off
+;; Switch some stuff off...
 (dolist (mode '(menu-bar-mode tool-bar-mode scroll-bar-mode))
   (when (fboundp mode) (funcall mode -1)))
 
-;; and some other stuff on
+;; ...and some other stuff on
 (dolist (mode '(blink-cursor-mode line-number-mode column-number-mode))
   (when (fboundp mode) (funcall mode +1)))
 

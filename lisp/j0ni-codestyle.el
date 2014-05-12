@@ -35,6 +35,9 @@
 (package-require 'ethan-wspace)
 (global-ethan-wspace-mode 1)
 
+(setq ethan-wspace-disabled-modes '(go-mode))
+(add-hooks ethan-wspace-disabled-modes (lambda () (ethan-wspace-mode -1)))
+
 ;; Clojure indentation rules
 (eval-after-load "clojure-mode"
   '(dolist (form '(test tests
