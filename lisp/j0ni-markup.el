@@ -1,11 +1,14 @@
 ;;; markup.el -- HTML and friends
 
-;; Useful major modes
-(packages-require
- '(less-css-mode
-   textile-mode))
+;; textile-mode
+(package-require 'textile-mode)
+(require 'textile-mode)
+(add-to-list 'auto-mode-alist '("\\.textile\\'" . textile-mode))
 
-;; set uo css-mode
+;; less + css
+(package-require 'less-css-mode)
+
+;; set up css-mode
 (package-require 'css-mode)
 (autoload 'css-mode "css-mode" nil t)
 
