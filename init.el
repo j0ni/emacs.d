@@ -1,7 +1,9 @@
 ;;; init.el --- new init, based on Bodil Stokke's
 
-(defvar j0ni-font "PragmataPro-14")
-(defvar j0ni-linum-font "PragmataPro-11")
+;; (defvar j0ni-font "PragmataPro-12")
+;; (defvar j0ni-linum-font "PragmataPro-10")
+(defvar j0ni-font "Consolas-14")
+(defvar j0ni-linum-font "Consolas-12")
 ;; use this to play with new fonts - not defined yet
 ;; (apply-font-settings)
 
