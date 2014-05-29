@@ -144,5 +144,9 @@
 (package-require 'sr-speedbar)
 (setq speedbar-use-images nil)
 
+;; vagrant method for tramp
+(package-require 'vagrant-tramp)
+(eval-after-load 'tramp
+  '(vagrant-tramp-enable))
 
 (provide 'j0ni-misc)
