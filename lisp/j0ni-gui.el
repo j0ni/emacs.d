@@ -31,6 +31,7 @@
   (set-face-foreground 'show-paren-match-face "#ffcfff")
   (add-to-list 'default-frame-alist '(height . 50))
   (add-to-list 'default-frame-alist '(width . 120))
+  (normalize-fonts)
   (set-mode-line-box)
   ;; for native fullscreen icon
   (menu-bar-mode +1))

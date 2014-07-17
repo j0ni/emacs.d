@@ -35,6 +35,9 @@
 (package-require 'ethan-wspace)
 (global-ethan-wspace-mode 1)
 
+;; (setq require-final-newline nil)
+(setq mode-require-final-newline nil)
+
 (setq ethan-wspace-disabled-modes '(go-mode makefile-mode makefile-bsdmake-mode))
 (add-hooks ethan-wspace-disabled-modes (lambda () (ethan-wspace-mode -1)))
 

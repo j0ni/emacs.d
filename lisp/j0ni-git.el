@@ -21,12 +21,23 @@
    git-messenger
    diminish))
 
-(require 'git-gutter-fringe)
+;; (require 'git-gutter-fringe)
+
 (global-git-gutter-mode +1)
+
+(git-gutter:linum-setup)
+
+(custom-set-variables
+ '(git-gutter:modified-sign "~")
+ '(git-gutter:added-sign "+")
+ '(git-gutter:deleted-sign "-"))
+
 (diminish 'git-gutter-mode "GG")
 
 ;; git-messenger
 (setq git-messenger:show-detail t)
 (global-set-key (kbd "C-x v p") 'git-messenger:popup-message)
+
+(package-require 'git-timemachine)
 
 (provide 'j0ni-git)

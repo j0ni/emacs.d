@@ -71,7 +71,9 @@
 
 ;;; Clojure
 
-(package-require 'clojure-mode)
+(packages-require '(clojure-mode align-cljlet))
+(setq clojure-defun-style-default-indent nil)
+
 (add-to-list 'auto-mode-alist '("\\.cljs?$" . clojure-mode))
 
 (lambda-as-lambda 'clojure-mode "(\\(\\<fn\\>\\)")
@@ -79,6 +81,7 @@
 (eval-after-load 'clojure-mode
   '(progn
      ;; Make compojure routes look nice
+     (define-key clojure-mode-map (kbd "C-M-z") 'align-cljlet)
      (define-clojure-indent
        (defroutes 'defun)
        (GET 2)
@@ -93,7 +96,6 @@
        (let ((st (make-syntax-table clojure-mode-syntax-table)))
          (modify-syntax-entry ?- "w" st)
          st))))
-
 
 ;; nRepl/cider
 (package-require 'cider)

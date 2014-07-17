@@ -1,16 +1,16 @@
 ;;; j0ni-python.el -- Python configuration
 
-;; Require, not autoload, to override Emacs bundled python.el
 (packages-require
- '(python-mode
-   virtualenv))
+ '(virtualenv
+   pytest))
 
-;; Pytest bindings
-(package-require 'pytest)
-(add-hook
- 'python-mode-hook
- (lambda ()
-   (define-key python-mode-map (kbd "C-c C-,") 'pytest-run-file)))
+(defun my-python-mode-hook ()
+  (define-key python-mode-map (kbd "C-c C-,") 'pytest-run-file)
+  (setq indent-tabs-mode nil
+        py-smart-indentation nil
+        py-indent-offset 4))
+
+(add-hook 'python-mode-hook 'my-python-mode-hook)
 
 (package-require 'py-autopep8)
 (add-hook 'before-save-hook 'py-autopep8-before-save)

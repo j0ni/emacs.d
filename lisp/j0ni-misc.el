@@ -149,4 +149,51 @@
 (eval-after-load 'tramp
   '(vagrant-tramp-enable))
 
+(package-require 'buffer-move)
+(global-set-key (kbd "<C-S-up>")     'buf-move-up)
+(global-set-key (kbd "<C-S-down>")   'buf-move-down)
+(global-set-key (kbd "<C-S-left>")   'buf-move-left)
+(global-set-key (kbd "<C-S-right>")  'buf-move-right)
+
+(package-require 'win-switch)
+(setq win-switch-feedback-background-color "DeepPink3")
+(setq win-switch-feedback-foreground-color "black")
+(setq win-switch-window-threshold 1)
+(setq win-switch-idle-time 0.7)
+
+;; disable majority of shortcuts
+(win-switch-set-keys '() 'up)
+(win-switch-set-keys '() 'down)
+(win-switch-set-keys '() 'left)
+(win-switch-set-keys '() 'right)
+(win-switch-set-keys '("o") 'next-window)
+(win-switch-set-keys '("p") 'previous-window)
+(win-switch-set-keys '() 'enlarge-vertically)
+(win-switch-set-keys '() 'shrink-vertically)
+(win-switch-set-keys '() 'shrink-horizontally)
+(win-switch-set-keys '() 'enlarge-horizontally)
+(win-switch-set-keys '() 'other-frame)
+(win-switch-set-keys '("C-g") 'exit)
+(win-switch-set-keys '() 'split-horizontally)
+(win-switch-set-keys '() 'split-vertically)
+(win-switch-set-keys '() 'delete-window)
+(win-switch-set-keys '("\M-\C-g") 'emergency-exit)
+
+(global-set-key (kbd "C-x o") 'win-switch-dispatch)
+
+(package-require 'window-number)
+(autoload 'window-number-mode "window-number"
+  "A global minor mode that enables selection of windows according to
+numbers with the C-x C-j prefix.  Another mode,
+`window-number-meta-mode' enables the use of the M- prefix."
+  t)
+(window-number-mode 1)
+
+(autoload 'window-number-meta-mode "window-number"
+  "A global minor mode that enables use of the M- prefix to select
+windows, use `window-number-mode' to display the window numbers in
+the mode-line."
+  t)
+(window-number-meta-mode 1)
+
 (provide 'j0ni-misc)
