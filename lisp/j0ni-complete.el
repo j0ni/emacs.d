@@ -25,10 +25,10 @@
 (add-to-list 'company-backends 'company-go)
 
 ;; Python
-(package-require 'company-inf-python)
-(add-to-list 'company-backends 'company-inf-python)
+(package-require 'company-anaconda)
+(add-to-list 'company-backends 'company-anaconda)
 
-;; Python
+;; Ruby
 (package-require 'company-inf-ruby)
 (add-to-list 'company-backends 'company-inf-ruby)
 
