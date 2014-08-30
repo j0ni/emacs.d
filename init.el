@@ -1,11 +1,11 @@
 ;;; init.el --- new init, based on Bodil Stokke's
 
-(defvar j0ni-font "PragmataPro-14")
-(defvar j0ni-linum-font "PragmataPro-12")
+;; (defvar j0ni-font "PragmataPro-14")
+;; (defvar j0ni-linum-font "PragmataPro-12")
 ;; (defvar j0ni-font "Consolas-14")
 ;; (defvar j0ni-linum-font "Consolas-12")
-;; (defvar j0ni-font "Menlo-12")
-;; (defvar j0ni-linum-font "Menlo-11")
+(defvar j0ni-font "Menlo-12")
+(defvar j0ni-linum-font "Menlo-10")
 ;; (defvar j0ni-font "Lucida Sans Typewriter Std-12")
 ;; (defvar j0ni-linum-font "Lucida Sans Typewriter Std-10")
 ;; use this to play with new fonts - not defined yet
@@ -31,7 +31,8 @@
     phoenix-dark-mono-theme))
 
 ;; Theme I like at the moment
-(defvar j0ni-theme 'phoenix-dark-pink)
+;; (defvar j0ni-theme 'phoenix-dark-pink)
+(defvar j0ni-theme 'noctilux)
 ;; (defvar j0ni-theme 'darkburn)
 
 (defun concat-home (dir)
@@ -47,7 +48,8 @@
                         (concat-home ".cabal/bin")
                         (concat-home "Scratch/clojure/leiningen")
                         (concat-home "Scratch/go/bin")
-                        "/usr/local/bin"))
+                        "/usr/local/bin"
+                        "/Applications/GHC.app/Contents/bin"))
 ;; Where are the system Git contrubutions?
 (defvar j0ni-git-contrib-dir "/usr/local/share/git-core/contrib/emacs")
 
@@ -144,7 +146,6 @@
       '(j0ni-esk
         j0ni-defuns
         j0ni-misc
-        ;; j0ni-powerline
         j0ni-snippets
         j0ni-codestyle
         j0ni-lisp
@@ -160,7 +161,9 @@
         j0ni-org
         j0ni-python
         j0ni-complete
-        j0ni-gui))
+        j0ni-gui
+        ;; j0ni-powerline
+        ))
 
 (dolist (file j0ni-pkg-full)
   (require file))

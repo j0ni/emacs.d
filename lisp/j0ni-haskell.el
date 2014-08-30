@@ -3,20 +3,20 @@
 (package-require 'haskell-mode)
 (package-require 'ghc)
 (package-require 'shm)
-(package-require 'auto-complete)
+;; (package-require 'auto-complete)
 
 ;; auto-complete source using ghc-doc
-(defun ac-haskell-candidates ()
-  (let ((pattern (buffer-substring (ghc-completion-start-point) (point)))
-        (symbols (ghc-select-completion-symbol)))
-    (all-completions pattern symbols)))
+;; (defun ac-haskell-candidates ()
+;;   (let ((pattern (buffer-substring (ghc-completion-start-point) (point)))
+;;         (symbols (ghc-select-completion-symbol)))
+;;     (all-completions pattern symbols)))
 
 ;; Setup auto-complete for haskell-mode
-(eval-after-load "auto-complete"
-  '(progn
-     (add-to-list 'ac-modes 'haskell-mode)
-     (ac-define-source ghc
-       '((candidates . ac-haskell-candidates)))))
+;; (eval-after-load "auto-complete"
+;;   '(progn
+;;      (add-to-list 'ac-modes 'haskell-mode)
+;;      (ac-define-source ghc
+;;        '((candidates . ac-haskell-candidates)))))
 
 ;; Setup haskell-mode hooks
 (eval-after-load "haskell-mode"
@@ -25,11 +25,21 @@
       '(turn-on-haskell-indentation
         turn-on-haskell-doc-mode
         ghc-init
-        structured-haskell-mode
-        (lambda ()
-          (add-to-list 'ac-sources 'ac-source-ghc)
-          (auto-complete-mode +1)
-          (company-mode -1))))))
+        ;; structured-haskell-mode
+        ))))
+
+(require 'j0ni-defuns)
+(defun setup-haskell-arrows (mode mode-map)
+  (font-lock-replace-symbol mode "\\(->\\)" "→")
+  (font-lock-replace-symbol mode "\\(<-\\)" "←")
+  (font-lock-replace-symbol mode "\\(=>\\)" "⇒")
+
+  (define-key mode-map (kbd "→") (lambda () (interactive) (insert "->")))
+  (define-key mode-map (kbd "←") (lambda () (interactive) (insert "<-")))
+  (define-key mode-map (kbd "⇒") (lambda () (interactive) (insert "=>"))))
+
+(eval-after-load "haskell-mode"
+  '(setup-haskell-arrows 'haskell-mode haskell-mode-map))
 
 ;; Add a keybinding for (inferior-haskell-type t) to insert
 ;; inferred type signature for function at point
@@ -60,6 +70,10 @@
   (compile (concat "cd " (projectile-project-root) "; cabal test")))
 (define-key haskell-mode-map (kbd "C-c C-,") 'haskell-mode-run-test-suite)
 
+;; Flycheck addons
+(package-require 'flycheck-haskell)
+(eval-after-load 'flycheck
+  '(add-hook 'flycheck-mode-hook #'flycheck-haskell-setup))
 
 ;;; Idris (for want of a better place to put it)
 (package-require 'idris-mode)

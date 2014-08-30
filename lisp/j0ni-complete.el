@@ -32,5 +32,9 @@
 (package-require 'company-inf-ruby)
 (add-to-list 'company-backends 'company-inf-ruby)
 
+;; Haskell
+(package-require 'company-ghc)
+(add-to-list 'company-backends 'company-ghc)
+
 
 (provide 'j0ni-complete)

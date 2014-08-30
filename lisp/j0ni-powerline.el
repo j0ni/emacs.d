@@ -12,6 +12,8 @@
     (set-face-attribute 'mode-line-inactive nil
                         :box nil))
 
-  (clean-powerline))
+  ;; (clean-powerline)
+
+  (powerline-default-theme))
 
 (provide 'j0ni-powerline)

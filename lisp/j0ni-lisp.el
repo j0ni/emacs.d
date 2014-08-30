@@ -39,7 +39,7 @@
 
 ;; Rainbow delimiters
 (package-require 'rainbow-delimiters)
-(add-lisp-hook 'rainbow-delimiters-mode)
+;; (add-lisp-hook 'rainbow-delimiters-mode)
 
 ;; Lambdas
 (defun lambda-as-lambda (mode pattern)
@@ -76,7 +76,28 @@
 
 (add-to-list 'auto-mode-alist '("\\.cljs?$" . clojure-mode))
 
-(lambda-as-lambda 'clojure-mode "(\\(\\<fn\\>\\)")
+(eval-after-load 'clojure-mode
+  '(font-lock-add-keywords
+    'clojure-mode `(("(\\(fn\\)[\[[:space:]]"
+                     (0 (progn (compose-region (match-beginning 1)
+                                               (match-end 1) "λ")
+                               nil))))))
+
+(eval-after-load 'clojure-mode
+  '(font-lock-add-keywords
+    'clojure-mode `(("\\(#\\)("
+                     (0 (progn (compose-region (match-beginning 1)
+                                               (match-end 1) "ƒ")
+                               nil))))))
+
+(eval-after-load 'clojure-mode
+  '(font-lock-add-keywords
+    'clojure-mode `(("\\(#\\){"
+                     (0 (progn (compose-region (match-beginning 1)
+                                               (match-end 1) "∈")
+                               nil))))))
+
+;; (lambda-as-lambda 'clojure-mode "(\\(\\<fn\\>\\)")
 
 (eval-after-load 'clojure-mode
   '(progn
@@ -285,5 +306,8 @@ Display the results in a hyperlinked *compilation* buffer."
 
 (add-hook 'slime-repl-mode-hook 'slime-repl-mode-custom)
 
+;; Racket
+
+(package-require 'racket-mode)
 
 (provide 'j0ni-lisp)

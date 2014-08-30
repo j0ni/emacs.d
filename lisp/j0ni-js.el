@@ -2,6 +2,7 @@
 
 (packages-require
  '(js2-mode
+   json-reformat
    smartparens))
 
 (package-require 'flycheck)
