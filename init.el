@@ -1,15 +1,21 @@
 ;;; init.el --- new init, based on Bodil Stokke's
 
-;; (defvar j0ni-font "PragmataPro-14")
-;; (defvar j0ni-linum-font "PragmataPro-12")
+(defvar j0ni-font "PragmataPro-14")
+(defvar j0ni-linum-font "PragmataPro-12")
+;; (defvar j0ni-font "PragmataPro-12")
+;; (defvar j0ni-linum-font "PragmataPro-10")
 ;; (defvar j0ni-font "Consolas-14")
 ;; (defvar j0ni-linum-font "Consolas-12")
-(defvar j0ni-font "Menlo-12")
-(defvar j0ni-linum-font "Menlo-10")
+;; (defvar j0ni-font "Menlo-12")
+;; (defvar j0ni-linum-font "Menlo-9")
+;; (defvar j0ni-font "PT Mono-12")
+;; (defvar j0ni-linum-font "PT Mono-9")
 ;; (defvar j0ni-font "Lucida Sans Typewriter Std-12")
 ;; (defvar j0ni-linum-font "Lucida Sans Typewriter Std-10")
-;; use this to play with new fonts - not defined yet
-;; (apply-font-settings)
+;; use this to play with new fonts - not defined yet so don't leave it
+;; uncommented
+(when (fboundp 'apply-font-settings)
+  (apply-font-settings))
 
 ;; Themes we want to install
 (defvar j0ni-installed-themes
@@ -26,14 +32,22 @@
     bubbleberry-theme
     darkburn-theme
     ;; Solarized is a PITA - loads whenever it is updated
-    ;; solarized-theme
+    solarized-theme
     phoenix-dark-pink-theme
-    phoenix-dark-mono-theme))
+    phoenix-dark-mono-theme
+    color-theme-github
+    clues-theme
+    sublime-themes))
 
 ;; Theme I like at the moment
 ;; (defvar j0ni-theme 'phoenix-dark-pink)
-(defvar j0ni-theme 'noctilux)
+;; (defvar j0ni-theme 'solarized-dark)
 ;; (defvar j0ni-theme 'darkburn)
+;; (defvar j0ni-theme 'mccarthy)
+;; (defvar j0ni-theme 'github)
+;; (defvar j0ni-theme 'fogus)
+;; (defvar j0ni-theme 'cyberpunk)
+(defvar j0ni-theme 'clues)
 
 (defun concat-home (dir)
   (concat (getenv "HOME") "/" dir))
@@ -125,9 +139,14 @@
 (setq package-user-dir (concat dotfiles-dir "elpa"))
 (require 'package)
 (dolist (source '(("melpa" . "http://melpa.milkbox.net/packages/")
+                  ;; questionable value - mostly just for CIDER
+                  ("melpa-stable" . "http://melpa-stable.milkbox.net/packages/")
                   ("marmalade" . "http://marmalade-repo.org/packages/")
+                  ;; This is sooooo slow, do we really need it?
                   ("elpa" . "http://tromey.com/elpa/")))
   (add-to-list 'package-archives source t))
+;; Sometimes CIDER breaks and I need to retreat to 0.7.0
+;; (add-to-list 'package-pinned-packages '(cider . "melpa-stable") t)
 (package-initialize)
 (when (esk-online?)
   (unless package-archive-contents (package-refresh-contents)))

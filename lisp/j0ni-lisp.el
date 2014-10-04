@@ -13,13 +13,13 @@
 
 ;; Highlight sexp under cursor
 (package-require 'highlight-parentheses)
-(add-lisp-hook 'highlight-parentheses-mode)
+;; (add-lisp-hook 'highlight-parentheses-mode)
 
 ;; Make em light up
 (require 'highlight)
 (packages-require '(eval-sexp-fu hl-sexp))
 (require 'eval-sexp-fu)
-(add-lisp-hook 'hl-sexp-mode)
+;; (add-lisp-hook 'hl-sexp-mode)
 
 
 ;; Paredit for all lisps
@@ -39,7 +39,7 @@
 
 ;; Rainbow delimiters
 (package-require 'rainbow-delimiters)
-;; (add-lisp-hook 'rainbow-delimiters-mode)
+(add-lisp-hook 'rainbow-delimiters-mode)
 
 ;; Lambdas
 (defun lambda-as-lambda (mode pattern)
@@ -118,13 +118,15 @@
          (modify-syntax-entry ?- "w" st)
          st))))
 
-;; nRepl/cider
+;; nRepl/cider - pin it to the stable version
 (package-require 'cider)
 (eval-after-load "clojure-mode" '(require 'cider))
 (setq nrepl-lein-command "lein"
       nrepl-server-command "echo \"lein repl :headless\" | $SHELL -l"
       cider-popup-stacktraces nil
-      cider-buffer-name-show-port t)
+      cider-buffer-name-show-port t
+      cider-repl-history-size 10000
+      cider-repl-history-file ".cider-repl-history")
 (add-hook 'cider-mode-hook (lambda ()
                              (cider-turn-on-eldoc-mode)
                              (diminish 'eldoc-mode)
@@ -246,7 +248,14 @@
 (eval-after-load "clojure-mode"
   '(define-key clojure-mode-map (kbd "C-c C-,") 'nrepl-run-tests))
 
-;;Kibit
+(defun custom-cider-repl-bindings ()
+  (interactive)
+  (define-key cider-repl-mode-map (kbd "C-c C-M-r") 'cider-repl-previous-matching-input)
+  (define-key cider-repl-mode-map (kbd "C-c C-M-s") 'cider-repl-next-matching-input))
+
+(add-hook 'cider-repl-mode-hook 'custom-cider-repl-bindings)
+
+;; Kibit
 (require 'compile)
 (add-to-list 'compilation-error-regexp-alist-alist
              '(kibit "At \\([^:]+\\):\\([[:digit:]]+\\):" 1 2 nil 0))

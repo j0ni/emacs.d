@@ -24,7 +24,8 @@
      (lambda (face) (set-face-attribute face nil :weight 'normal :underline nil))
      (face-list)))
 
-  (load-theme j0ni-theme)
+  (when (boundp 'j0ni-theme)
+    (load-theme j0ni-theme))
 
   ;; (set-face-foreground 'show-paren-match-face "#ffcfff")
 
@@ -41,9 +42,9 @@
    ;; '(rainbow-delimiters-depth-3-face ((t (:foreground "#3fbf3f"))))
    ;; '(rainbow-delimiters-depth-2-face ((t (:foreground "#1f9f1f"))))
    ;; '(rainbow-delimiters-depth-1-face ((t (:foreground "#7fff7f"))))
-   '(eval-sexp-fu-flash ((t (:foreground "green"))))
-   '(nrepl-eval-sexp-fu-flash ((t (:foreground "green"))))
-   '(hl-sexp-face ((t (:background "black"))))
+   ;; '(eval-sexp-fu-flash ((t (:foreground "green"))))
+   ;; '(nrepl-eval-sexp-fu-flash ((t (:foreground "green"))))
+   ;; '(hl-sexp-face ((t (:background "black"))))
    ;; '(git-gutter:separator ((t (:background "black"))))
    ;; '(git-gutter:modified ((t (:background "black"))))
    ;; '(git-gutter:added ((t (:background "black"))))
@@ -56,8 +57,14 @@
 
   (apply-font-settings)
   (normalize-fonts)
-  (set-mode-line-box)
+  ;; (set-mode-line-box)
   ;; for native fullscreen icon
-  (menu-bar-mode +1))
+  (menu-bar-mode +1)
+  (remove-hook 'prog-mode-hook 'esk-turn-on-hl-line-mode)
+  (remove-hook 'text-mode-hook 'esk-turn-on-hl-line-mode)
+
+  (custom-set-faces
+   `(mode-line ((t (:foreground "#777777"  :background "#111111" :box nil :height 140 :font ,j0ni-font)))))
+  (setq linum-format "%d"))
 
 (provide 'j0ni-gui)

@@ -38,7 +38,7 @@
 ;; (setq require-final-newline nil)
 (setq mode-require-final-newline nil)
 
-(setq ethan-wspace-disabled-modes '(go-mode makefile-mode makefile-bsdmake-mode))
+(setq ethan-wspace-disabled-modes '(go-mode makefile-mode makefile-bsdmake-mode org-journal-mode markdown-mode))
 (add-hooks ethan-wspace-disabled-modes (lambda () (ethan-wspace-mode -1)))
 
 ;; Clojure indentation rules
