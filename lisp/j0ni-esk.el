@@ -8,6 +8,8 @@
 
 (remove-hook 'prog-mode-hook 'esk-pretty-lambdas)
 (remove-hook 'prog-mode-hook 'esk-pretty-functions)
+(remove-hook 'prog-mode-hook 'esk-pretty-fn)
+(remove-hook 'clojure-mode-hook 'esk-pretty-fn)
 (remove-hook 'prog-mode-hook 'idle-highlight-mode)
 (remove-hook 'text-mode-hook 'turn-on-flyspell)
 

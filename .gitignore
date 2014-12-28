@@ -28,3 +28,5 @@ private.el
 /swank
 /ede-projects.el
 /.smex-items
+/eshell
+/request

@@ -39,18 +39,18 @@
 
 ;; Rainbow delimiters
 (package-require 'rainbow-delimiters)
-(add-lisp-hook 'rainbow-delimiters-mode)
+;; (add-lisp-hook 'rainbow-delimiters-mode)
 
 ;; Lambdas
-(defun lambda-as-lambda (mode pattern)
-  (font-lock-add-keywords
-   mode `((,pattern
-           (0 (progn (compose-region (match-beginning 1) (match-end 1)
-                                     "λ" 'decompose-region)))))))
+;; (defun lambda-as-lambda (mode pattern)
+;;   (font-lock-add-keywords
+;;    mode `((,pattern
+;;            (0 (progn (compose-region (match-beginning 1) (match-end 1)
+;;                                      "λ" 'decompose-region)))))))
 
 ;;; Emacs Lisp
 
-(lambda-as-lambda 'emacs-lisp-mode "(\\(\\<lambda\\>\\)")
+;; (lambda-as-lambda 'emacs-lisp-mode "(\\(\\<lambda\\>\\)")
 
 (defun remove-elc-on-save ()
   "If you're saving an elisp file, likely the .elc is no longer valid."
@@ -71,31 +71,31 @@
 
 ;;; Clojure
 
-(packages-require '(clojure-mode align-cljlet))
+(packages-require '(clojure-mode align-cljlet cider-profile))
 (setq clojure-defun-style-default-indent nil)
 
 (add-to-list 'auto-mode-alist '("\\.cljs?$" . clojure-mode))
 
-(eval-after-load 'clojure-mode
-  '(font-lock-add-keywords
-    'clojure-mode `(("(\\(fn\\)[\[[:space:]]"
-                     (0 (progn (compose-region (match-beginning 1)
-                                               (match-end 1) "λ")
-                               nil))))))
+;; (eval-after-load 'clojure-mode
+;;   '(font-lock-add-keywords
+;;     'clojure-mode `(("(\\(fn\\)[\[[:space:]]"
+;;                      (0 (progn (compose-region (match-beginning 1)
+;;                                                (match-end 1) "λ")
+;;                                nil))))))
 
-(eval-after-load 'clojure-mode
-  '(font-lock-add-keywords
-    'clojure-mode `(("\\(#\\)("
-                     (0 (progn (compose-region (match-beginning 1)
-                                               (match-end 1) "ƒ")
-                               nil))))))
+;; (eval-after-load 'clojure-mode
+;;   '(font-lock-add-keywords
+;;     'clojure-mode `(("\\(#\\)("
+;;                      (0 (progn (compose-region (match-beginning 1)
+;;                                                (match-end 1) "ƒ")
+;;                                nil))))))
 
-(eval-after-load 'clojure-mode
-  '(font-lock-add-keywords
-    'clojure-mode `(("\\(#\\){"
-                     (0 (progn (compose-region (match-beginning 1)
-                                               (match-end 1) "∈")
-                               nil))))))
+;; (eval-after-load 'clojure-mode
+;;   '(font-lock-add-keywords
+;;     'clojure-mode `(("\\(#\\){"
+;;                      (0 (progn (compose-region (match-beginning 1)
+;;                                                (match-end 1) "∈")
+;;                                nil))))))
 
 ;; (lambda-as-lambda 'clojure-mode "(\\(\\<fn\\>\\)")
 
@@ -111,7 +111,15 @@
        (DELETE 2)
        (HEAD 2)
        (ANY 2)
-       (context 2))
+       (context 2)
+       (as-> 0)
+       (-> 0)
+       (->> 0)
+       (cond-> 0)
+       (cond->> 0)
+       (some-> 0)
+       (some->> 0))
+
      ;; Treat hyphens as a word character when transposing words
      (defvar clojure-mode-with-hyphens-as-word-sep-syntax-table
        (let ((st (make-syntax-table clojure-mode-syntax-table)))
@@ -126,7 +134,7 @@
       cider-popup-stacktraces nil
       cider-buffer-name-show-port t
       cider-repl-history-size 10000
-      cider-repl-history-file ".cider-repl-history")
+      cider-repl-history-file (concat-home ".cider-repl-history"))
 (add-hook 'cider-mode-hook (lambda ()
                              (cider-turn-on-eldoc-mode)
                              (diminish 'eldoc-mode)

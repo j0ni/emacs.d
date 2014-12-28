@@ -3,6 +3,8 @@
 (when (display-graphic-p)
   (packages-require j0ni-installed-themes)
 
+  ;; (blink-cursor-mode +1)
+
   ;; first things first
   (defun apply-font-settings ()
     "Apply font choices across the board."
@@ -52,6 +54,40 @@
    ;; '(git-gutter:unchanged ((t (:background "black"))))
    )
 
+  (require 'color)
+
+  ;; noctilux & fogus hack
+  (let ((fg (face-attribute 'font-lock-comment-face :foreground)))
+    (custom-set-faces
+     `(font-lock-doc-face ((t (:foreground ,(color-lighten-name fg 25)))))
+     `(font-lock-comment-face ((t (:foreground ,(color-lighten-name fg 20)))))
+     `(font-lock-comment-delimiter-face ((t (:foreground ,(color-lighten-name fg 20)))))))
+
+  ;; fogus stuff for javascript
+  (let ((fg (face-attribute 'font-lock-variable-name-face :foreground)))
+    (custom-set-faces
+     `(js2-function-param ((t (:foreground ,fg))))))
+
+  ;; company-mode hack
+  (let ((bg (face-attribute 'default :background)))
+    (custom-set-faces
+     `(company-tooltip ((t (:inherit default :background ,(color-lighten-name bg 2)))))
+     `(company-scrollbar-bg ((t (:background ,(color-lighten-name bg 10)))))
+     `(company-scrollbar-fg ((t (:background ,(color-lighten-name bg 5)))))
+     `(company-tooltip-selection ((t (:inherit font-lock-function-name-face))))
+     `(company-tooltip-common ((t (:inherit font-lock-function-name-face))))
+     `(company-tooltip-common-selection ((t (:inherit font-lock-function-name-face))))))
+
+  ;; clues maybe needs this
+  ;;
+  ;; (custom-set-faces
+  ;;  `(mode-line ((t (:foreground "#777777" :background "#111111" :box nil :height 140 :font ,j0ni-font))))
+  ;;  `(highlight-symbol-face ((t (:underline t :background "orange")))))
+  ;; (custom-set-faces
+  ;;  `(mode-line ((t (:height 140 :font ,j0ni-font)))))
+  ;; (custom-set-faces
+  ;;  `(mode-line ((t (:foreground black  :background "#333333" :box nil :height 140 :font ,j0ni-font)))))
+
   (add-to-list 'default-frame-alist '(height . 50))
   (add-to-list 'default-frame-alist '(width . 120))
 
@@ -63,8 +99,6 @@
   (remove-hook 'prog-mode-hook 'esk-turn-on-hl-line-mode)
   (remove-hook 'text-mode-hook 'esk-turn-on-hl-line-mode)
 
-  (custom-set-faces
-   `(mode-line ((t (:foreground "#777777"  :background "#111111" :box nil :height 140 :font ,j0ni-font)))))
   (setq linum-format "%d"))
 
 (provide 'j0ni-gui)

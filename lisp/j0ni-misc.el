@@ -32,6 +32,9 @@
 ;; Neotree
 (package-require 'neotree)
 
+;; Useful for figuring out complicated old code
+(add-hook 'prog-mode-hook 'highlight-symbol-mode)
+
 (defun neotree-project-dir ()
   "Open NeoTree using the git root."
   (interactive)
@@ -76,7 +79,7 @@
 (defun linum-on ()
   (unless (or (minibufferp) (member major-mode linum-disabled-modes))
     (linum-mode 1)))
-(add-hook 'prog-mode-hook 'linum-on)
+;; (add-hook 'prog-mode-hook 'linum-on)
 
 ;; Make it easy
 (defun turn-off-auto-fill ()
@@ -126,6 +129,12 @@
 (defalias 'ack-find-file 'ack-and-a-half-find-file)
 (defalias 'ack-find-file-same 'ack-and-a-half-find-file-same)
 
+;; silver searcher
+(package-require 'ag)
+(setq ag-highlight-search t)
+(setq ag-reuse-buffers t)
+(add-hook 'ag-mode-hook 'toggle-truncate-lines)
+
 ;; java
 (progn
   (add-to-list 'auto-mode-alist '("\\.java\\'" . java-mode)))
@@ -146,8 +155,8 @@
 (add-to-list 'Info-directory-list "/usr/local/share/info/")
 
 ;; clock in the mode-line
-(setq display-time-format "%H:%M")
-(display-time-mode t)
+;; (setq display-time-format "%H:%M")
+;; (display-time-mode t)
 
 ;; for sr-speedbar in 24.3.90+
 ;; (defun ad-advised-definition-p (definition)

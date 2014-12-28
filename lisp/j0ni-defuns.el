@@ -101,5 +101,13 @@ frames with exactly two windows."
 
 (global-set-key [(control c) (|)] 'my-toggle-window-split)
 
+(defun my-move-beginning-of-line ()
+  (interactive)
+  (let ((pos (point)))
+    (back-to-indentation)
+    (when (= pos (point)) (move-beginning-of-line nil))))
+
+(global-set-key [remap move-beginning-of-line] 'my-move-beginning-of-line)
+
 (provide 'j0ni-defuns)
 ;;; j0ni-defuns.el ends here

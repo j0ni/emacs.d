@@ -25,7 +25,7 @@
 
 (global-git-gutter-mode +1)
 
-(git-gutter:linum-setup)
+;; (git-gutter:linum-setup)
 
 (custom-set-variables
  '(git-gutter:modified-sign "~")

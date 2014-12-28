@@ -1,26 +1,38 @@
 ;;; init.el --- new init, based on Bodil Stokke's
 
-(defvar j0ni-font "PragmataPro-14")
-(defvar j0ni-linum-font "PragmataPro-12")
-;; (defvar j0ni-font "PragmataPro-12")
-;; (defvar j0ni-linum-font "PragmataPro-10")
-;; (defvar j0ni-font "Consolas-14")
-;; (defvar j0ni-linum-font "Consolas-12")
-;; (defvar j0ni-font "Menlo-12")
-;; (defvar j0ni-linum-font "Menlo-9")
-;; (defvar j0ni-font "PT Mono-12")
-;; (defvar j0ni-linum-font "PT Mono-9")
-;; (defvar j0ni-font "Lucida Sans Typewriter Std-12")
-;; (defvar j0ni-linum-font "Lucida Sans Typewriter Std-10")
-;; use this to play with new fonts - not defined yet so don't leave it
-;; uncommented
-(when (fboundp 'apply-font-settings)
-  (apply-font-settings))
+(progn
+  ;; (defvar j0ni-font "Anonymous Pro-12")
+  ;; (defvar j0ni-linum-font "Anonymous Pro-10")
+  ;; (defvar j0ni-font "Droid Sans Mono Dotted-11")
+  ;; (defvar j0ni-linum-font "Droid Sans Mono Dotted-10")
+  ;; (defvar j0ni-font "Droid Sans Mono Dotted-14")
+  ;; (defvar j0ni-linum-font "Droid Sans Mono Dotted-12")
+  ;; (defvar j0ni-font "PragmataPro-14")
+  ;; (defvar j0ni-linum-font "PragmataPro-12")
+  ;; (defvar j0ni-font "PragmataPro-12")
+  ;; (defvar j0ni-linum-font "PragmataPro-10")
+  ;; (defvar j0ni-font "Consolas-14")
+  ;; (defvar j0ni-linum-font "Consolas-12")
+  ;; (defvar j0ni-font "Inconsolata-14")
+  ;; (defvar j0ni-linum-font "Inconsolata-12")
+  ;; (defvar j0ni-font "Menlo-12")
+  ;; (defvar j0ni-linum-font "Menlo-10")
+  ;; (defvar j0ni-font "Menlo-14")
+  ;; (defvar j0ni-linum-font "Menlo-12")
+  ;; (defvar j0ni-font "DejaVu Sans Mono-14")
+  ;; (defvar j0ni-linum-font "DejaVu Sans Mono-12")
+  ;; (defvar j0ni-font "PT Mono-12")
+  ;; (defvar j0ni-linum-font "PT Mono-9")
+  (defvar j0ni-font "Lucida Sans Typewriter-11")
+  (defvar j0ni-linum-font "Lucida Sans Typewriter-9")
+  ;; use this to play with new fonts - not defined yet so don't leave it
+  ;; uncommented
+  (when (fboundp 'apply-font-settings)
+    (apply-font-settings)))
 
 ;; Themes we want to install
 (defvar j0ni-installed-themes
   '(soothe-theme
-    toxi-theme
     noctilux-theme
     cyberpunk-theme
     subatomic-theme
@@ -32,12 +44,15 @@
     bubbleberry-theme
     darkburn-theme
     ;; Solarized is a PITA - loads whenever it is updated
-    solarized-theme
+    ;; solarized-theme
     phoenix-dark-pink-theme
     phoenix-dark-mono-theme
     color-theme-github
     clues-theme
-    sublime-themes))
+    ;; sublime-themes
+    ;; spacegray-theme
+    ;; purple-haze-theme
+    flatui-theme))
 
 ;; Theme I like at the moment
 ;; (defvar j0ni-theme 'phoenix-dark-pink)
@@ -45,12 +60,14 @@
 ;; (defvar j0ni-theme 'darkburn)
 ;; (defvar j0ni-theme 'mccarthy)
 ;; (defvar j0ni-theme 'github)
-;; (defvar j0ni-theme 'fogus)
+(defvar j0ni-theme 'fogus)
 ;; (defvar j0ni-theme 'cyberpunk)
-(defvar j0ni-theme 'clues)
+;; (defvar j0ni-theme 'noctilux)
+;; (defvar j0ni-theme 'clues)
+;; (defvar j0ni-theme 'flatui)
 
-(defun concat-home (dir)
-  (concat (getenv "HOME") "/" dir))
+(defun concat-home (path)
+  (concat (getenv "HOME") "/" path))
 
 ;; Go bits
 (defvar j0ni-go-path (list (concat-home "Scratch/go")
@@ -79,8 +96,8 @@
   (when (fboundp mode) (funcall mode -1)))
 
 ;; ...and some other stuff on
-(dolist (mode '(blink-cursor-mode line-number-mode column-number-mode))
-  (when (fboundp mode) (funcall mode +1)))
+;; (dolist (mode '(blink-cursor-mode line-number-mode column-number-mode))
+;;   (when (fboundp mode) (funcall mode +1)))
 
 (setq mac-command-modifier 'meta)
 
@@ -106,7 +123,9 @@
 (defalias 'yes-or-no-p 'y-or-n-p)
 
 ;; Get hostname
-(setq hostname (replace-regexp-in-string "\\(^[[:space:]\n]*\\|[[:space:]\n]*$\\)" "" (with-output-to-string (call-process "hostname" nil standard-output))))
+(setq hostname (replace-regexp-in-string "\\(^[[:space:]\n]*\\|[[:space:]\n]*$\\)"
+                                         ""
+                                         (with-output-to-string (call-process "hostname" nil standard-output))))
 
 ;; Add .emacs.d/lisp to load-path
 (setq dotfiles-dir (file-name-directory
@@ -139,7 +158,7 @@
 (setq package-user-dir (concat dotfiles-dir "elpa"))
 (require 'package)
 (dolist (source '(("melpa" . "http://melpa.milkbox.net/packages/")
-                  ;; questionable value - mostly just for CIDER
+                  ;; questionable value - mostly just for CIDER 0.7.0
                   ("melpa-stable" . "http://melpa-stable.milkbox.net/packages/")
                   ("marmalade" . "http://marmalade-repo.org/packages/")
                   ;; This is sooooo slow, do we really need it?
@@ -165,7 +184,7 @@
       '(j0ni-esk
         j0ni-defuns
         j0ni-misc
-        j0ni-snippets
+        ;; j0ni-snippets
         j0ni-codestyle
         j0ni-lisp
         j0ni-flycheck
@@ -181,8 +200,19 @@
         j0ni-python
         j0ni-complete
         j0ni-gui
+        j0ni-jabber
         ;; j0ni-powerline
         ))
 
 (dolist (file j0ni-pkg-full)
   (require file))
+
+;; helpful work stuff
+
+(defun my-cider-connect (host port)
+  (interactive "sDefault Host: \nnPort: ")
+  (cider-connect host port))
+
+(defun circle-connect ()
+  (interactive)
+  (cider-connect "localhost" 6005))

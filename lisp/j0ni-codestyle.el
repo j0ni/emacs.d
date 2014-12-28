@@ -6,6 +6,10 @@
 ;; Always newline-and-indent
 (define-key global-map (kbd "RET") 'newline-and-indent)
 
+;; Aggressively indent
+(package-require 'aggressive-indent)
+(add-hook 'prog-mode-hook (lambda () (aggressive-indent-mode 1)))
+
 ;; Default indentation
 (setq-default tab-width 4)
 ;; Javascript
