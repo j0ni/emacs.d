@@ -82,7 +82,8 @@
   ;;
   ;; (custom-set-faces
   ;;  `(mode-line ((t (:foreground "#777777" :background "#111111" :box nil :height 140 :font ,j0ni-font))))
-  ;;  `(highlight-symbol-face ((t (:underline t :background "orange")))))
+  ;;  ;; `(highlight-symbol-face ((t (:underline t :background "orange"))))
+  ;;  )
   ;; (custom-set-faces
   ;;  `(mode-line ((t (:height 140 :font ,j0ni-font)))))
   ;; (custom-set-faces

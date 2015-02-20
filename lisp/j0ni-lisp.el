@@ -39,7 +39,7 @@
 
 ;; Rainbow delimiters
 (package-require 'rainbow-delimiters)
-;; (add-lisp-hook 'rainbow-delimiters-mode)
+(add-lisp-hook 'rainbow-delimiters-mode)
 
 ;; Lambdas
 ;; (defun lambda-as-lambda (mode pattern)
@@ -71,7 +71,7 @@
 
 ;;; Clojure
 
-(packages-require '(clojure-mode align-cljlet cider-profile))
+(packages-require '(clojure-mode align-cljlet cider-profile clj-refactor))
 (setq clojure-defun-style-default-indent nil)
 
 (add-to-list 'auto-mode-alist '("\\.cljs?$" . clojure-mode))
@@ -140,6 +140,7 @@
                              (diminish 'eldoc-mode)
                              (diminish 'cider-mode)
                              (live-esf-initialize-cider)))
+;; (add-hook 'clojure-mode-hook (lambda () (clj-refactor-mode 1)))
 
 ;; Stolen from Sam Aaron to get eval-sexp-fu working with clojure
 (defun live-bounds-of-preceding-sexp ()

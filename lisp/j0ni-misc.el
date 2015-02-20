@@ -225,4 +225,9 @@ the mode-line."
 
 ;; (package-require 'rudel)
 
+;; don't allow popup windows
+(setq pop-up-windows nil
+      split-height-threshold nil
+      split-width-threshold nil)
+
 (provide 'j0ni-misc)

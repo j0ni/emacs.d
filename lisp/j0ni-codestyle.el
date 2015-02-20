@@ -8,7 +8,7 @@
 
 ;; Aggressively indent
 (package-require 'aggressive-indent)
-(add-hook 'prog-mode-hook (lambda () (aggressive-indent-mode 1)))
+;; (add-hook 'prog-mode-hook (lambda () (aggressive-indent-mode 1)))
 
 ;; Default indentation
 (setq-default tab-width 4)

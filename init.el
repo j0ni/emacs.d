@@ -1,5 +1,9 @@
 ;;; init.el --- new init, based on Bodil Stokke's
 
+;; load secrets
+
+(load-file "~/.emacs-secrets.el")
+
 (progn
   ;; (defvar j0ni-font "Anonymous Pro-12")
   ;; (defvar j0ni-linum-font "Anonymous Pro-10")
@@ -7,7 +11,7 @@
   ;; (defvar j0ni-linum-font "Droid Sans Mono Dotted-10")
   ;; (defvar j0ni-font "Droid Sans Mono Dotted-14")
   ;; (defvar j0ni-linum-font "Droid Sans Mono Dotted-12")
-  ;; (defvar j0ni-font "PragmataPro-14")
+  ;; (defvar j0ni-font "PragmataPro-13")
   ;; (defvar j0ni-linum-font "PragmataPro-12")
   ;; (defvar j0ni-font "PragmataPro-12")
   ;; (defvar j0ni-linum-font "PragmataPro-10")
@@ -23,16 +27,25 @@
   ;; (defvar j0ni-linum-font "DejaVu Sans Mono-12")
   ;; (defvar j0ni-font "PT Mono-12")
   ;; (defvar j0ni-linum-font "PT Mono-9")
-  (defvar j0ni-font "Lucida Sans Typewriter-11")
-  (defvar j0ni-linum-font "Lucida Sans Typewriter-9")
+  ;; (defvar j0ni-font "Lucida Grande Mono-11")
+  ;; (defvar j0ni-linum-font "Lucida Grande Mono-9")
+  (defvar j0ni-font "Lucida Grande Mono Nrw-12")
+  (defvar j0ni-linum-font "Lucida Grande Mono Nrw-9")
+  ;; (defvar j0ni-font "Lucida Sans Typewriter-11")
+  ;; (defvar j0ni-linum-font "Lucida Sans Typewriter-9")
+  ;; (defvar j0ni-font "Lucida Console-11")
+  ;; (defvar j0ni-linum-font "Lucida Console-9")
   ;; use this to play with new fonts - not defined yet so don't leave it
   ;; uncommented
   (when (fboundp 'apply-font-settings)
     (apply-font-settings)))
 
+(setq-default line-spacing 0)
+
 ;; Themes we want to install
 (defvar j0ni-installed-themes
   '(soothe-theme
+    late-night-theme
     noctilux-theme
     cyberpunk-theme
     subatomic-theme
@@ -43,6 +56,7 @@
     zenburn-theme
     bubbleberry-theme
     darkburn-theme
+    gotham-theme
     ;; Solarized is a PITA - loads whenever it is updated
     ;; solarized-theme
     phoenix-dark-pink-theme
@@ -56,11 +70,13 @@
 
 ;; Theme I like at the moment
 ;; (defvar j0ni-theme 'phoenix-dark-pink)
+;; (defvar j0ni-theme 'late-night)
 ;; (defvar j0ni-theme 'solarized-dark)
 ;; (defvar j0ni-theme 'darkburn)
 ;; (defvar j0ni-theme 'mccarthy)
 ;; (defvar j0ni-theme 'github)
 (defvar j0ni-theme 'fogus)
+;; (defvar j0ni-theme 'gotham)
 ;; (defvar j0ni-theme 'cyberpunk)
 ;; (defvar j0ni-theme 'noctilux)
 ;; (defvar j0ni-theme 'clues)
@@ -164,7 +180,7 @@
                   ;; This is sooooo slow, do we really need it?
                   ("elpa" . "http://tromey.com/elpa/")))
   (add-to-list 'package-archives source t))
-;; Sometimes CIDER breaks and I need to retreat to 0.7.0
+;; Sometimes CIDER breaks and I need to retreat to stable
 ;; (add-to-list 'package-pinned-packages '(cider . "melpa-stable") t)
 (package-initialize)
 (when (esk-online?)
@@ -200,6 +216,7 @@
         j0ni-python
         j0ni-complete
         j0ni-gui
+        j0ni-irc
         j0ni-jabber
         ;; j0ni-powerline
         ))
