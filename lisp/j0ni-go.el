@@ -8,8 +8,7 @@
    go-play
    go-snippets))
 
-(dolist (pc j0ni-go-path)
-  (setenv "GOPATH" (concat (concat pc ":") (getenv "GOPATH"))))
+(setenv "GOPATH" (mapconcat 'identity j0ni-go-path ":"))
 
 ;; Use Brad Fitz's better version of gofmt which fixes imports
 (setq gofmt-command "goimports")

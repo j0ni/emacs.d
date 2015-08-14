@@ -27,7 +27,7 @@
   ;; (defvar j0ni-linum-font "DejaVu Sans Mono-12")
   ;; (defvar j0ni-font "PT Mono-12")
   ;; (defvar j0ni-linum-font "PT Mono-9")
-  ;; (defvar j0ni-font "Lucida Grande Mono-11")
+  ;; (defvar j0ni-font "Lucida Grande Mono-12")
   ;; (defvar j0ni-linum-font "Lucida Grande Mono-9")
   (defvar j0ni-font "Lucida Grande Mono Nrw-12")
   (defvar j0ni-linum-font "Lucida Grande Mono Nrw-9")
@@ -58,35 +58,57 @@
     darkburn-theme
     gotham-theme
     ;; Solarized is a PITA - loads whenever it is updated
-    ;; solarized-theme
+    solarized-theme
     phoenix-dark-pink-theme
     phoenix-dark-mono-theme
     color-theme-github
     clues-theme
-    ;; sublime-themes
+    sublime-themes
+    flatland-theme
+    flatland-black-theme
+    tao-theme
+    darcula-theme
+    firecode-theme
+    ujelly-theme
+    stekene-theme
     ;; spacegray-theme
     ;; purple-haze-theme
-    flatui-theme))
+    flatui-theme
+    minimal-theme
+    plan9-theme
+    spacemacs-theme))
 
 ;; Theme I like at the moment
 ;; (defvar j0ni-theme 'phoenix-dark-pink)
+;; (defvar j0ni-theme 'phoenix-dark-mono)
 ;; (defvar j0ni-theme 'late-night)
+;; (defvar j0ni-theme 'tango-dark)
 ;; (defvar j0ni-theme 'solarized-dark)
+;; (defvar j0ni-theme 'plan9)
+;; (defvar j0ni-theme 'spacemacs-dark)
+(defvar j0ni-theme 'bubbleberry)
+;; (defvar j0ni-theme 'zenburn)
+;; (defvar j0ni-theme 'lawrence)
 ;; (defvar j0ni-theme 'darkburn)
+;; (defvar j0ni-theme 'stekene-dark)
 ;; (defvar j0ni-theme 'mccarthy)
 ;; (defvar j0ni-theme 'github)
-(defvar j0ni-theme 'fogus)
+;; (defvar j0ni-theme 'fogus)
 ;; (defvar j0ni-theme 'gotham)
 ;; (defvar j0ni-theme 'cyberpunk)
 ;; (defvar j0ni-theme 'noctilux)
+;; (defvar j0ni-theme 'ujelly)
 ;; (defvar j0ni-theme 'clues)
 ;; (defvar j0ni-theme 'flatui)
+;; (defvar j0ni-theme 'minimal-light)
+;; (defvar j0ni-theme 'subatomic)
 
 (defun concat-home (path)
   (concat (getenv "HOME") "/" path))
 
 ;; Go bits
-(defvar j0ni-go-path (list (concat-home "Scratch/go")
+(defvar j0ni-go-path (list (concat-home "Scratch/CircleCI/go-projects")
+                           (concat-home "Scratch/go")
                            (concat-home "Scratch/goeg")))
 
 ;; Path elements
@@ -96,7 +118,8 @@
                         (concat-home "Scratch/clojure/leiningen")
                         (concat-home "Scratch/go/bin")
                         "/usr/local/bin"
-                        "/Applications/GHC.app/Contents/bin"))
+                        "/Applications/GHC.app/Contents/bin"
+                        "/Applications/Racket v6.2/bin"))
 ;; Where are the system Git contrubutions?
 (defvar j0ni-git-contrib-dir "/usr/local/share/git-core/contrib/emacs")
 
@@ -198,13 +221,15 @@
 
 (setq j0ni-pkg-full
       '(j0ni-esk
+        j0ni-eshell
         j0ni-defuns
         j0ni-misc
-        ;; j0ni-snippets
+        j0ni-snippets
         j0ni-codestyle
         j0ni-lisp
-        j0ni-flycheck
+        ;; j0ni-flycheck
         j0ni-ido
+        ;; j0ni-helm
         j0ni-go
         j0ni-js
         j0ni-git
@@ -219,6 +244,7 @@
         j0ni-irc
         j0ni-jabber
         ;; j0ni-powerline
+        j0ni-evil
         ))
 
 (dolist (file j0ni-pkg-full)

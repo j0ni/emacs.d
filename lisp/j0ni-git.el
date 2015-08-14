@@ -3,11 +3,11 @@
 ;; magit
 (package-require 'magit)
 (global-set-key (kbd "C-x g") 'magit-status)
+(setq magit-last-seen-setup-instructions "1.4.0")
 
 ;; file edit modes
 (packages-require
  '(gitignore-mode
-   git-commit-mode
    gitconfig-mode))
 
 ;; contributed bits
@@ -32,7 +32,7 @@
  '(git-gutter:added-sign "+")
  '(git-gutter:deleted-sign "-"))
 
-(diminish 'git-gutter-mode "GG")
+(diminish 'git-gutter-mode "gg")
 
 ;; git-messenger
 (setq git-messenger:show-detail t)

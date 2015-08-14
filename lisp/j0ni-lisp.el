@@ -2,8 +2,18 @@
 
 (require 'j0ni-defuns)
 
-(setq j0ni-lisp-modes
-      '(scheme-mode emacs-lisp-mode lisp-mode clojure-mode cider-repl-mode))
+(packages-require '(clojure-mode
+                    cider
+                    inf-clojure
+                    racket-mode))
+
+(setq j0ni-lisp-modes '(scheme-mode
+                        emacs-lisp-mode
+                        lisp-mode
+                        clojure-mode
+                        cider-repl-mode
+                        inf-clojure-mode
+                        racket-mode))
 
 (defun add-lisp-hook (func)
   (add-hooks j0ni-lisp-modes func))
@@ -11,7 +21,6 @@
 ;; Setup C-c v to eval whole buffer in all lisps
 (define-key lisp-mode-shared-map (kbd "C-c v") 'eval-buffer)
 
-;; Highlight sexp under cursor
 (package-require 'highlight-parentheses)
 ;; (add-lisp-hook 'highlight-parentheses-mode)
 
@@ -19,17 +28,20 @@
 (require 'highlight)
 (packages-require '(eval-sexp-fu hl-sexp))
 (require 'eval-sexp-fu)
+;; Highlight sexp under cursor
 ;; (add-lisp-hook 'hl-sexp-mode)
 
 
 ;; Paredit for all lisps
 (packages-require '(paredit diminish))
 
-(add-lisp-hook (lambda ()
-                 (when (fboundp 'autopair-mode)
-                   (autopair-mode -1))
-                 (paredit-mode 1)
-                 (diminish 'paredit-mode "Par")))
+(defun enable-paren-handling ()
+  (when (fboundp 'autopair-mode)
+    (autopair-mode -1))
+  (paredit-mode 1)
+  (diminish 'paredit-mode "par"))
+
+(add-lisp-hook 'enable-paren-handling)
 
 ;; Make paredit play nice with eldoc
 (eval-after-load "eldoc"
@@ -39,7 +51,7 @@
 
 ;; Rainbow delimiters
 (package-require 'rainbow-delimiters)
-(add-lisp-hook 'rainbow-delimiters-mode)
+;; (add-lisp-hook 'rainbow-delimiters-mode)
 
 ;; Lambdas
 ;; (defun lambda-as-lambda (mode pattern)
@@ -66,15 +78,17 @@
 (define-key emacs-lisp-mode-map (kbd "M-.") 'find-function-at-point)
 
 (packages-require '(elisp-slime-nav diminish))
-(add-hook 'emacs-lisp-mode-hook (lambda () (elisp-slime-nav-mode t)))
+(add-hook 'emacs-lisp-mode-hook 'elisp-slime-nav-mode)
 (eval-after-load 'elisp-slime-nav '(diminish 'elisp-slime-nav-mode))
 
 ;;; Clojure
 
-(packages-require '(clojure-mode align-cljlet cider-profile clj-refactor))
+(packages-require '(align-cljlet cider-profile clj-refactor))
 (setq clojure-defun-style-default-indent nil)
 
 (add-to-list 'auto-mode-alist '("\\.cljs?$" . clojure-mode))
+(add-to-list 'auto-mode-alist '("\\.boot\\'" . clojure-mode))
+(add-to-list 'magic-mode-alist '(".* boot" . clojure-mode))
 
 ;; (eval-after-load 'clojure-mode
 ;;   '(font-lock-add-keywords
@@ -99,26 +113,28 @@
 
 ;; (lambda-as-lambda 'clojure-mode "(\\(\\<fn\\>\\)")
 
+(defun my-clojure-mode-hook ()
+  (clj-refactor-mode 1)
+  (yas-minor-mode 1)
+  (cljr-add-keybindings-with-prefix "C-c C-m"))
+
+(add-hook 'clojure-mode-hook #'my-clojure-mode-hook)
+
 (eval-after-load 'clojure-mode
   '(progn
      ;; Make compojure routes look nice
      (define-key clojure-mode-map (kbd "C-M-z") 'align-cljlet)
      (define-clojure-indent
        (defroutes 'defun)
+       (defrecord 'defun)
        (GET 2)
        (POST 2)
        (PUT 2)
        (DELETE 2)
        (HEAD 2)
        (ANY 2)
-       (context 2)
-       (as-> 0)
-       (-> 0)
-       (->> 0)
-       (cond-> 0)
-       (cond->> 0)
-       (some-> 0)
-       (some->> 0))
+       (context 2))
+     (put 'defrecord 'clojure-backtracking-indent '(4 4 (2)))
 
      ;; Treat hyphens as a word character when transposing words
      (defvar clojure-mode-with-hyphens-as-word-sep-syntax-table
@@ -126,123 +142,41 @@
          (modify-syntax-entry ?- "w" st)
          st))))
 
-;; nRepl/cider - pin it to the stable version
-(package-require 'cider)
-(eval-after-load "clojure-mode" '(require 'cider))
-(setq nrepl-lein-command "lein"
-      nrepl-server-command "echo \"lein repl :headless\" | $SHELL -l"
-      cider-popup-stacktraces nil
-      cider-buffer-name-show-port t
-      cider-repl-history-size 10000
-      cider-repl-history-file (concat-home ".cider-repl-history"))
+;; (add-hook 'clojure-mode-hook #'inf-clojure-minor-mode)
+;; inf-clojure, less bloated repl
+;; (package-require 'inf-clojure)
+(defun start-inf-clojure ()
+  (interactive)
+  (add-hook 'clojure-mode-hook #'inf-clojure-minor-mode)
+  (inf-clojure))
+
+;; nRepl/cider
+(packages-require '(cider-eval-sexp-fu))
+
+(eval-after-load 'clojure-mode
+  ;; why?
+  '(progn
+     (require 'cider)
+     (require 'cider-eval-sexp-fu)))
+
+(setq cider-repl-use-clojure-font-lock t
+      cider-show-error-buffer          nil
+      cider-popup-stacktraces          nil
+      cider-buffer-name-show-port      t
+      cider-repl-history-size          10000
+      cider-repl-result-prefix         "=> "
+      cider-prompt-for-symbol          nil
+      cider-known-endpoints            '(("circle-dev" "localhost" "6005")
+                                         ("circle-staging" "localhost" "6002")
+                                         ("circle-prod" "localhost" "6001"))
+      cider-repl-history-file          (concat-home ".cider-repl-history")
+      nrepl-buffer-name-show-port      t
+      cider-words-of-inspiration       '(""))
+
 (add-hook 'cider-mode-hook (lambda ()
                              (cider-turn-on-eldoc-mode)
                              (diminish 'eldoc-mode)
-                             (diminish 'cider-mode)
-                             (live-esf-initialize-cider)))
-;; (add-hook 'clojure-mode-hook (lambda () (clj-refactor-mode 1)))
-
-;; Stolen from Sam Aaron to get eval-sexp-fu working with clojure
-(defun live-bounds-of-preceding-sexp ()
-  "Return the bounds of sexp before the point. Copies semantics
-   directly from the fn preceding-sexp to ensure highlighted area
-   is identical to that which is evaluated."
-  (let ((opoint (point))
-        ignore-quotes
-        expr)
-    (save-excursion
-      (with-syntax-table emacs-lisp-mode-syntax-table
-        ;; If this sexp appears to be enclosed in `...'
-        ;; then ignore the surrounding quotes.
-        (setq ignore-quotes
-              (or (eq (following-char) ?\')
-                  (eq (preceding-char) ?\')))
-        (forward-sexp -1)
-        ;; If we were after `?\e' (or similar case),
-        ;; use the whole thing, not just the `e'.
-        (when (eq (preceding-char) ?\\)
-          (forward-char -1)
-          (when (eq (preceding-char) ??)
-            (forward-char -1)))
-
-        ;; Skip over hash table read syntax.
-        (and (> (point) (1+ (point-min)))
-             (looking-back "#s" (- (point) 2))
-             (forward-char -2))
-
-        ;; Skip over `#N='s.
-        (when (eq (preceding-char) ?=)
-          (let (labeled-p)
-            (save-excursion
-              (skip-chars-backward "0-9#=")
-              (setq labeled-p (looking-at "\\(#[0-9]+=\\)+")))
-            (when labeled-p
-              (forward-sexp -1))))
-
-        (save-restriction
-          ;; vladimir@cs.ualberta.ca 30-Jul-1997: skip ` in
-          ;; `variable' so that the value is returned, not the
-          ;; name
-          (if (and ignore-quotes
-                   (eq (following-char) ?`))
-              (forward-char))
-          (cons (point) opoint))))))
-
-(defun live-bounds-of-defun ()
-  "Return the bounds of the defun around point. Copies semantics
-   directly from the fn eval-defun-2 to ensure highlighted area
-   is identical to that which is evaluated."
-  (save-excursion
-    (end-of-defun)
-    (beginning-of-defun)
-    (setq beg (point))
-    (read (current-buffer))
-    (setq end (point))
-    (cons beg end)))
-
-;; fix up esf to highlight exactly what emacs evaluates
-(defun live-esf-initialize-elisp ()
-  (define-eval-sexp-fu-flash-command eval-last-sexp
-    (eval-sexp-fu-flash (when (ignore-errors (preceding-sexp))
-                          (with-esf-end-of-sexp
-                            (live-bounds-of-preceding-sexp)))))
-  (define-eval-sexp-fu-flash-command eval-defun
-    (eval-sexp-fu-flash (live-bounds-of-defun))))
-
-(live-esf-initialize-elisp)
-
-;; cider extensions
-
-
-(defun live-bounds-of-cider-last-sexp ()
-  "Return the bounds of the defun around point. Copies semantics
-   directly from the fn cider-last-sexp to ensure highlighted
-   area is identical to that which is evaluated."
-  (cons (save-excursion (backward-sexp) (point)) (point)))
-
-(defun live-esf-initialize-cider ()
-  (define-eval-sexp-fu-flash-command cider-eval-last-sexp
-    (eval-sexp-fu-flash (live-bounds-of-cider-last-sexp)))
-
-  (define-eval-sexp-fu-flash-command cider-pprint-eval-last-sexp
-    (eval-sexp-fu-flash (live-bounds-of-cider-last-sexp)))
-
-  (define-eval-sexp-fu-flash-command cider-eval-defun-at-point
-    (eval-sexp-fu-flash (let ((bounds (cider--region-for-defun-at-point)))
-                          (cons (first bounds) (second bounds)))))
-
-
-  (progn
-    ;; Defines:
-    ;; `eval-sexp-fu-cider-sexp-inner-list',
-    ;; `eval-sexp-fu-cider-sexp-inner-sexp'
-    ;; and the pprint variants respectively.
-    (define-eval-sexp-fu-eval-sexp eval-sexp-fu-cider-eval-sexp
-      cider-eval-last-sexp)
-    (define-eval-sexp-fu-eval-sexp eval-sexp-fu-cider-pprint-eval-sexp
-      cider-pprint-eval-last-sexp)))
-
-;; end of Sam's code
+                             (diminish 'cider-mode)))
 
 ;; Run tests in nRepl
 (defun nrepl-run-tests (ns)
@@ -260,9 +194,40 @@
 (defun custom-cider-repl-bindings ()
   (interactive)
   (define-key cider-repl-mode-map (kbd "C-c C-M-r") 'cider-repl-previous-matching-input)
-  (define-key cider-repl-mode-map (kbd "C-c C-M-s") 'cider-repl-next-matching-input))
+  (define-key cider-repl-mode-map (kbd "C-c C-M-s") 'cider-repl-next-matching-input)
+  (subword-mode 1)
+  (diminish 'subword-mode))
 
 (add-hook 'cider-repl-mode-hook 'custom-cider-repl-bindings)
+
+;; Let's try to get eval-sexp sending to the REPL
+
+(defun my-eval-defun-in-repl (&optional prefix)
+  (interactive "P")
+  (save-current-buffer
+    (let ((start-pos (point))
+          (form (cider-defun-at-point)))
+      (while (string-match "\\`[ \t\n\r]+\\|[ \t\n\r]+\\'" form)
+        (setq form (replace-match "" t t form)))
+      (with-current-buffer (cider-current-repl-buffer)
+        (end-of-buffer)
+        (newline)
+        (insert form)
+        (indent-region start-pos (point))
+        (unless prefix
+          (cider-repl-return))))
+    (when prefix
+      (cider-switch-to-current-repl-buffer))))
+
+;; (define-key cider-mode-map (kbd "C-c C-c") 'cider-eval-defun-in-repl)
+
+;; (defun custom-cider-bindings ()
+;;   (interactive)
+;;   (define-key cider-mode-map (kbd "C-c C-c") 'my-eval-defun-in-repl)
+;;   ;; (define-key cider-mode-map (kbd "C-M-x") 'my-eval-defun-in-repl)
+;;   )
+
+;; (add-hook 'cider-mode-hook 'custom-cider-bindings)
 
 ;; Kibit
 (require 'compile)
@@ -279,6 +244,19 @@ Display the results in a hyperlinked *compilation* buffer."
 ;; Cljsbuild
 (package-require 'cljsbuild-mode)
 
+;; clj-refactor
+
+;; TODO implement cljr-magic-require-namespaces
+;; (dolist (mapping '(("user" . "circle.model.user")
+;;                    ("project" . "circle.model.project")
+;;                    ("plan" . "circle.model.plan")
+;;                    ("build" . "circle.model.build")
+;;                    ("org" . "circle.model.organization")
+;;                    ("settings" . "circle.model.settings")))
+;;   (add-to-list 'cljr-magic-require-namespaces mapping t))
+
+(setq cljr-favor-prefix-notation nil
+      cljr-favor-private-functions nil)
 
 ;; LispyScript
 
@@ -326,6 +304,6 @@ Display the results in a hyperlinked *compilation* buffer."
 
 ;; Racket
 
-(package-require 'racket-mode)
+;; (package-require 'racket-mode)
 
 (provide 'j0ni-lisp)

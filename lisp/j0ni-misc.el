@@ -31,9 +31,15 @@
 
 ;; Neotree
 (package-require 'neotree)
+(setq neo-theme 'nerd)
 
 ;; Useful for figuring out complicated old code
 (add-hook 'prog-mode-hook 'highlight-symbol-mode)
+(progn
+  (global-set-key [(control f3)] 'highlight-symbol)
+  (global-set-key [f3] 'highlight-symbol-next)
+  (global-set-key [(shift f3)] 'highlight-symbol-prev)
+  (global-set-key [(meta f3)] 'highlight-symbol-query-replace))
 
 (defun neotree-project-dir ()
   "Open NeoTree using the git root."
@@ -55,6 +61,7 @@
 
 ;; projectile
 (package-require 'projectile)
+(setq projectile-completion-system 'helm)
 (projectile-global-mode)
 (diminish 'projectile-mode)
 
@@ -91,6 +98,9 @@
 
 (package-require 'smartparens)
 (require 'smartparens-config)
+
+;; Docker
+(package-require 'dockerfile-mode)
 
 ;; map start of file and end of file commands to nicer key combos
 (global-set-key (read-kbd-macro "M-[") 'beginning-of-buffer)
@@ -131,8 +141,9 @@
 
 ;; silver searcher
 (package-require 'ag)
-(setq ag-highlight-search t)
-(setq ag-reuse-buffers t)
+(setq ag-reuse-buffers t
+      ag-reuse-window t
+      ag-highlight-search t)
 (add-hook 'ag-mode-hook 'toggle-truncate-lines)
 
 ;; java
@@ -229,5 +240,10 @@ the mode-line."
 (setq pop-up-windows nil
       split-height-threshold nil
       split-width-threshold nil)
+
+(setq message-default-headers "Cc: \nBcc: jonathan@circleci.com\n"
+      message-fill-column 72
+      user-mail-address "jonathan@circleci.com"
+      user-full-name "Jonathan Irving")
 
 (provide 'j0ni-misc)

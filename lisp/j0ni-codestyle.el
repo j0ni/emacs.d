@@ -35,15 +35,18 @@
 ;; I mean, _seriously_...
 (setq sentence-end-double-space nil)
 
+;; Whitespace
+(add-hook 'before-save-hook 'whitespace-cleanup)
+
 ;; Enforce proper whitespace
-(package-require 'ethan-wspace)
-(global-ethan-wspace-mode 1)
+;; (package-require 'ethan-wspace)
+;; (global-ethan-wspace-mode 1)
 
 ;; (setq require-final-newline nil)
-(setq mode-require-final-newline nil)
+;; (setq mode-require-final-newline nil)
 
-(setq ethan-wspace-disabled-modes '(go-mode makefile-mode makefile-bsdmake-mode org-journal-mode markdown-mode))
-(add-hooks ethan-wspace-disabled-modes (lambda () (ethan-wspace-mode -1)))
+;; (setq ethan-wspace-disabled-modes '(go-mode makefile-mode makefile-bsdmake-mode org-journal-mode markdown-mode))
+;; (add-hooks ethan-wspace-disabled-modes (lambda () (ethan-wspace-mode -1)))
 
 ;; Clojure indentation rules
 (eval-after-load "clojure-mode"

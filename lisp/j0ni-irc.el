@@ -4,22 +4,57 @@
 (require 'circe)
 
 (setq circe-network-options
-      `(("Freenode"
+      `(("Tunnelled Freenode"
+         :host "localhost"
+         :port 4222
+         :pass ,proxy-password)
+        ("Tunnelled GIMPNet"
+         :host "localhost"
+         :port 4223
+         :pass ,proxy-password)
+        ("Freenode"
          :nick "j0nii"
-         :channels ("#emacs" "#clojure" "#lisp" "#clojure-emacs")
+         :channels ("#emacs" "#clojure" "#lisp" "#clojure-emacs" "#clojureTO")
          :nickserv-password ,freenode-password)
         ("GIMPNet"
-         :host "irc.gimp.net"
-         :port (6667 . 6697)
+         :host "irc.gimp.ca"
+         :port 6667
          :nick "j0nii"
-         :channels ("#dnalounge"))))
+         :channels ("#dnalounge"))
+        ("Gitter"
+         :host "irc.gitter.im"
+         :port 6697
+         :nick "j0ni"
+         :pass ,gitter-token
+         :use-tls t)
+        ("Lollyshouse Slack"
+         :host "lollyshouse.irc.slack.com"
+         :port 6697
+         :nick "j0ni"
+         :pass ,lollyshouse-slack
+         :use-tls t)))
 
 (setq tracking-ignored-buffers '(("#emacs" circe-highlight-nick-face)
                                  ("#clojure-emacs" circe-highlight-nick-face)
                                  ("#clojure" circe-highlight-nick-face)
-                                 ("#lisp" circe-highlight-nick-face)))
+                                 ("#lisp" circe-highlight-nick-face)
+                                 ("#emacs" circe-highlight-nick-face)
+                                 ("#mongoose" circe-highlight-nick-face)
+                                 ("#overtone" circe-highlight-nick-face)
+                                 ("#compojure" circe-highlight-nick-face)
+                                 ("#Node.js" circe-highlight-nick-face)))
 
 (setq circe-reduce-lurker-spam t)
+
+(setq lui-time-stamp-position 'right-margin
+      lui-fill-type nil)
+
+(add-hook 'lui-mode-hook 'my-lui-setup)
+(defun my-lui-setup ()
+  (setq fringes-outside-margins t
+        right-margin-width 7
+        word-wrap t
+        wrap-prefix "    "))
 
 (defun circe-network-connected-p (network)
   "Return non-nil if there's any Circe server-buffer whose
@@ -42,7 +77,10 @@ already been connected to."
   "Connect to IRC"
   (interactive)
   (circe-maybe-connect "Freenode")
-  (circe-maybe-connect "GIMPNet"))
+  (circe-maybe-connect "GIMPNet")
+  ;; (circe-maybe-connect "Tunnelled Freenode")
+  ;; (circe-maybe-connect "Tunnelled GIMPNet")
+  )
 
 (defun my-circe-message-option-chanserv (nick user host command args)
   (when (and (string= "ChanServ" nick)
@@ -59,6 +97,6 @@ already been connected to."
       (let ((circe-server-last-active-buffer buffer))
         (circe-display-NOTICE nick user host command args)))))
 
-(circe-add-message-handler "NOTICE" 'my-circe-chanserv-message-handler)
+;; (circe-add-message-handler "NOTICE" 'my-circe-chanserv-message-handler)
 
 (provide 'j0ni-irc)

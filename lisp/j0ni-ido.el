@@ -2,15 +2,19 @@
 
 ;; Enable
 (ido-mode t)
+(ido-everywhere 1)
 (setq ido-enable-prefix nil
+      ido-case-fold t
       ido-enable-flex-matching t
+      ido-auto-merge-work-directories-length nil
       ido-create-new-buffer 'always
-      ido-max-prospects 10
+      ido-max-prospects 100
       ;; if it looks promising, use it
       ido-use-filename-at-point 'guess
       ido-use-url-at-point t
       ;; Show previously opened buffers in ido-switch-buffer
-      ido-use-virtual-buffers t)
+      ido-use-virtual-buffers t
+      ido-handle-duplicate-virtual-buffers 2)
 
 ;; Make sure ido is really everywhere
 (package-require 'ido-ubiquitous)
@@ -27,12 +31,15 @@
 (smex-initialize)
 (global-set-key (kbd "M-x") 'smex)
 (global-set-key (kbd "M-X") 'smex-major-mode-commands)
+(setq smex-save-file (concat user-emacs-directory ".smex-items"))
+
 ;; This is the old M-x.
 (global-set-key (kbd "C-c C-c M-x") 'execute-extended-command)
 
 ;; Vertical ido
 (package-require 'ido-vertical-mode)
 (ido-vertical-mode)
+(setq ido-vertical-define-keys 'C-n-C-p-up-down-left-right)
 
 ;; ido-imenu
 (require 'imenu)
@@ -43,25 +50,25 @@ Symbols matching the text at point are put first in the completion list."
   (imenu--make-index-alist)
   (let ((name-and-pos '())
         (symbol-names '()))
-    (flet ((addsymbols (symbol-list)
-                       (when (listp symbol-list)
-                         (dolist (symbol symbol-list)
-                           (let ((name nil) (position nil))
-                             (cond
-                              ((and (listp symbol) (imenu--subalist-p symbol))
-                               (addsymbols symbol))
+    (cl-flet ((addsymbols (symbol-list)
+                          (when (listp symbol-list)
+                            (dolist (symbol symbol-list)
+                              (let ((name nil) (position nil))
+                                (cond
+                                 ((and (listp symbol) (imenu--subalist-p symbol))
+                                  (addsymbols symbol))
 
-                              ((listp symbol)
-                               (setq name (car symbol))
-                               (setq position (cdr symbol)))
+                                 ((listp symbol)
+                                  (setq name (car symbol))
+                                  (setq position (cdr symbol)))
 
-                              ((stringp symbol)
-                               (setq name symbol)
-                               (setq position (get-text-property 1 'org-imenu-marker symbol))))
+                                 ((stringp symbol)
+                                  (setq name symbol)
+                                  (setq position (get-text-property 1 'org-imenu-marker symbol))))
 
-                             (unless (or (null position) (null name))
-                               (add-to-list 'symbol-names name)
-                               (add-to-list 'name-and-pos (cons name position))))))))
+                                (unless (or (null position) (null name))
+                                  (add-to-list 'symbol-names name)
+                                  (add-to-list 'name-and-pos (cons name position))))))))
       (addsymbols imenu--index-alist))
     ;; If there are matching symbols at point, put them at the beginning of `symbol-names'.
     (let ((symbol-at-point (thing-at-point 'symbol)))
@@ -95,14 +102,14 @@ Symbols matching the text at point are put first in the completion list."
 
 ;; Bind `~` to go to homedir when in ido-find-file; http://whattheemacsd.com/setup-ido.el-02.html
 (add-hook 'ido-setup-hook
- (lambda ()
-   ;; Go straight home
-   (define-key ido-file-completion-map
-     (kbd "~")
-     (lambda ()
-       (interactive)
-       (if (looking-back "/")
-           (insert "~/")
-         (call-interactively 'self-insert-command))))))
+          (lambda ()
+            ;; Go straight home
+            (define-key ido-file-completion-map
+              (kbd "~")
+              (lambda ()
+                (interactive)
+                (if (looking-back "/")
+                    (insert "~/")
+                  (call-interactively 'self-insert-command))))))
 
 (provide 'j0ni-ido)

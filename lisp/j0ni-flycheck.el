@@ -3,7 +3,7 @@
 (packages-require '(s f flycheck))
 (add-hook 'find-file-hook
           (lambda ()
-            (when (not (equal 'emacs-lisp-mode major-mode))
+            (when (not (equal 'emacs-lisp-mode major-mode clojure-mode))
               (flycheck-mode))))
 
 (global-set-key (kbd "M-n") 'next-error)
