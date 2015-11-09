@@ -5,13 +5,13 @@
 (load-file "~/.emacs-secrets.el")
 
 (progn
-  ;; (defvar j0ni-font "Anonymous Pro-12")
-  ;; (defvar j0ni-linum-font "Anonymous Pro-10")
+  ;; (defvar j0ni-font "Anonymous Pro-14")
+  ;; (defvar j0ni-linum-font "Anonymous Pro-12")
   ;; (defvar j0ni-font "Droid Sans Mono Dotted-11")
   ;; (defvar j0ni-linum-font "Droid Sans Mono Dotted-10")
   ;; (defvar j0ni-font "Droid Sans Mono Dotted-14")
   ;; (defvar j0ni-linum-font "Droid Sans Mono Dotted-12")
-  ;; (defvar j0ni-font "PragmataPro-13")
+  ;; (defvar j0ni-font "PragmataPro-14")
   ;; (defvar j0ni-linum-font "PragmataPro-12")
   ;; (defvar j0ni-font "PragmataPro-12")
   ;; (defvar j0ni-linum-font "PragmataPro-10")
@@ -29,8 +29,12 @@
   ;; (defvar j0ni-linum-font "PT Mono-9")
   ;; (defvar j0ni-font "Lucida Grande Mono-12")
   ;; (defvar j0ni-linum-font "Lucida Grande Mono-9")
+  ;; (defvar j0ni-font "Fira Code-13")
+  ;; (defvar j0ni-linum-font "Fira Code-9")
   (defvar j0ni-font "Lucida Grande Mono Nrw-12")
-  (defvar j0ni-linum-font "Lucida Grande Mono Nrw-9")
+  (defvar j0ni-linum-font "Lucida Grande Mono Nrw-10")
+  ;; (defvar j0ni-font "Lucida Grande Mono-24")
+  ;; (defvar j0ni-linum-font "Lucida Grande Mono Nrw-9")
   ;; (defvar j0ni-font "Lucida Sans Typewriter-11")
   ;; (defvar j0ni-linum-font "Lucida Sans Typewriter-9")
   ;; (defvar j0ni-font "Lucida Console-11")
@@ -40,7 +44,7 @@
   (when (fboundp 'apply-font-settings)
     (apply-font-settings)))
 
-(setq-default line-spacing 0)
+(setq-default line-spacing 1)
 
 ;; Themes we want to install
 (defvar j0ni-installed-themes
@@ -76,17 +80,21 @@
     flatui-theme
     minimal-theme
     plan9-theme
-    spacemacs-theme))
+    stekene-theme
+    spacemacs-theme
+    material-theme))
 
 ;; Theme I like at the moment
 ;; (defvar j0ni-theme 'phoenix-dark-pink)
 ;; (defvar j0ni-theme 'phoenix-dark-mono)
 ;; (defvar j0ni-theme 'late-night)
 ;; (defvar j0ni-theme 'tango-dark)
+;; (defvar j0ni-theme 'material)
+(defvar j0ni-theme 'stekene-dark)
 ;; (defvar j0ni-theme 'solarized-dark)
 ;; (defvar j0ni-theme 'plan9)
 ;; (defvar j0ni-theme 'spacemacs-dark)
-(defvar j0ni-theme 'bubbleberry)
+;; (defvar j0ni-theme 'bubbleberry)
 ;; (defvar j0ni-theme 'zenburn)
 ;; (defvar j0ni-theme 'lawrence)
 ;; (defvar j0ni-theme 'darkburn)
@@ -166,6 +174,9 @@
                                          ""
                                          (with-output-to-string (call-process "hostname" nil standard-output))))
 
+;; Add brew contrib stuff to the load-path
+(add-to-list 'load-path "/usr/local/share/emacs/site-lisp/")
+
 ;; Add .emacs.d/lisp to load-path
 (setq dotfiles-dir (file-name-directory
                     (or (buffer-file-name) load-file-name)))
@@ -203,8 +214,13 @@
                   ;; This is sooooo slow, do we really need it?
                   ("elpa" . "http://tromey.com/elpa/")))
   (add-to-list 'package-archives source t))
-;; Sometimes CIDER breaks and I need to retreat to stable
+
+;;; Sometimes CIDER breaks and I need to retreat to stable
+;;
 ;; (add-to-list 'package-pinned-packages '(cider . "melpa-stable") t)
+;; (add-to-list 'package-pinned-packages '(clj-refactor . "melpa-stable") t)
+;; (add-to-list 'package-pinned-packages '(clojure-mode . "melpa-stable") t)
+
 (package-initialize)
 (when (esk-online?)
   (unless package-archive-contents (package-refresh-contents)))
@@ -228,8 +244,8 @@
         j0ni-codestyle
         j0ni-lisp
         ;; j0ni-flycheck
-        j0ni-ido
-        ;; j0ni-helm
+        ;; j0ni-ido
+        j0ni-helm
         j0ni-go
         j0ni-js
         j0ni-git
@@ -242,9 +258,10 @@
         j0ni-complete
         j0ni-gui
         j0ni-irc
-        j0ni-jabber
+        ;; j0ni-jabber
         ;; j0ni-powerline
         j0ni-evil
+        j0ni-mail
         ))
 
 (dolist (file j0ni-pkg-full)
@@ -259,3 +276,9 @@
 (defun circle-connect ()
   (interactive)
   (cider-connect "localhost" 6005))
+
+;; open for business
+
+(require 'server)
+(unless (server-running-p)
+  (server-start))

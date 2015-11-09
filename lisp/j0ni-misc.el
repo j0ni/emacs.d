@@ -147,8 +147,7 @@
 (add-hook 'ag-mode-hook 'toggle-truncate-lines)
 
 ;; java
-(progn
-  (add-to-list 'auto-mode-alist '("\\.java\\'" . java-mode)))
+(add-to-list 'auto-mode-alist '("\\.java\\'" . java-mode))
 
 ;; puppet-mode sucks right now
 (package-require 'puppet-mode)
@@ -166,8 +165,8 @@
 (add-to-list 'Info-directory-list "/usr/local/share/info/")
 
 ;; clock in the mode-line
-;; (setq display-time-format "%H:%M")
-;; (display-time-mode t)
+(setq display-time-format "%H:%M")
+(display-time-mode t)
 
 ;; for sr-speedbar in 24.3.90+
 ;; (defun ad-advised-definition-p (definition)
@@ -182,8 +181,6 @@
 
 ;; vagrant method for tramp
 (package-require 'vagrant-tramp)
-(eval-after-load 'tramp
-  '(vagrant-tramp-enable))
 
 (package-require 'buffer-move)
 (global-set-key (kbd "<C-S-up>")     'buf-move-up)
@@ -236,6 +233,11 @@ the mode-line."
 
 ;; (package-require 'rudel)
 
+(package-require 'beacon)
+(setq beacon-blink-when-point-moves 10)
+(beacon-mode 1)
+(diminish 'beacon-mode)
+
 ;; don't allow popup windows
 (setq pop-up-windows nil
       split-height-threshold nil
@@ -245,5 +247,8 @@ the mode-line."
       message-fill-column 72
       user-mail-address "jonathan@circleci.com"
       user-full-name "Jonathan Irving")
+
+;; for making eww usable
+(setq shr-color-visible-luminance-min 75)
 
 (provide 'j0ni-misc)

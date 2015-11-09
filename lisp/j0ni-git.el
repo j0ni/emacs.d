@@ -40,4 +40,7 @@
 
 (package-require 'git-timemachine)
 
+(package-require 'browse-at-remote)
+;; (global-set-key (kbd "C-c g g") 'browse-at-remote)
+
 (provide 'j0ni-git)

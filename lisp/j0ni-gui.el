@@ -30,6 +30,8 @@
   (require 'color)
 
   (when (boundp 'j0ni-theme)
+    ;;; Solarized specific tweaks
+    
     ;; Don't change the font for some headings and titles
     (setq solarized-use-variable-pitch nil)
 
@@ -54,7 +56,7 @@
     
     (load-theme j0ni-theme)
 
-    ;; (set-face-foreground 'show-paren-match-face "#ffcfff")
+    ;; (set-face-foreground 'show-paren-match-face "red")
     ;; (set-face-background 'show-paren-match-face "grey40")
 
     ;; some customizations
@@ -109,8 +111,8 @@
   ;;  `(mode-line ((t (:foreground "#777777" :background "#111111" :box nil :height 140 :font ,j0ni-font))))
   ;;  ;; `(highlight-symbol-face ((t (:underline t :background "orange"))))
   ;;  )
-  ;; (custom-set-faces
-  ;;  `(mode-line ((t (:height 140 :font ,j0ni-font)))))
+  (custom-set-faces
+   `(mode-line ((t (:height 140 :font ,j0ni-font)))))
   ;; (custom-set-faces
   ;;  `(mode-line ((t (:foreground black  :background "#333333" :box nil :height 140 :font ,j0ni-font)))))
 

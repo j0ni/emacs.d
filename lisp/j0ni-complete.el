@@ -5,7 +5,7 @@
 (add-hook 'after-init-hook 'global-company-mode)
 ;; (global-set-key (kbd "C-\\") 'company-complete)
 
-(setq company-global-modes '(not term-mode))
+(setq company-global-modes '(not term-mode org-mode))
 
 (setq company-minimum-prefix-length 2
       company-selection-wrap-around t

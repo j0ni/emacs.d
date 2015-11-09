@@ -48,6 +48,9 @@
 ;; (setq ethan-wspace-disabled-modes '(go-mode makefile-mode makefile-bsdmake-mode org-journal-mode markdown-mode))
 ;; (add-hooks ethan-wspace-disabled-modes (lambda () (ethan-wspace-mode -1)))
 
+(package-require 'ws-butler)
+(ws-butler-global-mode 1)
+
 ;; Clojure indentation rules
 (eval-after-load "clojure-mode"
   '(dolist (form '(test tests

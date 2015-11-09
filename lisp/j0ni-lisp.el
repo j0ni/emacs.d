@@ -1,4 +1,6 @@
-;;; bodil-lisp.el -- Lisps
+;;; j0ni-lisp.el -- Lisps
+
+;; initially copied from bodil's emacs config
 
 (require 'j0ni-defuns)
 
@@ -20,6 +22,7 @@
 
 ;; Setup C-c v to eval whole buffer in all lisps
 (define-key lisp-mode-shared-map (kbd "C-c v") 'eval-buffer)
+(define-key lisp-mode-shared-map (kbd "C-c C-v") 'eval-buffer)
 
 (package-require 'highlight-parentheses)
 ;; (add-lisp-hook 'highlight-parentheses-mode)
@@ -34,6 +37,68 @@
 
 ;; Paredit for all lisps
 (packages-require '(paredit diminish))
+
+(eval-after-load 'paredit
+  '(progn
+     (defun paredit-barf-all-the-way-backward ()
+       (interactive)
+       (paredit-split-sexp)
+       (paredit-backward-down)
+       (paredit-splice-sexp))
+
+     (defun paredit-barf-all-the-way-forward ()
+       (interactive)
+       (paredit-split-sexp)
+       (paredit-forward-down)
+       (paredit-splice-sexp)
+       (if (eolp) (delete-horizontal-space)))
+
+     (defun paredit-slurp-all-the-way-backward ()
+       (interactive)
+       (catch 'done
+         (while (not (bobp))
+           (save-excursion
+             (paredit-backward-up)
+             (if (eq (char-before) ?\()
+                 (throw 'done t)))
+           (paredit-backward-slurp-sexp))))
+
+     (defun paredit-slurp-all-the-way-forward ()
+       (interactive)
+       (catch 'done
+         (while (not (eobp))
+           (save-excursion
+             (paredit-forward-up)
+             (if (eq (char-after) ?\))
+                 (throw 'done t)))
+           (paredit-forward-slurp-sexp))))
+
+     (nconc paredit-commands
+            '("Extreme Barfage & Slurpage"
+              (("C-M-)")
+               paredit-slurp-all-the-way-forward
+               ("(foo (bar |baz) quux zot)"
+                "(foo (bar |baz quux zot))")
+               ("(a b ((c| d)) e f)"
+                "(a b ((c| d)) e f)"))
+              (("C-M-}" "M-F")
+               paredit-barf-all-the-way-forward
+               ("(foo (bar |baz quux) zot)"
+                "(foo (bar|) baz quux zot)"))
+              (("C-M-(")
+               paredit-slurp-all-the-way-backward
+               ("(foo bar (baz| quux) zot)"
+                "((foo bar baz| quux) zot)")
+               ("(a b ((c| d)) e f)"
+                "(a b ((c| d)) e f)"))
+              (("C-M-{" "M-B")
+               paredit-barf-all-the-way-backward
+               ("(foo (bar baz |quux) zot)"
+                "(foo bar baz (|quux) zot)"))))
+
+     (paredit-define-keys)
+     (paredit-annotate-mode-with-examples)
+     (paredit-annotate-functions-with-examples)))
 
 (defun enable-paren-handling ()
   (when (fboundp 'autopair-mode)
@@ -86,9 +151,9 @@
 (packages-require '(align-cljlet cider-profile clj-refactor))
 (setq clojure-defun-style-default-indent nil)
 
-(add-to-list 'auto-mode-alist '("\\.cljs?$" . clojure-mode))
-(add-to-list 'auto-mode-alist '("\\.boot\\'" . clojure-mode))
-(add-to-list 'magic-mode-alist '(".* boot" . clojure-mode))
+;; (add-to-list 'auto-mode-alist '("\\.cljs?$" . clojure-mode))
+;; (add-to-list 'auto-mode-alist '("\\.boot\\'" . clojure-mode))
+;; (add-to-list 'magic-mode-alist '(".* boot" . clojure-mode))
 
 ;; (eval-after-load 'clojure-mode
 ;;   '(font-lock-add-keywords
@@ -114,9 +179,10 @@
 ;; (lambda-as-lambda 'clojure-mode "(\\(\\<fn\\>\\)")
 
 (defun my-clojure-mode-hook ()
-  (clj-refactor-mode 1)
   (yas-minor-mode 1)
-  (cljr-add-keybindings-with-prefix "C-c C-m"))
+  (clj-refactor-mode 1)
+  (cljr-add-keybindings-with-prefix "C-c C-m")
+  )
 
 (add-hook 'clojure-mode-hook #'my-clojure-mode-hook)
 
@@ -126,15 +192,19 @@
      (define-key clojure-mode-map (kbd "C-M-z") 'align-cljlet)
      (define-clojure-indent
        (defroutes 'defun)
-       (defrecord 'defun)
+       ;; (defrecord 'defun)
        (GET 2)
        (POST 2)
        (PUT 2)
        (DELETE 2)
        (HEAD 2)
        (ANY 2)
-       (context 2))
-     (put 'defrecord 'clojure-backtracking-indent '(4 4 (2)))
+       (context 2)
+       (query 2)
+       (insert! 2)
+       (update! 2)
+       (delete! 2))
+     ;; (put 'defrecord 'clojure-backtracking-indent '(4 4 (2)))
 
      ;; Treat hyphens as a word character when transposing words
      (defvar clojure-mode-with-hyphens-as-word-sep-syntax-table
@@ -145,35 +215,36 @@
 ;; (add-hook 'clojure-mode-hook #'inf-clojure-minor-mode)
 ;; inf-clojure, less bloated repl
 ;; (package-require 'inf-clojure)
-(defun start-inf-clojure ()
-  (interactive)
-  (add-hook 'clojure-mode-hook #'inf-clojure-minor-mode)
-  (inf-clojure))
+;; FIXME I'm not sure if it's clearer to have the package requires at
+;; the top or inline like ^^.
+;; (add-hook 'clojure-mode-hook #'inf-clojure-minor-mode)
 
 ;; nRepl/cider
 (packages-require '(cider-eval-sexp-fu))
 
-(eval-after-load 'clojure-mode
-  ;; why?
-  '(progn
-     (require 'cider)
-     (require 'cider-eval-sexp-fu)))
+;; (eval-after-load 'clojure-mode
+;;   ;; why?
+;;   '(progn
+;;      (require 'cider)
+;;      (require 'cider-eval-sexp-fu)))
 
-(setq cider-repl-use-clojure-font-lock t
-      cider-show-error-buffer          nil
-      cider-popup-stacktraces          nil
-      cider-buffer-name-show-port      t
-      cider-repl-history-size          10000
-      cider-repl-result-prefix         "=> "
-      cider-prompt-for-symbol          nil
-      cider-known-endpoints            '(("circle-dev" "localhost" "6005")
-                                         ("circle-staging" "localhost" "6002")
-                                         ("circle-prod" "localhost" "6001"))
-      cider-repl-history-file          (concat-home ".cider-repl-history")
-      nrepl-buffer-name-show-port      t
-      cider-words-of-inspiration       '(""))
+(setq cider-repl-pop-to-buffer-on-connect t
+      cider-repl-use-clojure-font-lock    t
+      cider-show-error-buffer             nil
+      cider-popup-stacktraces             nil
+      cider-buffer-name-show-port         t
+      cider-repl-history-size             10000
+      cider-repl-result-prefix            "=> "
+      cider-prompt-for-symbol             nil
+      cider-known-endpoints               '(("circle-dev" "localhost" "6005")
+                                            ("circle-staging" "localhost" "6002")
+                                            ("circle-prod" "localhost" "6001"))
+      cider-repl-history-file             (concat-home ".cider-repl-history")
+      nrepl-buffer-name-show-port         t
+      cider-words-of-inspiration          '(""))
 
 (add-hook 'cider-mode-hook (lambda ()
+                             (require 'cider-eval-sexp-fu)
                              (cider-turn-on-eldoc-mode)
                              (diminish 'eldoc-mode)
                              (diminish 'cider-mode)))
@@ -184,21 +255,23 @@
   (save-buffer)
   (nrepl-load-current-buffer)
   (with-current-buffer "*nrepl*"
-    (nrepl-send-string
-     (format "(clojure.test/run-tests '%s)" ns)
-     nrepl-buffer-ns (nrepl-handler (current-buffer)))))
+    (nrepl-send-string (format "(clojure.test/run-tests '%s)" ns)
+                       nrepl-buffer-ns
+                       (nrepl-handler (current-buffer)))))
 
 (eval-after-load "clojure-mode"
   '(define-key clojure-mode-map (kbd "C-c C-,") 'nrepl-run-tests))
 
-(defun custom-cider-repl-bindings ()
+(defun cider-repl-customizations ()
   (interactive)
-  (define-key cider-repl-mode-map (kbd "C-c C-M-r") 'cider-repl-previous-matching-input)
-  (define-key cider-repl-mode-map (kbd "C-c C-M-s") 'cider-repl-next-matching-input)
+  (define-key cider-repl-mode-map (kbd "C-r") 'cider-repl-previous-matching-input)
+  (define-key cider-repl-mode-map (kbd "C-s") 'cider-repl-next-matching-input)
+  (define-key cider-repl-mode-map (kbd "C-c C-M-r") 'isearch-backward-regexp)
+  (define-key cider-repl-mode-map (kbd "C-c C-M-s") 'isearch-forward-regexp)
   (subword-mode 1)
   (diminish 'subword-mode))
 
-(add-hook 'cider-repl-mode-hook 'custom-cider-repl-bindings)
+(add-hook 'cider-repl-mode-hook 'cider-repl-customizations)
 
 ;; Let's try to get eval-sexp sending to the REPL
 
@@ -268,17 +341,22 @@ Display the results in a hyperlinked *compilation* buffer."
 ;; Clojure REPL
 (defun clojure-repl ()
   (interactive)
-  (run-lisp "lein repl"))
+  (run-clojure "lein repl"))
 
 ;; ClojureScript REPL
 (defun clojurescript-repl ()
   (interactive)
-  (run-lisp "lein trampoline noderepl"))
+  (run-clojure "lein trampoline noderepl"))
 
 ;; ClojureScript REPL
 (defun clojurescript-rhino-repl ()
   (interactive)
-  (run-lisp "lein trampoline cljsbuild repl-rhino"))
+  (run-clojure "lein trampoline cljsbuild repl-rhino"))
+
+;; Figwheel REPL
+(defun figwheel-repl ()
+  (interactive)
+  (run-clojure "lein figwheel"))
 
 ;; Switch a Clojure nrepl to ClojureScript
 
@@ -304,6 +382,6 @@ Display the results in a hyperlinked *compilation* buffer."
 
 ;; Racket
 
-;; (package-require 'racket-mode)
+(package-require 'racket-mode)
 
 (provide 'j0ni-lisp)

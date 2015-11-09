@@ -12,8 +12,8 @@
 
 (add-hook 'python-mode-hook 'my-python-mode-hook)
 
-(package-require 'py-autopep8)
-(add-hook 'before-save-hook 'py-autopep8-before-save)
+;; (package-require 'py-autopep8)
+;; (add-hook 'before-save-hook 'py-autopep8-before-save)
 
 (package-require 'smartparens)
 (add-hook 'python-mode-hook 'turn-on-smartparens-mode)
