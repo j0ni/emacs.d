@@ -1,6 +1,7 @@
 ;;; j0ni-helm.el --- Helm will steer you in the right direction. Duh.
 
 (package-require 'helm)
+(package-require 'helm-ls-git)
 (require 'helm-config)
 
 (setq
@@ -15,12 +16,17 @@
  helm-lisp-fuzzy-completion            t
  helm-mode-fuzzy-match                 t
  helm-completion-in-region-fuzzy-match t
+ helm-ls-git-status-command            'magit-status-internal
+ helm-boring-file-regexp-list          '("\\.git$" "\\.hg$" "\\.svn$" "\\.CVS$" "\\._darcs$" "\\.la$" "\\.o$" "\\.i$")
+ helm-reuse-last-window-split-state    t
+ helm-always-two-windows               t
  ;; setup from the guide
- ;; helm-split-window-in-side-p           t ; open helm buffer inside current window, not occupy whole other window
+ ;; helm-split-window-in-side-p         t ; open helm buffer inside current window, not occupy whole other window
  helm-move-to-line-cycle-in-source     t ; move to end or beginning of source when reaching top or bottom of source.
  helm-ff-search-library-in-sexp        t ; search for library in `require' and `declare-function' sexp.
  helm-scroll-amount                    8 ; scroll 8 lines other window using M-<next>/M-<prior>
- helm-ff-file-name-history-use-recentf t)
+ helm-ff-file-name-history-use-recentf t
+ helm-ff-skip-boring-files             t)
 
 (global-set-key (kbd "C-c h")    'helm-command-prefix)
 (global-unset-key (kbd "C-x c"))
@@ -40,6 +46,7 @@
   (setq helm-google-suggest-use-curl-p t))
 
 (helm-mode 1)
+(helm-adaptive-mode 1)
 
 ;; Projectile support
 (package-require 'helm-projectile)

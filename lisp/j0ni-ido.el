@@ -100,16 +100,20 @@ Symbols matching the text at point are put first in the completion list."
       default-directory (getenv "HOME"))
 (global-set-key (kbd "C-x C-M-f") 'recentf-ido-find-file)
 
-;; Bind `~` to go to homedir when in ido-find-file; http://whattheemacsd.com/setup-ido.el-02.html
-(add-hook 'ido-setup-hook
-          (lambda ()
-            ;; Go straight home
-            (define-key ido-file-completion-map
-              (kbd "~")
-              (lambda ()
-                (interactive)
-                (if (looking-back "/")
-                    (insert "~/")
-                  (call-interactively 'self-insert-command))))))
+(defun ido-my-setup-hook ()
+  ;; "Bind `~` to go to homedir when in ido-find-file;
+  ;; http://whattheemacsd.com/setup-ido.el-02.html. Also, make space
+  ;; less broken."
+  ;; (define-key ido-file-completion-map (kbd "~")
+  ;;   (lambda ()
+  ;;     (interactive)
+  ;;     (if (looking-back "/")
+  ;;         (insert "~/")
+  ;;       (call-interactively 'self-insert-command))))
+  (define-key ido-completion-map " " 'ido-next-match)
+  (define-key ido-completion-map (kbd "C-j") 'ido-exit-minibuffer)
+  (define-key ido-file-dir-completion-map (kbd "C-l") 'ido-up-directory))
+
+(add-hook 'ido-setup-hook 'ido-my-setup-hook)
 
 (provide 'j0ni-ido)

@@ -140,10 +140,14 @@
 (add-hook 'emacs-lisp-mode-hook 'turn-on-eldoc-mode)
 (add-hook 'emacs-lisp-mode-hook 'remove-elc-on-save)
 
-(define-key emacs-lisp-mode-map (kbd "M-.") 'find-function-at-point)
+;; (define-key emacs-lisp-mode-map (kbd "M-.") 'find-function-at-point)
 
 (packages-require '(elisp-slime-nav diminish))
-(add-hook 'emacs-lisp-mode-hook 'elisp-slime-nav-mode)
+
+(defun elisp-slime-nav-mode-setup ()
+  (elisp-slime-nav-mode 1))
+
+(add-hook 'emacs-lisp-mode-hook 'elisp-slime-nav-mode-setup)
 (eval-after-load 'elisp-slime-nav '(diminish 'elisp-slime-nav-mode))
 
 ;;; Clojure
@@ -200,11 +204,26 @@
        (HEAD 2)
        (ANY 2)
        (context 2)
+       (GET* 2)
+       (POST* 2)
+       (PUT* 2)
+       (DELETE* 2)
+       (HEAD* 2)
+       (ANY* 2)
        (query 2)
        (insert! 2)
        (update! 2)
        (delete! 2))
-     ;; (put 'defrecord 'clojure-backtracking-indent '(4 4 (2)))
+
+     ;; I can't make my mind up about this. It makes sense
+     ;; semantically, but it looks shit when the first value is an
+     ;; expression spanning multiple lines. Maybe that's supposed to
+     ;; guide better practice?
+
+     (put-clojure-indent '-> 1)
+     (put-clojure-indent '->> 1)
+     (put-clojure-indent 'some-> 1)
+     (put-clojure-indent 'some->> 1)
 
      ;; Treat hyphens as a word character when transposing words
      (defvar clojure-mode-with-hyphens-as-word-sep-syntax-table
@@ -230,8 +249,10 @@
 
 (setq cider-repl-pop-to-buffer-on-connect t
       cider-repl-use-clojure-font-lock    t
-      cider-show-error-buffer             nil
-      cider-popup-stacktraces             nil
+      cider-use-overlays                  t ; display eval results inline
+      cider-overlays-use-font-lock        t ; font lock the results
+      cider-show-error-buffer             t
+      cider-popup-stacktraces             t
       cider-buffer-name-show-port         t
       cider-repl-history-size             10000
       cider-repl-result-prefix            "=> "
@@ -383,5 +404,17 @@ Display the results in a hyperlinked *compilation* buffer."
 ;; Racket
 
 (package-require 'racket-mode)
+(setq racket-racket-program "/Applications/Racket v6.3/bin/racket"
+      racket-raco-program "/Applications/Racket v6.3/bin/raco"
+      racket-smart-open-bracket-enable t)
+
+(defun my-racket-mode-hook ()
+  (define-key racket-mode-map (kbd "C-M-z") 'racket-align))
+
+(defun my-racket-repl-mode-hook ()
+  (enable-paren-handling))
+
+(add-hook 'racket-mode-hook 'my-racket-mode-hook)
+(add-hook 'racket-repl-mode-hook 'my-racket-repl-mode-hook)
 
 (provide 'j0ni-lisp)

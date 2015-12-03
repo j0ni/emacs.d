@@ -61,7 +61,7 @@
 
 ;; projectile
 (package-require 'projectile)
-(setq projectile-completion-system 'helm)
+(setq projectile-completion-system 'ido)
 (projectile-global-mode)
 (diminish 'projectile-mode)
 

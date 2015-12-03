@@ -2,25 +2,31 @@
 
 (package-require 'org)
 
-(setq
- ;; Set to the location of your Org files on your local system
- ;; (setq org-directory "~/.org")
- org-directory j0ni-org-dir
- ;; org-journal
- org-journal-dir j0ni-org-journal-dir
- ;; Set to the name of the file where new notes will be stored
- org-mobile-inbox-for-pull (concat j0ni-org-dir "/flagged.org")
- ;; Set to <your Dropbox root directory>/MobileOrg.
- ;; (setq org-mobile-directory "~/Dropbox/MobileOrg")
- org-mobile-directory j0ni-org-dropbox
- ;; Set agenda file(s)
- org-agenda-files (list (concat j0ni-org-dir "/notebook.org"))
- ;; track TODO completion
- org-log-done 'time
- ;; indentation for org-mode
- org-startup-indented t
- ;; prevent org-mode hijacking arrow keys
- org-replace-disputed-keys t)
+;; Set to the location of your Org files on your local system
+;; (setq org-directory "~/.org")
+(setq org-directory j0ni-org-dir)
+
+;; org-journal
+(setq org-journal-dir j0ni-org-journal-dir)
+
+;; Set to the name of the file where new notes will be stored
+(setq org-mobile-inbox-for-pull (concat j0ni-org-dir "/flagged.org"))
+
+;; Set to <your Dropbox root directory>/MobileOrg.
+;; (setq org-mobile-directory "~/Dropbox/MobileOrg")
+(setq org-mobile-directory j0ni-org-dropbox)
+
+;; Set agenda file(s)
+(setq org-agenda-files (list (concat j0ni-org-dir "/notebook.org")))
+
+;; track TODO completion
+(setq org-log-done 'time)
+
+;; indentation for org-mode
+(setq org-startup-indented t)
+
+;; prevent org-mode hijacking arrow keys
+(setq org-replace-disputed-keys t)
 
 ;; org-babel
 (org-babel-do-load-languages
@@ -36,6 +42,8 @@
    (sql . t)
    (haskell . t)
    (scheme . t)))
+
+(setq org-adapt-indentation t)
 
 ;; Use cider as the clojure execution backend
 (setq org-babel-clojure-backend 'cider)
@@ -73,5 +81,7 @@
 ;; bullets
 ;; (package-require 'org-bullets)
 ;; (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
+
+(add-hook 'org-mode-hook 'turn-on-auto-fill)
 
 (provide 'j0ni-org)

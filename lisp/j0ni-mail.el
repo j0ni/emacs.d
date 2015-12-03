@@ -40,12 +40,14 @@
       mu4e-drafts-folder "/Gmail/drafts"
       mu4e-trash-folder "/Gmail/trash"
 
-      mu4e-update-interval 600
+      ;; maybe one day, when emacs is multi-threaded
+      ;; mu4e-update-interval 600
       mu4e-confirm-quit nil
       mu4e-use-fancy-chars nil ; they actually look shit
       ;; mu4e-html2text-command "html2text -utf8 -width 72"
       mu4e-headers-sort-direction 'ascending
       mu4e-headers-skip-duplicates t
+      mu4e-split-view 'nope
       mu4e-headers-fields '((:human-date . 12)
                             (:flags . 6)
                             (:mailing-list . 10)
@@ -75,7 +77,7 @@
                         "Last 7 days (Circle inbox)"
                         ?C)
 
-                       ("subject:PPP from:circleci.com" "PPPs" ?p)
+                       ("subject:PPP from:circleci.com date:8w..now" "PPPs" ?p)
 
                        ("date:today..now AND NOT flag:trashed AND (maildir:/Gmail/INBOX OR maildir:/Gmail/sent-mail)"
                         "Today's messages (Gmail inbox)"
@@ -83,7 +85,15 @@
 
                        ("date:7d..now AND NOT flag:trashed AND (maildir:/Gmail/INBOX OR maildir:/Gmail/sent-mail)"
                         "Last 7 days (Gmail inbox)"
-                        ?G)))
+                        ?G)
+
+                       ("date:today..now AND NOT flag:trashed AND (maildir:/Skalera/INBOX OR maildir:/Skalera/sent-mail)"
+                        "Today's messages (Skalera inbox)"
+                        ?s)
+
+                       ("date:7d..now AND NOT flag:trashed AND (maildir:/Skalera/INBOX OR maildir:/Skalera/sent-mail)"
+                        "Last 7 days (Skalera inbox)"
+                        ?S)))
 
 (setq message-send-mail-function 'message-send-mail-with-sendmail
       sendmail-program "/usr/local/bin/msmtp"
@@ -108,6 +118,7 @@
              (account
               (cond
                ((string-match "jonathan@circleci.com" from) "circle")
+               ((string-match "jonathan.irving@skalera.com" from) "skalera")
                ((string-match "j@lollyshouse.ca" from) "gmail"))))
           (setq message-sendmail-extra-arguments (list '"-a" account))))))
 
@@ -144,7 +155,16 @@
                               ("/Circle/sent-mail" . ?s)
                               ("/Circle/drafts"    . ?d)
                               ("/Circle/trash"     . ?t)))
-     (user-mail-address "jonathan@circleci.com"))))
+     (user-mail-address "jonathan@circleci.com"))
+    ("Skalera"
+     (mu4e-sent-folder "/Skalera/sent-mail")
+     (mu4e-drafts-folder "/Skalera/drafts")
+     (mu4e-maildir-shortcuts (("/Skalera/INBOX"     . ?i)
+                              ("/Skalera/all-mail"  . ?a)
+                              ("/Skalera/sent-mail" . ?s)
+                              ("/Skalera/drafts"    . ?d)
+                              ("/Skalera/trash"     . ?t)))
+     (user-mail-address "jonathan.irving@skalera.com"))))
 
 ;; You can put any variable you want in the account lists, just make
 ;; sure that you put in all the variables that differ for each
@@ -234,7 +254,8 @@
 ;; message by entering C-c RET C-a, and I'm good to go.
 
 ;; allow for updating mail using 'U' in the main view:
-(setq mu4e-get-mail-command "mbsync -q gmail-inbox gmail-sent gmail-all-mail circle-inbox circle-sent circle-all-mail")
+;; Doing this from emacs is stupid - I've made all this stuff cron'd
+;; (setq mu4e-get-mail-command "mbsync -q gmail-inbox circle-inbox")
 
 ;; don't keep message buffers around
 (setq message-kill-buffer-on-exit t)

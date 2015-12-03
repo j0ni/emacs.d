@@ -31,13 +31,13 @@
 
   (when (boundp 'j0ni-theme)
     ;;; Solarized specific tweaks
-    
+
     ;; Don't change the font for some headings and titles
     (setq solarized-use-variable-pitch nil)
 
     ;; make the modeline high contrast
     ;; (setq solarized-high-contrast-mode-line t)
-    
+
     ;; Use less bolding
     (setq solarized-use-less-bold t)
 
@@ -53,11 +53,11 @@
     (setq solarized-height-plus-2 1)
     (setq solarized-height-plus-3 1)
     (setq solarized-height-plus-4 1)
-    
+
     (load-theme j0ni-theme)
 
     ;; (set-face-foreground 'show-paren-match-face "red")
-    ;; (set-face-background 'show-paren-match-face "grey40")
+    ;; (set-face-background 'show-paren-match-face "grey30")
 
     ;; some customizations
     ;; (set-face-attribute 'eval-sexp-fu-flash ((t (:background "#101010" :foreground "white"))))
@@ -96,14 +96,14 @@
     )
 
   ;; company-mode hack
-  ;; (let ((bg (face-attribute 'default :background)))
-  ;;   (custom-set-faces
-  ;;    `(company-tooltip ((t (:inherit default :background ,(color-lighten-name bg 2)))))
-  ;;    `(company-scrollbar-bg ((t (:background ,(color-lighten-name bg 10)))))
-  ;;    `(company-scrollbar-fg ((t (:background ,(color-lighten-name bg 5)))))
-  ;;    `(company-tooltip-selection ((t (:inherit font-lock-function-name-face))))
-  ;;    `(company-tooltip-common ((t (:inherit font-lock-function-name-face))))
-  ;;    `(company-tooltip-common-selection ((t (:inherit font-lock-function-name-face))))))
+  (let ((bg (face-attribute 'default :background)))
+    (custom-set-faces
+     `(company-tooltip ((t (:inherit default :background ,(color-lighten-name bg 2)))))
+     `(company-scrollbar-bg ((t (:background ,(color-lighten-name bg 10)))))
+     `(company-scrollbar-fg ((t (:background ,(color-lighten-name bg 5)))))
+     `(company-tooltip-selection ((t (:inherit font-lock-function-name-face))))
+     `(company-tooltip-common ((t (:inherit font-lock-function-name-face))))
+     `(company-tooltip-common-selection ((t (:inherit font-lock-function-name-face))))))
 
   ;; clues maybe needs this
   ;;
@@ -111,10 +111,16 @@
   ;;  `(mode-line ((t (:foreground "#777777" :background "#111111" :box nil :height 140 :font ,j0ni-font))))
   ;;  ;; `(highlight-symbol-face ((t (:underline t :background "orange"))))
   ;;  )
-  (custom-set-faces
-   `(mode-line ((t (:height 140 :font ,j0ni-font)))))
   ;; (custom-set-faces
-  ;;  `(mode-line ((t (:foreground black  :background "#333333" :box nil :height 140 :font ,j0ni-font)))))
+  ;;  `(mode-line ((t (:height 140 :font ,j0ni-font)))))
+  ;; (custom-set-faces
+  ;;  `(mode-line ((t (:foreground black  :background "#333333" :box
+  ;;nil :height 140 :font ,j0ni-font)))))
+
+  (custom-set-faces
+   '(racket-keyword-argument-face ((t (:inherit default))))
+   '(racket-paren-face ((t (:inherit default))))
+   '(racket-selfeval-face ((t (:inherit default)))))
 
   (add-to-list 'default-frame-alist '(height . 40))
   (add-to-list 'default-frame-alist '(width . 120))

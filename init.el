@@ -4,6 +4,22 @@
 
 (load-file "~/.emacs-secrets.el")
 
+;; Suggested by Le Wang, to reduce GC thrash
+(setq gc-cons-threshold 20000000)
+
+;; Add brew contrib stuff to the load-path
+(add-to-list 'load-path "/usr/local/share/emacs/site-lisp/")
+
+;; Add .emacs.d/lisp to load-path
+(setq dotfiles-dir (file-name-directory
+                    (or (buffer-file-name) load-file-name)))
+(add-to-list 'load-path (concat dotfiles-dir "lisp"))
+
+;; Add every subdirectory of ~/.emacs.d/site-lisp to the load path
+(dolist (sdir (directory-files (concat dotfiles-dir "site-lisp") t "\\w+"))
+  (when (file-directory-p sdir)
+    (add-to-list 'load-path sdir)))
+
 (progn
   ;; (defvar j0ni-font "Anonymous Pro-14")
   ;; (defvar j0ni-linum-font "Anonymous Pro-12")
@@ -31,10 +47,10 @@
   ;; (defvar j0ni-linum-font "Lucida Grande Mono-9")
   ;; (defvar j0ni-font "Fira Code-13")
   ;; (defvar j0ni-linum-font "Fira Code-9")
-  (defvar j0ni-font "Lucida Grande Mono Nrw-12")
-  (defvar j0ni-linum-font "Lucida Grande Mono Nrw-10")
-  ;; (defvar j0ni-font "Lucida Grande Mono-24")
-  ;; (defvar j0ni-linum-font "Lucida Grande Mono Nrw-9")
+  ;; (defvar j0ni-font "Lucida Grande Mono Nrw-14")
+  ;; (defvar j0ni-linum-font "Lucida Grande Mono Nrw-10")
+  (defvar j0ni-font "Lucida Grande Mono-14")
+  (defvar j0ni-linum-font "Lucida Grande Mono-12")
   ;; (defvar j0ni-font "Lucida Sans Typewriter-11")
   ;; (defvar j0ni-linum-font "Lucida Sans Typewriter-9")
   ;; (defvar j0ni-font "Lucida Console-11")
@@ -47,6 +63,10 @@
 (setq-default line-spacing 1)
 
 ;; Themes we want to install
+
+(require 'color-theme-tomorrow)
+;; (require 'lawrence-theme)
+
 (defvar j0ni-installed-themes
   '(soothe-theme
     late-night-theme
@@ -61,7 +81,6 @@
     bubbleberry-theme
     darkburn-theme
     gotham-theme
-    ;; Solarized is a PITA - loads whenever it is updated
     solarized-theme
     phoenix-dark-pink-theme
     phoenix-dark-mono-theme
@@ -74,7 +93,6 @@
     darcula-theme
     firecode-theme
     ujelly-theme
-    stekene-theme
     ;; spacegray-theme
     ;; purple-haze-theme
     flatui-theme
@@ -82,7 +100,9 @@
     plan9-theme
     stekene-theme
     spacemacs-theme
-    material-theme))
+    material-theme
+    color-theme-sanityinc-tomorrow
+    base16-theme))
 
 ;; Theme I like at the moment
 ;; (defvar j0ni-theme 'phoenix-dark-pink)
@@ -90,14 +110,21 @@
 ;; (defvar j0ni-theme 'late-night)
 ;; (defvar j0ni-theme 'tango-dark)
 ;; (defvar j0ni-theme 'material)
-(defvar j0ni-theme 'stekene-dark)
+;; (defvar j0ni-theme 'stekene-dark)
 ;; (defvar j0ni-theme 'solarized-dark)
+;; (defvar j0ni-theme 'tomorrow-night-eighties)
+;; (defvar j0ni-theme 'monochrome)
 ;; (defvar j0ni-theme 'plan9)
 ;; (defvar j0ni-theme 'spacemacs-dark)
 ;; (defvar j0ni-theme 'bubbleberry)
 ;; (defvar j0ni-theme 'zenburn)
 ;; (defvar j0ni-theme 'lawrence)
 ;; (defvar j0ni-theme 'darkburn)
+(defvar j0ni-theme 'base16-irblack-dark)
+;; (defvar j0ni-theme 'base16-tomorrow-dark)
+;; (defvar j0ni-theme 'base16-ashes-dark)
+;; (defvar j0ni-theme 'base16-solarized-dark)
+;; (defvar j0ni-theme 'base16-greenscreen-dark)
 ;; (defvar j0ni-theme 'stekene-dark)
 ;; (defvar j0ni-theme 'mccarthy)
 ;; (defvar j0ni-theme 'github)
@@ -127,7 +154,7 @@
                         (concat-home "Scratch/go/bin")
                         "/usr/local/bin"
                         "/Applications/GHC.app/Contents/bin"
-                        "/Applications/Racket v6.2/bin"))
+                        "/Applications/Racket v6.3/bin"))
 ;; Where are the system Git contrubutions?
 (defvar j0ni-git-contrib-dir "/usr/local/share/git-core/contrib/emacs")
 
@@ -174,23 +201,10 @@
                                          ""
                                          (with-output-to-string (call-process "hostname" nil standard-output))))
 
-;; Add brew contrib stuff to the load-path
-(add-to-list 'load-path "/usr/local/share/emacs/site-lisp/")
-
-;; Add .emacs.d/lisp to load-path
-(setq dotfiles-dir (file-name-directory
-                    (or (buffer-file-name) load-file-name)))
-(add-to-list 'load-path (concat dotfiles-dir "lisp"))
-
 ;; Set paths to custom.el and loaddefs.el
 (setq autoload-file (concat dotfiles-dir "loaddefs.el"))
 (setq custom-file (concat dotfiles-dir "custom.el"))
 (load custom-file)
-
-;; Add every subdirectory of ~/.emacs.d/site-lisp to the load path
-(dolist (project (directory-files (concat dotfiles-dir "site-lisp") t "\\w+"))
-  (when (file-directory-p project)
-    (add-to-list 'load-path project)))
 
 ;; Detect online status, from ESK
 (require 'cl)
@@ -236,7 +250,8 @@
     (package-require pkg)))
 
 (setq j0ni-pkg-full
-      '(j0ni-esk
+      '(j0ni-evil
+        j0ni-esk
         j0ni-eshell
         j0ni-defuns
         j0ni-misc
@@ -244,8 +259,8 @@
         j0ni-codestyle
         j0ni-lisp
         ;; j0ni-flycheck
-        ;; j0ni-ido
-        j0ni-helm
+        j0ni-ido
+        ;; j0ni-helm
         j0ni-go
         j0ni-js
         j0ni-git
@@ -260,7 +275,6 @@
         j0ni-irc
         ;; j0ni-jabber
         ;; j0ni-powerline
-        j0ni-evil
         j0ni-mail
         ))
 
@@ -277,7 +291,12 @@
   (interactive)
   (cider-connect "localhost" 6005))
 
-;; open for business
+;; Emacs disables a bunch of commands by default so as not to confuse
+;; new users. This enables them all. I may regret this, but I've been
+;; using emacs for a long time now.
+(setq disabled-command-function nil)
+
+;; Open for business
 
 (require 'server)
 (unless (server-running-p)

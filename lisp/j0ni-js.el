@@ -77,8 +77,11 @@
 (add-to-list 'auto-mode-alist '("\\.js$" . js2-mode))
 (add-to-list 'auto-mode-alist '("\\.ejs$" . js2-mode))
 
+(package-require 'json-mode)
+
 ;; Use regular js-mode for json
-(add-to-list 'auto-mode-alist '("\\.json$" . js-mode))
+(add-to-list 'auto-mode-alist '("\\.json$" . json-mode))
+(add-to-list 'auto-mode-alist '("\\.amethyst$" . json-mode))
 
 (eval-after-load 'js
   '(progn
