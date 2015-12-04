@@ -49,8 +49,8 @@
   ;; (defvar j0ni-linum-font "Fira Code-9")
   ;; (defvar j0ni-font "Lucida Grande Mono Nrw-14")
   ;; (defvar j0ni-linum-font "Lucida Grande Mono Nrw-10")
-  (defvar j0ni-font "Lucida Grande Mono-14")
-  (defvar j0ni-linum-font "Lucida Grande Mono-12")
+  (defvar j0ni-font "Lucida Grande Mono-12")
+  (defvar j0ni-linum-font "Lucida Grande Mono-10")
   ;; (defvar j0ni-font "Lucida Sans Typewriter-11")
   ;; (defvar j0ni-linum-font "Lucida Sans Typewriter-9")
   ;; (defvar j0ni-font "Lucida Console-11")
@@ -60,7 +60,7 @@
   (when (fboundp 'apply-font-settings)
     (apply-font-settings)))
 
-(setq-default line-spacing 1)
+(setq-default line-spacing 0)
 
 ;; Themes we want to install
 

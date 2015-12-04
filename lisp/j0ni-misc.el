@@ -119,9 +119,9 @@
     (fringe-mode 4))
 
 ;; nice scrolling
-(setq scroll-margin 0
-      scroll-conservatively 100000
-      scroll-preserve-screen-position 1)
+(setq scroll-margin 0)
+(setq scroll-conservatively 100000)
+(setw scroll-preserve-screen-position 1)
 
 ;; don't eat my shell
 (setq-default comint-prompt-read-only t)
@@ -132,6 +132,11 @@
 ;; don't auto-save
 (setq auto-save-default nil)
 
+;; which-key
+(package-require 'which-key)
+(which-key-mode 1)
+(diminish 'which-key-mode)
+
 ;; ack
 (package-require 'ack-and-a-half)
 (defalias 'ack 'ack-and-a-half)
@@ -141,9 +146,9 @@
 
 ;; silver searcher
 (package-require 'ag)
-(setq ag-reuse-buffers t
-      ag-reuse-window t
-      ag-highlight-search t)
+(setq ag-reuse-buffers t)
+(setq ag-reuse-window t)
+(setq ag-highlight-search t)
 (add-hook 'ag-mode-hook 'toggle-truncate-lines)
 
 ;; java
