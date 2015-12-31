@@ -86,7 +86,9 @@ Symbols matching the text at point are put first in the completion list."
       (goto-char position))))
 
 (set-default 'imenu-auto-rescan t)
-(global-set-key (kbd "C-t") 'ido-imenu)
+
+(package-require 'idomenu)
+(global-set-key (kbd "C-t") 'idomenu)
 
 (defun recentf-ido-find-file ()
   "Find a recent file using Ido."

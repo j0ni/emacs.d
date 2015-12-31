@@ -216,7 +216,6 @@
 ;; end of account management stuff
 
 ;; don't save message to Sent Messages, Gmail/IMAP takes care of this
-;; (setq mu4e-sent-messages-behavior 'delete)
 (setq mu4e-sent-messages-behavior 'delete)
 
 ;; (See the documentation for `mu4e-sent-messages-behavior' if you have

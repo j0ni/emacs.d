@@ -39,8 +39,8 @@
 (setq-default js2-strict-var-redeclaration-warning nil)
 
 ;; Tern
-(package-require 'tern)
-(add-hook 'js2-mode-hook (lambda () (tern-mode t)))
+;; (package-require 'tern)
+;; (add-hook 'js2-mode-hook (lambda () (tern-mode t)))
 
 ;; Skewer
 (package-require 'skewer-mode)

@@ -47,10 +47,10 @@
   ;; (defvar j0ni-linum-font "Lucida Grande Mono-9")
   ;; (defvar j0ni-font "Fira Code-13")
   ;; (defvar j0ni-linum-font "Fira Code-9")
-  ;; (defvar j0ni-font "Lucida Grande Mono Nrw-14")
-  ;; (defvar j0ni-linum-font "Lucida Grande Mono Nrw-10")
-  (defvar j0ni-font "Lucida Grande Mono-12")
-  (defvar j0ni-linum-font "Lucida Grande Mono-10")
+  (defvar j0ni-font "Lucida Grande Mono Nrw-12")
+  (defvar j0ni-linum-font "Lucida Grande Mono Nrw-10")
+  ;; (defvar j0ni-font "Lucida Grande Mono-12")
+  ;; (defvar j0ni-linum-font "Lucida Grande Mono-10")
   ;; (defvar j0ni-font "Lucida Sans Typewriter-11")
   ;; (defvar j0ni-linum-font "Lucida Sans Typewriter-9")
   ;; (defvar j0ni-font "Lucida Console-11")
@@ -111,7 +111,7 @@
 ;; (defvar j0ni-theme 'tango-dark)
 ;; (defvar j0ni-theme 'material)
 ;; (defvar j0ni-theme 'stekene-dark)
-;; (defvar j0ni-theme 'solarized-dark)
+(defvar j0ni-theme 'solarized-dark)
 ;; (defvar j0ni-theme 'tomorrow-night-eighties)
 ;; (defvar j0ni-theme 'monochrome)
 ;; (defvar j0ni-theme 'plan9)
@@ -120,7 +120,7 @@
 ;; (defvar j0ni-theme 'zenburn)
 ;; (defvar j0ni-theme 'lawrence)
 ;; (defvar j0ni-theme 'darkburn)
-(defvar j0ni-theme 'base16-irblack-dark)
+;; (defvar j0ni-theme 'base16-irblack-dark)
 ;; (defvar j0ni-theme 'base16-tomorrow-dark)
 ;; (defvar j0ni-theme 'base16-ashes-dark)
 ;; (defvar j0ni-theme 'base16-solarized-dark)
@@ -156,7 +156,7 @@
                         "/Applications/GHC.app/Contents/bin"
                         "/Applications/Racket v6.3/bin"))
 ;; Where are the system Git contrubutions?
-(defvar j0ni-git-contrib-dir "/usr/local/share/git-core/contrib/emacs")
+(defvar j0ni-git-contrib-dir "/usr/local/share/emacs/site-lisp/git")
 
 ;; Org mode locations
 (defvar j0ni-org-dir (concat-home "Dropbox/OrgMode"))

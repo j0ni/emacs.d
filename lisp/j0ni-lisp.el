@@ -188,7 +188,7 @@
   (cljr-add-keybindings-with-prefix "C-c C-m")
   )
 
-(add-hook 'clojure-mode-hook #'my-clojure-mode-hook)
+;; (add-hook 'clojure-mode-hook #'my-clojure-mode-hook)
 
 (eval-after-load 'clojure-mode
   '(progn

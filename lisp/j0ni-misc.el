@@ -121,7 +121,7 @@
 ;; nice scrolling
 (setq scroll-margin 0)
 (setq scroll-conservatively 100000)
-(setw scroll-preserve-screen-position 1)
+(setq scroll-preserve-screen-position 1)
 
 ;; don't eat my shell
 (setq-default comint-prompt-read-only t)

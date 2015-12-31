@@ -89,10 +89,10 @@
     ;;    `(font-lock-comment-face ((t (:foreground ,(color-lighten-name fg 5)))))
     ;;    `(font-lock-comment-delimiter-face ((t (:foreground ,(color-lighten-name fg 5)))))))
 
-    ;; fogus stuff for javascript
-    ;; (let ((fg (face-attribute 'font-lock-variable-name-face :foreground)))
-    ;;   (custom-set-faces
-    ;;    `(js2-function-param ((t (:foreground ,fg))))))
+    ;; avoid javascript default funcion param name setting
+    (let ((fg (face-attribute 'font-lock-variable-name-face :foreground)))
+      (custom-set-faces
+       `(js2-function-param ((t (:foreground ,fg))))))
     )
 
   ;; company-mode hack
