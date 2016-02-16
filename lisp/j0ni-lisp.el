@@ -7,9 +7,11 @@
 (packages-require '(clojure-mode
                     cider
                     inf-clojure
-                    racket-mode))
+                    racket-mode
+                    geiser))
 
 (setq j0ni-lisp-modes '(scheme-mode
+                        geiser
                         emacs-lisp-mode
                         lisp-mode
                         clojure-mode
@@ -26,6 +28,7 @@
 
 (package-require 'highlight-parentheses)
 ;; (add-lisp-hook 'highlight-parentheses-mode)
+(add-lisp-hook 'indent-guide-mode)
 
 ;; Make em light up
 (require 'highlight)
@@ -154,6 +157,10 @@
 
 (packages-require '(align-cljlet cider-profile clj-refactor))
 (setq clojure-defun-style-default-indent nil)
+;; (setq clojure-indent-style :align-arguments)
+(setq clojure-indent-style :always-align)
+(setq cider-repl-display-help-banner nil)
+(setq cljr-warn-on-eval nil)
 
 ;; (add-to-list 'auto-mode-alist '("\\.cljs?$" . clojure-mode))
 ;; (add-to-list 'auto-mode-alist '("\\.boot\\'" . clojure-mode))
@@ -183,12 +190,14 @@
 ;; (lambda-as-lambda 'clojure-mode "(\\(\\<fn\\>\\)")
 
 (defun my-clojure-mode-hook ()
-  (yas-minor-mode 1)
+  (interactive)
+  ;; (yas-minor-mode 1)
   (clj-refactor-mode 1)
-  (cljr-add-keybindings-with-prefix "C-c C-m")
-  )
+  ;; (indent-guide-mode 1)
+  (cljr-add-keybindings-with-prefix "C-c C-m"))
 
-;; (add-hook 'clojure-mode-hook #'my-clojure-mode-hook)
+
+(add-hook 'clojure-mode-hook #'my-clojure-mode-hook)
 
 (eval-after-load 'clojure-mode
   '(progn
@@ -220,10 +229,15 @@
      ;; expression spanning multiple lines. Maybe that's supposed to
      ;; guide better practice?
 
-     (put-clojure-indent '-> 1)
-     (put-clojure-indent '->> 1)
-     (put-clojure-indent 'some-> 1)
-     (put-clojure-indent 'some->> 1)
+     ;; note I no longer thing this looks shit, and I prefer it, but
+     ;; it may not be popular.
+
+     (defun unpopular-macro-indentation ()
+       (interactive)
+       (put-clojure-indent '-> 1)
+       (put-clojure-indent '->> 1)
+       (put-clojure-indent 'some-> 1)
+       (put-clojure-indent 'some->> 1))
 
      ;; Treat hyphens as a word character when transposing words
      (defvar clojure-mode-with-hyphens-as-word-sep-syntax-table
@@ -262,7 +276,8 @@
                                             ("circle-prod" "localhost" "6001"))
       cider-repl-history-file             (concat-home ".cider-repl-history")
       nrepl-buffer-name-show-port         t
-      cider-words-of-inspiration          '(""))
+      cider-words-of-inspiration          '("")
+      cider-prefer-local-resources        t)
 
 (add-hook 'cider-mode-hook (lambda ()
                              (require 'cider-eval-sexp-fu)
@@ -416,5 +431,10 @@ Display the results in a hyperlinked *compilation* buffer."
 
 (add-hook 'racket-mode-hook 'my-racket-mode-hook)
 (add-hook 'racket-repl-mode-hook 'my-racket-repl-mode-hook)
+
+;; Geiser
+
+(setq geiser-active-implementations '(racket chicken))
+(setq geiser-repl-history-filename "~/.emacs.d/geiser-history")
 
 (provide 'j0ni-lisp)

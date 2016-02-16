@@ -1,3 +1,5 @@
+geiser-history*
+helm-adaptive-history
 /elpa*
 custom.el
 *elc

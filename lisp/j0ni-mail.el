@@ -1,6 +1,6 @@
 ;;; j0ni-mail.el
 
-(add-to-list 'load-path "/usr/local/share/emacs/site-lisp/mu4e")
+(add-to-list 'load-path "/usr/local/share/emacs/site-lisp/mu/mu4e")
 (require 'mu4e)
 ;; (require 'smtpmail)
 
@@ -39,9 +39,7 @@
 (setq mu4e-sent-folder "/Gmail/sent-mail"
       mu4e-drafts-folder "/Gmail/drafts"
       mu4e-trash-folder "/Gmail/trash"
-
-      ;; maybe one day, when emacs is multi-threaded
-      ;; mu4e-update-interval 600
+      mu4e-update-interval 300
       mu4e-confirm-quit nil
       mu4e-use-fancy-chars nil ; they actually look shit
       ;; mu4e-html2text-command "html2text -utf8 -width 72"
@@ -58,7 +56,10 @@
 (setq mu4e-html2text-command 'mu4e-shr2text)
 
 ;; something about ourselves
-(setq user-mail-address "j@lollyshouse.ca"
+(setq mu4e-user-mail-address-list '("j@lollyshouse.ca"
+                                    "jonathan.irving@skalera.com"
+                                    "jonathan@circleci.com"
+                                    "jonathan.irving@gmail.com")
       user-full-name "J Irving"
       mu4e-compose-signature nil)
 
@@ -252,11 +253,30 @@
 ;; With this, I can attach a file as an attachment to a new email
 ;; message by entering C-c RET C-a, and I'm good to go.
 
-;; allow for updating mail using 'U' in the main view:
-;; Doing this from emacs is stupid - I've made all this stuff cron'd
-;; (setq mu4e-get-mail-command "mbsync -q gmail-inbox circle-inbox")
-
 ;; don't keep message buffers around
 (setq message-kill-buffer-on-exit t)
+
+;; Set up compose mode
+
+(defun my-compose-mode-setup ()
+  "My settings for message composition."
+  (set-fill-column 72)
+  ;; (flyspell-mode)
+  (mml-secure-message-sign-pgpmime))
+
+(add-hook 'mu4e-compose-mode-hook 'my-compose-mode-setup)
+
+;; Citation
+
+(setq message-citation-line-format "* %f, on %Y-%m-%d @ %R %z:")
+(setq message-citation-line-function 'message-insert-formatted-citation-line)
+
+(defun sign-off-email ()
+  (interactive)
+  (insert "   cheers, J\n   ")
+  (insert (format-time-string "%Y-%m-%d @ %H:%M:%S %z\n")))
+
+(define-key mu4e-compose-mode-map (kbd "C-c C-,") 'sign-off-email)
+(define-key mu4e-compose-mode-map (kbd "C-c ,") 'sign-off-email)
 
 (provide 'j0ni-mail)

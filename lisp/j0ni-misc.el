@@ -61,7 +61,8 @@
 
 ;; projectile
 (package-require 'projectile)
-(setq projectile-completion-system 'ido)
+;; (setq projectile-completion-system 'ido)
+(setq projectile-completion-system 'ivy)
 (projectile-global-mode)
 (diminish 'projectile-mode)
 
@@ -255,5 +256,8 @@ the mode-line."
 
 ;; for making eww usable
 (setq shr-color-visible-luminance-min 75)
+
+;; centering text in a single window
+(package-require 'centered-window-mode)
 
 (provide 'j0ni-misc)

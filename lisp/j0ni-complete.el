@@ -36,5 +36,8 @@
 (package-require 'company-ghc)
 (add-to-list 'company-backends 'company-ghc)
 
+;; Rust
+(package-require 'company-racer)
+(add-to-list 'company-backends 'company-racer)
 
 (provide 'j0ni-complete)

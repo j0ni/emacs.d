@@ -90,20 +90,20 @@
     ;;    `(font-lock-comment-delimiter-face ((t (:foreground ,(color-lighten-name fg 5)))))))
 
     ;; avoid javascript default funcion param name setting
-    (let ((fg (face-attribute 'font-lock-variable-name-face :foreground)))
-      (custom-set-faces
-       `(js2-function-param ((t (:foreground ,fg))))))
+    ;; (let ((fg (face-attribute 'font-lock-variable-name-face :foreground)))
+    ;;   (custom-set-faces
+    ;;    `(js2-function-param ((t (:foreground ,fg))))))
     )
 
   ;; company-mode hack
-  (let ((bg (face-attribute 'default :background)))
-    (custom-set-faces
-     `(company-tooltip ((t (:inherit default :background ,(color-lighten-name bg 2)))))
-     `(company-scrollbar-bg ((t (:background ,(color-lighten-name bg 10)))))
-     `(company-scrollbar-fg ((t (:background ,(color-lighten-name bg 5)))))
-     `(company-tooltip-selection ((t (:inherit font-lock-function-name-face))))
-     `(company-tooltip-common ((t (:inherit font-lock-function-name-face))))
-     `(company-tooltip-common-selection ((t (:inherit font-lock-function-name-face))))))
+  ;; (let ((bg (face-attribute 'default :background)))
+  ;;   (custom-set-faces
+  ;;    `(company-tooltip ((t (:inherit default :background ,(color-lighten-name bg 2)))))
+  ;;    `(company-scrollbar-bg ((t (:background ,(color-lighten-name bg 10)))))
+  ;;    `(company-scrollbar-fg ((t (:background ,(color-lighten-name bg 5)))))
+  ;;    `(company-tooltip-selection ((t (:inherit font-lock-function-name-face))))
+  ;;    `(company-tooltip-common ((t (:inherit font-lock-function-name-face))))
+  ;;    `(company-tooltip-common-selection ((t (:inherit font-lock-function-name-face))))))
 
   ;; clues maybe needs this
   ;;
@@ -117,10 +117,10 @@
   ;;  `(mode-line ((t (:foreground black  :background "#333333" :box
   ;;nil :height 140 :font ,j0ni-font)))))
 
-  (custom-set-faces
-   '(racket-keyword-argument-face ((t (:inherit default))))
-   '(racket-paren-face ((t (:inherit default))))
-   '(racket-selfeval-face ((t (:inherit default)))))
+  ;; (custom-set-faces
+  ;;  '(racket-keyword-argument-face ((t (:inherit default))))
+  ;;  '(racket-paren-face ((t (:inherit default))))
+  ;;  '(racket-selfeval-face ((t (:inherit default)))))
 
   (add-to-list 'default-frame-alist '(height . 40))
   (add-to-list 'default-frame-alist '(width . 120))

@@ -109,5 +109,10 @@ frames with exactly two windows."
 
 (global-set-key [remap move-beginning-of-line] 'my-move-beginning-of-line)
 
+(defun insert-timestamp ()
+  (interactive)
+  (insert (format-time-string "%Y-%m-%d %H:%M:%S %z" (current-time))))
+
 (provide 'j0ni-defuns)
+
 ;;; j0ni-defuns.el ends here

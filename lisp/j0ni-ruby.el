@@ -3,9 +3,6 @@
 (package-require 'ruby-mode)
 (autoload 'ruby-mode "ruby-mode" nil t)
 
-(package-require 'ruby-dev)
-(autoload 'turn-on-ruby-dev "ruby-dev" nil t)
-
 (add-to-list 'auto-mode-alist '("Capfile" . ruby-mode))
 (add-to-list 'auto-mode-alist '("Gemfile" . ruby-mode))
 (add-to-list 'auto-mode-alist '("Rakefile" . ruby-mode))
@@ -21,9 +18,8 @@
   (setq ruby-deep-arglist t
         ruby-deep-indent-paren nil
         show-trailing-whitespace nil)
-  (smartparens-mode +1)
-  ;; (turn-on-ruby-dev)
-  )
+  (inf-ruby-minor-mode t)
+  (smartparens-mode +1))
 
 (add-hook 'ruby-mode-hook 'ruby-mode-custom)
 
@@ -40,11 +36,19 @@
 (eval-after-load 'rspec-mode
   '(rspec-install-snippets))
 
+(package-require 'inf-ruby)
+(add-hook 'after-init-hook 'inf-ruby-switch-setup)
+;; (add-to-list 'inf-ruby-implementations '("pry-nocolor" . "pry --no-color"))
+;; (add-to-list 'inf-ruby-implementations '("pry-simple" . "pry --simple-prompt"))
+;; (setq inf-ruby-default-implementation "pry-nocolor")
+(eval-after-load 'inf-ruby-minor-mode
+  '(add-to-list 'inf-ruby-implementations '("tux" . "tux")))
+
 ;; extra stuff, mostly for rails
 (packages-require
- '(rinari
-   feature-mode
+ '(feature-mode
    web-mode
+   rinari
    robe
    ruby-electric
    ruby-tools

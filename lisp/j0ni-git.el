@@ -4,22 +4,22 @@
 (package-require 'magit)
 (global-set-key (kbd "C-x g") 'magit-status)
 (setq magit-last-seen-setup-instructions "1.4.0")
+(setq magit-popup-use-prefix-argument 'popup)
+(setq magit-completing-read-function 'ivy-completing-read)
 
 ;; file edit modes
-(packages-require
- '(gitignore-mode
-   gitconfig-mode))
+(packages-require '(gitignore-mode
+                    gitconfig-mode))
 
 ;; contributed bits
 (add-to-list 'load-path j0ni-git-contrib-dir)
 (require 'git)
 
 ;; git gutter
-(packages-require
- '(git-gutter
-   git-gutter-fringe
-   git-messenger
-   diminish))
+(packages-require '(git-gutter
+                    git-gutter-fringe
+                    git-messenger
+                    diminish))
 
 ;; (require 'git-gutter-fringe)
 
@@ -27,10 +27,10 @@
 
 ;; (git-gutter:linum-setup)
 
-(custom-set-variables
- '(git-gutter:modified-sign "~")
- '(git-gutter:added-sign "+")
- '(git-gutter:deleted-sign "-"))
+;; (custom-set-variables
+;;  '(git-gutter:modified-sign "~")
+;;  '(git-gutter:added-sign "+")
+;;  '(git-gutter:deleted-sign "-"))
 
 (diminish 'git-gutter-mode "gg")
 
@@ -42,5 +42,10 @@
 
 (package-require 'browse-at-remote)
 ;; (global-set-key (kbd "C-c g g") 'browse-at-remote)
+
+;; (packages-require '(pcache
+;;                     logito
+;;                     gh
+;;                     gist))
 
 (provide 'j0ni-git)

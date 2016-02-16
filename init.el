@@ -28,7 +28,7 @@
   ;; (defvar j0ni-font "Droid Sans Mono Dotted-14")
   ;; (defvar j0ni-linum-font "Droid Sans Mono Dotted-12")
   ;; (defvar j0ni-font "PragmataPro-14")
-  ;; (defvar j0ni-linum-font "PragmataPro-12")
+  ;; (defvar j0ni-linum-font "PragmataPro-10")
   ;; (defvar j0ni-font "PragmataPro-12")
   ;; (defvar j0ni-linum-font "PragmataPro-10")
   ;; (defvar j0ni-font "Consolas-14")
@@ -47,9 +47,9 @@
   ;; (defvar j0ni-linum-font "Lucida Grande Mono-9")
   ;; (defvar j0ni-font "Fira Code-13")
   ;; (defvar j0ni-linum-font "Fira Code-9")
-  (defvar j0ni-font "Lucida Grande Mono Nrw-12")
+  (defvar j0ni-font "Lucida Grande Mono Nrw-14")
   (defvar j0ni-linum-font "Lucida Grande Mono Nrw-10")
-  ;; (defvar j0ni-font "Lucida Grande Mono-12")
+  ;; (defvar j0ni-font "Lucida Grande Mono-14")
   ;; (defvar j0ni-linum-font "Lucida Grande Mono-10")
   ;; (defvar j0ni-font "Lucida Sans Typewriter-11")
   ;; (defvar j0ni-linum-font "Lucida Sans Typewriter-9")
@@ -60,7 +60,7 @@
   (when (fboundp 'apply-font-settings)
     (apply-font-settings)))
 
-(setq-default line-spacing 0)
+(setq-default line-spacing 1)
 
 ;; Themes we want to install
 
@@ -110,8 +110,11 @@
 ;; (defvar j0ni-theme 'late-night)
 ;; (defvar j0ni-theme 'tango-dark)
 ;; (defvar j0ni-theme 'material)
+;; (defvar j0ni-theme 'material-light)
+;; (defvar j0ni-theme 'stekene-light)
 ;; (defvar j0ni-theme 'stekene-dark)
-(defvar j0ni-theme 'solarized-dark)
+;; (defvar j0ni-theme 'solarized-light)
+;; (defvar j0ni-theme 'solarized-dark)
 ;; (defvar j0ni-theme 'tomorrow-night-eighties)
 ;; (defvar j0ni-theme 'monochrome)
 ;; (defvar j0ni-theme 'plan9)
@@ -150,6 +153,7 @@
 (defvar j0ni-path (list (concat-home ".rbenv/shims")
                         (concat-home ".rbenv/bin")
                         (concat-home ".cabal/bin")
+                        (concat-home ".cargo/bin")
                         (concat-home "Scratch/clojure/leiningen")
                         (concat-home "Scratch/go/bin")
                         "/usr/local/bin"
@@ -259,7 +263,8 @@
         j0ni-codestyle
         j0ni-lisp
         ;; j0ni-flycheck
-        j0ni-ido
+        ;; j0ni-ido
+        j0ni-ivy
         ;; j0ni-helm
         j0ni-go
         j0ni-js
@@ -268,6 +273,7 @@
         j0ni-markup
         j0ni-markdown
         j0ni-haskell
+        j0ni-rust
         j0ni-org
         j0ni-python
         j0ni-complete
