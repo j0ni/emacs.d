@@ -4,8 +4,9 @@
 (package-require 'magit)
 (global-set-key (kbd "C-x g") 'magit-status)
 (setq magit-last-seen-setup-instructions "1.4.0")
-(setq magit-popup-use-prefix-argument 'popup)
+;; (setq magit-popup-use-prefix-argument 'popup)
 (setq magit-completing-read-function 'ivy-completing-read)
+(setq magit-diff-refine-hunk t)
 
 ;; file edit modes
 (packages-require '(gitignore-mode

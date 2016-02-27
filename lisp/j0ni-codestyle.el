@@ -9,7 +9,7 @@
 ;; Aggressively indent
 (package-require 'aggressive-indent)
 ;; sadly new clojure indentation code slows this down
-;; (add-hook 'prog-mode-hook (lambda () (aggressive-indent-mode 1)))
+(add-hook 'prog-mode-hook (lambda () (aggressive-indent-mode 1)))
 
 ;; indent-guide - don't switch it on though, just have it there fore
 ;; when I need it
@@ -19,6 +19,7 @@
      (set-face-foreground 'indent-guide-face "gray80")
      (setq indent-guide-char ":")
      (setq indent-guide-recursive nil)))
+(diminish 'indent-guide-mode)
 
 ;; Default indentation
 (setq-default tab-width 4)
@@ -60,16 +61,5 @@
 
 (package-require 'ws-butler)
 (ws-butler-global-mode 1)
-
-;; Clojure indentation rules
-(eval-after-load "clojure-mode"
-  '(dolist (form '(test tests
-                   ;; Red Lobster
-                   defer waitp let-realised when-realised
-                   ;; core.logic
-                   run run* fresh conde
-                   ;; core.match
-                   match))
-     (put-clojure-indent form 'defun)))
 
 (provide 'j0ni-codestyle)

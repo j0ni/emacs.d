@@ -191,21 +191,26 @@
 
 (defun my-clojure-mode-hook ()
   (interactive)
-  ;; (yas-minor-mode 1)
   (clj-refactor-mode 1)
-  ;; (indent-guide-mode 1)
   (cljr-add-keybindings-with-prefix "C-c C-m"))
 
-
+(setq cljr-suppress-middleware-warnings t)
 (add-hook 'clojure-mode-hook #'my-clojure-mode-hook)
 
 (eval-after-load 'clojure-mode
   '(progn
+     (dolist (form '(test tests
+                   ;; Red Lobster
+                   defer waitp let-realised when-realised
+                   ;; core.logic
+                   run run* fresh conde
+                   ;; core.match
+                   match))
+     (put-clojure-indent form 'defun))
      ;; Make compojure routes look nice
      (define-key clojure-mode-map (kbd "C-M-z") 'align-cljlet)
      (define-clojure-indent
        (defroutes 'defun)
-       ;; (defrecord 'defun)
        (GET 2)
        (POST 2)
        (PUT 2)
@@ -229,9 +234,8 @@
      ;; expression spanning multiple lines. Maybe that's supposed to
      ;; guide better practice?
 
-     ;; note I no longer thing this looks shit, and I prefer it, but
+     ;; note I no longer think this looks shit, and I prefer it, but
      ;; it may not be popular.
-
      (defun unpopular-macro-indentation ()
        (interactive)
        (put-clojure-indent '-> 1)
@@ -246,20 +250,9 @@
          st))))
 
 ;; (add-hook 'clojure-mode-hook #'inf-clojure-minor-mode)
-;; inf-clojure, less bloated repl
-;; (package-require 'inf-clojure)
-;; FIXME I'm not sure if it's clearer to have the package requires at
-;; the top or inline like ^^.
-;; (add-hook 'clojure-mode-hook #'inf-clojure-minor-mode)
 
 ;; nRepl/cider
 (packages-require '(cider-eval-sexp-fu))
-
-;; (eval-after-load 'clojure-mode
-;;   ;; why?
-;;   '(progn
-;;      (require 'cider)
-;;      (require 'cider-eval-sexp-fu)))
 
 (setq cider-repl-pop-to-buffer-on-connect t
       cider-repl-use-clojure-font-lock    t
@@ -273,7 +266,8 @@
       cider-prompt-for-symbol             nil
       cider-known-endpoints               '(("circle-dev" "localhost" "6005")
                                             ("circle-staging" "localhost" "6002")
-                                            ("circle-prod" "localhost" "6001"))
+                                            ("circle-prod" "localhost" "6001")
+                                            ("frontend-dev" "dev.circlehost" "8230"))
       cider-repl-history-file             (concat-home ".cider-repl-history")
       nrepl-buffer-name-show-port         t
       cider-words-of-inspiration          '("")
@@ -295,15 +289,13 @@
                        nrepl-buffer-ns
                        (nrepl-handler (current-buffer)))))
 
-(eval-after-load "clojure-mode"
-  '(define-key clojure-mode-map (kbd "C-c C-,") 'nrepl-run-tests))
-
 (defun cider-repl-customizations ()
   (interactive)
   (define-key cider-repl-mode-map (kbd "C-r") 'cider-repl-previous-matching-input)
   (define-key cider-repl-mode-map (kbd "C-s") 'cider-repl-next-matching-input)
   (define-key cider-repl-mode-map (kbd "C-c C-M-r") 'isearch-backward-regexp)
   (define-key cider-repl-mode-map (kbd "C-c C-M-s") 'isearch-forward-regexp)
+  (define-key cider-repl-mode-map (kbd "C-c M-c") 'cider-make-connection-default)
   (subword-mode 1)
   (diminish 'subword-mode))
 

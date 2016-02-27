@@ -1,7 +1,9 @@
 ;;; init.el --- new init, based on Bodil Stokke's
 
-;; load secrets
+;; Apparently mu4e doesn't do well without this
+(set-language-environment "UTF-8")
 
+;; load secrets
 (load-file "~/.emacs-secrets.el")
 
 ;; Suggested by Le Wang, to reduce GC thrash
@@ -48,6 +50,7 @@
   ;; (defvar j0ni-font "Fira Code-13")
   ;; (defvar j0ni-linum-font "Fira Code-9")
   (defvar j0ni-font "Lucida Grande Mono Nrw-14")
+  ;; (defvar j0ni-font "Lucida Grande Mono Nrw-28")
   (defvar j0ni-linum-font "Lucida Grande Mono Nrw-10")
   ;; (defvar j0ni-font "Lucida Grande Mono-14")
   ;; (defvar j0ni-linum-font "Lucida Grande Mono-10")
@@ -119,6 +122,7 @@
 ;; (defvar j0ni-theme 'monochrome)
 ;; (defvar j0ni-theme 'plan9)
 ;; (defvar j0ni-theme 'spacemacs-dark)
+(defvar j0ni-theme 'spacemacs-light)
 ;; (defvar j0ni-theme 'bubbleberry)
 ;; (defvar j0ni-theme 'zenburn)
 ;; (defvar j0ni-theme 'lawrence)
@@ -221,17 +225,26 @@
             (network-interface-list))
     t))
 
+;; set up TLS before doing anything with package
+(setq gnutls-trustfiles (split-string (shell-command-to-string "python -m certifi")))
+(setq gnutls-verify-error t)
+(setq gnutls-log-level 2)
+;; because builtin tls is bollocks
+(setq tls-checktrust 'always)
+(setq tls-program
+      (list
+       (format "gnutls-cli --x509cafile %s -p %%p %%h"
+               (first gnutls-trustfiles))))
 
-;; ELPA
-(setq package-user-dir (concat dotfiles-dir "elpa"))
+(when (fboundp 'gnutls-available-p)
+  (fmakunbound 'gnutls-available-p))
+
+;; ELPA etc
 (require 'package)
-(dolist (source '(("melpa" . "http://melpa.milkbox.net/packages/")
-                  ;; questionable value - mostly just for CIDER 0.7.0
-                  ("melpa-stable" . "http://melpa-stable.milkbox.net/packages/")
-                  ("marmalade" . "http://marmalade-repo.org/packages/")
-                  ;; This is sooooo slow, do we really need it?
-                  ("elpa" . "http://tromey.com/elpa/")))
-  (add-to-list 'package-archives source t))
+(setq package-user-dir (concat dotfiles-dir "elpa"))
+(setq package-archives '(("melpa" . "https://melpa.org/packages/")
+                         ("melpa-stable" . "https://stable.melpa.org/packages/")
+                         ("gnu" . "https://elpa.gnu.org/packages/")))
 
 ;;; Sometimes CIDER breaks and I need to retreat to stable
 ;;
