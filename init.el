@@ -1,5 +1,9 @@
 ;;; init.el --- new init, based on Bodil Stokke's
 
+;; Get here more easily
+(setq local-function-key-map (delq '(kp-tab . [9]) local-function-key-map))
+(global-set-key (kbd "C-c C-i") (lambda () (interactive) (find-file user-init-file)))
+
 ;; Apparently mu4e doesn't do well without this
 (set-language-environment "UTF-8")
 
