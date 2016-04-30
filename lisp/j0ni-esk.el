@@ -1,15 +1,11 @@
 ;;; j0ni-esk.el --- emacs starter kit bits
 
-;; For now - migrate the useful stuff to my config later
-;; (packages-require
-;;  '(starter-kit-bindings
-;;    ;; starter-kit-lisp
-;;    starter-kit-eshell))
+;; This stuff is grafted directly from the ESK components I was using and
+;; slightly edited. At some point I will go through this and prune it more, but
+;; for now I'm leaving it in place as is, because I don't have the time or the
+;; inclination to figure it out and trim it down.
 
-;; This stuff is grafted directly from the ESK components I was using
-;; and slightly edited. At some point I will go through this and prune
-;; it more, but for now I'm leaving it in place as is, because I don't
-;; have the time or the inclination to figure it out and trim it down.
+;; Turns out I'm really tweaking this a bit here and there for the time being.
 
 (progn
   ;; Turn off mouse interface early in startup to avoid momentary display
@@ -201,8 +197,8 @@ comment as a filename."
   (define-key global-map (kbd "C--") 'text-scale-decrease)
 
   ;; Use regex searches by default.
-  (global-set-key (kbd "C-s") 'isearch-forward-regexp)
-  (global-set-key (kbd "\C-r") 'isearch-backward-regexp)
+  ;; (global-set-key (kbd "C-s") 'isearch-forward-regexp)
+  ;; (global-set-key (kbd "\C-r") 'isearch-backward-regexp)
   (global-set-key (kbd "M-%") 'query-replace-regexp)
   (global-set-key (kbd "C-M-s") 'isearch-forward)
   (global-set-key (kbd "C-M-r") 'isearch-backward)
@@ -212,7 +208,7 @@ comment as a filename."
   (global-set-key (kbd "C-x C-i") 'imenu)
 
   ;; File finding
-  (global-set-key (kbd "C-x M-f") 'ido-find-file-other-window)
+  ;; (global-set-key (kbd "C-x M-f") 'ido-find-file-other-window)
   (global-set-key (kbd "C-c y") 'bury-buffer)
   (global-set-key (kbd "C-c r") 'revert-buffer)
 

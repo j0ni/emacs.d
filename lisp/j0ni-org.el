@@ -43,6 +43,7 @@
    (haskell . t)
    (scheme . t)))
 
+;; extra indentation
 (setq org-adapt-indentation t)
 
 ;; Use cider as the clojure execution backend

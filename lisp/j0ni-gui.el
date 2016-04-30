@@ -3,6 +3,9 @@
 (when (display-graphic-p)
   (packages-require j0ni-installed-themes)
 
+  (require 'moe-theme)
+  ;; (moe-theme-set-color 'white)
+  ;; (moe-dark)
   ;; (require 'lawrence-theme)
   ;; (blink-cursor-mode +1)
 
@@ -32,27 +35,27 @@
   (when (boundp 'j0ni-theme)
     ;;; Solarized specific tweaks
 
-    ;; Don't change the font for some headings and titles
-    (setq solarized-use-variable-pitch nil)
+    ;; ;; Don't change the font for some headings and titles
+    ;; (setq solarized-use-variable-pitch nil)
 
-    ;; make the modeline high contrast
-    ;; (setq solarized-high-contrast-mode-line t)
+    ;; ;; make the modeline high contrast
+    ;; ;; (setq solarized-high-contrast-mode-line t)
 
-    ;; Use less bolding
-    (setq solarized-use-less-bold t)
+    ;; ;; Use less bolding
+    ;; (setq solarized-use-less-bold t)
 
-    ;; Use less colors for indicators such as git:gutter, flycheck and similar
-    ;; (setq solarized-emphasize-indicators nil)
+    ;; ;; Use less colors for indicators such as git:gutter, flycheck and similar
+    ;; ;; (setq solarized-emphasize-indicators nil)
 
-    ;; Don't change size of org-mode headlines (but keep other size-changes)
-    (setq solarized-scale-org-headlines nil)
+    ;; ;; Don't change size of org-mode headlines (but keep other size-changes)
+    ;; (setq solarized-scale-org-headlines nil)
 
-    ;; Avoid all font-size changes
-    (setq solarized-height-minus-1 1)
-    (setq solarized-height-plus-1 1)
-    (setq solarized-height-plus-2 1)
-    (setq solarized-height-plus-3 1)
-    (setq solarized-height-plus-4 1)
+    ;; ;; Avoid all font-size changes
+    ;; (setq solarized-height-minus-1 1)
+    ;; (setq solarized-height-plus-1 1)
+    ;; (setq solarized-height-plus-2 1)
+    ;; (setq solarized-height-plus-3 1)
+    ;; (setq solarized-height-plus-4 1)
 
     (load-theme j0ni-theme)
 
@@ -133,6 +136,15 @@
   ;; (remove-hook 'prog-mode-hook 'esk-turn-on-hl-line-mode)
   ;; (remove-hook 'text-mode-hook 'esk-turn-on-hl-line-mode)
 
-  (setq linum-format "%d"))
+  (setq moe-theme-highlight-buffer-id t)
+
+  (setq linum-format "%d")
+
+  ;; (package-require 'nyan-mode)
+  ;; doesn't do small very well
+  ;; (setq nyan-bar-length 24)
+  ;; (nyan-mode 1)
+
+  )
 
 (provide 'j0ni-gui)

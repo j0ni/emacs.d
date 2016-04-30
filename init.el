@@ -2,7 +2,16 @@
 
 ;; Get here more easily
 (setq local-function-key-map (delq '(kp-tab . [9]) local-function-key-map))
-(global-set-key (kbd "C-c C-i") (lambda () (interactive) (find-file user-init-file)))
+(global-set-key (kbd "C-c C-i") 'open-init-file)
+
+(defun open-init-file ()
+  (interactive)
+  (find-file user-init-file))
+
+(when (>= emacs-major-version 25)
+  (eval-after-load 'bytecomp
+    '(add-to-list 'byte-compile-not-obsolete-funcs
+                  'preceding-sexp)))
 
 ;; Apparently mu4e doesn't do well without this
 (set-language-environment "UTF-8")
@@ -49,15 +58,15 @@
   ;; (defvar j0ni-linum-font "DejaVu Sans Mono-12")
   ;; (defvar j0ni-font "PT Mono-12")
   ;; (defvar j0ni-linum-font "PT Mono-9")
-  ;; (defvar j0ni-font "Lucida Grande Mono-12")
-  ;; (defvar j0ni-linum-font "Lucida Grande Mono-9")
+  (defvar j0ni-font "Lucida Grande Mono-12")
+  (defvar j0ni-linum-font "Lucida Grande Mono-10")
   ;; (defvar j0ni-font "Fira Code-13")
   ;; (defvar j0ni-linum-font "Fira Code-9")
-  (defvar j0ni-font "Lucida Grande Mono Nrw-14")
+  ;; (defvar j0ni-font "Lucida Grande Mono Nrw-14")
+  ;; (defvar j0ni-linum-font "Lucida Grande Mono Nrw-10")
   ;; (defvar j0ni-font "Lucida Grande Mono Nrw-28")
-  (defvar j0ni-linum-font "Lucida Grande Mono Nrw-10")
-  ;; (defvar j0ni-font "Lucida Grande Mono-14")
-  ;; (defvar j0ni-linum-font "Lucida Grande Mono-10")
+  ;; (defvar j0ni-font "Lucida Grande Mono Nrw-12")
+  ;; (defvar j0ni-linum-font "Lucida Grande Mono Nrw-10")
   ;; (defvar j0ni-font "Lucida Sans Typewriter-11")
   ;; (defvar j0ni-linum-font "Lucida Sans Typewriter-9")
   ;; (defvar j0ni-font "Lucida Console-11")
@@ -88,7 +97,7 @@
     bubbleberry-theme
     darkburn-theme
     gotham-theme
-    solarized-theme
+    ;; solarized-theme
     phoenix-dark-pink-theme
     phoenix-dark-mono-theme
     color-theme-github
@@ -103,13 +112,15 @@
     ;; spacegray-theme
     ;; purple-haze-theme
     flatui-theme
+    moe-theme
     minimal-theme
     plan9-theme
     stekene-theme
     spacemacs-theme
     material-theme
     color-theme-sanityinc-tomorrow
-    base16-theme))
+    base16-theme
+    goose-theme))
 
 ;; Theme I like at the moment
 ;; (defvar j0ni-theme 'phoenix-dark-pink)
@@ -126,7 +137,8 @@
 ;; (defvar j0ni-theme 'monochrome)
 ;; (defvar j0ni-theme 'plan9)
 ;; (defvar j0ni-theme 'spacemacs-dark)
-(defvar j0ni-theme 'spacemacs-light)
+;; (defvar j0ni-theme 'spacemacs-light)
+;; (defvar j0ni-theme 'sanityinc-tomorrow-night)
 ;; (defvar j0ni-theme 'bubbleberry)
 ;; (defvar j0ni-theme 'zenburn)
 ;; (defvar j0ni-theme 'lawrence)
@@ -141,6 +153,7 @@
 ;; (defvar j0ni-theme 'github)
 ;; (defvar j0ni-theme 'fogus)
 ;; (defvar j0ni-theme 'gotham)
+;; (defvar j0ni-theme 'moe-dark)
 ;; (defvar j0ni-theme 'cyberpunk)
 ;; (defvar j0ni-theme 'noctilux)
 ;; (defvar j0ni-theme 'ujelly)
@@ -148,6 +161,15 @@
 ;; (defvar j0ni-theme 'flatui)
 ;; (defvar j0ni-theme 'minimal-light)
 ;; (defvar j0ni-theme 'subatomic)
+
+;; experimenting with a new thing
+;; (global-font-lock-mode -1)
+
+;; Notes: this is cool, except I'd like a couple of things to be
+;; fontlocked. For example, highlight-symbol-mode, and eval-sexp-fu,
+;; and maybe some error stuff in the cider repl. I suspect I'm going
+;; to need to create a specifically targeted set of face
+;; configurations for the standard set of programming faces.
 
 (defun concat-home (path)
   (concat (getenv "HOME") "/" path))
@@ -232,15 +254,17 @@
 ;; set up TLS before doing anything with package
 (setq gnutls-trustfiles (split-string (shell-command-to-string "python -m certifi")))
 (setq gnutls-verify-error t)
-(setq gnutls-log-level 2)
-;; because builtin tls is bollocks
+;; (setq gnutls-log-level 2)
+;; because builtin tls is bollocks (until Emacs 25?)
 (setq tls-checktrust 'always)
 (setq tls-program
       (list
        (format "gnutls-cli --x509cafile %s -p %%p %%h"
                (first gnutls-trustfiles))))
 
-(when (fboundp 'gnutls-available-p)
+;; This breaks in Emacs 25.0.92.2
+(when (and (< emacs-major-version 25)
+           (fboundp 'gnutls-available-p))
   (fmakunbound 'gnutls-available-p))
 
 ;; ELPA etc
@@ -249,6 +273,7 @@
 (setq package-archives '(("melpa" . "https://melpa.org/packages/")
                          ("melpa-stable" . "https://stable.melpa.org/packages/")
                          ("gnu" . "https://elpa.gnu.org/packages/")))
+;; (setq package-check-signature nil)
 
 ;;; Sometimes CIDER breaks and I need to retreat to stable
 ;;
@@ -276,6 +301,7 @@
         j0ni-eshell
         j0ni-defuns
         j0ni-misc
+        j0ni-ibuffer
         j0ni-snippets
         j0ni-codestyle
         j0ni-lisp
@@ -299,6 +325,7 @@
         ;; j0ni-jabber
         ;; j0ni-powerline
         j0ni-mail
+        j0ni-twitter
         ))
 
 (dolist (file j0ni-pkg-full)
@@ -314,9 +341,10 @@
   (interactive)
   (cider-connect "localhost" 6005))
 
-;; Emacs disables a bunch of commands by default so as not to confuse
-;; new users. This enables them all. I may regret this, but I've been
-;; using emacs for a long time now.
+(setq-default fill-column 80)
+
+;; Emacs disables a bunch of commands by default so as not to confuse new users.
+;; This enables them all.
 (setq disabled-command-function nil)
 
 ;; Open for business

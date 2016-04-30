@@ -17,7 +17,21 @@
    scala-mode2
    csv-nav
    http-twiddle
-   paredit-everywhere))
+   paredit-everywhere
+   session))
+
+;; manage history better
+(add-hook 'after-init-hook 'session-initialize)
+
+;; time tracking
+(require 'timeclock)
+(define-key ctl-x-map "ti" 'timeclock-in)
+(define-key ctl-x-map "to" 'timeclock-out)
+(define-key ctl-x-map "tc" 'timeclock-change)
+(define-key ctl-x-map "tr" 'timeclock-reread-log)
+(define-key ctl-x-map "tu" 'timeclock-update-mode-line)
+(define-key ctl-x-map "tw" 'timeclock-when-to-leave-string)
+(timeclock-mode-line-display)
 
 ;; Let's see what we're running on
 (setq on-console (null window-system))
@@ -194,31 +208,31 @@
 (global-set-key (kbd "<C-S-left>")   'buf-move-left)
 (global-set-key (kbd "<C-S-right>")  'buf-move-right)
 
-(package-require 'win-switch)
-(setq win-switch-feedback-background-color "DeepPink3")
-(setq win-switch-feedback-foreground-color "black")
-(setq win-switch-window-threshold 1)
-(setq win-switch-idle-time 0.7)
+;; (package-require 'win-switch)
+;; (setq win-switch-feedback-background-color "DeepPink3")
+;; (setq win-switch-feedback-foreground-color "black")
+;; (setq win-switch-window-threshold 1)
+;; (setq win-switch-idle-time 0.7)
 
 ;; disable majority of shortcuts
-(win-switch-set-keys '() 'up)
-(win-switch-set-keys '() 'down)
-(win-switch-set-keys '() 'left)
-(win-switch-set-keys '() 'right)
-(win-switch-set-keys '("o") 'next-window)
-(win-switch-set-keys '("p") 'previous-window)
-(win-switch-set-keys '() 'enlarge-vertically)
-(win-switch-set-keys '() 'shrink-vertically)
-(win-switch-set-keys '() 'shrink-horizontally)
-(win-switch-set-keys '() 'enlarge-horizontally)
-(win-switch-set-keys '() 'other-frame)
-(win-switch-set-keys '("C-g") 'exit)
-(win-switch-set-keys '() 'split-horizontally)
-(win-switch-set-keys '() 'split-vertically)
-(win-switch-set-keys '() 'delete-window)
-(win-switch-set-keys '("\M-\C-g") 'emergency-exit)
+;; (win-switch-set-keys '() 'up)
+;; (win-switch-set-keys '() 'down)
+;; (win-switch-set-keys '() 'left)
+;; (win-switch-set-keys '() 'right)
+;; (win-switch-set-keys '("o") 'next-window)
+;; (win-switch-set-keys '("p") 'previous-window)
+;; (win-switch-set-keys '() 'enlarge-vertically)
+;; (win-switch-set-keys '() 'shrink-vertically)
+;; (win-switch-set-keys '() 'shrink-horizontally)
+;; (win-switch-set-keys '() 'enlarge-horizontally)
+;; (win-switch-set-keys '() 'other-frame)
+;; (win-switch-set-keys '("C-g") 'exit)
+;; (win-switch-set-keys '() 'split-horizontally)
+;; (win-switch-set-keys '() 'split-vertically)
+;; (win-switch-set-keys '() 'delete-window)
+;; (win-switch-set-keys '("\M-\C-g") 'emergency-exit)
 
-(global-set-key (kbd "C-x o") 'win-switch-dispatch)
+;; (global-set-key (kbd "C-x o") 'win-switch-dispatch)
 
 (package-require 'window-number)
 ;; (autoload 'window-number-mode "window-number"
@@ -240,7 +254,8 @@ the mode-line."
 ;; (package-require 'rudel)
 
 (package-require 'beacon)
-(setq beacon-blink-when-point-moves 10)
+(setq beacon-blink-when-point-moves-vertically 35)
+(setq beacon-blink-when-focused t)
 (beacon-mode 1)
 (diminish 'beacon-mode)
 
@@ -259,5 +274,13 @@ the mode-line."
 
 ;; centering text in a single window
 (package-require 'centered-window-mode)
+
+;; dired
+(setq insert-directory-program "/usr/local/bin/gls")
+
+;; sml
+(package-require 'smart-mode-line)
+(setq sml/theme nil)
+(sml/setup)
 
 (provide 'j0ni-misc)

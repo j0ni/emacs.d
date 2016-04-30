@@ -52,7 +52,9 @@
    robe
    ruby-electric
    ruby-tools
-   rbenv))
+   chruby))
+
+(chruby "ruby-2.3.0")
 
 (package-require 'rhtml-mode)
 (add-hook 'rhtml-mode-hook 'turn-off-auto-fill)

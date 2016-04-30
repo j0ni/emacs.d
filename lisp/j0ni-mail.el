@@ -37,6 +37,7 @@
 
 ;; default
 (setq mu4e-sent-folder "/Gmail/sent-mail"
+      mu4e-auto-retrieve-keys t
       mu4e-drafts-folder "/Gmail/drafts"
       mu4e-trash-folder "/Gmail/trash"
       mu4e-update-interval 300

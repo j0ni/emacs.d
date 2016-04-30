@@ -7,8 +7,8 @@
             (when (not (equal 'emacs-lisp-mode major-mode clojure-mode))
               (flycheck-mode))))
 
-(global-set-key (kbd "M-n") 'next-error)
-(global-set-key (kbd "M-p") 'previous-error)
+;; (global-set-key (kbd "M-n") 'next-error)
+;; (global-set-key (kbd "M-p") 'previous-error)
 
 (package-require 'flycheck-color-mode-line)
 
