@@ -8,10 +8,11 @@
                     cider
                     inf-clojure
                     racket-mode
-                    geiser))
+                    ;; geiser
+                    ))
 
 (setq j0ni-lisp-modes '(scheme-mode
-                        geiser
+                        ;; geiser
                         emacs-lisp-mode
                         lisp-mode
                         clojure-mode
@@ -542,8 +543,8 @@ Display the results in a hyperlinked *compilation* buffer."
 ;; Racket
 
 (package-require 'racket-mode)
-(setq racket-racket-program "/Applications/Racket v6.4/bin/racket"
-      racket-raco-program "/Applications/Racket v6.4/bin/raco"
+(setq racket-racket-program "/Applications/Racket v6.5/bin/racket"
+      racket-raco-program "/Applications/Racket v6.5/bin/raco"
       racket-smart-open-bracket-enable t)
 
 (defun my-racket-mode-hook ()
@@ -557,7 +558,10 @@ Display the results in a hyperlinked *compilation* buffer."
 
 ;; Geiser
 
-(setq geiser-active-implementations '(racket chicken))
-(setq geiser-repl-history-filename "~/.emacs.d/geiser-history")
+;; (setq geiser-active-implementations '(racket chicken))
+;; (setq geiser-repl-history-filename "~/.emacs.d/geiser-history")
+
+;; baseline scheme
+(setq scheme-program-name "csi -:c")
 
 (provide 'j0ni-lisp)

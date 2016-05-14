@@ -280,4 +280,17 @@
 (define-key mu4e-compose-mode-map (kbd "C-c C-,") 'sign-off-email)
 (define-key mu4e-compose-mode-map (kbd "C-c ,") 'sign-off-email)
 
+;; Mutt config
+
+(add-hook 'mail-mode-hook 'turn-on-auto-fill)
+(add-hook 'mail-mode-hook 'my-key-bindings)
+
+(defun my-key-bindings ()
+  (define-key mail-mode-map [(control c) (control c)]
+    (lambda ()
+      "Save buffer and send email"
+      (interactive)
+      (save-buffer)
+      (server-edit))))
+
 (provide 'j0ni-mail)

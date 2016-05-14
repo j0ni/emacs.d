@@ -1,6 +1,6 @@
 ;;; j0ni-ivy.el
 
-(packages-require '(swiper flx counsel avy))
+(packages-require '(swiper ivy flx counsel avy))
 
 (ivy-mode 1)
 (setq ivy-use-virtual-buffers t)

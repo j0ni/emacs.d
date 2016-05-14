@@ -38,11 +38,11 @@
 (progn
   ;; (defvar j0ni-font "Anonymous Pro-14")
   ;; (defvar j0ni-linum-font "Anonymous Pro-12")
-  ;; (defvar j0ni-font "Droid Sans Mono Dotted-11")
+  ;; (defvar j0ni-font "Droid Sans Mono Dotted-12")
   ;; (defvar j0ni-linum-font "Droid Sans Mono Dotted-10")
   ;; (defvar j0ni-font "Droid Sans Mono Dotted-14")
   ;; (defvar j0ni-linum-font "Droid Sans Mono Dotted-12")
-  ;; (defvar j0ni-font "PragmataPro-14")
+  ;; (defvar j0ni-font "PragmataPro-12")
   ;; (defvar j0ni-linum-font "PragmataPro-10")
   ;; (defvar j0ni-font "PragmataPro-12")
   ;; (defvar j0ni-linum-font "PragmataPro-10")
@@ -60,15 +60,15 @@
   ;; (defvar j0ni-linum-font "PT Mono-9")
   (defvar j0ni-font "Lucida Grande Mono-12")
   (defvar j0ni-linum-font "Lucida Grande Mono-10")
-  ;; (defvar j0ni-font "Fira Code-13")
+  ;; (defvar j0ni-font "Fira Code-12")
   ;; (defvar j0ni-linum-font "Fira Code-9")
   ;; (defvar j0ni-font "Lucida Grande Mono Nrw-14")
   ;; (defvar j0ni-linum-font "Lucida Grande Mono Nrw-10")
   ;; (defvar j0ni-font "Lucida Grande Mono Nrw-28")
   ;; (defvar j0ni-font "Lucida Grande Mono Nrw-12")
   ;; (defvar j0ni-linum-font "Lucida Grande Mono Nrw-10")
-  ;; (defvar j0ni-font "Lucida Sans Typewriter-11")
-  ;; (defvar j0ni-linum-font "Lucida Sans Typewriter-9")
+  ;; (defvar j0ni-font "Lucida Sans Typewriter-12")
+  ;; (defvar j0ni-linum-font "Lucida Sans Typewriter-10")
   ;; (defvar j0ni-font "Lucida Console-11")
   ;; (defvar j0ni-linum-font "Lucida Console-9")
   ;; use this to play with new fonts - not defined yet so don't leave it
@@ -76,12 +76,13 @@
   (when (fboundp 'apply-font-settings)
     (apply-font-settings)))
 
-(setq-default line-spacing 1)
+(setq-default line-spacing 2)
 
 ;; Themes we want to install
 
 (require 'color-theme-tomorrow)
 ;; (require 'lawrence-theme)
+;; (color-theme-tomorrow-night)
 
 (defvar j0ni-installed-themes
   '(soothe-theme
@@ -97,7 +98,7 @@
     bubbleberry-theme
     darkburn-theme
     gotham-theme
-    ;; solarized-theme
+    solarized-theme
     phoenix-dark-pink-theme
     phoenix-dark-mono-theme
     color-theme-github
@@ -188,7 +189,7 @@
                         (concat-home "Scratch/go/bin")
                         "/usr/local/bin"
                         "/Applications/GHC.app/Contents/bin"
-                        "/Applications/Racket v6.3/bin"))
+                        "/Applications/Racket v6.5/bin"))
 ;; Where are the system Git contrubutions?
 (defvar j0ni-git-contrib-dir "/usr/local/share/emacs/site-lisp/git")
 
