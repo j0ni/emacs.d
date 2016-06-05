@@ -44,10 +44,10 @@
   ;; (defvar j0ni-linum-font "Droid Sans Mono Dotted-12")
   ;; (defvar j0ni-font "PragmataPro-12")
   ;; (defvar j0ni-linum-font "PragmataPro-10")
-  ;; (defvar j0ni-font "PragmataPro-12")
+  ;; (defvar j0ni-font "PragmataPro-14")
   ;; (defvar j0ni-linum-font "PragmataPro-10")
-  ;; (defvar j0ni-font "Consolas-14")
-  ;; (defvar j0ni-linum-font "Consolas-12")
+  ;; (defvar j0ni-font "Consolas-12")
+  ;; (defvar j0ni-linum-font "Consolas-10")
   ;; (defvar j0ni-font "Inconsolata-14")
   ;; (defvar j0ni-linum-font "Inconsolata-12")
   ;; (defvar j0ni-font "Menlo-12")
@@ -58,12 +58,12 @@
   ;; (defvar j0ni-linum-font "DejaVu Sans Mono-12")
   ;; (defvar j0ni-font "PT Mono-12")
   ;; (defvar j0ni-linum-font "PT Mono-9")
-  (defvar j0ni-font "Lucida Grande Mono-12")
-  (defvar j0ni-linum-font "Lucida Grande Mono-10")
+  ;; (defvar j0ni-font "Lucida Grande Mono-12")
+  ;; (defvar j0ni-linum-font "Lucida Grande Mono-10")
   ;; (defvar j0ni-font "Fira Code-12")
   ;; (defvar j0ni-linum-font "Fira Code-9")
-  ;; (defvar j0ni-font "Lucida Grande Mono Nrw-14")
-  ;; (defvar j0ni-linum-font "Lucida Grande Mono Nrw-10")
+  (defvar j0ni-font "Lucida Grande Mono Nrw-14")
+  (defvar j0ni-linum-font "Lucida Grande Mono Nrw-10")
   ;; (defvar j0ni-font "Lucida Grande Mono Nrw-28")
   ;; (defvar j0ni-font "Lucida Grande Mono Nrw-12")
   ;; (defvar j0ni-linum-font "Lucida Grande Mono Nrw-10")
@@ -139,7 +139,9 @@
 ;; (defvar j0ni-theme 'plan9)
 ;; (defvar j0ni-theme 'spacemacs-dark)
 ;; (defvar j0ni-theme 'spacemacs-light)
-;; (defvar j0ni-theme 'sanityinc-tomorrow-night)
+(defvar j0ni-theme 'sanityinc-tomorrow-night)
+;; (defvar j0ni-theme 'sanityinc-tomorrow-floraverse)
+;; (defvar j0ni-theme 'sanityinc-tomorrow-floraverse-boost)
 ;; (defvar j0ni-theme 'bubbleberry)
 ;; (defvar j0ni-theme 'zenburn)
 ;; (defvar j0ni-theme 'lawrence)
@@ -160,7 +162,6 @@
 ;; (defvar j0ni-theme 'ujelly)
 ;; (defvar j0ni-theme 'clues)
 ;; (defvar j0ni-theme 'flatui)
-;; (defvar j0ni-theme 'minimal-light)
 ;; (defvar j0ni-theme 'subatomic)
 
 ;; experimenting with a new thing
@@ -194,11 +195,10 @@
 (defvar j0ni-git-contrib-dir "/usr/local/share/emacs/site-lisp/git")
 
 ;; Org mode locations
-(defvar j0ni-org-dir (concat-home "Dropbox/OrgMode"))
-(defvar j0ni-notebook (concat j0ni-org-dir "/notebook.org"))
+(defvar j0ni-org-dir (concat-home "Dropbox/OrgMode/"))
+(defvar j0ni-notebook (concat j0ni-org-dir "notebook.org"))
 (defvar j0ni-org-dropbox (concat-home "Dropbox/Apps/MobileOrg"))
 (defvar j0ni-agenda-files (list j0ni-notebook))
-(defvar j0ni-org-journal-dir (concat j0ni-org-dir "/Journal"))
 
 ;; Switch some stuff off...
 (dolist (mode '(menu-bar-mode tool-bar-mode scroll-bar-mode))
@@ -224,8 +224,9 @@
   (setenv "PATH" (apply 'concat
                         (append (mapcar (lambda (i) (concat i ":")) paths)
                                 (list (getenv "PATH")))))
-  (dolist (path paths) (when (file-directory-p path)
-                         (add-to-list 'exec-path path))))
+  (dolist (path paths)
+    (when (file-directory-p path)
+      (add-to-list 'exec-path path))))
 
 
 ;; Always ask for y/n keypress instead of typing out 'yes' or 'no'
@@ -327,6 +328,7 @@
         ;; j0ni-powerline
         j0ni-mail
         j0ni-twitter
+        j0ni-sml
         ))
 
 (dolist (file j0ni-pkg-full)

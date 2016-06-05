@@ -3,6 +3,7 @@
 (packages-require '(swiper ivy flx counsel avy))
 
 (ivy-mode 1)
+(diminish 'ivy-mode)
 (setq ivy-use-virtual-buffers t)
 (setq ivy-height 10)
 (setq ivy-length 100)

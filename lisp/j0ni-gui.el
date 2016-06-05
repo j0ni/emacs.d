@@ -1,5 +1,12 @@
 ;;; j0ni-gui.el --- stuff for GUI only
 
+;; I guess this kind of counts as GUI
+(package-require 'eyebrowse)
+(eyebrowse-mode t)
+
+;; In for a penny
+(desktop-save-mode 1)
+
 (when (display-graphic-p)
   (packages-require j0ni-installed-themes)
 
@@ -85,6 +92,10 @@
      ;; '(git-gutter:unchanged ((t (:background "black"))))
      )
 
+    (global-hl-line-mode 1)
+    (set-face-background 'ivy-current-match "grey30")
+    ;; (set-face-background 'ivy-minibuffer-match-face-1 "grey30")
+
     ;; noctilux & fogus hack
     ;; (let ((fg (face-attribute 'font-lock-comment-face :foreground)))
     ;;   (custom-set-faces
@@ -125,8 +136,8 @@
   ;;  '(racket-paren-face ((t (:inherit default))))
   ;;  '(racket-selfeval-face ((t (:inherit default)))))
 
-  (add-to-list 'default-frame-alist '(height . 40))
-  (add-to-list 'default-frame-alist '(width . 120))
+  ;; (add-to-list 'default-frame-alist '(height . 40))
+  ;; (add-to-list 'default-frame-alist '(width . 120))
 
   (apply-font-settings)
   (normalize-fonts)

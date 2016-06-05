@@ -40,7 +40,7 @@
 (add-hook 'after-init-hook 'inf-ruby-switch-setup)
 ;; (add-to-list 'inf-ruby-implementations '("pry-nocolor" . "pry --no-color"))
 ;; (add-to-list 'inf-ruby-implementations '("pry-simple" . "pry --simple-prompt"))
-;; (setq inf-ruby-default-implementation "pry-nocolor")
+(setq inf-ruby-default-implementation "pry")
 (eval-after-load 'inf-ruby-minor-mode
   '(add-to-list 'inf-ruby-implementations '("tux" . "tux")))
 

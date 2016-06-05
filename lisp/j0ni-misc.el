@@ -18,10 +18,17 @@
    csv-nav
    http-twiddle
    paredit-everywhere
-   session))
+   ;; session
+   dumb-jump))
+
+(with-eval-after-load 'dumb-jump-mode
+  (progn
+    (define-key dump-jump-mode-map (kbd "C-M-.") 'dumb-jump-go)
+    (define-key dumb-jump-mode-map (kbd "C-M-,") 'dumb-jump-back)))
+
 
 ;; manage history better
-(add-hook 'after-init-hook 'session-initialize)
+;; (add-hook 'after-init-hook 'session-initialize)
 
 ;; time tracking
 (require 'timeclock)
@@ -31,7 +38,7 @@
 (define-key ctl-x-map "tr" 'timeclock-reread-log)
 (define-key ctl-x-map "tu" 'timeclock-update-mode-line)
 (define-key ctl-x-map "tw" 'timeclock-when-to-leave-string)
-(timeclock-mode-line-display)
+(define-key ctl-x-map "ts" 'timeclock-mode-line-display)
 
 ;; Let's see what we're running on
 (setq on-console (null window-system))
@@ -255,8 +262,9 @@ the mode-line."
 
 (package-require 'beacon)
 (setq beacon-blink-when-point-moves-vertically 35)
+(setq beacon-blink-when-point-moves t)
 (setq beacon-blink-when-focused t)
-(beacon-mode 1)
+;; (beacon-mode 1)
 (diminish 'beacon-mode)
 
 ;; don't allow popup windows

@@ -2,7 +2,8 @@
 
 ;; sml
 (package-require 'smart-mode-line)
-(setq sml/theme 'none)
+(setq sml/theme 'respectful)
+;; (setq sml/theme 'none)
 
 ;; (custom-theme-set-faces
 ;;  '(mode-line-inactive ((t :inverse-video nil)))

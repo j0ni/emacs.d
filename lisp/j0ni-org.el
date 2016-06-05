@@ -7,23 +7,34 @@
 (setq org-directory j0ni-org-dir)
 
 ;; org-journal
-(setq org-journal-dir j0ni-org-journal-dir)
+(setq org-journal-dir (concat j0ni-org-dir "/journal/"))
+(setq org-journal-find-file 'find-file)
+
+;; ensure the journal files get picked up
+(setq org-agenda-file-regexp "\\`[^.].*\\.org'\\|[0-9]+")
 
 ;; Set to the name of the file where new notes will be stored
 (setq org-mobile-inbox-for-pull (concat j0ni-org-dir "/flagged.org"))
 
 ;; Set to <your Dropbox root directory>/MobileOrg.
-;; (setq org-mobile-directory "~/Dropbox/MobileOrg")
 (setq org-mobile-directory j0ni-org-dropbox)
-
-;; Set agenda file(s)
-(setq org-agenda-files (list (concat j0ni-org-dir "/notebook.org")))
 
 ;; track TODO completion
 (setq org-log-done 'time)
 
+;; get a completion note - let's see how easy this is to deal with
+(setq org-log-done 'note)
+
 ;; indentation for org-mode
 (setq org-startup-indented t)
+
+(with-eval-after-load 'org
+  '(progn
+     ;; Set agenda file(s)
+     (add-to-list 'org-agenda-files org-journal-dir)
+
+     (dolist (tag '(circle skalera orchard home))'
+       (add-to-list 'org-tag-persistent-alist tag))))
 
 ;; prevent org-mode hijacking arrow keys
 (setq org-replace-disputed-keys t)

@@ -16,8 +16,8 @@
 (package-require 'indent-guide)
 (eval-after-load 'indent-guide
   '(progn
-     (set-face-foreground 'indent-guide-face "gray80")
-     ;; (set-face-foreground 'indent-guide-face "gray30")
+     ;; (set-face-foreground 'indent-guide-face "gray80")
+     (set-face-foreground 'indent-guide-face "gray30")
      (setq indent-guide-char ":")
      (setq indent-guide-recursive nil)
      (diminish 'indent-guide-mode)))

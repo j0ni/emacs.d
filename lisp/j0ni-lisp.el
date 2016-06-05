@@ -7,18 +7,17 @@
 (packages-require '(clojure-mode
                     cider
                     inf-clojure
-                    racket-mode
-                    ;; geiser
-                    ))
+                    ;; racket-mode
+                    geiser))
 
 (setq j0ni-lisp-modes '(scheme-mode
-                        ;; geiser
+                        ;; racket-mode
+                        geiser
                         emacs-lisp-mode
                         lisp-mode
                         clojure-mode
                         cider-repl-mode
-                        inf-clojure-mode
-                        racket-mode))
+                        inf-clojure-mode))
 
 (defun add-lisp-hook (func)
   (add-hooks j0ni-lisp-modes func))
@@ -37,7 +36,9 @@
 (require 'eval-sexp-fu)
 ;; Highlight sexp under cursor
 ;; (add-lisp-hook 'hl-sexp-mode)
-
+;; (require 'hl-sexp)
+;; (eval-after-load 'hl-sexp-mode
+;;   (set-face-background 'hl-sexp-face "gray95"))
 
 ;; Paredit for all lisps
 (packages-require '(paredit diminish))
@@ -197,7 +198,7 @@
   (cljr-add-keybindings-with-prefix "C-c C-m"))
 
 (setq cljr-suppress-middleware-warnings t)
-(add-hook 'clojure-mode-hook #'my-clojure-mode-hook)
+;; (add-hook 'clojure-mode-hook #'my-clojure-mode-hook)
 
 (eval-after-load 'clojure-mode
   '(progn
@@ -376,12 +377,15 @@
          st))))
 
 ;; (add-hook 'clojure-mode-hook #'inf-clojure-minor-mode)
+(add-hook 'inf-clojure-mode-hook #'eldoc-mode)
+
 
 ;; nRepl/cider
 (package-require 'cider-eval-sexp-fu)
 
-(setq cider-repl-pop-to-buffer-on-connect  t
+(setq cider-repl-pop-to-buffer-on-connect  nil
       cider-repl-use-clojure-font-lock     t
+      cider-font-lock-dynamically          nil
       cider-use-overlays                   t ; display eval results inline
       cider-overlays-use-font-lock         t ; font lock the results
       cider-show-error-buffer              t
@@ -390,6 +394,7 @@
       cider-repl-history-size              10000
       cider-repl-result-prefix             "=> "
       cider-prompt-for-symbol              nil
+      cider-known-endpoints                nil
       ;; cider-known-endpoints                '(("circle-dev" "localhost" "6005")
       ;;                                        ("circle-staging" "localhost" "6002")
       ;;                                        ("circle-prod" "localhost" "6001")
@@ -542,26 +547,29 @@ Display the results in a hyperlinked *compilation* buffer."
 
 ;; Racket
 
-(package-require 'racket-mode)
-(setq racket-racket-program "/Applications/Racket v6.5/bin/racket"
-      racket-raco-program "/Applications/Racket v6.5/bin/raco"
-      racket-smart-open-bracket-enable t)
+;; (package-require 'racket-mode)
+;; (setq racket-racket-program "/Applications/Racket v6.5/bin/racket"
+;;       racket-raco-program "/Applications/Racket v6.5/bin/raco"
+;;       racket-smart-open-bracket-enable t)
 
-(defun my-racket-mode-hook ()
-  (define-key racket-mode-map (kbd "C-M-z") 'racket-align))
+;; (defun my-racket-mode-hook ()
+;;   (define-key racket-mode-map (kbd "C-M-z") 'racket-align))
 
-(defun my-racket-repl-mode-hook ()
-  (enable-paren-handling))
+;; (defun my-racket-repl-mode-hook ()
+;;   (enable-paren-handling))
 
-(add-hook 'racket-mode-hook 'my-racket-mode-hook)
-(add-hook 'racket-repl-mode-hook 'my-racket-repl-mode-hook)
+;; (add-hook 'racket-mode-hook 'my-racket-mode-hook)
+;; (add-hook 'racket-repl-mode-hook 'my-racket-repl-mode-hook)
 
 ;; Geiser
 
-;; (setq geiser-active-implementations '(racket chicken))
-;; (setq geiser-repl-history-filename "~/.emacs.d/geiser-history")
+(setq geiser-active-implementations '(racket chicken guile))
+(setq geiser-repl-history-filename "~/.emacs.d/geiser-history")
 
 ;; baseline scheme
 (setq scheme-program-name "csi -:c")
+
+;; tell scheme-mode about the test extension
+(put 'test-group 'scheme-indent-function 1)
 
 (provide 'j0ni-lisp)
