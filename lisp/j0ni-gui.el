@@ -4,9 +4,6 @@
 (package-require 'eyebrowse)
 (eyebrowse-mode t)
 
-;; In for a penny
-;; (desktop-save-mode 1)
-
 (package-require 'smart-mode-line)
 
 ;; (custom-theme-set-faces
@@ -45,6 +42,20 @@
         '(set-face-foreground 'indent-guide-face "gray30"))))
   (sml/setup))
 
+(setq desktop-dirname             "~/.emacs.d/desktop/"
+      desktop-base-file-name      "emacs.desktop"
+      desktop-base-lock-name      "lock"
+      desktop-path                (list desktop-dirname)
+      desktop-save                t
+      desktop-files-not-to-save   "^$"  ; reload tramp paths
+      desktop-load-locked-desktop nil)
+
+(defun boot-desktop ()
+  "Load the desktop and enable autosaving"
+  (interactive)
+  (let ((desktop-load-locked-desktop "ask"))
+    (desktop-read)
+    (desktop-save-mode 1)))
 
 (when (display-graphic-p)
   (packages-require j0ni-installed-themes)

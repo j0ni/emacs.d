@@ -5,8 +5,8 @@
 (ivy-mode 1)
 (diminish 'ivy-mode)
 (setq ivy-use-virtual-buffers t)
-(setq ivy-height 10)
-(setq ivy-length 100)
+(setq ivy-height 15)
+(setq ivy-length 200)
 ;; (setq ivy-count-format "")
 
 (avy-setup-default)

@@ -33,3 +33,5 @@ private.el
 /.smex-items
 /eshell
 /request
+timelog
+type-break

@@ -206,10 +206,6 @@
 (dolist (mode '(menu-bar-mode tool-bar-mode scroll-bar-mode))
   (when (fboundp mode) (funcall mode -1)))
 
-;; ...and some other stuff on
-;; (dolist (mode '(blink-cursor-mode line-number-mode column-number-mode))
-;;   (when (fboundp mode) (funcall mode +1)))
-
 (setq mac-command-modifier 'meta)
 
 ;; Always ALWAYS use UTF-8
@@ -229,7 +225,6 @@
   (dolist (path paths)
     (when (file-directory-p path)
       (add-to-list 'exec-path path))))
-
 
 ;; Always ask for y/n keypress instead of typing out 'yes' or 'no'
 (defalias 'yes-or-no-p 'y-or-n-p)
@@ -277,6 +272,7 @@
 (setq package-archives '(("melpa" . "https://melpa.org/packages/")
                          ("melpa-stable" . "https://stable.melpa.org/packages/")
                          ("gnu" . "https://elpa.gnu.org/packages/")))
+;; seems to work now?
 ;; (setq package-check-signature nil)
 
 ;;; Sometimes CIDER breaks and I need to retreat to stable
@@ -302,7 +298,8 @@
 (package-require 'diminish)
 
 (setq j0ni-pkg-full
-      '(;; j0ni-evil
+      '(
+        ;; j0ni-evil
         j0ni-esk
         j0ni-eshell
         j0ni-defuns
