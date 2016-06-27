@@ -5,7 +5,7 @@
    go-direx
    go-eldoc
    go-errcheck
-   go-play
+   ;; go-play
    go-snippets))
 
 (setenv "GOPATH" (mapconcat 'identity j0ni-go-path ":"))

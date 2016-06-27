@@ -86,7 +86,7 @@
 
 (defvar j0ni-installed-themes
   '(soothe-theme
-    late-night-theme
+    ;; late-night-theme
     noctilux-theme
     cyberpunk-theme
     subatomic-theme
@@ -101,7 +101,7 @@
     solarized-theme
     phoenix-dark-pink-theme
     phoenix-dark-mono-theme
-    color-theme-github
+    ;; color-theme-github
     clues-theme
     sublime-themes
     flatland-theme
@@ -136,10 +136,10 @@
 ;; (defvar j0ni-theme 'solarized-dark)
 ;; (defvar j0ni-theme 'tomorrow-night-eighties)
 ;; (defvar j0ni-theme 'monochrome)
-;; (defvar j0ni-theme 'plan9)
+(defvar j0ni-theme 'plan9)
 ;; (defvar j0ni-theme 'spacemacs-dark)
 ;; (defvar j0ni-theme 'spacemacs-light)
-(defvar j0ni-theme 'sanityinc-tomorrow-night)
+;; (defvar j0ni-theme 'sanityinc-tomorrow-night)
 ;; (defvar j0ni-theme 'sanityinc-tomorrow-floraverse)
 ;; (defvar j0ni-theme 'sanityinc-tomorrow-floraverse-boost)
 ;; (defvar j0ni-theme 'bubbleberry)
@@ -163,6 +163,8 @@
 ;; (defvar j0ni-theme 'clues)
 ;; (defvar j0ni-theme 'flatui)
 ;; (defvar j0ni-theme 'subatomic)
+
+(defvar j0ni-theme-tint 'light)
 
 ;; experimenting with a new thing
 ;; (global-font-lock-mode -1)
@@ -297,8 +299,10 @@
   (dolist (pkg pkg-list)
     (package-require pkg)))
 
+(package-require 'diminish)
+
 (setq j0ni-pkg-full
-      '(j0ni-evil
+      '(;; j0ni-evil
         j0ni-esk
         j0ni-eshell
         j0ni-defuns
@@ -317,18 +321,17 @@
         j0ni-ruby
         j0ni-markup
         j0ni-markdown
-        j0ni-haskell
-        j0ni-rust
+        ;; j0ni-haskell
+        ;; j0ni-rust
         j0ni-org
         j0ni-python
         j0ni-complete
-        j0ni-gui
-        j0ni-irc
+        ;; j0ni-irc
         ;; j0ni-jabber
         ;; j0ni-powerline
         j0ni-mail
         j0ni-twitter
-        j0ni-sml
+        j0ni-gui
         ))
 
 (dolist (file j0ni-pkg-full)

@@ -14,7 +14,7 @@
    highlight-parentheses
    smart-tab
    csv-mode
-   scala-mode2
+   ;; scala-mode2
    csv-nav
    http-twiddle
    paredit-everywhere
@@ -160,11 +160,11 @@
 (diminish 'which-key-mode)
 
 ;; ack
-(package-require 'ack-and-a-half)
-(defalias 'ack 'ack-and-a-half)
-(defalias 'ack-same 'ack-and-a-half-same)
-(defalias 'ack-find-file 'ack-and-a-half-find-file)
-(defalias 'ack-find-file-same 'ack-and-a-half-find-file-same)
+;; (package-require 'ack-and-a-half)
+;; (defalias 'ack 'ack-and-a-half)
+;; (defalias 'ack-same 'ack-and-a-half-same)
+;; (defalias 'ack-find-file 'ack-and-a-half-find-file)
+;; (defalias 'ack-find-file-same 'ack-and-a-half-find-file-same)
 
 ;; silver searcher
 (package-require 'ag)

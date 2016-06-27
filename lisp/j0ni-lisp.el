@@ -534,9 +534,9 @@ Display the results in a hyperlinked *compilation* buffer."
 
 ;; Slime for common lisp
 
-(load (expand-file-name "~/quicklisp/slime-helper.el"))
-(setq inferior-lisp-program "/usr/local/bin/lisp")
-(slime-setup '(slime-fancy slime-asdf slime-tramp slime-banner))
+;; (load (expand-file-name "~/quicklisp/slime-helper.el"))
+;; (setq inferior-lisp-program "/usr/local/bin/lisp")
+;; (slime-setup '(slime-fancy slime-asdf slime-tramp slime-banner))
 
 (defun slime-repl-mode-custom ()
   (paredit-mode t)

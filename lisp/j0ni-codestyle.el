@@ -11,17 +11,6 @@
 ;; sadly new clojure indentation code slows this down
 ;; (add-hook 'prog-mode-hook (lambda () (aggressive-indent-mode 1)))
 
-;; indent-guide - don't switch it on though, just have it there fore
-;; when I need it
-(package-require 'indent-guide)
-(eval-after-load 'indent-guide
-  '(progn
-     ;; (set-face-foreground 'indent-guide-face "gray80")
-     (set-face-foreground 'indent-guide-face "gray30")
-     (setq indent-guide-char ":")
-     (setq indent-guide-recursive nil)
-     (diminish 'indent-guide-mode)))
-
 ;; Default indentation
 (setq-default tab-width 4)
 ;; Javascript

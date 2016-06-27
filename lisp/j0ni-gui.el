@@ -5,7 +5,46 @@
 (eyebrowse-mode t)
 
 ;; In for a penny
-(desktop-save-mode 1)
+;; (desktop-save-mode 1)
+
+(package-require 'smart-mode-line)
+
+;; (custom-theme-set-faces
+;;  '(mode-line-inactive ((t :inverse-video nil)))
+;;  '(mode-line     ((t :inverse-video nil)))
+;;  '(sml/global    ((t :inherit font-lock-preprocessor-face)))
+;;  '(sml/filename  ((t :inherit mode-line-buffer-id)))
+;;  '(sml/prefix    ((t :inherit (font-lock-variable-name-face sml/global))))
+;;  '(sml/read-only ((t :inherit (font-lock-type-face sml/not-modified))))
+;;  '(sml/modes     ((t :foreground nil :inherit sml/filename :weight
+;;  normal))))
+
+;; indent-guide - don't switch it on though, just have it there fore
+;; when I need it
+(package-require 'indent-guide)
+(eval-after-load 'indent-guide
+  '(progn
+     (setq indent-guide-char ":")
+     (setq indent-guide-recursive nil)
+     (diminish 'indent-guide-mode)))
+
+;; I keep switching between dark and light themes; dark is nice, there are
+;; more usable variants, but light is better for my eyes I think. Light looks
+;; a bit garish with flux. So let's put the things I always have to change in
+;; one place and make it magic.
+(defun customize-light-or-dark (tint)
+  (if (eq 'light tint)
+      (progn
+        (setq sml/theme 'light)
+        (eval-after-load 'indent-guide
+          '(set-face-foreground 'indent-guide-face "gray80")))
+    ;; default to dark
+    (progn
+      (setq sml/theme 'respectful)
+      (eval-after-load 'indent-guide
+        '(set-face-foreground 'indent-guide-face "gray30"))))
+  (sml/setup))
+
 
 (when (display-graphic-p)
   (packages-require j0ni-installed-themes)
@@ -40,29 +79,29 @@
   (require 'color)
 
   (when (boundp 'j0ni-theme)
-    ;;; Solarized specific tweaks
+    ;; Solarized specific tweaks
 
-    ;; ;; Don't change the font for some headings and titles
-    ;; (setq solarized-use-variable-pitch nil)
+    ;; Don't change the font for some headings and titles
+    (setq solarized-use-variable-pitch nil)
 
-    ;; ;; make the modeline high contrast
-    ;; ;; (setq solarized-high-contrast-mode-line t)
+    ;; make the modeline high contrast
+    ;; (setq solarized-high-contrast-mode-line t)
 
-    ;; ;; Use less bolding
-    ;; (setq solarized-use-less-bold t)
+    ;; Use less bolding
+    (setq solarized-use-less-bold t)
 
-    ;; ;; Use less colors for indicators such as git:gutter, flycheck and similar
-    ;; ;; (setq solarized-emphasize-indicators nil)
+    ;; Use less colors for indicators such as git:gutter, flycheck and similar
+    ;; (setq solarized-emphasize-indicators nil)
 
-    ;; ;; Don't change size of org-mode headlines (but keep other size-changes)
-    ;; (setq solarized-scale-org-headlines nil)
+    ;; Don't change size of org-mode headlines (but keep other size-changes)
+    (setq solarized-scale-org-headlines nil)
 
     ;; ;; Avoid all font-size changes
-    ;; (setq solarized-height-minus-1 1)
-    ;; (setq solarized-height-plus-1 1)
-    ;; (setq solarized-height-plus-2 1)
-    ;; (setq solarized-height-plus-3 1)
-    ;; (setq solarized-height-plus-4 1)
+    (setq solarized-height-minus-1 1)
+    (setq solarized-height-plus-1 1)
+    (setq solarized-height-plus-2 1)
+    (setq solarized-height-plus-3 1)
+    (setq solarized-height-plus-4 1)
 
     (load-theme j0ni-theme)
 
@@ -93,7 +132,7 @@
      )
 
     (global-hl-line-mode 1)
-    (set-face-background 'ivy-current-match "grey30")
+    ;; (set-face-background 'ivy-current-match "grey30")
     ;; (set-face-background 'ivy-minibuffer-match-face-1 "grey30")
 
     ;; noctilux & fogus hack
@@ -107,7 +146,14 @@
     ;; (let ((fg (face-attribute 'font-lock-variable-name-face :foreground)))
     ;;   (custom-set-faces
     ;;    `(js2-function-param ((t (:foreground ,fg))))))
+
+    (apply-font-settings)
+    (normalize-fonts)
+
     )
+
+  (when (boundp 'j0ni-theme-tint)
+    (customize-light-or-dark j0ni-theme-tint))
 
   ;; company-mode hack
   ;; (let ((bg (face-attribute 'default :background)))
@@ -121,15 +167,12 @@
 
   ;; clues maybe needs this
   ;;
-  ;; (custom-set-faces
-  ;;  `(mode-line ((t (:foreground "#777777" :background "#111111" :box nil :height 140 :font ,j0ni-font))))
-  ;;  ;; `(highlight-symbol-face ((t (:underline t :background "orange"))))
-  ;;  )
-  ;; (custom-set-faces
-  ;;  `(mode-line ((t (:height 140 :font ,j0ni-font)))))
-  ;; (custom-set-faces
-  ;;  `(mode-line ((t (:foreground black  :background "#333333" :box
-  ;;nil :height 140 :font ,j0ni-font)))))
+  ;; (custom-set-faces `(mode-line ((t (:foreground "#777777" :background
+  ;;  "#111111" :box nil :height 140 :font ,j0ni-font)))) ;;
+  ;;  `(highlight-symbol-face ((t (:underline t :background "orange")))) )
+  ;;  (custom-set-faces `(mode-line ((t (:height 140 :font ,j0ni-font)))))
+  ;;  (custom-set-faces `(mode-line ((t (:foreground black :background
+  ;;  "#333333" :box nil :height 140 :font ,j0ni-font)))))
 
   ;; (custom-set-faces
   ;;  '(racket-keyword-argument-face ((t (:inherit default))))
@@ -139,8 +182,6 @@
   ;; (add-to-list 'default-frame-alist '(height . 40))
   ;; (add-to-list 'default-frame-alist '(width . 120))
 
-  (apply-font-settings)
-  (normalize-fonts)
   ;; (set-mode-line-box)
   ;; for native fullscreen icon
   (menu-bar-mode +1)
