@@ -62,7 +62,7 @@
   ;; (defvar j0ni-linum-font "Lucida Grande Mono-10")
   ;; (defvar j0ni-font "Fira Code-12")
   ;; (defvar j0ni-linum-font "Fira Code-9")
-  (defvar j0ni-font "Lucida Grande Mono Nrw-14")
+  (defvar j0ni-font "Lucida Grande Mono Nrw-16")
   (defvar j0ni-linum-font "Lucida Grande Mono Nrw-10")
   ;; (defvar j0ni-font "Lucida Grande Mono Nrw-28")
   ;; (defvar j0ni-font "Lucida Grande Mono Nrw-12")
@@ -121,7 +121,8 @@
     material-theme
     color-theme-sanityinc-tomorrow
     base16-theme
-    goose-theme))
+    goose-theme
+    anti-zenburn-theme))
 
 ;; Theme I like at the moment
 ;; (defvar j0ni-theme 'phoenix-dark-pink)
@@ -136,10 +137,11 @@
 ;; (defvar j0ni-theme 'solarized-dark)
 ;; (defvar j0ni-theme 'tomorrow-night-eighties)
 ;; (defvar j0ni-theme 'monochrome)
-(defvar j0ni-theme 'plan9)
+;; (defvar j0ni-theme 'plan9)
+;; (defvar j0ni-theme 'anti-zenburn)
 ;; (defvar j0ni-theme 'spacemacs-dark)
 ;; (defvar j0ni-theme 'spacemacs-light)
-;; (defvar j0ni-theme 'sanityinc-tomorrow-night)
+(defvar j0ni-theme 'sanityinc-tomorrow-night)
 ;; (defvar j0ni-theme 'sanityinc-tomorrow-floraverse)
 ;; (defvar j0ni-theme 'sanityinc-tomorrow-floraverse-boost)
 ;; (defvar j0ni-theme 'bubbleberry)
@@ -164,7 +166,8 @@
 ;; (defvar j0ni-theme 'flatui)
 ;; (defvar j0ni-theme 'subatomic)
 
-(defvar j0ni-theme-tint 'light)
+;; 'dark 'mid 'light
+(defvar j0ni-theme-tint 'dark)
 
 ;; experimenting with a new thing
 ;; (global-font-lock-mode -1)

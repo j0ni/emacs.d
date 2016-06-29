@@ -30,16 +30,24 @@
 ;; a bit garish with flux. So let's put the things I always have to change in
 ;; one place and make it magic.
 (defun customize-light-or-dark (tint)
-  (if (eq 'light tint)
-      (progn
-        (setq sml/theme 'light)
-        (eval-after-load 'indent-guide
-          '(set-face-foreground 'indent-guide-face "gray80")))
-    ;; default to dark
+  (cond
+   ((eq 'light tint)
+    (progn
+      (setq sml/theme 'light)
+      (eval-after-load 'indent-guide
+        '(set-face-foreground 'indent-guide-face "gray80"))))
+
+   ((eq 'mid tint)
     (progn
       (setq sml/theme 'respectful)
       (eval-after-load 'indent-guide
-        '(set-face-foreground 'indent-guide-face "gray30"))))
+        '(set-face-foreground 'indent-guide-face "gray70"))))
+
+   (t
+    (progn ;; default to dark
+      (setq sml/theme 'respectful)
+      (eval-after-load 'indent-guide
+        '(set-face-foreground 'indent-guide-face "gray30")))))
   (sml/setup))
 
 (setq desktop-dirname             "~/.emacs.d/desktop/"
@@ -143,7 +151,8 @@
      )
 
     (global-hl-line-mode 1)
-    ;; (set-face-background 'ivy-current-match "grey30")
+    ;; this is my ivy hack for anti-zenburn
+    ;; (set-face-background 'ivy-current-match "grey90")
     ;; (set-face-background 'ivy-minibuffer-match-face-1 "grey30")
 
     ;; noctilux & fogus hack
