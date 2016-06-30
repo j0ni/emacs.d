@@ -1,5 +1,9 @@
 ;;; init.el --- new init, based on Bodil Stokke's
 
+(defun insert-shrug ()
+  (interactive)
+  (insert "¯\\_(ツ)_/¯"))
+
 ;; Get here more easily
 (setq local-function-key-map (delq '(kp-tab . [9]) local-function-key-map))
 (global-set-key (kbd "C-c C-i") 'open-init-file)
