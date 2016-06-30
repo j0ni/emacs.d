@@ -1,6 +1,6 @@
 ;;; j0ni-ivy.el
 
-(packages-require '(swiper ivy flx counsel avy))
+(packages-require '(swiper ivy flx counsel avy smex))
 
 (ivy-mode 1)
 (diminish 'ivy-mode)
