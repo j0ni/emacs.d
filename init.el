@@ -48,8 +48,8 @@
   ;; (defvar j0ni-linum-font "Droid Sans Mono Dotted-12")
   ;; (defvar j0ni-font "PragmataPro-12")
   ;; (defvar j0ni-linum-font "PragmataPro-10")
-  ;; (defvar j0ni-font "PragmataPro-14")
-  ;; (defvar j0ni-linum-font "PragmataPro-10")
+  ;; (defvar j0ni-font "PragmataPro Mono-14")
+  ;; (defvar j0ni-linum-font "PragmataPro Mono-12")
   ;; (defvar j0ni-font "Consolas-12")
   ;; (defvar j0ni-linum-font "Consolas-10")
   ;; (defvar j0ni-font "Inconsolata-14")
@@ -145,7 +145,7 @@
 ;; (defvar j0ni-theme 'anti-zenburn)
 ;; (defvar j0ni-theme 'spacemacs-dark)
 ;; (defvar j0ni-theme 'spacemacs-light)
-(defvar j0ni-theme 'sanityinc-tomorrow-night)
+;; (defvar j0ni-theme 'sanityinc-tomorrow-night)
 ;; (defvar j0ni-theme 'sanityinc-tomorrow-floraverse)
 ;; (defvar j0ni-theme 'sanityinc-tomorrow-floraverse-boost)
 ;; (defvar j0ni-theme 'bubbleberry)
@@ -171,7 +171,7 @@
 ;; (defvar j0ni-theme 'subatomic)
 
 ;; 'dark 'mid 'light
-(defvar j0ni-theme-tint 'dark)
+(defvar j0ni-theme-tint 'light)
 
 ;; experimenting with a new thing
 ;; (global-font-lock-mode -1)
@@ -197,9 +197,7 @@
                         (concat-home ".cargo/bin")
                         (concat-home "Scratch/clojure/leiningen")
                         (concat-home "Scratch/go/bin")
-                        "/usr/local/bin"
-                        "/Applications/GHC.app/Contents/bin"
-                        "/Applications/Racket v6.5/bin"))
+                        "/usr/local/bin"))
 ;; Where are the system Git contrubutions?
 (defvar j0ni-git-contrib-dir "/usr/local/share/emacs/site-lisp/git")
 

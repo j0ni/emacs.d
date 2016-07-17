@@ -33,7 +33,9 @@
   (cond
    ((eq 'light tint)
     (progn
-      (setq sml/theme 'light)
+      (if (boundp 'j0ni-theme)
+          (setq sml/theme 'light)
+        (setq sml/theme nil))
       (eval-after-load 'indent-guide
         '(set-face-foreground 'indent-guide-face "gray80"))))
 
@@ -45,10 +47,13 @@
 
    (t
     (progn ;; default to dark
-      (setq sml/theme 'respectful)
+      (if (eq 'solarized-dark j0ni-theme)
+          (setq sml/theme nil)
+        (setq sml/theme 'respectful))
       (eval-after-load 'indent-guide
         '(set-face-foreground 'indent-guide-face "gray30")))))
-  (sml/setup))
+  (sml/setup)
+  (apply-font-settings))
 
 (setq desktop-dirname             "~/.emacs.d/desktop/"
       desktop-base-file-name      "emacs.desktop"
@@ -78,9 +83,11 @@
   (defun apply-font-settings ()
     "Apply font choices across the board."
     (interactive)
-    (set-face-attribute 'default nil :font j0ni-font)
+    (set-face-attribute 'default nil :font (font-spec :name j0ni-font
+                                                      :antialias t))
     (eval-after-load 'linum
-      '(set-face-attribute 'linum nil :font j0ni-linum-font)))
+      '(set-face-attribute 'linum nil :font (font-spec :name j0ni-font
+                                                       :antialias t))))
 
   (defun set-mode-line-box ()
     "Makes a nice popout box around the mode line."
