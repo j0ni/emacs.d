@@ -288,7 +288,7 @@ the mode-line."
 
 ;; sml
 (package-require 'smart-mode-line)
-(setq sml/theme nil)
-(sml/setup)
+;; (setq sml/theme nil)
+;; (sml/setup)
 
 (provide 'j0ni-misc)

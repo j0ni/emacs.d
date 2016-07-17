@@ -47,7 +47,9 @@
 
    (t
     (progn ;; default to dark
-      (if (eq 'solarized-dark j0ni-theme)
+      (if (seq-some (lambda (theme) (eq 'theme j0ni-theme))
+                    '(base16-greenscreen-dark
+                      solarized-theme))
           (setq sml/theme nil)
         (setq sml/theme 'respectful))
       (eval-after-load 'indent-guide

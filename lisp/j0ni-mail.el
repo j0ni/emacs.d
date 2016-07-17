@@ -42,7 +42,9 @@
       mu4e-trash-folder "/Gmail/trash"
       mu4e-update-interval 300
       mu4e-confirm-quit nil
-      mu4e-use-fancy-chars nil ; they actually look shit
+      mu4e-use-fancy-chars nil  ; they actually look shit
+      ;; mu4e-html2text-command "pandoc -f html -t markdown"
+      mu4e-html2text-command "w3m -dump -T text/html"
       ;; mu4e-html2text-command "html2text -utf8 -width 72"
       mu4e-headers-sort-direction 'ascending
       mu4e-headers-skip-duplicates t

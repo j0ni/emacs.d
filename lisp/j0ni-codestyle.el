@@ -30,8 +30,8 @@
 (setq-default css-indent-offset 2)
 
 ;; Default formatting style for C based modes
-(setq c-default-style "java")
-(setq-default c-basic-offset 2)
+(setq c-default-style "bsd")
+(setq-default c-basic-offset 4)
 
 ;; I mean, _seriously_...
 (setq sentence-end-double-space nil)
