@@ -143,7 +143,7 @@
 ;; (defvar j0ni-theme 'monochrome)
 ;; (defvar j0ni-theme 'plan9)
 ;; (defvar j0ni-theme 'anti-zenburn)
-;; (defvar j0ni-theme 'spacemacs-dark)
+(defvar j0ni-theme 'spacemacs-dark)
 ;; (defvar j0ni-theme 'spacemacs-light)
 ;; (defvar j0ni-theme 'sanityinc-tomorrow-night)
 ;; (defvar j0ni-theme 'sanityinc-tomorrow-floraverse)
@@ -171,7 +171,7 @@
 ;; (defvar j0ni-theme 'subatomic)
 
 ;; 'dark 'mid 'light
-(defvar j0ni-theme-tint 'light)
+(defvar j0ni-theme-tint 'dark)
 
 ;; experimenting with a new thing
 ;; (global-font-lock-mode -1)

@@ -28,7 +28,8 @@
       js2-cleanup-whitespace t
       js2-include-node-externs t
       js2-pretty-multiline-declarations t
-      js2-allow-keywords-as-property-names t)
+      js2-allow-keywords-as-property-names t
+      js2-mode-assume-strict t)
 
 (setq-default js2-show-parse-errors nil)
 (setq-default js2-strict-inconsistent-return-warning nil)
@@ -74,12 +75,13 @@
 (autoload 'js2-mode "js2-mode" nil t)
 ;; (autoload 'autopair-mode "autopair" nil t)
 
-(add-to-list 'auto-mode-alist '("\\.js$" . js2-mode))
-(add-to-list 'auto-mode-alist '("\\.ejs$" . js2-mode))
+(add-to-list 'auto-mode-alist '("\\.jsx?$" . js2-jsx-mode))
+(add-to-list 'auto-mode-alist '("\\.ejs$" . js2-jsx-mode))
+
+(add-to-list 'interpreter-mode-alist '("node" . js2-jsx-mode))
 
 (package-require 'json-mode)
 
-;; Use regular js-mode for json
 (add-to-list 'auto-mode-alist '("\\.json$" . json-mode))
 (add-to-list 'auto-mode-alist '("\\.amethyst$" . json-mode))
 
