@@ -58,15 +58,15 @@
   ;; (defvar j0ni-linum-font "Menlo-10")
   ;; (defvar j0ni-font "Menlo-14")
   ;; (defvar j0ni-linum-font "Menlo-12")
-  ;; (defvar j0ni-font "DejaVu Sans Mono-14")
-  ;; (defvar j0ni-linum-font "DejaVu Sans Mono-12")
+  ;; (defvar j0ni-font "DejaVu Sans Mono-10")
+  ;; (defvar j0ni-linum-font "DejaVu Sans Mono-8")
   ;; (defvar j0ni-font "PT Mono-12")
   ;; (defvar j0ni-linum-font "PT Mono-9")
   ;; (defvar j0ni-font "Lucida Grande Mono-12")
   ;; (defvar j0ni-linum-font "Lucida Grande Mono-10")
   ;; (defvar j0ni-font "Fira Code-12")
   ;; (defvar j0ni-linum-font "Fira Code-9")
-  (defvar j0ni-font "Lucida Grande Mono Nrw-16")
+  (defvar j0ni-font "Lucida Grande Mono Nrw-11")
   (defvar j0ni-linum-font "Lucida Grande Mono Nrw-10")
   ;; (defvar j0ni-font "Lucida Grande Mono Nrw-28")
   ;; (defvar j0ni-font "Lucida Grande Mono Nrw-12")
@@ -80,7 +80,7 @@
   (when (fboundp 'apply-font-settings)
     (apply-font-settings)))
 
-(setq-default line-spacing 2)
+(setq-default line-spacing 1)
 
 ;; Themes we want to install
 
@@ -143,7 +143,7 @@
 ;; (defvar j0ni-theme 'monochrome)
 ;; (defvar j0ni-theme 'plan9)
 ;; (defvar j0ni-theme 'anti-zenburn)
-(defvar j0ni-theme 'spacemacs-dark)
+;; (defvar j0ni-theme 'spacemacs-dark)
 ;; (defvar j0ni-theme 'spacemacs-light)
 ;; (defvar j0ni-theme 'sanityinc-tomorrow-night)
 ;; (defvar j0ni-theme 'sanityinc-tomorrow-floraverse)
@@ -163,6 +163,7 @@
 ;; (defvar j0ni-theme 'fogus)
 ;; (defvar j0ni-theme 'gotham)
 ;; (defvar j0ni-theme 'moe-dark)
+;; (defvar j0ni-theme 'moe-light)
 ;; (defvar j0ni-theme 'cyberpunk)
 ;; (defvar j0ni-theme 'noctilux)
 ;; (defvar j0ni-theme 'ujelly)
@@ -171,7 +172,7 @@
 ;; (defvar j0ni-theme 'subatomic)
 
 ;; 'dark 'mid 'light
-(defvar j0ni-theme-tint 'dark)
+(defvar j0ni-theme-tint 'light)
 
 ;; experimenting with a new thing
 ;; (global-font-lock-mode -1)
@@ -313,6 +314,7 @@
         j0ni-snippets
         j0ni-codestyle
         j0ni-lisp
+        j0ni-elixir
         ;; j0ni-flycheck
         ;; j0ni-ido
         j0ni-ivy
@@ -328,7 +330,7 @@
         j0ni-org
         j0ni-python
         j0ni-complete
-        ;; j0ni-irc
+        j0ni-irc
         ;; j0ni-jabber
         ;; j0ni-powerline
         j0ni-mail

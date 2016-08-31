@@ -14,7 +14,7 @@
          :pass ,proxy-password)
         ("Freenode"
          :nick "j0nii"
-         :channels ("#emacs" "#clojure" "#lisp" "#clojure-emacs" "#clojureTO")
+         :channels ("#clojure" "#elixir-lang" "#lisp" "#clojure-emacs" "#clojureTO" "#emacs")
          :nickserv-password ,freenode-password)
         ("GIMPNet"
          :host "irc.gimp.ca"
@@ -34,13 +34,11 @@
          :pass ,lollyshouse-slack
          :use-tls t)))
 
-(setq tracking-ignored-buffers '(("#emacs" circe-highlight-nick-face)
-                                 ("#clojure-emacs" circe-highlight-nick-face)
+(setq tracking-ignored-buffers '(("#clojure-emacs" circe-highlight-nick-face)
                                  ("#clojure" circe-highlight-nick-face)
+                                 ("#elixir-lang")
                                  ("#lisp" circe-highlight-nick-face)
                                  ("#emacs" circe-highlight-nick-face)
-                                 ("#mongoose" circe-highlight-nick-face)
-                                 ("#overtone" circe-highlight-nick-face)
                                  ("#compojure" circe-highlight-nick-face)
                                  ("#Node.js" circe-highlight-nick-face)))
 

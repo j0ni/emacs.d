@@ -29,12 +29,20 @@
 ;; more usable variants, but light is better for my eyes I think. Light looks
 ;; a bit garish with flux. So let's put the things I always have to change in
 ;; one place and make it magic.
+(defun theme-is-one-of (themes)
+  (seq-some (lambda (theme) (eq theme j0ni-theme)) themes))
+
 (defun customize-light-or-dark (tint)
   (cond
    ((eq 'light tint)
     (progn
       (if (boundp 'j0ni-theme)
-          (setq sml/theme 'light)
+          (if (theme-is-one-of '(moe-light
+                                 moe-dark
+                                 moe
+                                 moe-theme))
+              (setq sml/theme nil)
+            (setq sml/theme 'light))
         (setq sml/theme nil))
       (eval-after-load 'indent-guide
         '(set-face-foreground 'indent-guide-face "gray80"))))
@@ -47,9 +55,8 @@
 
    (t
     (progn ;; default to dark
-      (if (seq-some (lambda (theme) (eq 'theme j0ni-theme))
-                    '(base16-greenscreen-dark
-                      solarized-theme))
+      (if (theme-is-one-of '(base16-greenscreen-dark
+                             solarized-theme))
           (setq sml/theme nil)
         (setq sml/theme 'respectful))
       (eval-after-load 'indent-guide

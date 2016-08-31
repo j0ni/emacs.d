@@ -100,7 +100,7 @@
                         ?S)))
 
 (setq message-send-mail-function 'message-send-mail-with-sendmail
-      sendmail-program "/usr/local/bin/msmtp"
+      sendmail-program "/usr/bin/msmtp"
       message-sendmail-envelope-from 'header)
 
 ;; Borrowed and tweaked from http://zmalltalker.com/linux/mu.html:
