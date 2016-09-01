@@ -220,7 +220,7 @@
 
   ;; (set-mode-line-box)
   ;; for native fullscreen icon
-  (menu-bar-mode +1)
+  ;; (menu-bar-mode +1)
   ;; (remove-hook 'prog-mode-hook 'esk-turn-on-hl-line-mode)
   ;; (remove-hook 'text-mode-hook 'esk-turn-on-hl-line-mode)
 
