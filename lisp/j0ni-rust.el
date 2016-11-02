@@ -46,8 +46,12 @@
 ;; rustfmt is in its infancy - there's a lot of discussion about
 ;; specific brokenness here:
 ;;   https://users.rust-lang.org/t/try-rustfmt-on-your-code/3588
+;; and here:
+;;   https://users.rust-lang.org/t/please-help-test-rustfmt/5386
+;; and of course here:
+;;   https://github.com/rust-lang-nursery/rustfmt/issues
 ;; when its settled, we can have it run like gofmt
 
-(add-hook 'rust-mode-hook #'rustfmt-enable-on-save)
+;; (add-hook 'rust-mode-hook #'rustfmt-enable-on-save)
 
 (provide 'j0ni-rust)
