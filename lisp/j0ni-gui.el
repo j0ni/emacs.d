@@ -25,6 +25,8 @@
      (setq indent-guide-recursive nil)
      (diminish 'indent-guide-mode)))
 
+(require 'color)
+
 ;; I keep switching between dark and light themes; dark is nice, there are
 ;; more usable variants, but light is better for my eyes I think. Light looks
 ;; a bit garish with flux. So let's put the things I always have to change in
@@ -37,12 +39,15 @@
    ((eq 'light tint)
     (progn
       (if (boundp 'j0ni-theme)
-          (if (theme-is-one-of '(moe-light
-                                 moe-dark
-                                 moe
-                                 moe-theme))
-              (setq sml/theme nil)
-            (setq sml/theme 'light))
+          (cond ((theme-is-one-of '(moe-light
+                                    moe-dark
+                                    moe
+                                    moe-theme))
+                 (setq sml/theme nil))
+                ((theme-is-one-of '(spacemacs-light))
+                 (setq sml/theme 'respectful))
+                (t
+                 (setq sml/theme 'light)))
         (setq sml/theme nil))
       (eval-after-load 'indent-guide
         '(set-face-foreground 'indent-guide-face "gray80"))))
@@ -79,16 +84,17 @@
     (desktop-read)
     (desktop-save-mode 1)))
 
+(packages-require j0ni-installed-themes)
+(require 'moe-theme)
+(setq moe-theme-highlight-buffer-id t)
+
+;; (moe-theme-set-color 'white)
+;; (moe-dark)
+;; (require 'lawrence-theme)
+;; (blink-cursor-mode +1)
+
 (when (display-graphic-p)
-  (packages-require j0ni-installed-themes)
-
-  (require 'moe-theme)
-  ;; (moe-theme-set-color 'white)
-  ;; (moe-dark)
-  ;; (require 'lawrence-theme)
-  ;; (blink-cursor-mode +1)
-
-  ;; first things first
+  ;; Only define these fns if we have a GUI, but make them reusable
   (defun apply-font-settings ()
     "Apply font choices across the board."
     (interactive)
@@ -108,88 +114,72 @@
     "Removes underlining and bold decorations."
     (interactive)
     (mapc
-     (lambda (face) (set-face-attribute face nil :weight 'normal :underline nil))
+     (lambda (face) (set-face-attribute face nil
+                                   :weight 'normal
+                                   :underline nil))
      (face-list)))
 
-  (require 'color)
+  ;; run the setup
+  (apply-font-settings)
+  (normalize-fonts))
 
-  (when (boundp 'j0ni-theme)
-    ;; Solarized specific tweaks
+;; (package-require 'nyan-mode)
+;; doesn't do small very well
+;; (setq nyan-bar-length 24)
+;; (nyan-mode 1)
 
-    ;; Don't change the font for some headings and titles
-    (setq solarized-use-variable-pitch nil)
+(when (boundp 'j0ni-theme)
+  ;; Solarized specific tweaks
 
-    ;; make the modeline high contrast
-    ;; (setq solarized-high-contrast-mode-line t)
+  ;; Don't change the font for some headings and titles
+  (setq solarized-use-variable-pitch nil)
 
-    ;; Use less bolding
-    (setq solarized-use-less-bold t)
+  ;; make the modeline high contrast
+  ;; (setq solarized-high-contrast-mode-line t)
 
-    ;; Use less colors for indicators such as git:gutter, flycheck and similar
-    ;; (setq solarized-emphasize-indicators nil)
+  ;; Use less bolding
+  (setq solarized-use-less-bold t)
 
-    ;; Don't change size of org-mode headlines (but keep other size-changes)
-    (setq solarized-scale-org-headlines nil)
+  ;; Use less colors for indicators such as git:gutter, flycheck and similar
+  ;; (setq solarized-emphasize-indicators nil)
 
-    ;; ;; Avoid all font-size changes
-    (setq solarized-height-minus-1 1)
-    (setq solarized-height-plus-1 1)
-    (setq solarized-height-plus-2 1)
-    (setq solarized-height-plus-3 1)
-    (setq solarized-height-plus-4 1)
+  ;; Don't change size of org-mode headlines (but keep other size-changes)
+  (setq solarized-scale-org-headlines nil)
 
-    (load-theme j0ni-theme)
+  ;; ;; Avoid all font-size changes
+  (setq solarized-height-minus-1 1)
+  (setq solarized-height-plus-1 1)
+  (setq solarized-height-plus-2 1)
+  (setq solarized-height-plus-3 1)
+  (setq solarized-height-plus-4 1)
 
-    ;; (set-face-foreground 'show-paren-match-face "red")
-    ;; (set-face-background 'show-paren-match-face "grey30")
+  ;; (set-face-foreground 'show-paren-match-face "red")
+  ;; (set-face-background 'show-paren-match-face "grey30")
 
-    ;; some customizations
-    ;; (set-face-attribute 'eval-sexp-fu-flash ((t (:background "#101010" :foreground "white"))))
-    ;; (set-face-attribute 'nrepl-eval-sexp-fu-flash ((t (:background "#101010" :foreground "white"))))
-    (custom-set-faces
-     ;; '(rainbow-delimiters-depth-9-face ((t (:foreground "#7fff7f"))))
-     ;; '(rainbow-delimiters-depth-8-face ((t (:foreground "#5fdf5f"))))
-     ;; '(rainbow-delimiters-depth-7-face ((t (:foreground "#3fbf3f"))))
-     ;; '(rainbow-delimiters-depth-6-face ((t (:foreground "#1f9f1f"))))
-     ;; '(rainbow-delimiters-depth-5-face ((t (:foreground "#7fff7f"))))
-     ;; '(rainbow-delimiters-depth-4-face ((t (:foreground "#5fdf5f"))))
-     ;; '(rainbow-delimiters-depth-3-face ((t (:foreground "#3fbf3f"))))
-     ;; '(rainbow-delimiters-depth-2-face ((t (:foreground "#1f9f1f"))))
-     ;; '(rainbow-delimiters-depth-1-face ((t (:foreground "#7fff7f"))))
-     ;; '(eval-sexp-fu-flash ((t (:foreground "green"))))
-     ;; '(nrepl-eval-sexp-fu-flash ((t (:foreground "green"))))
-     ;; '(hl-sexp-face ((t (:background "black"))))
-     ;; '(git-gutter:separator ((t (:background "black"))))
-     ;; '(git-gutter:modified ((t (:background "black"))))
-     ;; '(git-gutter:added ((t (:background "black"))))
-     ;; '(git-gutter:deleted ((t (:background "black"))))
-     ;; '(git-gutter:unchanged ((t (:background "black"))))
-     )
+  ;; some customizations
+  ;; (set-face-attribute 'eval-sexp-fu-flash ((t (:background "#101010" :foreground "white"))))
+  ;; (set-face-attribute 'nrepl-eval-sexp-fu-flash ((t (:background "#101010" :foreground "white"))))
+  (custom-set-faces
+   ;; '(rainbow-delimiters-depth-9-face ((t (:foreground "#7fff7f"))))
+   ;; '(rainbow-delimiters-depth-8-face ((t (:foreground "#5fdf5f"))))
+   ;; '(rainbow-delimiters-depth-7-face ((t (:foreground "#3fbf3f"))))
+   ;; '(rainbow-delimiters-depth-6-face ((t (:foreground "#1f9f1f"))))
+   ;; '(rainbow-delimiters-depth-5-face ((t (:foreground "#7fff7f"))))
+   ;; '(rainbow-delimiters-depth-4-face ((t (:foreground "#5fdf5f"))))
+   ;; '(rainbow-delimiters-depth-3-face ((t (:foreground "#3fbf3f"))))
+   ;; '(rainbow-delimiters-depth-2-face ((t (:foreground "#1f9f1f"))))
+   ;; '(rainbow-delimiters-depth-1-face ((t (:foreground "#7fff7f"))))
+   ;; '(eval-sexp-fu-flash ((t (:foreground "green"))))
+   ;; '(nrepl-eval-sexp-fu-flash ((t (:foreground "green"))))
+   ;; '(hl-sexp-face ((t (:background "black"))))
+   ;; '(git-gutter:separator ((t (:background "black"))))
+   ;; '(git-gutter:modified ((t (:background "black"))))
+   ;; '(git-gutter:added ((t (:background "black"))))
+   ;; '(git-gutter:deleted ((t (:background "black"))))
+   ;; '(git-gutter:unchanged ((t (:background "black"))))
+   )
 
-    (global-hl-line-mode 1)
-    ;; this is my ivy hack for anti-zenburn
-    ;; (set-face-background 'ivy-current-match "grey90")
-    ;; (set-face-background 'ivy-minibuffer-match-face-1 "grey30")
 
-    ;; noctilux & fogus hack
-    ;; (let ((fg (face-attribute 'font-lock-comment-face :foreground)))
-    ;;   (custom-set-faces
-    ;;    `(font-lock-doc-face ((t (:foreground ,(color-lighten-name fg 10)))))
-    ;;    `(font-lock-comment-face ((t (:foreground ,(color-lighten-name fg 5)))))
-    ;;    `(font-lock-comment-delimiter-face ((t (:foreground ,(color-lighten-name fg 5)))))))
-
-    ;; avoid javascript default funcion param name setting
-    ;; (let ((fg (face-attribute 'font-lock-variable-name-face :foreground)))
-    ;;   (custom-set-faces
-    ;;    `(js2-function-param ((t (:foreground ,fg))))))
-
-    (apply-font-settings)
-    (normalize-fonts)
-
-    )
-
-  (when (boundp 'j0ni-theme-tint)
-    (customize-light-or-dark j0ni-theme-tint))
 
   ;; company-mode hack
   ;; (let ((bg (face-attribute 'default :background)))
@@ -224,15 +214,27 @@
   ;; (remove-hook 'prog-mode-hook 'esk-turn-on-hl-line-mode)
   ;; (remove-hook 'text-mode-hook 'esk-turn-on-hl-line-mode)
 
-  (setq moe-theme-highlight-buffer-id t)
+  ;; this is my ivy hack for anti-zenburn
+  ;; (set-face-background 'ivy-current-match "grey90")
+  ;; (set-face-background 'ivy-minibuffer-match-face-1 "grey30")
 
-  (setq linum-format "%d")
+  ;; noctilux & fogus hack
+  ;; (let ((fg (face-attribute 'font-lock-comment-face :foreground)))
+  ;;   (custom-set-faces
+  ;;    `(font-lock-doc-face ((t (:foreground ,(color-lighten-name fg 10)))))
+  ;;    `(font-lock-comment-face ((t (:foreground ,(color-lighten-name fg 5)))))
+  ;;    `(font-lock-comment-delimiter-face ((t (:foreground ,(color-lighten-name fg 5)))))))
 
-  ;; (package-require 'nyan-mode)
-  ;; doesn't do small very well
-  ;; (setq nyan-bar-length 24)
-  ;; (nyan-mode 1)
+  ;; avoid javascript default funcion param name setting
+  ;; (let ((fg (face-attribute 'font-lock-variable-name-face :foreground)))
+  ;;   (custom-set-faces
+  ;;    `(js2-function-param ((t (:foreground ,fg))))))
+  (load-theme j0ni-theme)
 
-  )
+  (when (boundp 'j0ni-theme-tint)
+    (customize-light-or-dark j0ni-theme-tint)))
+
+(setq linum-format "%d")
+(global-hl-line-mode 1)
 
 (provide 'j0ni-gui)

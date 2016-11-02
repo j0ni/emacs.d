@@ -40,43 +40,27 @@
     (add-to-list 'load-path sdir)))
 
 (progn
-  ;; (defvar j0ni-font "Anonymous Pro-14")
-  ;; (defvar j0ni-linum-font "Anonymous Pro-12")
+  ;; (defvar j0ni-font "Anonymous Pro-10")
+  ;; (defvar j0ni-linum-font "Anonymous Pro-9")
   ;; (defvar j0ni-font "Droid Sans Mono Dotted-12")
   ;; (defvar j0ni-linum-font "Droid Sans Mono Dotted-10")
   ;; (defvar j0ni-font "Droid Sans Mono Dotted-14")
   ;; (defvar j0ni-linum-font "Droid Sans Mono Dotted-12")
-  ;; (defvar j0ni-font "PragmataPro-12")
-  ;; (defvar j0ni-linum-font "PragmataPro-10")
+  ;; (defvar j0ni-font "PragmataPro Mono-10")
+  ;; (defvar j0ni-linum-font "PragmataPro Mono-9")
   ;; (defvar j0ni-font "PragmataPro Mono-14")
   ;; (defvar j0ni-linum-font "PragmataPro Mono-12")
   ;; (defvar j0ni-font "Consolas-12")
-  ;; (defvar j0ni-linum-font "Consolas-10")
-  ;; (defvar j0ni-font "Inconsolata-14")
-  ;; (defvar j0ni-linum-font "Inconsolata-12")
-  ;; (defvar j0ni-font "Menlo-12")
-  ;; (defvar j0ni-linum-font "Menlo-10")
-  ;; (defvar j0ni-font "Menlo-14")
-  ;; (defvar j0ni-linum-font "Menlo-12")
-  ;; (defvar j0ni-font "DejaVu Sans Mono-10")
-  ;; (defvar j0ni-linum-font "DejaVu Sans Mono-8")
-  ;; (defvar j0ni-font "PT Mono-12")
-  ;; (defvar j0ni-linum-font "PT Mono-9")
-  ;; (defvar j0ni-font "Lucida Grande Mono-12")
-  ;; (defvar j0ni-linum-font "Lucida Grande Mono-10")
-  ;; (defvar j0ni-font "Fira Code-12")
-  ;; (defvar j0ni-linum-font "Fira Code-9")
-  (defvar j0ni-font "Lucida Grande Mono Nrw-11")
-  (defvar j0ni-linum-font "Lucida Grande Mono Nrw-10")
+  ;; (defvar j0ni-font "Lucida Grande Mono-9")
+  ;; (defvar j0ni-linum-font "Lucida Grande Mono-8")
+  ;; (defvar j0ni-font "Linux Libertine Mono-10")
+  ;; (defvar j0ni-linum-font "Linux Libertine Mono-8")
+  ;; (defvar j0ni-font "Fira Mono Medium-9")
+  ;; (defvar j0ni-linum-font "Fira Mono-8")
+  (defvar j0ni-font "Lucida Grande Mono Nrw-10")
+  (defvar j0ni-linum-font "Lucida Grande Mono Nrw-8")
   ;; (defvar j0ni-font "Lucida Grande Mono Nrw-28")
   ;; (defvar j0ni-font "Lucida Grande Mono Nrw-12")
-  ;; (defvar j0ni-linum-font "Lucida Grande Mono Nrw-10")
-  ;; (defvar j0ni-font "Lucida Sans Typewriter-12")
-  ;; (defvar j0ni-linum-font "Lucida Sans Typewriter-10")
-  ;; (defvar j0ni-font "Lucida Console-11")
-  ;; (defvar j0ni-linum-font "Lucida Console-9")
-  ;; use this to play with new fonts - not defined yet so don't leave it
-  ;; uncommented
   (when (fboundp 'apply-font-settings)
     (apply-font-settings)))
 
@@ -126,7 +110,11 @@
     color-theme-sanityinc-tomorrow
     base16-theme
     goose-theme
-    anti-zenburn-theme))
+    anti-zenburn-theme
+    sourcerer-theme
+    spacegray-theme
+    oceanic-theme
+    hipster-theme))
 
 ;; Theme I like at the moment
 ;; (defvar j0ni-theme 'phoenix-dark-pink)
@@ -154,10 +142,14 @@
 ;; (defvar j0ni-theme 'darkburn)
 ;; (defvar j0ni-theme 'base16-apathy-dark)
 ;; (defvar j0ni-theme 'base16-irblack-dark)
-;; (defvar j0ni-theme 'base16-tomorrow-dark)
 ;; (defvar j0ni-theme 'base16-ashes-dark)
 ;; (defvar j0ni-theme 'base16-solarized-dark)
-;; (defvar j0ni-theme 'base16-greenscreen-dark)
+;; (defvar j0ni-theme 'base16-green-screen)
+;; (defvar j0ni-theme 'sourcerer)
+;; (defvar j0ni-theme 'base16-isotope)
+(defvar j0ni-theme 'base16-ir-black)
+;; (defvar j0ni-theme 'hipster)
+;; (defvar j0ni-theme 'base16-ocean)
 ;; (defvar j0ni-theme 'mccarthy)
 ;; (defvar j0ni-theme 'github)
 ;; (defvar j0ni-theme 'fogus)
@@ -172,7 +164,7 @@
 ;; (defvar j0ni-theme 'subatomic)
 
 ;; 'dark 'mid 'light
-(defvar j0ni-theme-tint 'light)
+(defvar j0ni-theme-tint 'dark)
 
 ;; experimenting with a new thing
 ;; (global-font-lock-mode -1)
@@ -187,9 +179,10 @@
   (concat (getenv "HOME") "/" path))
 
 ;; Go bits
-(defvar j0ni-go-path (list (concat-home "Scratch/CircleCI/go-projects")
+(defvar j0ni-go-path (list ;; (concat-home "Scratch/CircleCI/go-projects")
                            (concat-home "Scratch/go")
-                           (concat-home "Scratch/goeg")))
+                           ;; (concat-home "Scratch/goeg")
+                           ))
 
 ;; Path elements
 (defvar j0ni-path (list (concat-home ".rbenv/shims")
@@ -212,7 +205,7 @@
 (dolist (mode '(menu-bar-mode tool-bar-mode scroll-bar-mode))
   (when (fboundp mode) (funcall mode -1)))
 
-(setq mac-command-modifier 'meta)
+;; (setq mac-command-modifier 'meta)
 
 ;; Always ALWAYS use UTF-8
 (set-terminal-coding-system 'utf-8)
@@ -288,8 +281,14 @@
 ;; (add-to-list 'package-pinned-packages '(clojure-mode . "melpa-stable") t)
 
 (package-initialize)
+
 (when (esk-online?)
   (unless package-archive-contents (package-refresh-contents)))
+
+(when (not (package-installed-p 'use-package))
+  (package-install 'use-package))
+
+(setq use-package-always-ensure t)
 
 (defun package-require (pkg)
   "Install a package only if it's not already installed."
@@ -301,7 +300,7 @@
   (dolist (pkg pkg-list)
     (package-require pkg)))
 
-(package-require 'diminish)
+(use-package diminish)
 
 (setq j0ni-pkg-full
       '(
@@ -312,9 +311,10 @@
         j0ni-misc
         j0ni-ibuffer
         j0ni-snippets
-        j0ni-codestyle
+        j0ni-codestyle ;; what even is this
         j0ni-lisp
         j0ni-elixir
+        j0ni-julia
         ;; j0ni-flycheck
         ;; j0ni-ido
         j0ni-ivy
@@ -325,8 +325,9 @@
         j0ni-ruby
         j0ni-markup
         j0ni-markdown
-        ;; j0ni-haskell
-        ;; j0ni-rust
+        j0ni-haskell
+        j0ni-purescript
+        j0ni-rust
         j0ni-org
         j0ni-python
         j0ni-complete
@@ -336,6 +337,7 @@
         j0ni-mail
         j0ni-twitter
         j0ni-gui
+        j0ni-audio
         ))
 
 (dolist (file j0ni-pkg-full)

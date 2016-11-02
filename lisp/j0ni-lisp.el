@@ -156,9 +156,14 @@
 (add-hook 'emacs-lisp-mode-hook 'elisp-slime-nav-mode-setup)
 (eval-after-load 'elisp-slime-nav '(diminish 'elisp-slime-nav-mode))
 
+;; GNOME won't allow C-M-x for some stupid reason
+(require 'edebug)
+(define-key emacs-lisp-mode-map (kbd "C-c C-c") #'edebug-eval-defun)
+(define-key emacs-lisp-mode-map (kbd "C-c d") 'toggle-debug-on-error)
+
 ;;; Clojure
 
-(packages-require '(align-cljlet cider-profile clj-refactor))
+(packages-require '(cider-profile clj-refactor))
 (setq clojure-defun-style-default-indent nil)
 ;; (setq clojure-indent-style :align-arguments)
 (setq clojure-indent-style :always-align)
@@ -211,7 +216,7 @@
                    match))
        (put-clojure-indent form 'defun))
      ;; Make compojure routes look nice
-     (define-key clojure-mode-map (kbd "C-M-z") 'align-cljlet)
+     ;; (define-key clojure-mode-map (kbd "C-M-z") 'align-cljlet)
      (define-clojure-indent
        (defroutes 'defun)
        (GET 2)
@@ -383,7 +388,7 @@
 ;; nRepl/cider
 (package-require 'cider-eval-sexp-fu)
 
-(setq cider-repl-pop-to-buffer-on-connect  nil
+(setq cider-repl-pop-to-buffer-on-connect  t
       cider-repl-use-clojure-font-lock     t
       cider-font-lock-dynamically          nil
       cider-use-overlays                   t ; display eval results inline
@@ -403,23 +408,15 @@
       nrepl-buffer-name-show-port          t
       cider-words-of-inspiration           '("")
       cider-prefer-local-resources         t
-      cider-inject-dependencies-at-jack-in nil)
+      cider-inject-dependencies-at-jack-in t)
 
-(add-hook 'cider-mode-hook (lambda ()
-                             (require 'cider-eval-sexp-fu)
-                             (turn-on-eldoc-mode)
-                             (diminish 'eldoc-mode)
-                             (diminish 'cider-mode)))
+(defun cider-mode-setup ()
+  (require 'cider-eval-sexp-fu)
+  (turn-on-eldoc-mode)
+  (diminish 'eldoc-mode)
+  (diminish 'cider-mode))
 
-;; Run tests in nRepl
-(defun nrepl-run-tests (ns)
-  (interactive (list (nrepl-current-ns)))
-  (save-buffer)
-  (nrepl-load-current-buffer)
-  (with-current-buffer "*nrepl*"
-    (nrepl-send-string (format "(clojure.test/run-tests '%s)" ns)
-                       nrepl-buffer-ns
-                       (nrepl-handler (current-buffer)))))
+(add-hook 'cider-mode-hook 'cider-mode-setup)
 
 (defun my-cider-make-connection-default ()
   (interactive)
@@ -571,5 +568,8 @@ Display the results in a hyperlinked *compilation* buffer."
 
 ;; tell scheme-mode about the test extension
 (put 'test-group 'scheme-indent-function 1)
+
+;; Shen
+(package-require 'shen-mode)
 
 (provide 'j0ni-lisp)

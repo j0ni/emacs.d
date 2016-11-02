@@ -19,13 +19,13 @@
    http-twiddle
    paredit-everywhere
    ;; session
-   dumb-jump))
+   dumb-jump
+   debbugs))
 
 (with-eval-after-load 'dumb-jump-mode
   (progn
     (define-key dump-jump-mode-map (kbd "C-M-.") 'dumb-jump-go)
     (define-key dumb-jump-mode-map (kbd "C-M-,") 'dumb-jump-back)))
-
 
 ;; manage history better
 ;; (add-hook 'after-init-hook 'session-initialize)
@@ -278,17 +278,29 @@ the mode-line."
       user-full-name "Jonathan Irving")
 
 ;; for making eww usable
-(setq shr-color-visible-luminance-min 75)
+;; (setq shr-color-visible-luminance-min 100)
+;; (setq shr-color-visible-distance-min 100)
 
 ;; centering text in a single window
 (package-require 'centered-window-mode)
 
 ;; dired
-(setq insert-directory-program "/usr/local/bin/gls")
+;; (setq insert-directory-program "/usr/local/bin/gls")
 
 ;; sml
 (package-require 'smart-mode-line)
-;; (setq sml/theme nil)
-;; (sml/setup)
+;; see j0ni-gui for setup
+
+;; audio
+(packages-require '(emms
+                    emms-soundcloud
+                    emms-player-mpv
+                    spotify))
+
+(require 'emms-setup)
+(emms-all)
+(emms-default-players)
+
+(setq emms-source-file-default-directory "~/Desktop/")
 
 (provide 'j0ni-misc)

@@ -3,7 +3,8 @@
 (packages-require
  '(js2-mode
    json-reformat
-   smartparens))
+   smartparens
+   js-comint))
 
 (package-require 'flycheck)
 (setq-default flycheck-jshintrc (concat dotfiles-dir ".jshintrc"))
@@ -44,11 +45,21 @@
 ;; (add-hook 'js2-mode-hook (lambda () (tern-mode t)))
 
 ;; Skewer
-(package-require 'skewer-mode)
-(add-hook 'js2-mode-hook 'skewer-mode)
+;; (package-require 'skewer-mode)
+;; (add-hook 'js2-mode-hook 'skewer-mode)
+
+;; Jade
+(package-require 'jade)
+
+(defun js2-mode-custom-setup ()
+  (jade-interaction-mode 1)
+  (turn-on-smartparens-mode)
+  (local-set-key (kbd "C-c C-c") 'jade-eval-buffer))
+
 
 (eval-after-load 'js2-mode
   '(progn
+     (add-hook 'js2-mode-hook 'js2-mode-custom-setup)
      (add-hook 'js2-post-parse-callbacks 'js2-mode-custom)
      (add-hook 'js2-post-parse-callbacks 'my-js2-parse-global-vars-decls)
      (defun my-js2-parse-global-vars-decls ()
@@ -75,21 +86,21 @@
 (autoload 'js2-mode "js2-mode" nil t)
 ;; (autoload 'autopair-mode "autopair" nil t)
 
-(add-to-list 'auto-mode-alist '("\\.jsx?$" . js2-jsx-mode))
-(add-to-list 'auto-mode-alist '("\\.ejs$" . js2-jsx-mode))
+;; (add-to-list 'auto-mode-alist '("\\.jsx?$" . js2-jsx-mode))
+;; (add-to-list 'auto-mode-alist '("\\.ejs$" . js2-jsx-mode))
 
-(add-to-list 'interpreter-mode-alist '("node" . js2-jsx-mode))
+;; (add-to-list 'interpreter-mode-alist '("node" . js2-jsx-mode))
 
 (package-require 'json-mode)
 
 (add-to-list 'auto-mode-alist '("\\.json$" . json-mode))
 (add-to-list 'auto-mode-alist '("\\.amethyst$" . json-mode))
 
-(eval-after-load 'js
-  '(progn
-     (define-key js-mode-map "{" 'paredit-open-curly)
-     (define-key js-mode-map "}" 'paredit-close-curly)
-     (add-hook 'js-mode-hook 'esk-paredit-nonlisp)))
+;; (eval-after-load 'js
+;;   '(progn
+;;      (define-key js-mode-map "{" 'paredit-open-curly)
+;;      (define-key js-mode-map "}" 'paredit-close-curly)
+;;      (add-hook 'js-mode-hook 'esk-paredit-nonlisp)))
 
 (add-hook 'coffee-mode-hook
           (lambda ()

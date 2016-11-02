@@ -1,9 +1,10 @@
 ;;; j0ni-ivy.el
 
-(packages-require '(swiper ivy flx counsel avy smex))
+(packages-require '(swiper ivy ivy-hydra flx counsel avy smex))
 
-(ivy-mode 1)
+(ivy-mode t)
 (diminish 'ivy-mode)
+
 (setq ivy-use-virtual-buffers t)
 (setq ivy-height 15)
 (setq ivy-length 200)

@@ -6,7 +6,9 @@
    go-eldoc
    go-errcheck
    ;; go-play
-   go-snippets))
+   go-snippets
+   smartparens
+   flycheck))
 
 (setenv "GOPATH" (mapconcat 'identity j0ni-go-path ":"))
 
@@ -14,10 +16,11 @@
 (setq gofmt-command "goimports")
 (add-hook 'before-save-hook 'gofmt-before-save)
 
-(package-require 'smartparens)
-(add-hook 'go-mode-hook 'smartparens-mode)
-
-(package-require 'flycheck)
-(add-hook 'go-mode-hook 'flycheck-mode)
+(add-hook 'go-mode-hook
+          (lambda ()
+            (local-set-key (kbd "M-.") 'godef-jump)
+            (smartparens-mode 1)
+            (flycheck-mode 1)
+            (go-eldoc-setup)))
 
 (provide 'j0ni-go)

@@ -32,7 +32,13 @@
          :port 6697
          :nick "j0ni"
          :pass ,lollyshouse-slack
-         :use-tls t)))
+         :use-tls t)
+        ("Cloudfront"
+         :host "irc.cloudfront.net"
+         :port 7778
+         :nick "j0ni"
+         :channels ()
+         :nickserv-password ,cloudfront-password)))
 
 (setq tracking-ignored-buffers '(("#clojure-emacs" circe-highlight-nick-face)
                                  ("#clojure" circe-highlight-nick-face)
