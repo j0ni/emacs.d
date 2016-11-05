@@ -40,7 +40,6 @@
     (progn
       (if (boundp 'j0ni-theme)
           (cond ((theme-is-one-of '(moe-light
-                                    moe-dark
                                     moe
                                     moe-theme))
                  (setq sml/theme nil))
@@ -61,7 +60,8 @@
    (t
     (progn ;; default to dark
       (if (theme-is-one-of '(base16-greenscreen-dark
-                             solarized-theme))
+                             solarized-theme
+                             moe-dark))
           (setq sml/theme nil)
         (setq sml/theme 'respectful))
       (eval-after-load 'indent-guide
