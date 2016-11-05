@@ -4,7 +4,8 @@
                     racer
                     company-racer
                     flycheck-rust
-                    rustfmt))
+                    rustfmt
+                    toml-mode))
 
 ;; Set path to racer binary
 ;; (setq racer-cmd (concat-home ".cargo/bin/racer"))
@@ -52,6 +53,6 @@
 ;;   https://github.com/rust-lang-nursery/rustfmt/issues
 ;; when its settled, we can have it run like gofmt
 
-;; (add-hook 'rust-mode-hook #'rustfmt-enable-on-save)
+(add-hook 'rust-mode-hook #'rustfmt-enable-on-save)
 
 (provide 'j0ni-rust)
