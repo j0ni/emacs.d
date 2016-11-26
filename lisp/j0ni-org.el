@@ -7,14 +7,14 @@
 (setq org-directory j0ni-org-dir)
 
 ;; org-journal
-(setq org-journal-dir (concat j0ni-org-dir "/journal/"))
+(setq org-journal-dir (concat j0ni-org-dir "Journal/"))
 (setq org-journal-find-file 'find-file)
 
 ;; ensure the journal files get picked up
 (setq org-agenda-file-regexp "\\`[^.].*\\.org'\\|[0-9]+")
 
 ;; Set to the name of the file where new notes will be stored
-(setq org-mobile-inbox-for-pull (concat j0ni-org-dir "/flagged.org"))
+(setq org-mobile-inbox-for-pull (concat j0ni-org-dir "flagged.org"))
 
 ;; Set to <your Dropbox root directory>/MobileOrg.
 (setq org-mobile-directory j0ni-org-dropbox)
@@ -74,6 +74,14 @@
 (global-set-key "\C-cc" 'org-capture)
 (global-set-key "\C-ca" 'org-agenda)
 (global-set-key "\C-cb" 'org-iswitchb)
+
+;; org-capture
+(setq org-default-notes-file (concat j0ni-org-dir "captured.org"))
+(setq org-capture-templates
+      '(("j" "Journal entry" entry (file+datetree "")
+         "* %<%H:%M> %?\n")
+        ("t" "Task" entry (file+headline "" "Tasks")
+         "* TODO %?\n  %u\n  %a")))
 
 ;; org-fstree
 (package-require 'org-fstree)

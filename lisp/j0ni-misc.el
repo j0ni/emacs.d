@@ -287,20 +287,17 @@ the mode-line."
 ;; dired
 ;; (setq insert-directory-program "/usr/local/bin/gls")
 
-;; sml
-(package-require 'smart-mode-line)
-;; see j0ni-gui for setup
 
 ;; audio
-(packages-require '(emms
-                    emms-soundcloud
-                    emms-player-mpv
-                    spotify))
+;; (packages-require '(emms
+;;                     emms-soundcloud
+;;                     emms-player-mpv
+;;                     spotify))
 
-(require 'emms-setup)
-(emms-all)
-(emms-default-players)
+;; (require 'emms-setup)
+;; (emms-all)
+;; (emms-default-players)
 
-(setq emms-source-file-default-directory "~/Desktop/")
+;; (setq emms-source-file-default-directory "~/Desktop/")
 
 (provide 'j0ni-misc)

@@ -18,9 +18,10 @@
          :nickserv-password ,freenode-password)
         ("GIMPNet"
          :host "irc.gimp.ca"
-         :port 6667
+         :port 6697
          :nick "j0nii"
-         :channels ("#dnalounge"))
+         :channels ("#dnalounge")
+         :use-tls t)
         ("Gitter"
          :host "irc.gitter.im"
          :port 6697
@@ -38,7 +39,14 @@
          :port 7778
          :nick "j0ni"
          :channels ()
-         :nickserv-password ,cloudfront-password)))
+         :nickserv-password ,cloudfront-password)
+        ("OFTC"
+         :host "irc.oftc.net"
+         :port 6697
+         :nick "j0nii"
+         :channels ("#torontocrypto" "#cryptoparty")
+         :nickserv-password ,oftc-password
+         :use-tls t)))
 
 (setq tracking-ignored-buffers '(("#clojure-emacs" circe-highlight-nick-face)
                                  ("#clojure" circe-highlight-nick-face)

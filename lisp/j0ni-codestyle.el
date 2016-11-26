@@ -12,7 +12,7 @@
 ;; (add-hook 'prog-mode-hook (lambda () (aggressive-indent-mode 1)))
 
 ;; Default indentation
-(setq-default tab-width 4)
+(setq-default tab-width 8)
 ;; Javascript
 (setq-default js2-basic-offset 2)
 ;; JSON

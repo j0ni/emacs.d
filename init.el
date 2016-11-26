@@ -57,14 +57,16 @@
   ;; (defvar j0ni-linum-font "Linux Libertine Mono-8")
   ;; (defvar j0ni-font "Fira Mono Medium-9")
   ;; (defvar j0ni-linum-font "Fira Mono-8")
-  (defvar j0ni-font "Lucida Grande Mono Nrw-10")
-  (defvar j0ni-linum-font "Lucida Grande Mono Nrw-8")
+  (defvar j0ni-font "Go Mono-11")
+  (defvar j0ni-linum-font "Go Mono-8")
+  ;; (defvar j0ni-font "Lucida Grande Mono Nrw-11")
+  ;; (defvar j0ni-linum-font "Lucida Grande Mono Nrw-8")
   ;; (defvar j0ni-font "Lucida Grande Mono Nrw-28")
   ;; (defvar j0ni-font "Lucida Grande Mono Nrw-12")
   (when (fboundp 'apply-font-settings)
     (apply-font-settings)))
 
-(setq-default line-spacing 1)
+(setq-default line-spacing 2)
 
 ;; Themes we want to install
 
@@ -98,6 +100,9 @@
     darcula-theme
     firecode-theme
     ujelly-theme
+    tango-2-theme
+    tangotango-theme
+    tango-plus-theme
     ;; spacegray-theme
     ;; purple-haze-theme
     flatui-theme
@@ -121,7 +126,8 @@
 ;; (defvar j0ni-theme 'phoenix-dark-mono)
 ;; (defvar j0ni-theme 'late-night)
 ;; (defvar j0ni-theme 'tango-dark)
-;; (defvar j0ni-theme 'material)
+;; (defvar j0ni-theme 'tango-2)
+;; (Defvar j0ni-theme 'material)
 ;; (defvar j0ni-theme 'material-light)
 ;; (defvar j0ni-theme 'stekene-light)
 ;; (defvar j0ni-theme 'stekene-dark)
@@ -141,13 +147,13 @@
 ;; (defvar j0ni-theme 'lawrence)
 ;; (defvar j0ni-theme 'darkburn)
 ;; (defvar j0ni-theme 'base16-apathy-dark)
-;; (defvar j0ni-theme 'base16-irblack-dark)
 ;; (defvar j0ni-theme 'base16-ashes-dark)
 ;; (defvar j0ni-theme 'base16-solarized-dark)
 ;; (defvar j0ni-theme 'base16-green-screen)
+;; (defvar j0ni-theme 'base16-grayscale-dark)
 ;; (defvar j0ni-theme 'sourcerer)
 ;; (defvar j0ni-theme 'base16-isotope)
-(defvar j0ni-theme 'base16-ir-black)
+;; (defvar j0ni-theme 'base16-ir-black)
 ;; (defvar j0ni-theme 'hipster)
 ;; (defvar j0ni-theme 'base16-ocean)
 ;; (defvar j0ni-theme 'mccarthy)
@@ -164,7 +170,7 @@
 ;; (defvar j0ni-theme 'subatomic)
 
 ;; 'dark 'mid 'light
-(defvar j0ni-theme-tint 'dark)
+(defvar j0ni-theme-tint 'light)
 
 ;; experimenting with a new thing
 ;; (global-font-lock-mode -1)
@@ -338,6 +344,7 @@
         j0ni-twitter
         j0ni-gui
         j0ni-audio
+        j0ni-scala
         ))
 
 (dolist (file j0ni-pkg-full)

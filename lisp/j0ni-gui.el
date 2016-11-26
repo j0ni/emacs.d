@@ -34,7 +34,15 @@
 (defun theme-is-one-of (themes)
   (seq-some (lambda (theme) (eq theme j0ni-theme)) themes))
 
+(defun set-indent-guide-face (color)
+  (interactive)
+  (if (featurep 'indent-guide)
+      (set-face-foreground 'indent-guide-face color)
+    (eval-after-load 'indent-guide
+      `(set-face-foreground 'indent-guide-face ,color))))
+
 (defun customize-light-or-dark (tint)
+  (message "tint is" tint)
   (cond
    ((eq 'light tint)
     (progn
@@ -48,24 +56,22 @@
                 (t
                  (setq sml/theme 'light)))
         (setq sml/theme nil))
-      (eval-after-load 'indent-guide
-        '(set-face-foreground 'indent-guide-face "gray80"))))
+      (set-indent-guide-face "gray80")))
 
    ((eq 'mid tint)
     (progn
       (setq sml/theme 'respectful)
-      (eval-after-load 'indent-guide
-        '(set-face-foreground 'indent-guide-face "gray70"))))
+      (set-indent-guide-face "gray70")))
 
    (t
     (progn ;; default to dark
       (if (theme-is-one-of '(base16-greenscreen-dark
                              solarized-theme
-                             moe-dark))
+                             moe-dark
+                             tango-dark))
           (setq sml/theme nil)
         (setq sml/theme 'respectful))
-      (eval-after-load 'indent-guide
-        '(set-face-foreground 'indent-guide-face "gray30")))))
+      (set-indent-guide-face "gray30"))))
   (sml/setup)
   (apply-font-settings))
 
@@ -218,23 +224,25 @@
   ;; (set-face-background 'ivy-current-match "grey90")
   ;; (set-face-background 'ivy-minibuffer-match-face-1 "grey30")
 
+  (load-theme j0ni-theme)
+
   ;; noctilux & fogus hack
-  ;; (let ((fg (face-attribute 'font-lock-comment-face :foreground)))
-  ;;   (custom-set-faces
-  ;;    `(font-lock-doc-face ((t (:foreground ,(color-lighten-name fg 10)))))
-  ;;    `(font-lock-comment-face ((t (:foreground ,(color-lighten-name fg 5)))))
-  ;;    `(font-lock-comment-delimiter-face ((t (:foreground ,(color-lighten-name fg 5)))))))
+  (let ((fg (face-attribute 'font-lock-comment-face :foreground)))
+    (custom-set-faces
+     `(font-lock-doc-face ((t (:foreground ,(color-lighten-name fg 10)))))
+     `(font-lock-comment-face ((t (:foreground ,(color-lighten-name fg 5)))))
+     `(font-lock-comment-delimiter-face ((t (:foreground ,(color-lighten-name fg 5)))))))
 
   ;; avoid javascript default funcion param name setting
   ;; (let ((fg (face-attribute 'font-lock-variable-name-face :foreground)))
   ;;   (custom-set-faces
   ;;    `(js2-function-param ((t (:foreground ,fg))))))
-  (load-theme j0ni-theme)
+  )
 
-  (when (boundp 'j0ni-theme-tint)
-    (customize-light-or-dark j0ni-theme-tint)))
+(when (boundp 'j0ni-theme-tint)
+  (customize-light-or-dark j0ni-theme-tint))
 
 (setq linum-format "%d")
-(global-hl-line-mode 1)
+;; (global-hl-line-mode 1)
 
 (provide 'j0ni-gui)

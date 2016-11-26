@@ -16,11 +16,14 @@
 (setq gofmt-command "goimports")
 (add-hook 'before-save-hook 'gofmt-before-save)
 
-(add-hook 'go-mode-hook
-          (lambda ()
-            (local-set-key (kbd "M-.") 'godef-jump)
-            (smartparens-mode 1)
-            (flycheck-mode 1)
-            (go-eldoc-setup)))
+(add-hook 'go-mode-hook 'go-mode-setup)
+
+(defun go-mode-setup ()
+  (interactive)
+  (setq-local tab-width 4)
+  (local-set-key (kbd "M-.") 'godef-jump)
+  (smartparens-mode 1)
+  (flycheck-mode 1)
+  (go-eldoc-setup))
 
 (provide 'j0ni-go)

@@ -45,7 +45,7 @@
         mu4e-trash-folder "/Gmail/trash"
         mu4e-update-interval 300
         mu4e-confirm-quit nil
-        mu4e-use-fancy-chars nil  ; they actually look shit
+        mu4e-use-fancy-chars nil        ; they actually look shit
         ;; mu4e-html2text-command "pandoc -f html -t markdown"
         mu4e-html2text-command "w3m -dump -T text/html"
         ;; mu4e-html2text-command "html2text -utf8 -width 72"
@@ -63,44 +63,46 @@
 
   ;; something about ourselves
   (setq mu4e-user-mail-address-list '("j@lollyshouse.ca"
-                                      "jonathan.irving@skalera.com"
-                                      "jirving@circleci.com"
+                                      ;; "jonathan.irving@skalera.com"
+                                      ;; "jirving@circleci.com"
                                       "jonathan.irving@gmail.com")
         user-full-name "J Irving"
         mu4e-compose-signature nil)
 
-  (setq mu4e-bookmarks '( ; ("flag:unread AND NOT flag:trashed" "Unread messages" 117)
-                         ("date:today..now AND NOT flag:trashed" "Today's messages" ?t)
-                         ("date:today..now" "Today's messages (with trash)" ?T)
-                         ("date:7d..now AND NOT flag:trashed" "Last 7 days" ?w)
-                         ("date:7d..now" "Last 7 days (with trash)" ?W)
-                         ("mime:image/*" "Messages with images" ?i)
+  (setq mu4e-bookmarks
+        '(          ; ("flag:unread AND NOT flag:trashed" "Unread messages" 117)
+          ("date:today..now AND NOT flag:trashed" "Today's messages" ?t)
+          ("date:today..now" "Today's messages (with trash)" ?T)
+          ("date:7d..now AND NOT flag:trashed" "Last 7 days" ?w)
+          ("date:7d..now" "Last 7 days (with trash)" ?W)
+          ("mime:image/*" "Messages with images" ?i)
 
-                         ("date:today..now AND NOT flag:trashed AND (maildir:/Circle/INBOX OR maildir:/Circle/sent-mail)"
-                          "Today's messages (Circle inbox)"
-                          ?c)
+          ;; ("date:today..now AND NOT flag:trashed AND (maildir:/Circle/INBOX OR maildir:/Circle/sent-mail)"
+          ;;  "Today's messages (Circle inbox)"
+          ;;  ?c)
 
-                         ("date:7d..now AND NOT flag:trashed AND (maildir:/Circle/INBOX OR maildir:/Circle/sent-mail)"
-                          "Last 7 days (Circle inbox)"
-                          ?C)
+          ("date:3y..now AND NOT flag:trashed AND (maildir:/Circle/INBOX OR maildir:/Circle/sent-mail)"
+           "Last 3 years (Circle inbox)"
+           ?C)
 
-                         ("subject:PPP from:circleci.com date:8w..now" "PPPs" ?p)
+          ;; ("subject:PPP from:circleci.com date:8w..now" "PPPs" ?p)
 
-                         ("date:today..now AND NOT flag:trashed AND (maildir:/Gmail/INBOX OR maildir:/Gmail/sent-mail)"
-                          "Today's messages (Gmail inbox)"
-                          ?g)
+          ("date:today..now AND NOT flag:trashed AND (maildir:/Gmail/INBOX OR maildir:/Gmail/sent-mail)"
+           "Today's messages (Gmail inbox)"
+           ?g)
 
-                         ("date:7d..now AND NOT flag:trashed AND (maildir:/Gmail/INBOX OR maildir:/Gmail/sent-mail)"
-                          "Last 7 days (Gmail inbox)"
-                          ?G)
+          ("date:7d..now AND NOT flag:trashed AND (maildir:/Gmail/INBOX OR maildir:/Gmail/sent-mail)"
+           "Last 7 days (Gmail inbox)"
+           ?G)
 
-                         ("date:today..now AND NOT flag:trashed AND (maildir:/Skalera/INBOX OR maildir:/Skalera/sent-mail)"
-                          "Today's messages (Skalera inbox)"
-                          ?s)
+          ;; ("date:today..now AND NOT flag:trashed AND (maildir:/Skalera/INBOX OR maildir:/Skalera/sent-mail)"
+          ;;  "Today's messages (Skalera inbox)"
+          ;;  ?s)
 
-                         ("date:7d..now AND NOT flag:trashed AND (maildir:/Skalera/INBOX OR maildir:/Skalera/sent-mail)"
-                          "Last 7 days (Skalera inbox)"
-                          ?S)))
+          ;; ("date:7d..now AND NOT flag:trashed AND (maildir:/Skalera/INBOX OR maildir:/Skalera/sent-mail)"
+          ;;  "Last 7 days (Skalera inbox)"
+          ;;  ?S)
+          ))
 
   (setq message-send-mail-function 'message-send-mail-with-sendmail
         sendmail-program "/usr/bin/msmtp"
@@ -124,8 +126,8 @@
                        (message-fetch-field "from")))
                (account
                 (cond
-                 ((string-match "jirving@circleci.com" from) "circle")
-                 ((string-match "jonathan.irving@skalera.com" from) "skalera")
+                 ;; ((string-match "jirving@circleci.com" from) "circle")
+                 ;; ((string-match "jonathan.irving@skalera.com" from) "skalera")
                  ((string-match "j@lollyshouse.ca" from) "gmail"))))
             (setq message-sendmail-extra-arguments (list '"-a" account))))))
 
@@ -154,24 +156,25 @@
                                 ("/Gmail/drafts"    . ?d)
                                 ("/Gmail/trash"     . ?t)))
        (user-mail-address "j@lollyshouse.ca"))
-      ("Circle"
-       (mu4e-sent-folder "/Circle/sent-mail")
-       (mu4e-drafts-folder "/Circle/drafts")
-       (mu4e-maildir-shortcuts (("/Circle/INBOX"     . ?i)
-                                ("/Circle/all-mail"  . ?a)
-                                ("/Circle/sent-mail" . ?s)
-                                ("/Circle/drafts"    . ?d)
-                                ("/Circle/trash"     . ?t)))
-       (user-mail-address "jirving@circleci.com"))
-      ("Skalera"
-       (mu4e-sent-folder "/Skalera/sent-mail")
-       (mu4e-drafts-folder "/Skalera/drafts")
-       (mu4e-maildir-shortcuts (("/Skalera/INBOX"     . ?i)
-                                ("/Skalera/all-mail"  . ?a)
-                                ("/Skalera/sent-mail" . ?s)
-                                ("/Skalera/drafts"    . ?d)
-                                ("/Skalera/trash"     . ?t)))
-       (user-mail-address "jonathan.irving@skalera.com"))))
+      ;; ("Circle"
+      ;;  (mu4e-sent-folder "/Circle/sent-mail")
+      ;;  (mu4e-drafts-folder "/Circle/drafts")
+      ;;  (mu4e-maildir-shortcuts (("/Circle/INBOX"     . ?i)
+      ;;                           ("/Circle/all-mail"  . ?a)
+      ;;                           ("/Circle/sent-mail" . ?s)
+      ;;                           ("/Circle/drafts"    . ?d)
+      ;;                           ("/Circle/trash"     . ?t)))
+      ;;  (user-mail-address "jirving@circleci.com"))
+      ;; ("Skalera"
+      ;;  (mu4e-sent-folder "/Skalera/sent-mail")
+      ;;  (mu4e-drafts-folder "/Skalera/drafts")
+      ;;  (mu4e-maildir-shortcuts (("/Skalera/INBOX"     . ?i)
+      ;;                           ("/Skalera/all-mail"  . ?a)
+      ;;                           ("/Skalera/sent-mail" . ?s)
+      ;;                           ("/Skalera/drafts"    . ?d)
+      ;;                           ("/Skalera/trash"     . ?t)))
+      ;;  (user-mail-address "jonathan.irving@skalera.com"))
+      ))
 
   ;; You can put any variable you want in the account lists, just make
   ;; sure that you put in all the variables that differ for each
@@ -276,7 +279,7 @@
 
   (setq mail-citation-hook 'mu-cite-original)
   (setq message-citation-hook 'mu-cite-original)
-  (setq mu-cite-top-format '(">>>>>>> " from " @ " date ":\n"))
+  (setq mu-cite-top-format '(">>>>>>> " from " @ " date ":\n\n"))
 
   ;; (setq message-citation-line-format "* %f, on %Y-%m-%d @ %R %z:")
   ;; (setq message-citation-line-function 'message-insert-formatted-citation-line)
@@ -285,12 +288,12 @@
   (define-key mu4e-compose-mode-map (kbd "C-c ,") 'sign-off-email)
 
   (defun my-key-bindings ()
-  (define-key mail-mode-map [(control c) (control c)]
-    (lambda ()
-      "Save buffer and send email"
-      (interactive)
-      (save-buffer)
-      (server-edit)))))
+    (define-key mail-mode-map [(control c) (control c)]
+      (lambda ()
+        "Save buffer and send email"
+        (interactive)
+        (save-buffer)
+        (server-edit)))))
 
 ;; Mutt config
 
