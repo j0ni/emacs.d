@@ -7,6 +7,9 @@
   (require 'mu4e)
   ;; (require 'smtpmail)
 
+  ;; use it everywhere to send mail
+  (setq mail-user-agent 'mu4e-user-agent)
+
   ;; universal
   (setq mu4e-maildir "~/Maildir")
 
@@ -56,7 +59,8 @@
                               (:flags . 6)
                               (:mailing-list . 10)
                               (:from . 22)
-                              (:thread-subject)))
+                              (:thread-subject))
+        mu4e-compose-complete-only-after "2012-01-01")
 
   (require 'mu4e-contrib)
   (setq mu4e-html2text-command 'mu4e-shr2text)
@@ -279,7 +283,7 @@
 
   (setq mail-citation-hook 'mu-cite-original)
   (setq message-citation-hook 'mu-cite-original)
-  (setq mu-cite-top-format '(">>>>>>> " from " @ " date ":\n\n"))
+  (setq mu-cite-top-format '(">>>>> " from " @ " date ":\n\n"))
 
   ;; (setq message-citation-line-format "* %f, on %Y-%m-%d @ %R %z:")
   ;; (setq message-citation-line-function 'message-insert-formatted-citation-line)

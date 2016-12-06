@@ -272,10 +272,9 @@ the mode-line."
       split-height-threshold nil
       split-width-threshold nil)
 
-(setq message-default-headers "Cc: \nBcc: jonathan@circleci.com\n"
-      message-fill-column 72
-      user-mail-address "jonathan@circleci.com"
-      user-full-name "Jonathan Irving")
+(setq message-fill-column 72
+      user-mail-address "j@lollyshouse.ca"
+      user-full-name "J Irving")
 
 ;; for making eww usable
 ;; (setq shr-color-visible-luminance-min 100)

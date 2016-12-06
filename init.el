@@ -122,7 +122,7 @@
     hipster-theme))
 
 ;; Theme I like at the moment
-;; (defvar j0ni-theme 'phoenix-dark-pink)
+(defvar j0ni-theme 'phoenix-dark-pink)
 ;; (defvar j0ni-theme 'phoenix-dark-mono)
 ;; (defvar j0ni-theme 'late-night)
 ;; (defvar j0ni-theme 'tango-dark)
@@ -170,7 +170,7 @@
 ;; (defvar j0ni-theme 'subatomic)
 
 ;; 'dark 'mid 'light
-(defvar j0ni-theme-tint 'light)
+(defvar j0ni-theme-tint 'dark)
 
 ;; experimenting with a new thing
 ;; (global-font-lock-mode -1)

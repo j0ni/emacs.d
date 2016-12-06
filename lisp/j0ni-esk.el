@@ -218,7 +218,7 @@ comment as a filename."
   (global-set-key (kbd "C-x C-o") (lambda () (interactive) (other-window 2))) ;; forward two
 
   ;; Start eshell or switch to it if it's active.
-  (global-set-key (kbd "C-x m") 'eshell)
+  (global-set-key (kbd "C-x M-m") 'eshell)
 
   ;; Start a new eshell even if one is active.
   (global-set-key (kbd "C-x M") (lambda () (interactive) (eshell t)))

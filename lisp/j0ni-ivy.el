@@ -9,6 +9,8 @@
 (setq ivy-height 15)
 (setq ivy-length 200)
 ;; (setq ivy-count-format "")
+(setq confirm-nonexistent-file-or-buffer t)
+
 
 (avy-setup-default)
 

@@ -22,6 +22,12 @@
 (defun add-lisp-hook (func)
   (add-hooks j0ni-lisp-modes func))
 
+(defun set-hyperspec-browser ()
+  (setq-local browse-url-browser-function 'eww-browse-url))
+
+(add-hook 'lisp-mode-hook #'set-hyperspec-browser)
+(add-hook 'slime-repl-mode-hook #'set-hyperspec-browser)
+
 ;; Setup C-c v to eval whole buffer in all lisps
 (define-key lisp-mode-shared-map (kbd "C-c v") 'eval-buffer)
 (define-key lisp-mode-shared-map (kbd "C-c C-v") 'eval-buffer)
@@ -363,8 +369,7 @@
 
      ;; I can't make my mind up about this. It makes sense
      ;; semantically, but it looks shit when the first value is an
-     ;; expression spanning multiple lines. Maybe that's supposed to
-     ;; guide better practice?
+     ;; expression spanning multiple lines.
 
      ;; note I no longer think this looks shit, and I prefer it, but
      ;; it may not be popular.
@@ -400,10 +405,6 @@
       cider-repl-result-prefix             "=> "
       cider-prompt-for-symbol              nil
       cider-known-endpoints                nil
-      ;; cider-known-endpoints                '(("circle-dev" "localhost" "6005")
-      ;;                                        ("circle-staging" "localhost" "6002")
-      ;;                                        ("circle-prod" "localhost" "6001")
-      ;;                                        ("frontend-dev" "dev.circlehost" "8230"))
       cider-repl-history-file              (concat-home ".cider-repl-history")
       nrepl-buffer-name-show-port          t
       cider-words-of-inspiration           '("")

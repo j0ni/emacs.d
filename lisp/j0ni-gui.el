@@ -41,8 +41,10 @@
     (eval-after-load 'indent-guide
       `(set-face-foreground 'indent-guide-face ,color))))
 
-(defun customize-light-or-dark (tint)
-  (message "tint is" tint)
+(defun customize-light-or-dark (&optional tint)
+  (interactive)
+  (unless tint (setf tint j0ni-theme-tint))
+  ;; (message (prin1-to-string tint))
   (cond
    ((eq 'light tint)
     (progn
@@ -55,13 +57,10 @@
                  (setq sml/theme 'respectful))
                 (t
                  (setq sml/theme 'light)))
-        (setq sml/theme nil))
-      (set-indent-guide-face "gray80")))
+        (setq sml/theme nil))))
 
    ((eq 'mid tint)
-    (progn
-      (setq sml/theme 'respectful)
-      (set-indent-guide-face "gray70")))
+    (setq sml/theme 'respectful))
 
    (t
     (progn ;; default to dark
@@ -70,8 +69,13 @@
                              moe-dark
                              tango-dark))
           (setq sml/theme nil)
-        (setq sml/theme 'respectful))
-      (set-indent-guide-face "gray30"))))
+        (setq sml/theme 'respectful)))))
+
+  (unless (theme-is-one-of '(phoenix-dark-pink))
+    (set-indent-face (pcase tint
+                       ('light "gray80")
+                       ('mid "gray70")
+                       (_ "gray30"))))
   (sml/setup)
   (apply-font-settings))
 
@@ -227,11 +231,11 @@
   (load-theme j0ni-theme)
 
   ;; noctilux & fogus hack
-  (let ((fg (face-attribute 'font-lock-comment-face :foreground)))
-    (custom-set-faces
-     `(font-lock-doc-face ((t (:foreground ,(color-lighten-name fg 10)))))
-     `(font-lock-comment-face ((t (:foreground ,(color-lighten-name fg 5)))))
-     `(font-lock-comment-delimiter-face ((t (:foreground ,(color-lighten-name fg 5)))))))
+  ;; (let ((fg (face-attribute 'font-lock-comment-face :foreground)))
+  ;;   (custom-set-faces
+  ;;    `(font-lock-doc-face ((t (:foreground ,(color-lighten-name fg 10)))))
+  ;;    `(font-lock-comment-face ((t (:foreground ,(color-lighten-name fg 5)))))
+  ;;    `(font-lock-comment-delimiter-face ((t (:foreground ,(color-lighten-name fg 5)))))))
 
   ;; avoid javascript default funcion param name setting
   ;; (let ((fg (face-attribute 'font-lock-variable-name-face :foreground)))
