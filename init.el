@@ -3,6 +3,7 @@
 (defun insert-shrug ()
   (interactive)
   (insert "¯\\_(ツ)_/¯"))
+(global-set-key (kbd "C-c C-s") 'insert-shrug)
 
 ;; Get here more easily
 (setq local-function-key-map (delq '(kp-tab . [9]) local-function-key-map))
@@ -48,8 +49,8 @@
   ;; (defvar j0ni-linum-font "Droid Sans Mono Dotted-12")
   ;; (defvar j0ni-font "PragmataPro Mono-10")
   ;; (defvar j0ni-linum-font "PragmataPro Mono-9")
-  ;; (defvar j0ni-font "PragmataPro Mono-14")
-  ;; (defvar j0ni-linum-font "PragmataPro Mono-12")
+  (defvar j0ni-font "PragmataPro Mono-12")
+  (defvar j0ni-linum-font "PragmataPro Mono-10")
   ;; (defvar j0ni-font "Consolas-12")
   ;; (defvar j0ni-font "Lucida Grande Mono-9")
   ;; (defvar j0ni-linum-font "Lucida Grande Mono-8")
@@ -57,8 +58,8 @@
   ;; (defvar j0ni-linum-font "Linux Libertine Mono-8")
   ;; (defvar j0ni-font "Fira Mono Medium-9")
   ;; (defvar j0ni-linum-font "Fira Mono-8")
-  (defvar j0ni-font "Go Mono-11")
-  (defvar j0ni-linum-font "Go Mono-8")
+  ;; (defvar j0ni-font "Go Mono-12")
+  ;; (defvar j0ni-linum-font "Go Mono-8")
   ;; (defvar j0ni-font "Lucida Grande Mono Nrw-11")
   ;; (defvar j0ni-linum-font "Lucida Grande Mono Nrw-8")
   ;; (defvar j0ni-font "Lucida Grande Mono Nrw-28")
@@ -119,15 +120,16 @@
     sourcerer-theme
     spacegray-theme
     oceanic-theme
-    hipster-theme))
+    hipster-theme
+    airline-themes))
 
 ;; Theme I like at the moment
-(defvar j0ni-theme 'phoenix-dark-pink)
+;; (defvar j0ni-theme 'phoenix-dark-pink)
 ;; (defvar j0ni-theme 'phoenix-dark-mono)
 ;; (defvar j0ni-theme 'late-night)
 ;; (defvar j0ni-theme 'tango-dark)
 ;; (defvar j0ni-theme 'tango-2)
-;; (Defvar j0ni-theme 'material)
+(defvar j0ni-theme 'material)
 ;; (defvar j0ni-theme 'material-light)
 ;; (defvar j0ni-theme 'stekene-light)
 ;; (defvar j0ni-theme 'stekene-dark)
@@ -168,6 +170,7 @@
 ;; (defvar j0ni-theme 'clues)
 ;; (defvar j0ni-theme 'flatui)
 ;; (defvar j0ni-theme 'subatomic)
+;; (defvar j0ni-theme 'ir-black)
 
 ;; 'dark 'mid 'light
 (defvar j0ni-theme-tint 'dark)
@@ -191,9 +194,7 @@
                            ))
 
 ;; Path elements
-(defvar j0ni-path (list (concat-home ".rbenv/shims")
-                        (concat-home ".rbenv/bin")
-                        (concat-home ".cabal/bin")
+(defvar j0ni-path (list (concat-home ".cabal/bin")
                         (concat-home ".cargo/bin")
                         (concat-home "Scratch/clojure/leiningen")
                         (concat-home "Scratch/go/bin")
@@ -311,12 +312,12 @@
 (setq j0ni-pkg-full
       '(
         ;; j0ni-evil
+        j0ni-snippets
         j0ni-esk
         j0ni-eshell
         j0ni-defuns
         j0ni-misc
         j0ni-ibuffer
-        j0ni-snippets
         j0ni-codestyle ;; what even is this
         j0ni-lisp
         j0ni-elixir
@@ -344,7 +345,7 @@
         j0ni-twitter
         j0ni-gui
         j0ni-audio
-        j0ni-scala
+        ;; j0ni-scala
         ))
 
 (dolist (file j0ni-pkg-full)

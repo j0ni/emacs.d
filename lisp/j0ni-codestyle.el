@@ -37,7 +37,7 @@
 (setq sentence-end-double-space nil)
 
 ;; Whitespace
-(add-hook 'before-save-hook 'whitespace-cleanup)
+;; (add-hook 'before-save-hook 'whitespace-cleanup)
 
 ;; Enforce proper whitespace
 ;; (package-require 'ethan-wspace)
@@ -46,10 +46,18 @@
 ;; (setq require-final-newline nil)
 ;; (setq mode-require-final-newline nil)
 
-;; (setq ethan-wspace-disabled-modes '(go-mode makefile-mode makefile-bsdmake-mode org-journal-mode markdown-mode))
+;; (setq ethan-wspace-disabled-modes '(go-mode
+;;                                     makefile-mode
+;;                                     makefile-bsdmake-mode
+;;                                     org-journal-mode
+;;                                     markdown-mode
+;;                                     message-mode))
 ;; (add-hooks ethan-wspace-disabled-modes (lambda () (ethan-wspace-mode -1)))
 
 (package-require 'ws-butler)
 (ws-butler-global-mode 1)
+
+(add-to-list 'ws-butler-global-exempt-modes 'message-mode)
+(add-to-list 'ws-butler-global-exempt-modes 'mml-mode)
 
 (provide 'j0ni-codestyle)

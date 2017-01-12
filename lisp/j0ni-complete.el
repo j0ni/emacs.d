@@ -17,10 +17,6 @@
 (package-require 'company-tern)
 (add-to-list 'company-backends 'company-tern)
 
-;; Cider - this isn't required any more
-;; (package-require 'company-cider)
-;; (add-to-list 'company-backends 'company-cider)
-
 ;; Go Lang
 (package-require 'company-go)
 (add-to-list 'company-backends 'company-go)

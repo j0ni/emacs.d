@@ -42,10 +42,6 @@
   (defun esk-turn-off-tool-bar ()
     (if (functionp 'tool-bar-mode) (tool-bar-mode -1)))
 
-  (defun esk-untabify-buffer ()
-    (interactive)
-    (untabify (point-min) (point-max)))
-
   (defun esk-indent-buffer ()
     (interactive)
     (indent-region (point-min) (point-max)))

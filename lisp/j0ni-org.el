@@ -3,7 +3,6 @@
 (package-require 'org)
 
 ;; Set to the location of your Org files on your local system
-;; (setq org-directory "~/.org")
 (setq org-directory j0ni-org-dir)
 
 ;; org-journal
@@ -31,13 +30,17 @@
 (with-eval-after-load 'org
   '(progn
      ;; Set agenda file(s)
-     (add-to-list 'org-agenda-files org-journal-dir)
+     (setq org-agenda-files (list org-journal-dir
+                                  (concat j0ni-org-dir "Agenda/")))
 
-     (dolist (tag '(circle skalera orchard home))'
+     (dolist (tag '(circle skalera orchard home appcanary motiva sanity))'
        (add-to-list 'org-tag-persistent-alist tag))))
 
 ;; prevent org-mode hijacking arrow keys
 (setq org-replace-disputed-keys t)
+
+;; switch quickly
+(setq org-use-fast-todo-selection t)
 
 ;; org-babel
 (org-babel-do-load-languages

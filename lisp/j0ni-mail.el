@@ -50,8 +50,10 @@
         mu4e-confirm-quit nil
         mu4e-use-fancy-chars nil        ; they actually look shit
         ;; mu4e-html2text-command "pandoc -f html -t markdown"
-        mu4e-html2text-command "w3m -dump -T text/html"
+        ;; mu4e-html2text-command "w3m -dump -T text/html"
         ;; mu4e-html2text-command "html2text -utf8 -width 72"
+        mu4e-html2text-command 'mu4e-shr2text
+        shr-color-visible-luminance-min 75
         mu4e-headers-sort-direction 'ascending
         mu4e-headers-skip-duplicates t
         mu4e-split-view 'nope
@@ -60,53 +62,49 @@
                               (:mailing-list . 10)
                               (:from . 22)
                               (:thread-subject))
-        mu4e-compose-complete-only-after "2012-01-01")
+        mu4e-compose-complete-only-after "2012-01-01"
+        mu4e-view-show-addresses t)
 
   (require 'mu4e-contrib)
   (setq mu4e-html2text-command 'mu4e-shr2text)
 
   ;; something about ourselves
   (setq mu4e-user-mail-address-list '("j@lollyshouse.ca"
-                                      ;; "jonathan.irving@skalera.com"
-                                      ;; "jirving@circleci.com"
-                                      "jonathan.irving@gmail.com")
+                                      "jonathan.irving@gmail.com"
+                                      "j@appcanary.com"
+                                      "jonathan@appcanary.com"
+                                      "j0ni@appcanary.com")
         user-full-name "J Irving"
-        mu4e-compose-signature nil)
+        mu4e-compose-signature "Jonathan Irving\nhttp://j0ni.ca")
 
   (setq mu4e-bookmarks
-        '(          ; ("flag:unread AND NOT flag:trashed" "Unread messages" 117)
-          ("date:today..now AND NOT flag:trashed" "Today's messages" ?t)
+        '(("date:today..now AND NOT flag:trashed" "Today's messages" ?t)
           ("date:today..now" "Today's messages (with trash)" ?T)
           ("date:7d..now AND NOT flag:trashed" "Last 7 days" ?w)
+          ("date:1y..now AND NOT flag:trashed" "Last year" ?Y)
+          ("(maildir:/Gmail/INBOX OR maildir:/Gmail/sent-mail) AND date:1y..now AND NOT flag:trashed" "Last year (Gmail)" ?y)
           ("date:7d..now" "Last 7 days (with trash)" ?W)
           ("mime:image/*" "Messages with images" ?i)
 
-          ;; ("date:today..now AND NOT flag:trashed AND (maildir:/Circle/INBOX OR maildir:/Circle/sent-mail)"
-          ;;  "Today's messages (Circle inbox)"
-          ;;  ?c)
-
           ("date:3y..now AND NOT flag:trashed AND (maildir:/Circle/INBOX OR maildir:/Circle/sent-mail)"
-           "Last 3 years (Circle inbox)"
+           "Last 3 years (Circle)"
            ?C)
 
-          ;; ("subject:PPP from:circleci.com date:8w..now" "PPPs" ?p)
-
           ("date:today..now AND NOT flag:trashed AND (maildir:/Gmail/INBOX OR maildir:/Gmail/sent-mail)"
-           "Today's messages (Gmail inbox)"
+           "Today's messages (Gmail)"
            ?g)
 
           ("date:7d..now AND NOT flag:trashed AND (maildir:/Gmail/INBOX OR maildir:/Gmail/sent-mail)"
-           "Last 7 days (Gmail inbox)"
+           "Last 7 days (Gmail)"
            ?G)
 
-          ;; ("date:today..now AND NOT flag:trashed AND (maildir:/Skalera/INBOX OR maildir:/Skalera/sent-mail)"
-          ;;  "Today's messages (Skalera inbox)"
-          ;;  ?s)
+          ("date:today..now AND NOT flag:trashed AND (maildir:/Appcanary/INBOX OR maildir:/Appcanary/sent-mail)"
+           "Today's messages (Appcanary)"
+           ?a)
 
-          ;; ("date:7d..now AND NOT flag:trashed AND (maildir:/Skalera/INBOX OR maildir:/Skalera/sent-mail)"
-          ;;  "Last 7 days (Skalera inbox)"
-          ;;  ?S)
-          ))
+          ("date:7d..now AND NOT flag:trashed AND (maildir:/Appcanary/INBOX OR maildir:/Appcanary/sent-mail)"
+           "Last 7 days (Appcanary)"
+           ?A)))
 
   (setq message-send-mail-function 'message-send-mail-with-sendmail
         sendmail-program "/usr/bin/msmtp"
@@ -130,8 +128,7 @@
                        (message-fetch-field "from")))
                (account
                 (cond
-                 ;; ((string-match "jirving@circleci.com" from) "circle")
-                 ;; ((string-match "jonathan.irving@skalera.com" from) "skalera")
+                 ((string-match "j@appcanary.com" from) "appcanary")
                  ((string-match "j@lollyshouse.ca" from) "gmail"))))
             (setq message-sendmail-extra-arguments (list '"-a" account))))))
 
@@ -159,26 +156,18 @@
                                 ("/Gmail/sent-mail" . ?s)
                                 ("/Gmail/drafts"    . ?d)
                                 ("/Gmail/trash"     . ?t)))
-       (user-mail-address "j@lollyshouse.ca"))
-      ;; ("Circle"
-      ;;  (mu4e-sent-folder "/Circle/sent-mail")
-      ;;  (mu4e-drafts-folder "/Circle/drafts")
-      ;;  (mu4e-maildir-shortcuts (("/Circle/INBOX"     . ?i)
-      ;;                           ("/Circle/all-mail"  . ?a)
-      ;;                           ("/Circle/sent-mail" . ?s)
-      ;;                           ("/Circle/drafts"    . ?d)
-      ;;                           ("/Circle/trash"     . ?t)))
-      ;;  (user-mail-address "jirving@circleci.com"))
-      ;; ("Skalera"
-      ;;  (mu4e-sent-folder "/Skalera/sent-mail")
-      ;;  (mu4e-drafts-folder "/Skalera/drafts")
-      ;;  (mu4e-maildir-shortcuts (("/Skalera/INBOX"     . ?i)
-      ;;                           ("/Skalera/all-mail"  . ?a)
-      ;;                           ("/Skalera/sent-mail" . ?s)
-      ;;                           ("/Skalera/drafts"    . ?d)
-      ;;                           ("/Skalera/trash"     . ?t)))
-      ;;  (user-mail-address "jonathan.irving@skalera.com"))
-      ))
+       (user-mail-address "j@lollyshouse.ca")
+       (mu4e-compose-signature "Jonathan Irving\nhttp://j0ni.ca"))
+      ("Appcanary"
+       (mu4e-sent-folder "/Appcanary/sent-mail")
+       (mu4e-drafts-folder "/Appcanary/drafts")
+       (mu4e-maildir-shortcuts (("/Appcanary/INBOX"     . ?i)
+                                ("/Appcanary/all-mail"  . ?a)
+                                ("/Appcanary/sent-mail" . ?s)
+                                ("/Appcanary/drafts"    . ?d)
+                                ("/Appcanary/trash"     . ?t)))
+       (user-mail-address "j@appcanary.com")
+       (mu4e-compose-signature "Jonathan Irving\nhttps://appcanary.com\nhttp://j0ni.ca"))))
 
   ;; You can put any variable you want in the account lists, just make
   ;; sure that you put in all the variables that differ for each
@@ -280,10 +269,10 @@
 
   ;; Citation
   (package-require 'mu-cite)
-
   (setq mail-citation-hook 'mu-cite-original)
   (setq message-citation-hook 'mu-cite-original)
-  (setq mu-cite-top-format '(">>>>> " from " @ " date ":\n\n"))
+  (setq mu-cite-top-format '(">>>>>> " from " at " date ":\n\n"))
+  (setq mu-cite-prefix-format '("  > "))
 
   ;; (setq message-citation-line-format "* %f, on %Y-%m-%d @ %R %z:")
   ;; (setq message-citation-line-function 'message-insert-formatted-citation-line)
@@ -307,7 +296,8 @@
 (defun sign-off-email ()
   (interactive)
   (insert "   cheers, J\n   ")
-  (insert (format-time-string "%Y-%m-%d @ %H:%M:%S %z\n")))
+  ;; (insert (format-time-string "%Y-%m-%d @ %H:%M:%S %z\n"))
+  )
 
 (add-to-list 'auto-mode-alist '("mutt-ship-.*$" . message-mode))
 

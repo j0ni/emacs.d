@@ -6,7 +6,7 @@
    go-eldoc
    go-errcheck
    ;; go-play
-   go-snippets
+   ;; go-snippets
    smartparens
    flycheck))
 

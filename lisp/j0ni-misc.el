@@ -14,7 +14,6 @@
    highlight-parentheses
    smart-tab
    csv-mode
-   ;; scala-mode2
    csv-nav
    http-twiddle
    paredit-everywhere

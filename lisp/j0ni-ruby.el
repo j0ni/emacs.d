@@ -19,7 +19,8 @@
         ruby-deep-indent-paren nil
         show-trailing-whitespace nil)
   (inf-ruby-minor-mode t)
-  (smartparens-mode +1))
+  (smartparens-mode +1)
+  (robe-mode +1))
 
 (add-hook 'ruby-mode-hook 'ruby-mode-custom)
 
@@ -32,9 +33,12 @@
      (require 'ruby-mode-indent-fix)
      (require 'ruby-additional)))
 
+(eval-after-load 'company
+  '(push 'company-robe company-backends))
+
 (package-require 'rspec-mode)
-(eval-after-load 'rspec-mode
-  '(rspec-install-snippets))
+;; (eval-after-load 'rspec-mode
+;;   '(rspec-install-snippets))
 
 (package-require 'inf-ruby)
 (add-hook 'after-init-hook 'inf-ruby-switch-setup)
@@ -58,6 +62,7 @@
 
 (package-require 'rhtml-mode)
 (add-hook 'rhtml-mode-hook 'turn-off-auto-fill)
+(add-hook 'ruby-mode 'turn-off-auto-fill)
 
 ;; set up yaml mode, for want of a better place
 (package-require 'yaml-mode)

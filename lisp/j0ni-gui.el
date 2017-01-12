@@ -21,7 +21,7 @@
 (package-require 'indent-guide)
 (eval-after-load 'indent-guide
   '(progn
-     (setq indent-guide-char ":")
+     (setq indent-guide-char "|")
      (setq indent-guide-recursive nil)
      (diminish 'indent-guide-mode)))
 
@@ -32,7 +32,8 @@
 ;; a bit garish with flux. So let's put the things I always have to change in
 ;; one place and make it magic.
 (defun theme-is-one-of (themes)
-  (seq-some (lambda (theme) (eq theme j0ni-theme)) themes))
+  (when (boundp 'j0ni-theme)
+    (seq-some (lambda (theme) (eq theme j0ni-theme)) themes)))
 
 (defun set-indent-guide-face (color)
   (interactive)
@@ -72,10 +73,10 @@
         (setq sml/theme 'respectful)))))
 
   (unless (theme-is-one-of '(phoenix-dark-pink))
-    (set-indent-face (pcase tint
-                       ('light "gray80")
-                       ('mid "gray70")
-                       (_ "gray30"))))
+    (set-indent-guide-face (pcase tint
+                             ('light "gray80")
+                             ('mid "gray70")
+                             (_ "gray30"))))
   (sml/setup)
   (apply-font-settings))
 
