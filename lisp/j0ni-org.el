@@ -111,8 +111,8 @@
 (add-hook 'org-mode-hook 'turn-on-auto-fill)
 
 ;; let's try synchronizing with github
-(package-require 'org-sync)
-(require 'org-sync-github)
-(setq org-sync-github-auth '("j0ni" . "204df281f074ea870ec24012659f34d424839677"))
+;; (package-require 'org-sync)
+;; (require 'org-sync-github)
+;; (setq org-sync-github-auth '("j0ni" . "blah"))
 
 (provide 'j0ni-org)
