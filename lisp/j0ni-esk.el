@@ -32,7 +32,7 @@
             1 font-lock-warning-face t))))
 
   (add-hook 'prog-mode-hook 'esk-local-column-number-mode)
-  (add-hook 'prog-mode-hook 'esk-local-comment-auto-fill)
+  ;; (add-hook 'prog-mode-hook 'esk-local-comment-auto-fill)
   (add-hook 'prog-mode-hook 'esk-turn-on-save-place-mode)
   (add-hook 'prog-mode-hook 'esk-add-watchwords)
 

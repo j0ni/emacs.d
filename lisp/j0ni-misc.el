@@ -19,7 +19,8 @@
    paredit-everywhere
    ;; session
    dumb-jump
-   debbugs))
+   debbugs
+   terraform-mode))
 
 (with-eval-after-load 'dumb-jump-mode
   (progn
@@ -113,9 +114,9 @@
 (defun turn-off-auto-fill ()
   (auto-fill-mode -1))
 
-;; In general we only want this for comments
-(auto-fill-mode 1)
-(setq comment-auto-fill-only-comments t)
+;; In general we only want this for comments - esk-local-comment-auto-fill
+;; should take care of this. But I'm not sure I want auto-fill at all tbh.
+;; (setq-default comment-auto-fill-only-comments t)
 
 (package-require 'smartparens)
 (require 'smartparens-config)
@@ -297,5 +298,10 @@ the mode-line."
 ;; (emms-default-players)
 
 ;; (setq emms-source-file-default-directory "~/Desktop/")
+
+;; sql-indent (site-lisp)
+
+;; (require 'sql-indent)
+;; (add-hook 'sql-mode-hook 'sqlind-setup)
 
 (provide 'j0ni-misc)

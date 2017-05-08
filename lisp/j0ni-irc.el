@@ -14,7 +14,7 @@
          :pass ,proxy-password)
         ("Freenode"
          :nick "j0nii"
-         :channels ("#clojure" "#elixir-lang" "#lisp" "#clojure-emacs" "#clojureTO" "#emacs")
+         :channels ("#clojure" "#elixir-lang" "#lisp" "#clojure-emacs" "#clojureTO" "#emacs" "#erlang" "#erlounge")
          :nickserv-password ,freenode-password)
         ("GIMPNet"
          :host "irc.gimp.ca"

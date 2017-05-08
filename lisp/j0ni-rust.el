@@ -10,10 +10,11 @@
 ;; Set path to racer binary
 ;; (setq racer-cmd (concat-home ".cargo/bin/racer"))
 
-(setenv "RUST_SRC_PATH" (concat-home ".multirust/toolchains/nightly-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/src"))
+(setenv "RUST_SRC_PATH" (concat-home ".multirust/toolchains/beta-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/src"))
 
 ;; Set path to rust src directory
-(setq racer-rust-src-path (getenv "RUST_SRC_PATH"))
+;; (setq racer-rust-src-path (getenv "RUST_SRC_PATH"))
+(setq racer-rust-src-path (concat-home ".multirust/toolchains/beta-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/src"))
 
 ;; Load rust-mode when you open `.rs` files
 (add-to-list 'auto-mode-alist '("\\.rs$" . rust-mode))

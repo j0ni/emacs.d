@@ -1,7 +1,12 @@
 ;;; j0ni-git.el
 
 ;; magit
-(package-require 'magit)
+(packages-require '(magit
+                    magithub))
+
+;; (require 'magithub)
+;; (magithub-feature-autoinject t)
+
 (global-set-key (kbd "C-x g") 'magit-status)
 (setq magit-last-seen-setup-instructions "1.4.0")
 ;; (setq magit-popup-use-prefix-argument 'popup)
@@ -48,5 +53,10 @@
 ;;                     logito
 ;;                     gh
 ;;                     gist))
+
+(packages-require '(git-link
+                    github-browse-file))
+
+(setq git-link-open-in-browser t)
 
 (provide 'j0ni-git)

@@ -44,18 +44,21 @@
   ;; default
   (setq mu4e-sent-folder "/Gmail/sent-mail"
         mu4e-auto-retrieve-keys t
+        mu4e-decryption-policy t
         mu4e-drafts-folder "/Gmail/drafts"
         mu4e-trash-folder "/Gmail/trash"
         mu4e-update-interval 300
         mu4e-confirm-quit nil
-        mu4e-use-fancy-chars nil        ; they actually look shit
+        mu4e-use-fancy-chars nil ;; they actually look shit
         ;; mu4e-html2text-command "pandoc -f html -t markdown"
         ;; mu4e-html2text-command "w3m -dump -T text/html"
         ;; mu4e-html2text-command "html2text -utf8 -width 72"
         mu4e-html2text-command 'mu4e-shr2text
-        shr-color-visible-luminance-min 75
+        shr-color-visible-luminance-min 70
         mu4e-headers-sort-direction 'ascending
         mu4e-headers-skip-duplicates t
+        mu4e-headers-hide-predicate nil
+        mu4e-headers-include-related nil
         mu4e-split-view 'nope
         mu4e-headers-fields '((:human-date . 12)
                               (:flags . 6)
@@ -66,7 +69,7 @@
         mu4e-view-show-addresses t)
 
   (require 'mu4e-contrib)
-  (setq mu4e-html2text-command 'mu4e-shr2text)
+  ;; (setq mu4e-html2text-command 'mu4e-shr2text)
 
   ;; something about ourselves
   (setq mu4e-user-mail-address-list '("j@lollyshouse.ca"
@@ -262,10 +265,12 @@
   (defun my-compose-mode-setup ()
     "My settings for message composition."
     (set-fill-column 72)
+    (turn-on-auto-fill)
     ;; (flyspell-mode)
     (mml-secure-message-sign-pgpmime))
 
   (add-hook 'mu4e-compose-mode-hook 'my-compose-mode-setup)
+  (add-hook 'message-mode-hook 'my-compose-mode-setup)
 
   ;; Citation
   (package-require 'mu-cite)
@@ -273,6 +278,9 @@
   (setq message-citation-hook 'mu-cite-original)
   (setq mu-cite-top-format '(">>>>>> " from " at " date ":\n\n"))
   (setq mu-cite-prefix-format '("  > "))
+
+  ;; Eliding
+  (setq message-elide-ellipsis "[... elided ...]")
 
   ;; (setq message-citation-line-format "* %f, on %Y-%m-%d @ %R %z:")
   ;; (setq message-citation-line-function 'message-insert-formatted-citation-line)

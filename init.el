@@ -3,7 +3,7 @@
 (defun insert-shrug ()
   (interactive)
   (insert "¯\\_(ツ)_/¯"))
-(global-set-key (kbd "C-c C-s") 'insert-shrug)
+(global-set-key (kbd "C-c M-C-s") 'insert-shrug)
 
 ;; Get here more easily
 (setq local-function-key-map (delq '(kp-tab . [9]) local-function-key-map))
@@ -41,6 +41,8 @@
     (add-to-list 'load-path sdir)))
 
 (progn
+  (defvar j0ni-font)
+  (defvar j0ni-linum-font)
   ;; (defvar j0ni-font "Anonymous Pro-10")
   ;; (defvar j0ni-linum-font "Anonymous Pro-9")
   ;; (defvar j0ni-font "Droid Sans Mono Dotted-12")
@@ -49,25 +51,29 @@
   ;; (defvar j0ni-linum-font "Droid Sans Mono Dotted-12")
   ;; (defvar j0ni-font "PragmataPro Mono-10")
   ;; (defvar j0ni-linum-font "PragmataPro Mono-9")
-  (defvar j0ni-font "PragmataPro Mono-12")
-  (defvar j0ni-linum-font "PragmataPro Mono-10")
-  ;; (defvar j0ni-font "Consolas-12")
-  ;; (defvar j0ni-font "Lucida Grande Mono-9")
-  ;; (defvar j0ni-linum-font "Lucida Grande Mono-8")
-  ;; (defvar j0ni-font "Linux Libertine Mono-10")
-  ;; (defvar j0ni-linum-font "Linux Libertine Mono-8")
-  ;; (defvar j0ni-font "Fira Mono Medium-9")
-  ;; (defvar j0ni-linum-font "Fira Mono-8")
-  ;; (defvar j0ni-font "Go Mono-12")
-  ;; (defvar j0ni-linum-font "Go Mono-8")
-  ;; (defvar j0ni-font "Lucida Grande Mono Nrw-11")
-  ;; (defvar j0ni-linum-font "Lucida Grande Mono Nrw-8")
+  ;; (setq j0ni-font "PragmataPro Mono-11")
+  ;; (setq j0ni-linum-font "PragmataPro Mono-10")
+  ;; (setq j0ni-font "Consolas-12")
+  ;; (setq j0ni-linum-font "Consolas-10")
+  (setq j0ni-font "Lucida Grande Mono-10")
+  (setq j0ni-linum-font "Lucida Grande Mono-9")
+  ;; (setq j0ni-font "Linux Libertine Mono-9")
+  ;; (setq j0ni-linum-font "Linux Libertine Mono-8")
+  ;; (setq j0ni-font "Fira Mono Medium-9")
+  ;; (setq j0ni-linum-font "Fira Mono-8")
+  ;; (setq j0ni-font "Go Mono-9")
+  ;; (setq j0ni-linum-font "Go Mono-8")
+  ;; (setq j0ni-font "Lucida Grande Mono Nrw-11")
+  ;; (setq j0ni-linum-font "Lucida Grande Mono Nrw-10")
+  ;; (setq j0ni-font "Envy Code R-10")
+  ;; (setq j0ni-linum-font "Envy Code R-10")
   ;; (defvar j0ni-font "Lucida Grande Mono Nrw-28")
   ;; (defvar j0ni-font "Lucida Grande Mono Nrw-12")
   (when (fboundp 'apply-font-settings)
+    (setq-default line-spacing 3)
     (apply-font-settings)))
 
-(setq-default line-spacing 2)
+
 
 ;; Themes we want to install
 
@@ -92,6 +98,8 @@
     solarized-theme
     phoenix-dark-pink-theme
     phoenix-dark-mono-theme
+    dakrone-theme
+    dakrone-light-theme
     ;; color-theme-github
     clues-theme
     sublime-themes
@@ -109,6 +117,7 @@
     flatui-theme
     moe-theme
     minimal-theme
+    sexy-monochrome-theme
     plan9-theme
     stekene-theme
     spacemacs-theme
@@ -121,7 +130,15 @@
     spacegray-theme
     oceanic-theme
     hipster-theme
-    airline-themes))
+    kaolin-theme
+    airline-themes
+    monochrome-theme
+    reykjavik-theme
+    occidental-theme
+    badwolf-theme
+    arjen-grey-theme
+    rebecca-theme
+    dracula-theme))
 
 ;; Theme I like at the moment
 ;; (defvar j0ni-theme 'phoenix-dark-pink)
@@ -129,7 +146,7 @@
 ;; (defvar j0ni-theme 'late-night)
 ;; (defvar j0ni-theme 'tango-dark)
 ;; (defvar j0ni-theme 'tango-2)
-(defvar j0ni-theme 'material)
+;; (defvar j0ni-theme 'material)
 ;; (defvar j0ni-theme 'material-light)
 ;; (defvar j0ni-theme 'stekene-light)
 ;; (defvar j0ni-theme 'stekene-dark)
@@ -142,10 +159,14 @@
 ;; (defvar j0ni-theme 'spacemacs-dark)
 ;; (defvar j0ni-theme 'spacemacs-light)
 ;; (defvar j0ni-theme 'sanityinc-tomorrow-night)
+;; - (defvar j0ni-theme 'sanityinc-tomorrow-bright)
 ;; (defvar j0ni-theme 'sanityinc-tomorrow-floraverse)
 ;; (defvar j0ni-theme 'sanityinc-tomorrow-floraverse-boost)
 ;; (defvar j0ni-theme 'bubbleberry)
 ;; (defvar j0ni-theme 'zenburn)
+(defvar j0ni-theme 'dracula)
+;; (defvar j0ni-theme 'rebecca)
+;; (defvar j0ni-theme 'kaolin)
 ;; (defvar j0ni-theme 'lawrence)
 ;; (defvar j0ni-theme 'darkburn)
 ;; (defvar j0ni-theme 'base16-apathy-dark)
@@ -153,6 +174,8 @@
 ;; (defvar j0ni-theme 'base16-solarized-dark)
 ;; (defvar j0ni-theme 'base16-green-screen)
 ;; (defvar j0ni-theme 'base16-grayscale-dark)
+;; (defvar j0ni-theme 'base16-atelier-cave-light)
+;; (defvar j0ni-theme 'base16-default-dark)
 ;; (defvar j0ni-theme 'sourcerer)
 ;; (defvar j0ni-theme 'base16-isotope)
 ;; (defvar j0ni-theme 'base16-ir-black)
@@ -171,6 +194,12 @@
 ;; (defvar j0ni-theme 'flatui)
 ;; (defvar j0ni-theme 'subatomic)
 ;; (defvar j0ni-theme 'ir-black)
+;; (defvar j0ni-theme 'monochrome)
+;; (defvar j0ni-theme 'sexy-monochrome)
+;; (defvar j0ni-theme 'reykjavik)
+;; (defvar j0ni-theme 'arjen-grey)
+;; (defvar j0ni-theme 'flatland)
+;; (defvar j0ni-theme 'adwaita)
 
 ;; 'dark 'mid 'light
 (defvar j0ni-theme-tint 'dark)
@@ -197,6 +226,7 @@
 (defvar j0ni-path (list (concat-home ".cabal/bin")
                         (concat-home ".cargo/bin")
                         (concat-home "Scratch/clojure/leiningen")
+                        (concat-home "Scratch/clojure/boot")
                         (concat-home "Scratch/go/bin")
                         "/usr/local/bin"))
 ;; Where are the system Git contrubutions?
@@ -236,9 +266,10 @@
 (defalias 'yes-or-no-p 'y-or-n-p)
 
 ;; Get hostname
-(setq hostname (replace-regexp-in-string "\\(^[[:space:]\n]*\\|[[:space:]\n]*$\\)"
-                                         ""
-                                         (with-output-to-string (call-process "hostname" nil standard-output))))
+(setq hostname (replace-regexp-in-string
+                "\\(^[[:space:]\n]*\\|[[:space:]\n]*$\\)"
+                ""
+                (with-output-to-string (call-process "hostname" nil standard-output))))
 
 ;; Set paths to custom.el and loaddefs.el
 (setq autoload-file (concat dotfiles-dir "loaddefs.el"))
@@ -310,8 +341,7 @@
 (use-package diminish)
 
 (setq j0ni-pkg-full
-      '(
-        ;; j0ni-evil
+      '(j0ni-evil
         j0ni-snippets
         j0ni-esk
         j0ni-eshell
@@ -321,6 +351,7 @@
         j0ni-codestyle ;; what even is this
         j0ni-lisp
         j0ni-elixir
+        j0ni-erlang
         j0ni-julia
         ;; j0ni-flycheck
         ;; j0ni-ido

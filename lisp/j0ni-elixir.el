@@ -1,4 +1,4 @@
-;;; j0ni-elixir.el -- Elixir configuration
+;;; j0ni-elixir.el --- Elixir configuration
 
 (packages-require '(elixir-mode
                     alchemist))

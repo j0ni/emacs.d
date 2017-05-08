@@ -83,8 +83,10 @@
 (setq org-capture-templates
       '(("j" "Journal entry" entry (file+datetree "")
          "* %<%H:%M> %?\n")
+        ("J" "Hinted Journal entry" entry (file+datetree "")
+         "* %<%H:%M> %?\n** How do I feel?\n** What have I been doing?\n** What shall I do next?")
         ("t" "Task" entry (file+headline "" "Tasks")
-         "* TODO %?\n  %u\n  %a")))
+         "* TODO %?\n%u")))
 
 ;; org-fstree
 (package-require 'org-fstree)
@@ -94,6 +96,7 @@
 (package-require 'deft)
 (setq deft-extension "org"
       deft-directory j0ni-org-dir
+      deft-recursive t
       deft-text-mode 'org-mode
       deft-use-filename-as-title t
       deft-auto-save-interval 0)
@@ -106,5 +109,10 @@
 ;; (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
 
 (add-hook 'org-mode-hook 'turn-on-auto-fill)
+
+;; let's try synchronizing with github
+(package-require 'org-sync)
+(require 'org-sync-github)
+(setq org-sync-github-auth '("j0ni" . "204df281f074ea870ec24012659f34d424839677"))
 
 (provide 'j0ni-org)
