@@ -24,6 +24,10 @@
 ;; get a completion note - let's see how easy this is to deal with
 (setq org-log-done 'note)
 
+;; time tracking
+(setq org-clock-persist 'history)
+(org-clock-persistence-insinuate)
+
 ;; indentation for org-mode
 (setq org-startup-indented t)
 

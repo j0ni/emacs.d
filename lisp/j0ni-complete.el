@@ -23,7 +23,7 @@
 
 ;; Python
 (package-require 'company-anaconda)
-(add-to-list 'company-backends 'company-anaconda)
+(add-to-list 'company-backends '(company-anaconda :with company-capf))
 
 ;; Ruby
 (package-require 'company-inf-ruby)
