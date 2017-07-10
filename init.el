@@ -136,6 +136,7 @@
     rebecca-theme
     dracula-theme))
 
+(defvar j0ni-theme)
 ;; Theme I like at the moment
 ;; (defvar j0ni-theme 'phoenix-dark-pink)
 ;; (defvar j0ni-theme 'phoenix-dark-mono)
@@ -160,7 +161,7 @@
 ;; (defvar j0ni-theme 'sanityinc-tomorrow-floraverse-boost)
 ;; (defvar j0ni-theme 'bubbleberry)
 ;; (defvar j0ni-theme 'zenburn)
-(defvar j0ni-theme 'dracula)
+(setq j0ni-theme 'dracula)
 ;; (defvar j0ni-theme 'rebecca)
 ;; (defvar j0ni-theme 'kaolin)
 ;; (defvar j0ni-theme 'lawrence)
