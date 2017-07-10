@@ -1,5 +1,37 @@
 ;;; init.el --- new init, based on Bodil Stokke's
 
+;; Good chance this is what I want :P
+(progn
+  ;; new
+  (defvar j0ni-font-face)
+  (defvar j0ni-font-size)
+  (defvar j0ni-line-spacing)
+  ;; old
+  (defvar j0ni-default-font)
+  (defvar j0ni-linum-font)
+  ;; (setq j0ni-linum-font "PragmataPro Mono-10")
+  ;; (setq j0ni-font "Consolas-12")
+  ;; (setq j0ni-linum-font "Consolas-10")
+  ;; (setq j0ni-linum-font "Lucida Grande Mono-9")
+  ;; (setq j0ni-font "Linux Libertine Mono-9")
+  ;; (setq j0ni-linum-font "Linux Libertine Mono-8")
+  ;; (setq j0ni-font "Fira Mono Medium-9")
+  ;; (setq j0ni-linum-font "Fira Mono-8")
+  ;; (setq j0ni-font "Go Mono-10")
+  ;; (setq j0ni-linum-font "Go Mono-8")
+  ;; (setq j0ni-font-face "PragmataPro Mono")
+  (setq j0ni-font-face "Lucida Grande Mono")
+  ;; (setq j0ni-font-face "Lucida Grande Mono Nrw")
+  (setq j0ni-font-size 12)
+  (setq j0ni-line-spacing 2)
+
+  (setq j0ni-default-font "Lucida Grande Mono Nrw-12")
+  (setq j0ni-linum-font "Lucida Grande Mono Nrw-10")
+  ;; (setq j0ni-font "Envy Code R-10")
+  ;; (setq j0ni-linum-font "Envy Code R-10")
+  (when (fboundp 'set-font-dwim)
+    (set-font-dwim)))
+
 (defun insert-shrug ()
   (interactive)
   (insert "¯\\_(ツ)_/¯"))
@@ -40,43 +72,7 @@
   (when (file-directory-p sdir)
     (add-to-list 'load-path sdir)))
 
-(progn
-  (defvar j0ni-font)
-  (defvar j0ni-linum-font)
-  ;; (defvar j0ni-font "Anonymous Pro-10")
-  ;; (defvar j0ni-linum-font "Anonymous Pro-9")
-  ;; (defvar j0ni-font "Droid Sans Mono Dotted-12")
-  ;; (defvar j0ni-linum-font "Droid Sans Mono Dotted-10")
-  ;; (defvar j0ni-font "Droid Sans Mono Dotted-14")
-  ;; (defvar j0ni-linum-font "Droid Sans Mono Dotted-12")
-  ;; (defvar j0ni-font "PragmataPro Mono-10")
-  ;; (defvar j0ni-linum-font "PragmataPro Mono-9")
-  ;; (setq j0ni-font "PragmataPro Mono-11")
-  ;; (setq j0ni-linum-font "PragmataPro Mono-10")
-  ;; (setq j0ni-font "Consolas-12")
-  ;; (setq j0ni-linum-font "Consolas-10")
-  (setq j0ni-font "Lucida Grande Mono-10")
-  (setq j0ni-linum-font "Lucida Grande Mono-9")
-  ;; (setq j0ni-font "Linux Libertine Mono-9")
-  ;; (setq j0ni-linum-font "Linux Libertine Mono-8")
-  ;; (setq j0ni-font "Fira Mono Medium-9")
-  ;; (setq j0ni-linum-font "Fira Mono-8")
-  ;; (setq j0ni-font "Go Mono-9")
-  ;; (setq j0ni-linum-font "Go Mono-8")
-  ;; (setq j0ni-font "Lucida Grande Mono Nrw-11")
-  ;; (setq j0ni-linum-font "Lucida Grande Mono Nrw-10")
-  ;; (setq j0ni-font "Envy Code R-10")
-  ;; (setq j0ni-linum-font "Envy Code R-10")
-  ;; (defvar j0ni-font "Lucida Grande Mono Nrw-28")
-  ;; (defvar j0ni-font "Lucida Grande Mono Nrw-12")
-  (when (fboundp 'apply-font-settings)
-    (setq-default line-spacing 3)
-    (apply-font-settings)))
-
-
-
 ;; Themes we want to install
-
 (require 'color-theme-tomorrow)
 ;; (require 'lawrence-theme)
 ;; (color-theme-tomorrow-night)

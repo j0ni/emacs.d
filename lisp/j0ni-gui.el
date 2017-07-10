@@ -115,14 +115,37 @@
 
 (when (display-graphic-p)
   ;; Only define these fns if we have a GUI, but make them reusable
-  (defun apply-font-settings ()
+  (defun apply-font-settings (&optional default-font linum-font)
     "Apply font choices across the board."
     (interactive)
-    (set-face-attribute 'default nil :font (font-spec :name j0ni-font
-                                                      :antialias t))
+    (set-face-attribute 'default nil
+                        :font (font-spec :name (or default-font j0ni-default-font)
+                                         :antialias t))
     (eval-after-load 'linum
-      '(set-face-attribute 'linum nil :font (font-spec :name j0ni-font
-                                                       :antialias t))))
+      '(set-face-attribute 'linum nil
+                           :font (font-spec :name (or linum-font j0ni-linum-font)
+                                            :antialias t))))
+
+  (defun set-font-dwim (&optional size font ln-spc)
+    (let ((ln-spc (or ln-spc j0ni-line-spacing))
+        (font (or font j0ni-font-face))
+        (size (or size j0ni-font-size)))
+      (setq j0ni-default-font (concat font "-" (format "%d" size)))
+      (setq j0ni-linum-font (concat font "-" (format "%d" (- size 1))))
+      (setq-default line-spacing ln-spc)
+      (apply-font-settings)))
+
+  (defun j0ni-inc-font-size ()
+    (interactive "*")
+    (setq j0ni-font-size (+ j0ni-font-size 1))
+    (set-font-dwim))
+  (defun j0ni-dec-font-size ()
+    (interactive "*")
+    (setq j0ni-font-size (- j0ni-font-size 1))
+    (set-font-dwim))
+
+  (global-set-key (kbd "C-+") 'j0ni-inc-font-size)
+  (global-set-key (kbd "C--") 'j0ni-dec-font-size)
 
   (defun set-mode-line-box ()
     "Makes a nice popout box around the mode line."
@@ -140,7 +163,7 @@
      (face-list)))
 
   ;; run the setup
-  (apply-font-settings)
+  (set-font-dwim)
   ;; (normalize-fonts)
   )
 
