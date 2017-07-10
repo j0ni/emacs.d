@@ -176,6 +176,9 @@
 ;; java
 (add-to-list 'auto-mode-alist '("\\.java\\'" . java-mode))
 
+;; kotlin
+(package-require 'kotlin-mode)
+
 ;; puppet-mode sucks right now
 (package-require 'puppet-mode)
 (add-hook 'puppet-mode 'turn-on-smartparens-mode)
