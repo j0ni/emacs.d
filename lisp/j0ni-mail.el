@@ -53,13 +53,13 @@
         ;; mu4e-html2text-command "pandoc -f html -t markdown"
         ;; mu4e-html2text-command "w3m -dump -T text/html"
         ;; mu4e-html2text-command "html2text -utf8 -width 72"
-        mu4e-html2text-command 'mu4e-shr2text
+        ;; mu4e-html2text-command 'mu4e-shr2text
         shr-color-visible-luminance-min 70
         mu4e-headers-sort-direction 'ascending
         mu4e-headers-skip-duplicates t
         mu4e-headers-hide-predicate nil
         mu4e-headers-include-related nil
-        mu4e-split-view 'nope
+        mu4e-split-view 'single-window
         mu4e-headers-fields '((:human-date . 12)
                               (:flags . 6)
                               (:mailing-list . 10)
@@ -69,7 +69,7 @@
         mu4e-view-show-addresses t)
 
   (require 'mu4e-contrib)
-  ;; (setq mu4e-html2text-command 'mu4e-shr2text)
+  (setq mu4e-html2text-command 'mu4e-shr2text)
 
   ;; something about ourselves
   (setq mu4e-user-mail-address-list '("j@lollyshouse.ca"
