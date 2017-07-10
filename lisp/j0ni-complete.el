@@ -4,6 +4,7 @@
 (require 'company)
 (add-hook 'after-init-hook 'global-company-mode)
 ;; (global-set-key (kbd "C-\\") 'company-complete)
+(diminish 'company-mode)
 
 (setq company-global-modes '(not term-mode org-mode))
 
