@@ -25,7 +25,9 @@
 (setq org-log-done 'note)
 
 ;; time tracking
-(setq org-clock-persist 'history)
+(setq org-clock-persist t)
+(setq org-time-clocksum-format
+      '(:hours "%d" :require-hours t :minutes ":%02d" :require-minutes t))
 (org-clock-persistence-insinuate)
 
 ;; indentation for org-mode
