@@ -474,7 +474,9 @@
          st))))
 
 ;; (add-hook 'clojure-mode-hook #'inf-clojure-minor-mode)
+(add-hook 'clojure-mode-hook #'eldoc-mode)
 (add-hook 'inf-clojure-mode-hook #'eldoc-mode)
+
 
 
 ;; nRepl/cider
