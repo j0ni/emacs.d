@@ -60,5 +60,7 @@
 (add-to-list 'ws-butler-global-exempt-modes 'message-mode)
 (add-to-list 'ws-butler-global-exempt-modes 'mu4e-compose-mode)
 (add-to-list 'ws-butler-global-exempt-modes 'mml-mode)
+(add-to-list 'ws-butler-global-exempt-modes 'ein:notebook-mode)
+(add-to-list 'ws-butler-global-exempt-modes 'ein:notebook-multilang-mode)
 
 (provide 'j0ni-codestyle)
