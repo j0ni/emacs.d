@@ -130,7 +130,7 @@
 
 ;; Rainbow delimiters
 (package-require 'rainbow-delimiters)
-;; (add-lisp-hook 'rainbow-delimiters-mode)
+(add-lisp-hook 'rainbow-delimiters-mode)
 
 ;; Lambdas
 (defun lambda-as-lambda (mode pattern)
