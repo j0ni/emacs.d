@@ -388,6 +388,7 @@
         ;; j0ni-ido
         j0ni-ivy
         ;; j0ni-helm
+        j0ni-ml
         j0ni-go
         j0ni-js
         j0ni-git
