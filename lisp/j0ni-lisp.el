@@ -4,21 +4,17 @@
 
 (require 'j0ni-defuns)
 
-(packages-require '(clojure-mode
-                    cider
-                    inf-clojure
-                    ;; racket-mode
-                    geiser
+(packages-require '(elein
+                    kibit-helper
+                    racket-mode
+                    ;; geiser
                     hy-mode))
 
 (setq j0ni-lisp-modes '(scheme-mode
-                        ;; racket-mode
-                        geiser
+                        racket-mode
+                        ;; geiser
                         emacs-lisp-mode
                         lisp-mode
-                        clojure-mode
-                        cider-repl-mode
-                        inf-clojure-mode
                         hy-mode))
 
 (defun add-lisp-hook (func)
@@ -635,27 +631,31 @@ Display the results in a hyperlinked *compilation* buffer."
 
 ;; Racket
 
-;; (package-require 'racket-mode)
-;; (setq racket-racket-program "/Applications/Racket v6.5/bin/racket"
-;;       racket-raco-program "/Applications/Racket v6.5/bin/raco"
-;;       racket-smart-open-bracket-enable t)
+(add-hook 'racket-mode-hook      #'racket-unicode-input-method-enable)
+(add-hook 'racket-repl-mode-hook #'racket-unicode-input-method-enable)
 
-;; (defun my-racket-mode-hook ()
-;;   (define-key racket-mode-map (kbd "C-M-z") 'racket-align))
+(package-require 'racket-mode)
+(setq racket-smart-open-bracket-enable t)
 
-;; (defun my-racket-repl-mode-hook ()
-;;   (enable-paren-handling))
+(defun my-racket-mode-hook ()
+  (interactive)
+  (enable-paren-handling)
+  (rainbow-delimiters-mode 1)
+  (define-key racket-mode-map (kbd "C-c SPC") 'racket-align))
 
-;; (add-hook 'racket-mode-hook 'my-racket-mode-hook)
-;; (add-hook 'racket-repl-mode-hook 'my-racket-repl-mode-hook)
+(defun my-racket-repl-mode-hook ()
+  (enable-paren-handling))
+
+(add-hook 'racket-mode-hook 'my-racket-mode-hook)
+(add-hook 'racket-repl-mode-hook 'my-racket-repl-mode-hook)
 
 ;; Geiser
 
-(setq geiser-active-implementations '(racket chicken guile))
-(setq geiser-repl-history-filename "~/.emacs.d/geiser-history")
+;; (setq geiser-active-implementations '(racket chicken guile))
+;; (setq geiser-repl-history-filename "~/.emacs.d/geiser-history")
 
 ;; baseline scheme
-(setq scheme-program-name "csi -:c")
+;; (setq scheme-program-name "csi -:c")
 
 ;; tell scheme-mode about the test extension
 (put 'test-group 'scheme-indent-function 1)
