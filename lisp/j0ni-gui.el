@@ -115,21 +115,23 @@
 
 (when (display-graphic-p)
   ;; Only define these fns if we have a GUI, but make them reusable
-  (defun apply-font-settings (&optional default-font linum-font)
+  (defun apply-font-settings (&optional default-font linum-font antialias)
     "Apply font choices across the board."
     (interactive)
     (set-face-attribute 'default nil
                         :font (font-spec :name (or default-font j0ni-default-font)
-                                         :antialias t))
+                                         :antialias (or antialias j0ni-antialias)))
     (eval-after-load 'linum
       '(set-face-attribute 'linum nil
                            :font (font-spec :name (or linum-font j0ni-linum-font)
-                                            :antialias t))))
+                                            :antialias (or antialias j0ni-antialias)))))
 
-  (defun set-font-dwim (&optional size font ln-spc)
+  (defun set-font-dwim (&optional size font ln-spc antialias)
+    (interactive)
     (let ((ln-spc (or ln-spc j0ni-line-spacing))
         (font (or font j0ni-font-face))
-        (size (or size j0ni-font-size)))
+        (size (or size j0ni-font-size))
+        (antialias (or antialias j0ni-antialias)))
       (setq j0ni-default-font (concat font "-" (format "%d" size)))
       (setq j0ni-linum-font (concat font "-" (format "%d" (- size 1))))
       (setq-default line-spacing ln-spc)
