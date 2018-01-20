@@ -66,7 +66,8 @@
                               (:from . 22)
                               (:thread-subject))
         mu4e-compose-complete-only-after "2012-01-01"
-        mu4e-view-show-addresses t)
+        mu4e-view-show-addresses t
+        mu4e-date-format-long "%FT%T%z")
 
   (require 'mu4e-contrib)
   (setq mu4e-html2text-command 'mu4e-shr2text)
@@ -76,38 +77,53 @@
                                       "jonathan.irving@gmail.com"
                                       "j@appcanary.com"
                                       "jonathan@appcanary.com"
-                                      "j0ni@appcanary.com")
+                                      "j0ni@appcanary.com"
+                                      "jon@motiva.ai")
         user-full-name "J Irving"
-        mu4e-compose-signature "Jonathan Irving\nhttp://j0ni.ca")
+        mu4e-compose-signature "Jonathan Irving\nhttps://j0ni.ca")
 
   (setq mu4e-bookmarks
-        '(("date:today..now AND NOT flag:trashed" "Today's messages" ?t)
-          ("date:today..now" "Today's messages (with trash)" ?T)
+        '(("date:24h..now AND NOT flag:trashed" "Last day's messages" ?t)
+          ("date:24h..now" "Last day's messages (with trash)" ?T)
           ("date:7d..now AND NOT flag:trashed" "Last 7 days" ?w)
           ("date:1y..now AND NOT flag:trashed" "Last year" ?Y)
           ("(maildir:/Gmail/INBOX OR maildir:/Gmail/sent-mail) AND date:1y..now AND NOT flag:trashed" "Last year (Gmail)" ?y)
           ("date:7d..now" "Last 7 days (with trash)" ?W)
           ("mime:image/*" "Messages with images" ?i)
 
-          ("date:3y..now AND NOT flag:trashed AND (maildir:/Circle/INBOX OR maildir:/Circle/sent-mail)"
+          ("date:3y..now AND (maildir:/Circle/INBOX OR maildir:/Circle/sent-mail) AND NOT flag:trashed"
            "Last 3 years (Circle)"
            ?C)
 
-          ("date:today..now AND NOT flag:trashed AND (maildir:/Gmail/INBOX OR maildir:/Gmail/sent-mail)"
-           "Today's messages (Gmail)"
+          ("date:24h..now AND (maildir:/Gmail/INBOX OR maildir:/Gmail/sent-mail) AND NOT flag:trashed"
+           "Last day's messages (Gmail)"
            ?g)
 
-          ("date:7d..now AND NOT flag:trashed AND (maildir:/Gmail/INBOX OR maildir:/Gmail/sent-mail)"
+          ("date:7d..now AND (maildir:/Gmail/INBOX OR maildir:/Gmail/sent-mail) AND NOT flag:trashed"
            "Last 7 days (Gmail)"
            ?G)
 
-          ("date:today..now AND NOT flag:trashed AND (maildir:/Appcanary/INBOX OR maildir:/Appcanary/sent-mail)"
-           "Today's messages (Appcanary)"
-           ?a)
+          ("date:7d..now AND maildir:/Gmail/Clojure AND NOT flag:trashed"
+           "Last 7 days (Clojure)"
+           ?c)
 
-          ("date:7d..now AND NOT flag:trashed AND (maildir:/Appcanary/INBOX OR maildir:/Appcanary/sent-mail)"
-           "Last 7 days (Appcanary)"
-           ?A)))
+          ;; ("date:today..now AND NOT flag:trashed AND (maildir:/Appcanary/INBOX OR maildir:/Appcanary/sent-mail)"
+          ;;  "Today's messages (Appcanary)"
+          ;;  ?a)
+
+          ;; ("date:7d..now AND NOT flag:trashed AND (maildir:/Appcanary/INBOX OR maildir:/Appcanary/sent-mail)"
+          ;;  "Last 7 days (Appcanary)"
+          ;;  ?A)
+
+          ;; ("date:today..now AND NOT flag:trashed AND (maildir:/Motiva/INBOX OR maildir:/Motiva/sent-mail)"
+          ;;  "Today's messages (Motiva)"
+          ;;  ?m)
+
+          ;; ("date:7d..now AND NOT flag:trashed AND (maildir:/Motiva/INBOX OR maildir:/Motiva/sent-mail)"
+          ;;  "Last 7 days (Motiva)"
+          ;;  ?M)
+
+          ))
 
   (setq message-send-mail-function 'message-send-mail-with-sendmail
         sendmail-program "/usr/bin/msmtp"
@@ -132,7 +148,8 @@
                (account
                 (cond
                  ((string-match "j@appcanary.com" from) "appcanary")
-                 ((string-match "j@lollyshouse.ca" from) "gmail"))))
+                 ((string-match "j@lollyshouse.ca" from) "gmail")
+                 ((string-match "jon@motiva.ai" from) "motiva"))))
             (setq message-sendmail-extra-arguments (list '"-a" account))))))
 
   (add-hook 'message-send-mail-hook 'choose-msmtp-account)
@@ -160,17 +177,28 @@
                                 ("/Gmail/drafts"    . ?d)
                                 ("/Gmail/trash"     . ?t)))
        (user-mail-address "j@lollyshouse.ca")
-       (mu4e-compose-signature "Jonathan Irving\nhttp://j0ni.ca"))
-      ("Appcanary"
-       (mu4e-sent-folder "/Appcanary/sent-mail")
-       (mu4e-drafts-folder "/Appcanary/drafts")
-       (mu4e-maildir-shortcuts (("/Appcanary/INBOX"     . ?i)
-                                ("/Appcanary/all-mail"  . ?a)
-                                ("/Appcanary/sent-mail" . ?s)
-                                ("/Appcanary/drafts"    . ?d)
-                                ("/Appcanary/trash"     . ?t)))
-       (user-mail-address "j@appcanary.com")
-       (mu4e-compose-signature "Jonathan Irving\nhttps://appcanary.com\nhttp://j0ni.ca"))))
+       (mu4e-compose-signature "Jonathan Irving\nhttps://j0ni.ca"))
+      ;; ("Appcanary"
+      ;;  (mu4e-sent-folder "/Appcanary/sent-mail")
+      ;;  (mu4e-drafts-folder "/Appcanary/drafts")
+      ;;  (mu4e-maildir-shortcuts (("/Appcanary/INBOX"     . ?i)
+      ;;                           ("/Appcanary/all-mail"  . ?a)
+      ;;                           ("/Appcanary/sent-mail" . ?s)
+      ;;                           ("/Appcanary/drafts"    . ?d)
+      ;;                           ("/Appcanary/trash"     . ?t)))
+      ;;  (user-mail-address "j@appcanary.com")
+      ;;  (mu4e-compose-signature "Jonathan Irving\nhttps://appcanary.com\nhttps://j0ni.ca"))
+      ;; ("Motiva"
+      ;;  (mu4e-sent-folder "/Motiva/sent-mail")
+      ;;  (mu4e-drafts-folder "/Motiva/drafts")
+      ;;  (mu4e-maildir-shortcuts (("/Motiva/INBOX"     . ?i)
+      ;;                           ("/Motiva/all-mail"  . ?a)
+      ;;                           ("/Motiva/sent-mail" . ?s)
+      ;;                           ("/Motiva/drafts"    . ?d)
+      ;;                           ("/Motiva/trash"     . ?t)))
+      ;;  (user-mail-address "jon@motiva.ai")
+      ;;  (mu4e-compose-signature "Jonathan Irving\nhttp://motiva.ai\nhttps://j0ni.ca"))
+      ))
 
   ;; You can put any variable you want in the account lists, just make
   ;; sure that you put in all the variables that differ for each
