@@ -349,12 +349,20 @@
 
 (package-initialize)
 
+;; quelpa - allows us to install packages from git (amongst other things)
+;; (if (require 'quelpa nil t)
+;;     (quelpa-self-upgrade)
+;;   (with-temp-buffer
+;;     (url-insert-file-contents "https://raw.github.com/quelpa/quelpa/master/bootstrap.el")
+;;     (eval-buffer)))
+
 (when (esk-online?)
-  (unless package-archive-contents (package-refresh-contents)))
+  (package-refresh-contents))
 
 (when (not (package-installed-p 'use-package))
   (package-install 'use-package))
 
+(require 'use-package)
 (setq use-package-always-ensure t)
 
 (defun package-require (pkg)
