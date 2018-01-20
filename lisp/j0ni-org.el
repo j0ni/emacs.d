@@ -6,8 +6,10 @@
 (setq org-directory j0ni-org-dir)
 
 ;; org-journal
-(setq org-journal-dir (concat j0ni-org-dir "Journal/"))
-(setq org-journal-find-file 'find-file)
+;; (package-require 'org-journal)
+
+;; (setq org-journal-dir (concat j0ni-org-dir "Journal/"))
+;; (setq org-journal-find-file 'find-file)
 
 ;; ensure the journal files get picked up
 (setq org-agenda-file-regexp "\\`[^.].*\\.org'\\|[0-9]+")
@@ -26,8 +28,9 @@
 
 ;; time tracking
 (setq org-clock-persist t)
-(setq org-time-clocksum-format
-      '(:hours "%d" :require-hours t :minutes ":%02d" :require-minutes t))
+(setq org-duration-format 'h:mm)
+(setq org-clock-clocked-in-display 'mode-line)
+(setq org-clock-mode-line-total 'current)
 (org-clock-persistence-insinuate)
 
 ;; indentation for org-mode
@@ -39,7 +42,7 @@
      (setq org-agenda-files (list org-journal-dir
                                   (concat j0ni-org-dir "Agenda/")))
 
-     (dolist (tag '(circle skalera orchard home appcanary motiva sanity))'
+     (dolist (tag '(orchard home motiva sanity tdg))'
        (add-to-list 'org-tag-persistent-alist tag))))
 
 ;; prevent org-mode hijacking arrow keys
@@ -54,7 +57,7 @@
  '((emacs-lisp . t)
    (gnuplot . t)
    (python . t)
-   (ipython . t)
+   ;; (ipython . t)
    (ruby . t)
    ;; (sh . t)
    (clojure . t)
@@ -108,18 +111,16 @@
       deft-use-filename-as-title t
       deft-auto-save-interval 0)
 
-;; journal
-(package-require 'org-journal)
-
-;; bullets
-;; (package-require 'org-bullets)
-;; (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
-
 (add-hook 'org-mode-hook 'turn-on-auto-fill)
+(add-hook 'org-mode-hook
+          (lambda ()
+            (add-hook 'before-save-hook 'org-update-all-dblocks nil 'local-only)))
 
 ;; let's try synchronizing with github
 ;; (package-require 'org-sync)
 ;; (require 'org-sync-github)
 ;; (setq org-sync-github-auth '("j0ni" . "blah"))
+
+(package-require 'org-trello)
 
 (provide 'j0ni-org)

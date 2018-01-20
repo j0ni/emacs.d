@@ -334,7 +334,8 @@
 ;; ELPA etc
 (require 'package)
 (setq package-user-dir (concat dotfiles-dir "elpa"))
-(setq package-archives '(("melpa" . "https://melpa.org/packages/")
+(setq package-archives '(("org" . "http://orgmode.org/elpa/")
+                         ("melpa" . "https://melpa.org/packages/")
                          ("melpa-stable" . "https://stable.melpa.org/packages/")
                          ("gnu" . "https://elpa.gnu.org/packages/")))
 ;; seems to work now?
