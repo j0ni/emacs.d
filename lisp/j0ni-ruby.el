@@ -58,7 +58,7 @@
    ruby-tools
    chruby))
 
-(chruby-use "ruby-2.3.4")
+(chruby-use "ruby-2.4.3")
 
 (package-require 'rhtml-mode)
 (add-hook 'rhtml-mode-hook 'turn-off-auto-fill)
