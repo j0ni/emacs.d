@@ -38,4 +38,9 @@
 (package-require 'company-racer)
 (add-to-list 'company-backends 'company-racer)
 
+;; Etags
+;; (package-require 'company-etags)
+;; (require 'company-etags)
+;; (add-to-list 'company-backends 'company-etags)
+
 (provide 'j0ni-complete)
