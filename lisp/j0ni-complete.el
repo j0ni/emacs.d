@@ -12,7 +12,7 @@
       company-selection-wrap-around t
       company-show-numbers t
       company-tooltip-align-annotations t
-      company-idle-delay 1)
+      company-idle-delay .5)
 
 ;; Javascript
 (package-require 'company-tern)
