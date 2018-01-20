@@ -1,8 +1,7 @@
 ;;; j0ni-git.el
 
 ;; magit
-(packages-require '(magit
-                    magithub))
+(package-require 'magit)
 
 ;; (require 'magithub)
 ;; (magithub-feature-autoinject t)
