@@ -18,14 +18,45 @@
    http-twiddle
    paredit-everywhere
    ;; session
-   dumb-jump
    debbugs
    terraform-mode))
 
-(with-eval-after-load 'dumb-jump-mode
-  (progn
-    (define-key dump-jump-mode-map (kbd "C-M-.") 'dumb-jump-go)
-    (define-key dumb-jump-mode-map (kbd "C-M-,") 'dumb-jump-back)))
+(use-package imenu-list
+  :ensure t
+
+  :bind
+  ("C-'" . imenu-list-smart-toggle)
+
+  :config
+  (setq imenu-list-focus-after-activation t))
+
+(use-package pinentry
+  :ensure t
+
+  :config
+  (setq epa-pinentry-mode 'loopback)
+  (setenv "GPG_AGENT_INFO" nil)
+
+  :init
+  (pinentry-start))
+
+(use-package dumb-jump
+  :bind (("M-g o" . dumb-jump-go-other-window)
+         ("M-g j" . dumb-jump-go)
+         ("M-g i" . dumb-jump-go-prompt)
+         ("M-g x" . dumb-jump-go-prefer-external)
+         ("M-g z" . dumb-jump-go-prefer-external-other-window)
+
+         ;; lets see how this goes
+         ("M-." . dumb-jump-go)
+         ("M-," . dumb-jump-back))
+
+  :config
+  (setq dumb-jump-selector 'ivy)
+  (setq dumb-jump-force-searcher 'ag)
+
+  :ensure t
+  :init (dumb-jump-mode))
 
 ;; manage history better
 ;; (add-hook 'after-init-hook 'session-initialize)
@@ -53,6 +84,18 @@
 ;; Neotree
 (package-require 'neotree)
 (setq neo-theme 'nerd)
+
+(use-package dired-sidebar
+  :bind (("C-c C-n" . dired-sidebar-toggle-sidebar))
+  :ensure t
+  :commands (dired-sidebar-toggle-sidebar)
+  :config
+  (setq dired-sidebar-theme 'icons))
+
+(use-package all-the-icons-dired
+    ;; M-x all-the-icons-install-fonts
+    :ensure t
+    :commands (all-the-icons-dired-mode))
 
 ;; Useful for figuring out complicated old code
 (add-hook 'prog-mode-hook 'highlight-symbol-mode)
