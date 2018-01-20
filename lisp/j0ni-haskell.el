@@ -1,63 +1,12 @@
 ;;; j0ni-haskell.el
 
-;; (packages-require '(haskell-mode
-;;                     ;; ghc
-;;                     ;; shm
-;;                     intero))
+(use-package intero
+  :commands intero-mode)
 
-;; (package-require 'auto-complete)
-
-;; auto-complete source using ghc-doc
-;; (defun ac-haskell-candidates ()
-;;   (let ((pattern (buffer-substring (ghc-completion-start-point) (point)))
-;;         (symbols (ghc-select-completion-symbol)))
-;;     (all-completions pattern symbols)))
-
-;; Setup auto-complete for haskell-mode
-;; (eval-after-load "auto-complete"
-;;   '(progn
-;;      (add-to-list 'ac-modes 'haskell-mode)
-;;      (ac-define-source ghc
-;;        '((candidates . ac-haskell-candidates)))))
-
-;; Setup haskell-mode hooks
-
-(package-require 'intero)
-(add-hook 'haskell-mode-hook
-          (lambda ()
-            (turn-on-haskell-indentation)
-            (turn-on-haskell-doc-mode)
-            (intero-mode 1)))
-
-;; (eval-after-load "haskell-mode"
-;;   '(custom-set-variables
-;;     '(haskell-mode-hook
-;;       '(turn-on-haskell-indentation
-;;         turn-on-haskell-doc-mode
-;;         ;; ghc-init
-
-;;         ;; structured-haskell-mode
-;;         ))))
-
-;; (require 'j0ni-defuns)
-;; (defun setup-haskell-arrows (mode mode-map)
-;;   (font-lock-replace-symbol mode "\\(->\\)" "→")
-;;   (font-lock-replace-symbol mode "\\(<-\\)" "←")
-;;   (font-lock-replace-symbol mode "\\(=>\\)" "⇒")
-
-;;   (define-key mode-map (kbd "→") (lambda () (interactive) (insert "->")))
-;;   (define-key mode-map (kbd "←") (lambda () (interactive) (insert "<-")))
-;;   (define-key mode-map (kbd "⇒") (lambda () (interactive) (insert "=>"))))
-
-;; (eval-after-load "haskell-mode"
-;;   '(setup-haskell-arrows 'haskell-mode haskell-mode-map))
-
-;; Add a keybinding for (inferior-haskell-type t) to insert
-;; inferred type signature for function at point
-;; (define-key haskell-mode-map (kbd "C-c C-s")
-;;   (lambda () (interactive)
-;;     (let ((sym (haskell-ident-at-point)))
-;;       (inferior-haskell-type sym t))))
+(use-package haskell-mode
+  :commands haskell-mode
+  :config
+  (add-hook 'haskell-mode-hook 'intero-mode))
 
 ;; Put ghc-show-info in a popup
 (package-require 'popup)
@@ -65,6 +14,7 @@
   (interactive)
   (popup-tip (ghc-get-info (ghc-things-at-point))
              :around t :scroll-bar t))
+
 ;; (define-key haskell-mode-map (kbd "C-c TAB") 'ghc-show-info-popup)
 ;; (define-key haskell-mode-map (kbd "C-c C-i") 'ghc-show-info-popup)
 ;; (define-key haskell-mode-map (kbd "C-c C-S-i") 'ghc-show-info)
