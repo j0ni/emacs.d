@@ -370,7 +370,8 @@
 (use-package diminish)
 
 (setq j0ni-pkg-full
-      '(j0ni-evil
+      '(j0ni-exwm
+        j0ni-evil
         j0ni-snippets
         j0ni-esk
         j0ni-eshell
@@ -433,3 +434,7 @@
 (require 'server)
 (unless (server-running-p)
   (server-start))
+;; ## added by OPAM user-setup for emacs / base ## 56ab50dc8996d2bb95e7856a6eddb17b ## you can edit, but keep this line
+(require 'opam-user-setup "~/.emacs.d/opam-user-setup.el")
+;; ## end of OPAM user-setup addition for emacs / base ## keep this line
+
