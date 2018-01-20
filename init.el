@@ -1,5 +1,26 @@
 ;;; init.el --- new init, based on Bodil Stokke's
 
+;; This is an emergency release to fix a security vulnerability in Emacs.
+
+;; Enriched Text mode has its support for decoding 'x-display' disabled.
+;; This feature allows saving 'display' properties as part of text.
+;; Emacs 'display' properties support evaluation of arbitrary Lisp forms
+;; as part of instantiating the property, so decoding 'x-display' is
+;; vulnerable to executing arbitrary malicious Lisp code included in the
+;; text (e.g., sent as part of an email message).
+
+;; This vulnerability was introduced in Emacs 19.29.  To work around that
+;; in Emacs versions before 25.3, append the following to your ~/.emacs
+;; init file:
+
+(eval-after-load "enriched"
+  '(defun enriched-decode-display-prop (start end &optional param)
+     (list start end)))
+
+;; Gnus no longer supports "richtext" and "enriched" inline MIME objects.
+;; This support was disabled to avoid evaluation of arbitrary Lisp code
+;; contained in email messages and news articles.
+
 ;; Good chance this is what I want :P
 (progn
   ;; new
