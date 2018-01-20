@@ -5,16 +5,24 @@
                     company-racer
                     flycheck-rust
                     rustfmt
-                    toml-mode))
+                    toml-mode
+                    cargo))
 
 ;; Set path to racer binary
 ;; (setq racer-cmd (concat-home ".cargo/bin/racer"))
 
-(setenv "RUST_SRC_PATH" (concat-home ".multirust/toolchains/beta-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/src"))
+(defvar j0ni-rust-root
+  (string-trim
+   (with-output-to-string
+     (shell-command "rustc --print sysroot" standard-output))))
+
+(setenv "LD_LIBRARY_PATH" (concat j0ni-rust-root "/lib"))
+
+(setenv "RUST_SRC_PATH" (concat j0ni-rust-root "/lib/rustlib/src/rust/src"))
 
 ;; Set path to rust src directory
 ;; (setq racer-rust-src-path (getenv "RUST_SRC_PATH"))
-(setq racer-rust-src-path (concat-home ".multirust/toolchains/beta-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/src"))
+(setq racer-rust-src-path (concat j0ni-rust-root "/lib/rustlib/src/rust/src"))
 
 ;; Load rust-mode when you open `.rs` files
 (add-to-list 'auto-mode-alist '("\\.rs$" . rust-mode))
@@ -31,6 +39,7 @@
   (interactive)
   (racer-mode 1)
   (smartparens-mode 1)
+  (cargo-minor-mode 1)
   (define-key rust-mode-map (kbd "TAB") #'company-indent-or-complete-common)
   (setq company-tooltip-align-annotations t)
   (define-key rust-mode-map (kbd "C-c C-f") #'rustfmt-format-buffer)
