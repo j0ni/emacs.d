@@ -380,6 +380,7 @@
         j0ni-codestyle ;; what even is this
         j0ni-lisp
         j0ni-elixir
+        j0ni-clojure
         j0ni-erlang
         j0ni-julia
         ;; j0ni-flycheck
