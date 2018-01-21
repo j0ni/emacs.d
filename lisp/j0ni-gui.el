@@ -113,30 +113,38 @@
 ;; (require 'lawrence-theme)
 ;; (blink-cursor-mode +1)
 
-(when (display-graphic-p)
-  ;; Only define these fns if we have a GUI, but make them reusable
-  (defun apply-font-settings (&optional default-font linum-font antialias)
-    "Apply font choices across the board."
-    (interactive)
+(defun apply-font-settings (&optional default-font linum-font antialias)
+  "Apply font choices across the board."
+  (interactive)
+  (when (display-graphic-p)
     (set-face-attribute 'default nil
                         :font (font-spec :name (or default-font j0ni-default-font)
                                          :antialias (or antialias j0ni-antialias)))
     (eval-after-load 'linum
       '(set-face-attribute 'linum nil
                            :font (font-spec :name (or linum-font j0ni-linum-font)
-                                            :antialias (or antialias j0ni-antialias)))))
+                                            :antialias (or antialias j0ni-antialias))))))
 
-  (defun set-font-dwim (&optional size font ln-spc antialias)
-    (interactive)
+(defun set-font-dwim (&optional size font ln-spc antialias)
+  (interactive)
+  (when (display-graphic-p)
     (let ((ln-spc (or ln-spc j0ni-line-spacing))
-        (font (or font j0ni-font-face))
-        (size (or size j0ni-font-size))
-        (antialias (or antialias j0ni-antialias)))
+          (font (or font j0ni-font-face))
+          (size (or size j0ni-font-size))
+          (antialias (or antialias j0ni-antialias)))
       (setq j0ni-default-font (concat font "-" (format "%d" size)))
       (setq j0ni-linum-font (concat font "-" (format "%d" (- size 1))))
       (setq-default line-spacing ln-spc)
-      (apply-font-settings)))
+      (apply-font-settings))))
 
+(defun set-mode-line-box ()
+  "Makes a nice popout box around the mode line."
+  (interactive)
+  (set-face-attribute 'mode-line nil :box '(:style released-button))
+  (set-face-attribute 'mode-line-inactive nil :box '(:style released-button)))
+
+(when (display-graphic-p)
+  ;; Only define these fns if we have a GUI, but make them reusable
   (defun j0ni-inc-font-size ()
     (interactive "*")
     (setq j0ni-font-size (+ j0ni-font-size 1))
@@ -148,12 +156,6 @@
 
   (global-set-key (kbd "C-+") 'j0ni-inc-font-size)
   (global-set-key (kbd "C--") 'j0ni-dec-font-size)
-
-  (defun set-mode-line-box ()
-    "Makes a nice popout box around the mode line."
-    (interactive)
-    (set-face-attribute 'mode-line nil :box '(:style released-button))
-    (set-face-attribute 'mode-line-inactive nil :box '(:style released-button)))
 
   (defun normalize-fonts ()
     "Removes underlining and bold decorations."

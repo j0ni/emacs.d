@@ -146,7 +146,6 @@
     minimal-theme
     sexy-monochrome-theme
     plan9-theme
-    stekene-theme
     spacemacs-theme
     material-theme
     color-theme-sanityinc-tomorrow
@@ -156,8 +155,6 @@
     sourcerer-theme
     spacegray-theme
     oceanic-theme
-    hipster-theme
-    kaolin-theme
     airline-themes
     monochrome-theme
     reykjavik-theme
@@ -176,8 +173,6 @@
 ;; (defvar j0ni-theme 'tango-2)
 ;; (defvar j0ni-theme 'material)
 ;; (defvar j0ni-theme 'material-light)
-;; (defvar j0ni-theme 'stekene-light)
-;; (defvar j0ni-theme 'stekene-dark)
 ;; (defvar j0ni-theme 'solarized-light)
 ;; (defvar j0ni-theme 'solarized-dark)
 ;; (defvar j0ni-theme 'tomorrow-night-eighties)
@@ -194,7 +189,6 @@
 ;; (defvar j0ni-theme 'zenburn)
 (setq j0ni-theme 'dracula)
 ;; (defvar j0ni-theme 'rebecca)
-;; (defvar j0ni-theme 'kaolin)
 ;; (defvar j0ni-theme 'lawrence)
 ;; (defvar j0ni-theme 'darkburn)
 ;; (defvar j0ni-theme 'base16-apathy-dark)
@@ -207,7 +201,6 @@
 ;; (defvar j0ni-theme 'sourcerer)
 ;; (defvar j0ni-theme 'base16-isotope)
 ;; (defvar j0ni-theme 'base16-ir-black)
-;; (defvar j0ni-theme 'hipster)
 ;; (defvar j0ni-theme 'base16-ocean)
 ;; (defvar j0ni-theme 'mccarthy)
 ;; (defvar j0ni-theme 'github)
@@ -427,10 +420,6 @@
 (defun my-cider-connect (host port)
   (interactive "sDefault Host: \nnPort: ")
   (cider-connect host port))
-
-(defun circle-connect ()
-  (interactive)
-  (cider-connect "localhost" 6005))
 
 (setq-default fill-column 80)
 

@@ -43,4 +43,8 @@
 ;; (require 'company-etags)
 ;; (add-to-list 'company-backends 'company-etags)
 
+(package-require 'merlin)
+(add-to-list 'company-backends 'merlin-company-backend)
+
+
 (provide 'j0ni-complete)

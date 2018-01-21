@@ -8,7 +8,8 @@
                     kibit-helper
                     racket-mode
                     ;; geiser
-                    hy-mode))
+                    hy-mode
+                    indent-guide))
 
 (setq j0ni-lisp-modes '(scheme-mode
                         racket-mode

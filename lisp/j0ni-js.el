@@ -49,7 +49,7 @@
 ;; (add-hook 'js2-mode-hook 'skewer-mode)
 
 ;; Jade
-(package-require 'jade)
+(package-require 'jade-mode)
 
 (defun js2-mode-custom-setup ()
   (jade-interaction-mode 1)

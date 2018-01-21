@@ -39,7 +39,6 @@
 
 ;; (setq merlin-ac-setup nil)
 ;; ;; (setq merlin-ac-setup t)
-(add-to-list 'company-backends 'merlin-company-backend)
 
 (package-require 'utop)
 

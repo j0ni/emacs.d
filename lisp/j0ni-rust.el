@@ -4,7 +4,6 @@
                     racer
                     company-racer
                     flycheck-rust
-                    rustfmt
                     toml-mode
                     cargo))
 
