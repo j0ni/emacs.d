@@ -101,12 +101,12 @@
   "Load the desktop and enable autosaving"
   (interactive)
   (let ((desktop-load-locked-desktop "ask"))
-    (desktop-read)
+    (desktop-read desktop-dirname)
     (desktop-save-mode 1)))
 
 (packages-require j0ni-installed-themes)
-(require 'moe-theme)
-(setq moe-theme-highlight-buffer-id t)
+;; (require 'moe-theme)
+;; (setq moe-theme-highlight-buffer-id t)
 
 ;; (moe-theme-set-color 'white)
 ;; (moe-dark)
@@ -119,11 +119,7 @@
   (when (display-graphic-p)
     (set-face-attribute 'default nil
                         :font (font-spec :name (or default-font j0ni-default-font)
-                                         :antialias (or antialias j0ni-antialias)))
-    (eval-after-load 'linum
-      '(set-face-attribute 'linum nil
-                           :font (font-spec :name (or linum-font j0ni-linum-font)
-                                            :antialias (or antialias j0ni-antialias))))))
+                                         :antialias (or antialias j0ni-antialias)))))
 
 (defun set-font-dwim (&optional size font ln-spc antialias)
   (interactive)
@@ -133,7 +129,6 @@
           (size (or size j0ni-font-size))
           (antialias (or antialias j0ni-antialias)))
       (setq j0ni-default-font (concat font "-" (format "%d" size)))
-      (setq j0ni-linum-font (concat font "-" (format "%d" (- size 1))))
       (setq-default line-spacing ln-spc)
       (apply-font-settings))))
 
@@ -275,7 +270,6 @@
 (when (boundp 'j0ni-theme-tint)
   (customize-light-or-dark j0ni-theme-tint))
 
-(setq linum-format "%d")
 ;; (global-hl-line-mode 1)
 
 ;; take care of stupid eww behaviour

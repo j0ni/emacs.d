@@ -38,8 +38,11 @@
 
 ;; Vertical ido
 (package-require 'ido-vertical-mode)
-(ido-vertical-mode)
+;; (ido-vertical-mode)
 (setq ido-vertical-define-keys 'C-n-C-p-up-down-left-right)
+
+(package-require 'ido-grid-mode)
+(ido-grid-mode 1)
 
 ;; ido-imenu
 (require 'imenu)

@@ -4,23 +4,16 @@
 (require 'circe)
 
 (setq circe-network-options
-      `(("Tunnelled Freenode"
-         :host "localhost"
-         :port 4222
-         :pass ,proxy-password)
-        ("Tunnelled GIMPNet"
-         :host "localhost"
-         :port 4223
-         :pass ,proxy-password)
-        ("Freenode"
-         :nick "j0nii"
-         :channels ("#clojure" "#elixir-lang" "#lisp" "#clojure-emacs" "#clojureTO" "#emacs" "#erlang" "#erlounge")
+      `(("Freenode"
+         :nick "j0ni"
+         :channels ("#clojure" "#lisp" "#clojure-emacs" "#clojureTO" "#emacs")
          :nickserv-password ,freenode-password)
         ("GIMPNet"
          :host "irc.gimp.ca"
          :port 6697
-         :nick "j0nii"
+         :nick "j0ni"
          :channels ("#dnalounge")
+         :nickserv-password ,gimpnet-password
          :use-tls t)
         ("Gitter"
          :host "irc.gitter.im"
@@ -43,18 +36,26 @@
         ("OFTC"
          :host "irc.oftc.net"
          :port 6697
-         :nick "j0nii"
+         :nick "j0ni"
          :channels ("#torontocrypto" "#cryptoparty")
          :nickserv-password ,oftc-password
-         :use-tls t)))
+         :use-tls t)
+        ("Mozilla"
+         :host "irc.mozilla.org"
+         :port 6697
+         :use-tls t
+         :nick "j0ni"
+         :channels ("#rust" "#rust-beginners"))))
+
+(require 'circe-color-nicks)
+(enable-circe-color-nicks)
 
 (setq tracking-ignored-buffers '(("#clojure-emacs" circe-highlight-nick-face)
                                  ("#clojure" circe-highlight-nick-face)
-                                 ("#elixir-lang")
                                  ("#lisp" circe-highlight-nick-face)
                                  ("#emacs" circe-highlight-nick-face)
-                                 ("#compojure" circe-highlight-nick-face)
-                                 ("#Node.js" circe-highlight-nick-face)))
+                                 ("#rust" circe-highlight-nick-face)
+                                 ("#rust-beginners" circe-highlight-nick-face)))
 
 (setq circe-reduce-lurker-spam t)
 
@@ -85,14 +86,12 @@ already been connected to."
           (y-or-n-p (format "Already connected to %s, reconnect?" network)))
       (circe network)))
 
-(defun irc ()
+(defun start-irc ()
   "Connect to IRC"
   (interactive)
   (circe-maybe-connect "Freenode")
   (circe-maybe-connect "GIMPNet")
-  ;; (circe-maybe-connect "Tunnelled Freenode")
-  ;; (circe-maybe-connect "Tunnelled GIMPNet")
-  )
+  (circe-maybe-connect "Mozilla"))
 
 (defun my-circe-message-option-chanserv (nick user host command args)
   (when (and (string= "ChanServ" nick)

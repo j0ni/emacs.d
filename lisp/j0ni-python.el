@@ -21,7 +21,7 @@
 (add-hook 'python-mode-hook 'anaconda-mode)
 (add-hook 'python-mode-hook 'anaconda-eldoc-mode)
 
-(add-to-list 'python-shell-extra-pythonpaths "/home/joni/Scratch/TheGuild/AGLP2P/SAMpy")
+;; (add-to-list 'python-shell-extra-pythonpaths "/home/joni/Scratch/TheGuild/AGLP2P/SAMpy")
 
 ;; (setq python-shell-interpreter "ipython"
 ;;       python-shell-interpreter-args "--classic --profile=emacs -i")
@@ -66,6 +66,8 @@
 (add-hook 'anaconda-mode-hook 'my-anaconda-mode-hook)
 
 (package-require 'py-autopep8)
+(setq py-autopep8-options '("--max-line-length=120"))
+(add-hook 'python-mode-hook 'py-autopep8-enable-on-save)
 
 ;; (defun my-python-mode-hook ()
 ;;   (define-key python-mode-map (kbd "C-c C-,") 'pytest-run-file)
@@ -94,9 +96,9 @@
 ;; switch these on to work with python
 (setq conda-anaconda-home "/home/joni/.miniconda3")
 ;; if you want interactive shell support, include:
-;; (conda-env-initialize-interactive-shells)
+(conda-env-initialize-interactive-shells)
 ;; if you want eshell support, include:
-;; (conda-env-initialize-eshell)
+(conda-env-initialize-eshell)
 ;; if you want auto-activation (see below for details), include:
 ;; (conda-env-autoactivate-mode t)
 

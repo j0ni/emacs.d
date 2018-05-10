@@ -54,4 +54,12 @@
 (advice-add 'swiper--action :after (lambda (throwaway-arg)
                                      (recenter)))
 
+(use-package imenu-anywhere
+  :ensure t
+  :init
+  (global-set-key (kbd "C-.") 'imenu-anywhere))
+
+(use-package ivy-lobsters
+  :ensure t)
+
 (provide 'j0ni-ivy)

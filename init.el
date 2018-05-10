@@ -30,7 +30,6 @@
   (defvar j0ni-antialias)
   ;; old
   (defvar j0ni-default-font)
-  (defvar j0ni-linum-font)
   ;; (setq j0ni-font-face "Anonymous Pro")
   ;; (setq j0ni-font-face "Consolas")
   ;; (setq j0ni-font-face "iosevka")
@@ -38,7 +37,6 @@
   ;; (setq j0ni-font-face "DejaVu Sans Mono")
   ;; (setq j0ni-font-face "Hack")
   ;; (setq j0ni-font-face "Liberation Mono")
-  ;; (setq j0ni-font-face "Input Mono")
   ;; (setq j0ni-font-face "Inconsolata")
   ;; (setq j0ni-font-face "Linux Libertine Mono")
   ;; (setq j0ni-font-face "Fira Mono Medium")
@@ -51,14 +49,11 @@
   (setq j0ni-font-face "Lucida Grande Mono")
   ;; (setq j0ni-font-face "Lucida Grande Mono Nrw")
   ;; (setq j0ni-font-face "Input Mono Narrow Light")
-  (setq j0ni-font-size 13)
-  (setq j0ni-line-spacing 4)
+  (setq j0ni-font-size 11)
+  (setq j0ni-line-spacing 5)
   (setq j0ni-antialias t)
 
   (setq j0ni-default-font "Lucida Grande Mono Nrw-12")
-  (setq j0ni-linum-font "Lucida Grande Mono Nrw-10")
-  ;; (setq j0ni-font "Envy Code R-10")
-  ;; (setq j0ni-linum-font "Envy Code R-10")
 
   (when (fboundp 'set-font-dwim)
     (set-font-dwim)))
@@ -91,7 +86,7 @@
 (setq gc-cons-threshold 20000000)
 
 ;; Add brew contrib stuff to the load-path
-(add-to-list 'load-path "/usr/local/share/emacs/site-lisp/")
+;; (add-to-list 'load-path "/usr/local/share/emacs/site-lisp/")
 
 ;; Add .emacs.d/lisp to load-path
 (setq dotfiles-dir (file-name-directory
@@ -180,7 +175,7 @@
 ;; (defvar j0ni-theme 'plan9)
 ;; (defvar j0ni-theme 'anti-zenburn)
 ;; (defvar j0ni-theme 'spacemacs-dark)
-;; (defvar j0ni-theme 'spacemacs-light)
+;; (setq j0ni-theme 'spacemacs-light)
 ;; (defvar j0ni-theme 'sanityinc-tomorrow-night)
 ;; - (defvar j0ni-theme 'sanityinc-tomorrow-bright)
 ;; (defvar j0ni-theme 'sanityinc-tomorrow-floraverse)
@@ -220,7 +215,7 @@
 ;; (defvar j0ni-theme 'reykjavik)
 ;; (defvar j0ni-theme 'arjen-grey)
 ;; (defvar j0ni-theme 'flatland)
-;; (defvar j0ni-theme 'adwaita)
+;; (setq j0ni-theme 'adwaita)
 
 ;; 'dark 'mid 'light
 (defvar j0ni-theme-tint 'dark)
@@ -238,26 +233,37 @@
   (concat (getenv "HOME") "/" path))
 
 ;; Go bits
-(defvar j0ni-go-path (list ;; (concat-home "Scratch/CircleCI/go-projects")
-                           (concat-home "Scratch/go")
-                           ;; (concat-home "Scratch/goeg")
-                           ))
-
+(defvar j0ni-go-path)
 ;; Path elements
-(defvar j0ni-path (list (concat-home ".cabal/bin")
-                        (concat-home ".cargo/bin")
-                        (concat-home "Scratch/clojure/leiningen")
-                        (concat-home "Scratch/clojure/boot")
-                        (concat-home "Scratch/go/bin")
-                        "/usr/local/bin"))
+(defvar j0ni-path)
 ;; Where are the system Git contrubutions?
-(defvar j0ni-git-contrib-dir "/usr/local/share/emacs/site-lisp/git")
-
+(defvar j0ni-git-contrib-dir)
 ;; Org mode locations
-(defvar j0ni-org-dir (concat-home "Dropbox/OrgMode/"))
-(defvar j0ni-notebook (concat j0ni-org-dir "notebook.org"))
-(defvar j0ni-org-dropbox (concat-home "Dropbox/Apps/MobileOrg"))
-(defvar j0ni-agenda-files (list j0ni-notebook))
+(defvar j0ni-org-dir)
+(defvar j0ni-notebook)
+(defvar j0ni-org-dropbox)
+(defvar j0ni-agenda-files)
+
+
+(setq j0ni-go-path (list ;; (concat-home "Scratch/CircleCI/go-projects")
+                    (concat-home "Scratch/go")
+                    ;; (concat-home "Scratch/goeg")
+                    ))
+
+(setq j0ni-path (list (concat-home ".cabal/bin")
+                      (concat-home ".cargo/bin")
+                      (concat-home "Scratch/clojure/leiningen")
+                      (concat-home "Scratch/clojure/boot")
+                      (concat-home "Scratch/go/bin")
+                      (concat-home ".miniconda3/bin")
+                      "/usr/local/bin"))
+
+(setq j0ni-git-contrib-dir "/usr/local/share/emacs/site-lisp/git")
+
+(setq j0ni-org-dir (concat-home "Dropbox/OrgMode/"))
+(setq j0ni-notebook (concat j0ni-org-dir "notebook.org"))
+(setq j0ni-org-dropbox (concat-home "Dropbox/Apps/MobileOrg"))
+(setq j0ni-agenda-files (list j0ni-notebook))
 
 ;; Switch some stuff off...
 (dolist (mode '(menu-bar-mode tool-bar-mode scroll-bar-mode))
@@ -300,6 +306,7 @@
 ;; Detect online status, from ESK
 (require 'cl)
 (defun esk-online? ()
+  (interactive)
   (if (and (functionp 'network-interface-list)
            (network-interface-list))
       (some (lambda (iface) (unless (equal "lo" (car iface))
@@ -340,7 +347,7 @@
 ;; (add-to-list 'package-pinned-packages '(clj-refactor . "melpa-stable") t)
 ;; (add-to-list 'package-pinned-packages '(clojure-mode . "melpa-stable") t)
 
-(package-initialize)
+;; (package-initialize)
 
 ;; quelpa - allows us to install packages from git (amongst other things)
 ;; (if (require 'quelpa nil t)
@@ -371,7 +378,7 @@
 (use-package diminish)
 
 (setq j0ni-pkg-full
-      '(j0ni-exwm
+      '(;; j0ni-exwm
         j0ni-evil
         j0ni-snippets
         j0ni-esk
@@ -415,11 +422,8 @@
 (dolist (file j0ni-pkg-full)
   (require file))
 
-;; helpful work stuff
-
-(defun my-cider-connect (host port)
-  (interactive "sDefault Host: \nnPort: ")
-  (cider-connect host port))
+(when (fboundp 'set-font-dwim)
+  (set-font-dwim))
 
 (setq-default fill-column 80)
 
@@ -436,3 +440,5 @@
 (require 'opam-user-setup "~/.emacs.d/opam-user-setup.el")
 ;; ## end of OPAM user-setup addition for emacs / base ## keep this line
 
+;; start desktop saving
+;; (boot-desktop)

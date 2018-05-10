@@ -12,15 +12,15 @@
 
 ;; Unrepl.el
 
-(package-require 'spiral)
+(use-package spiral
+  :ensure t
 
-(require 'spiral)
+  :init
+  (add-hook 'spiral-repl-mode-hook #'spiral-repl-setup))
 
 (defun spiral-repl-setup ()
   (enable-paren-handling)
   (eldoc-mode 1))
-
-(add-hook 'spiral-repl-mode-hook #'spiral-repl-setup)
 
 (defun clojure-mode-setup--spiral ()
   (clojure-mode-common-setup)
@@ -53,7 +53,6 @@
 ;; Cider
 (packages-require '(clojure-mode
                     cider
-                    cider-profile
                     eval-sexp-fu
                     cider-eval-sexp-fu
                     clj-refactor
@@ -62,25 +61,30 @@
                     rainbow-delimiters
                     cljsbuild-mode))
 
-(setq cider-repl-pop-to-buffer-on-connect  t
-      cider-repl-use-clojure-font-lock     t
-      cider-repl-display-help-banner       nil
-      cider-font-lock-dynamically          nil
-      cider-use-overlays                   t ; display eval results inline
-      cider-overlays-use-font-lock         t ; font lock the results
-      cider-show-error-buffer              t
-      cider-popup-stacktraces              t
-      cider-buffer-name-show-port          t
-      cider-repl-history-size              10000
-      cider-repl-result-prefix             "=> "
-      cider-prompt-for-symbol              nil
-      cider-known-endpoints                nil
-      cider-repl-history-file              (concat-home ".cider-repl-history")
-      nrepl-buffer-name-show-port          t
-      cider-words-of-inspiration           '("")
-      cider-prefer-local-resources         t
-      cider-inject-dependencies-at-jack-in t
-      cider-cljs-lein-repl                 "(do (use 'figwheel-sidecar.repl-api) (start-figwheel!) (cljs-repl))")
+(setq cider-repl-pop-to-buffer-on-connect        t
+      cider-repl-use-clojure-font-lock           t
+      cider-save-file-on-load                    t
+      cider-repl-display-help-banner             nil
+      cider-font-lock-dynamically                nil ;; '(macro core function var) ;; nil
+      cider-use-overlays                         t ; display eval results inline
+      cider-overlays-use-font-lock               t ; font lock the results
+      cider-show-error-buffer                    t
+      cider-popup-stacktraces                    t
+      cider-buffer-name-show-port                t
+      cider-repl-history-size                    10000
+      cider-repl-result-prefix                   "=> "
+      cider-prompt-for-symbol                    nil
+      cider-known-endpoints                      nil
+      cider-repl-history-file                    (concat-home ".cider-repl-history")
+      nrepl-buffer-name-show-port                t
+      cider-words-of-inspiration                 '("")
+      cider-prefer-local-resources               t
+      cider-inject-dependencies-at-jack-in       t
+      cider-eldoc-display-context-dependent-info t
+      cider-pprint-fn                            'fipp
+      cider-jdk-src-paths                        '("~/Scratch/java8-src"
+                                                   "~/Scratch/clojure1.9-src")
+      cider-cljs-lein-repl                       "(do (use 'figwheel-sidecar.repl-api) (start-figwheel!) (cljs-repl))")
 
 (defun clojure-mode-setup--cider ()
   (clojure-mode-common-setup)
@@ -109,8 +113,8 @@
 
 ;; Common
 
-;; (setq clojure-indent-style :align-arguments)
-(setq clojure-indent-style :always-align)
+(setq clojure-indent-style :align-arguments)
+;; (setq clojure-indent-style :always-align)
 
 (setq cljr-warn-on-eval nil)
 (setq cljr-suppress-middleware-warnings t)

@@ -21,6 +21,8 @@
    debbugs
    terraform-mode))
 
+(use-package format-sql :ensure t)
+
 (use-package imenu-list
   :ensure t
 
@@ -137,21 +139,8 @@
 ;; Show current function in modeline
 ;; (which-function-mode)
 
-;; Show line numbers in buffers
-;; (global-linum-mode t)
-
 ;; Show column numbers in modeline
 (setq column-number-mode t)
-
-;; Redefine linum-on to ignore terminal buffers, because just turning
-;; it off in term-mode-hook doesn't work.
-(setq linum-disabled-modes
-      '(term-mode slime-repl-mode magit-status-mode help-mode org-mode
-                  nrepl-mode cider-repl-mode lisp-interaction-mode))
-(defun linum-on ()
-  (unless (or (minibufferp) (member major-mode linum-disabled-modes))
-    (linum-mode 1)))
-;; (add-hook 'prog-mode-hook 'linum-on)
 
 ;; Make it easy
 (defun turn-off-auto-fill ()
@@ -217,6 +206,11 @@
 (add-hook 'ag-mode-hook 'toggle-truncate-lines)
 
 ;; java
+;; (use-package jdee
+;;   :ensure t
+;;   :init
+;;   (setq jdee-server-dir (concat-home ".emacs.d/jars")))
+
 (add-to-list 'auto-mode-alist '("\\.java\\'" . java-mode))
 
 ;; kotlin
@@ -239,7 +233,10 @@
 
 ;; clock in the mode-line
 (setq display-time-format "%H:%M")
+(setq display-time-default-load-average nil)
 (display-time-mode t)
+;; battery
+(display-battery-mode t)
 
 ;; for sr-speedbar in 24.3.90+
 ;; (defun ad-advised-definition-p (definition)

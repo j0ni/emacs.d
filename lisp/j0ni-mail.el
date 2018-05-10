@@ -50,10 +50,11 @@
         mu4e-update-interval 300
         mu4e-confirm-quit nil
         mu4e-use-fancy-chars nil ;; they actually look shit
-        ;; mu4e-html2text-command "pandoc -f html -t markdown"
+        ;; mu4e-html2text-command "pandoc -f html -t plain"
         ;; mu4e-html2text-command "w3m -dump -T text/html"
+        ;; mu4e-html2text-command "links -force-html -dump"
         ;; mu4e-html2text-command "html2text -utf8 -width 72"
-        ;; mu4e-html2text-command 'mu4e-shr2text
+        mu4e-html2text-command 'mu4e-shr2text
         shr-color-visible-luminance-min 70
         mu4e-headers-sort-direction 'ascending
         mu4e-headers-skip-duplicates t
@@ -67,18 +68,20 @@
                               (:thread-subject))
         mu4e-compose-complete-only-after "2012-01-01"
         mu4e-view-show-addresses t
-        mu4e-date-format-long "%FT%T%z")
+        mu4e-date-format-long "%FT%T%z"
+        mu4e-headers-date-format "%F"
+        mu4e-headers-time-format "%T"
+        mu4e-headers-long-date-format "%FT%T%z")
 
   (require 'mu4e-contrib)
-  (setq mu4e-html2text-command 'mu4e-shr2text)
+  ;; (setq mu4e-html2text-command 'mu4e-shr2text)
 
   ;; something about ourselves
   (setq mu4e-user-mail-address-list '("j@lollyshouse.ca"
                                       "jonathan.irving@gmail.com"
-                                      "j@appcanary.com"
-                                      "jonathan@appcanary.com"
-                                      "j0ni@appcanary.com"
-                                      "jon@motiva.ai")
+                                      "jon@motiva.ai"
+                                      "j0ni@protonmail.com"
+                                      "jon@arity.ca")
         user-full-name "J Irving"
         mu4e-compose-signature "Jonathan Irving\nhttps://j0ni.ca")
 
@@ -107,13 +110,17 @@
            "Last 7 days (Clojure)"
            ?c)
 
-          ;; ("date:today..now AND NOT flag:trashed AND (maildir:/Appcanary/INBOX OR maildir:/Appcanary/sent-mail)"
-          ;;  "Today's messages (Appcanary)"
-          ;;  ?a)
+          ("NOT flag:trashed AND (maildir:/Skalera/INBOX OR maildir:/Skalera/sent-mail)"
+           "All messages (Skalera)"
+           ?s)
 
-          ;; ("date:7d..now AND NOT flag:trashed AND (maildir:/Appcanary/INBOX OR maildir:/Appcanary/sent-mail)"
-          ;;  "Last 7 days (Appcanary)"
-          ;;  ?A)
+          ("date:30d..now AND (maildir:/Proton/INBOX OR maildir:/Proton/sent-mail) AND NOT flag:trashed"
+           "Last 30 days (Proton)"
+           ?P)
+
+          ("date:7d..now AND (maildir:/Proton/INBOX OR maildir:/Proton/sent-mail) AND NOT flag:trashed"
+           "Last 7 days (Proton)"
+           ?p)
 
           ;; ("date:today..now AND NOT flag:trashed AND (maildir:/Motiva/INBOX OR maildir:/Motiva/sent-mail)"
           ;;  "Today's messages (Motiva)"
@@ -141,15 +148,17 @@
   (defun choose-msmtp-account ()
     (if (message-mail-p)
         (save-excursion
-          (let*
-              ((from (save-restriction
-                       (message-narrow-to-headers)
-                       (message-fetch-field "from")))
-               (account
-                (cond
-                 ((string-match "j@appcanary.com" from) "appcanary")
-                 ((string-match "j@lollyshouse.ca" from) "gmail")
-                 ((string-match "jon@motiva.ai" from) "motiva"))))
+          (let* ((from (save-restriction
+                         (message-narrow-to-headers)
+                         (message-fetch-field "from")))
+                 (account
+                  (cond
+                   ((string-match "j@appcanary.com" from) "appcanary")
+                   ((string-match "j@lollyshouse.ca" from) "proton")
+                   ((string-match "jon@motiva.ai" from) "motiva")
+                   ((string-match "j0ni@protonmail.com" from) "proton")
+                   ((string-match "jon@arity.ca" from) "proton")
+                   (t "proton"))))
             (setq message-sendmail-extra-arguments (list '"-a" account))))))
 
   (add-hook 'message-send-mail-hook 'choose-msmtp-account)
@@ -176,18 +185,21 @@
                                 ("/Gmail/sent-mail" . ?s)
                                 ("/Gmail/drafts"    . ?d)
                                 ("/Gmail/trash"     . ?t)))
-       (user-mail-address "j@lollyshouse.ca")
+       (user-mail-address "jonathan.irving@gmail.com")
+       (mu4e-sent-messages-behavior ,'delete)
        (mu4e-compose-signature "Jonathan Irving\nhttps://j0ni.ca"))
-      ;; ("Appcanary"
-      ;;  (mu4e-sent-folder "/Appcanary/sent-mail")
-      ;;  (mu4e-drafts-folder "/Appcanary/drafts")
-      ;;  (mu4e-maildir-shortcuts (("/Appcanary/INBOX"     . ?i)
-      ;;                           ("/Appcanary/all-mail"  . ?a)
-      ;;                           ("/Appcanary/sent-mail" . ?s)
-      ;;                           ("/Appcanary/drafts"    . ?d)
-      ;;                           ("/Appcanary/trash"     . ?t)))
-      ;;  (user-mail-address "j@appcanary.com")
-      ;;  (mu4e-compose-signature "Jonathan Irving\nhttps://appcanary.com\nhttps://j0ni.ca"))
+      ("Proton"
+       (mu4e-sent-messages-behavior ,'sent)
+       (mu4e-sent-folder "/Proton/sent-mail")
+       (mu4e-trash-folder "/Proton/trash")
+       (mu4e-drafts-folder "/Proton/drafts")
+       (mu4e-maildir-shortcuts (("/Proton/INBOX"     . ?i)
+                                ("/Proton/sent-mail" . ?s)
+                                ("/Proton/drafts"    . ?d)
+                                ("/Proton/trash"     . ?t)))
+       (user-mail-address "j@lollyshouse.ca")
+       (user-full-name "Jon Irving")
+       (mu4e-compose-signature "Jonathan Irving\nhttps://j0ni.ca\nhttps://keybase.io/j0ni"))
       ;; ("Motiva"
       ;;  (mu4e-sent-folder "/Motiva/sent-mail")
       ;;  (mu4e-drafts-folder "/Motiva/drafts")
@@ -252,7 +264,7 @@
   ;; Don't save message to Sent Messages, Gmail/IMAP takes care of this (See the
   ;; documentation for `mu4e-sent-messages-behavior' if you have additional
   ;; non-Gmail addresses and want assign them different behavior.)
-  (setq mu4e-sent-messages-behavior 'delete)
+  ;; (setq mu4e-sent-messages-behavior 'delete)
 
 
   ;; From http://zmalltalker.com/linux/mu.html again:

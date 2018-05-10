@@ -21,23 +21,33 @@
 (require 'git)
 
 ;; git gutter
-(packages-require '(git-gutter
-                    git-gutter-fringe
-                    git-messenger
+(packages-require '(git-messenger
                     diminish))
 
-;; (require 'git-gutter-fringe)
+(use-package diff-hl
+  :ensure t
+  :defer t
+  :diminish "dhl"
+  :commands
+  (diff-hl-mode
+   diff-hl-dired-mode
+   diff-hl-amend-mode
+   diff-hl-flydiff-mode
+   diff-hl-margin-mode
+   global-diff-hl-mode)
+  :init
+  (add-hook 'emacs-startup-hook 'global-diff-hl-mode)
+  ;; (add-hook 'prog-mode-hook 'turn-on-diff-hl-mode)
+  ;; (add-hook 'org-mode-hook 'turn-on-diff-hl-mode)
+  ;; (add-hook 'vc-dir-mode-hook 'turn-on-diff-hl-mode)
+  :config
+  (eval-after-load 'magit
+    '(add-hook 'magit-post-refresh-hook 'diff-hl-magit-post-refresh))
+  ;; (global-diff-hl-mode)
+  (diff-hl-flydiff-mode 1)
+  )
 
-(global-git-gutter-mode +1)
-
-;; (git-gutter:linum-setup)
-
-;; (custom-set-variables
-;;  '(git-gutter:modified-sign "~")
-;;  '(git-gutter:added-sign "+")
-;;  '(git-gutter:deleted-sign "-"))
-
-(diminish 'git-gutter-mode "gg")
+;; (global-diff-hl-mode 1)
 
 ;; git-messenger
 (setq git-messenger:show-detail t)

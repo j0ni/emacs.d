@@ -4,37 +4,64 @@
 
 (defun j0ni-exwm-setup ()
   "Default configuration of EXWM."
+  (interactive)
   ;; Set the initial workspace number.
   (setq exwm-workspace-number 1)
   ;; Make class name the buffer name
   (add-hook 'exwm-update-class-hook
             (lambda ()
               (exwm-workspace-rename-buffer exwm-class-name)))
-  ;; 's-r': Reset
-  (exwm-input-set-key (kbd "s-r") #'exwm-reset)
-  ;; 's-N': Switch to certain workspace
-  (dotimes (i 10)
-    (exwm-input-set-key (kbd (format "s-%d" i))
-                        `(lambda ()
-                           (interactive)
-                           (exwm-workspace-switch-create ,i))))
-  ;; 's-&': Launch application
-  (exwm-input-set-key (kbd "s-SPC")
-                      (lambda (command)
-                        (interactive (list (read-shell-command "$ ")))
-                        (start-process-shell-command command nil command)))
-  ;; Line-editing shortcuts
-  (exwm-input-set-simulation-keys
-   '(([?\C-b] . left)
-     ([?\C-f] . right)
-     ([?\C-p] . up)
-     ([?\C-n] . down)
-     ([?\C-a] . home)
-     ([?\C-e] . end)
-     ([?\M-v] . prior)
-     ([?\C-v] . next)
-     ([?\C-d] . delete)
-     ([?\C-k] . (S-end delete))))
+
+  (add-hook 'exwm-update-title-hook
+            (lambda ()
+              (when (or (not exwm-instance-name))
+                (exwm-workspace-rename-buffer exwm-title))))
+
+  (setq exwm-input-global-keys
+        `(
+          ;; Bind "s-r" to exit char-mode and fullscreen mode.
+          ([?\s-r] . exwm-reset)
+          ;; Bind "s-w" to switch workspace interactively.
+          ([?\s-w] . exwm-workspace-switch)
+          ;; Bind "s-0" to "s-9" to switch to a workspace by its index.
+          ,@(mapcar (lambda (i)
+                      `(,(kbd (format "s-%d" i)) .
+                        (lambda ()
+                          (interactive)
+                          (exwm-workspace-switch-create ,i))))
+                    (number-sequence 0 9))
+          ;; Bind "s-&" to launch applications ('M-&' also works if the output
+          ;; buffer does not bother you).
+          ([?\s-&] . (lambda (command)
+		       (interactive (list (read-shell-command "$ ")))
+		       (start-process-shell-command command nil command)))
+          ;; Bind "s-<f2>" to "slock", a simple X display locker.
+          ([s-f2] . (lambda ()
+		      (interactive)
+		      (start-process "" nil "/usr/bin/slock")))))
+
+  (setq exwm-input-simulation-keys
+        '(
+          ;; movement
+          ([?\C-b] . [left])
+          ([?\M-b] . [C-left])
+          ([?\C-f] . [right])
+          ([?\M-f] . [C-right])
+          ([?\C-p] . [up])
+          ([?\C-n] . [down])
+          ([?\C-a] . [home])
+          ([?\C-e] . [end])
+          ([?\M-v] . [prior])
+          ([?\C-v] . [next])
+          ([?\C-d] . [delete])
+          ([?\C-k] . [S-end delete])
+          ;; cut/paste.
+          ([?\C-w] . [?\C-x])
+          ([?\M-w] . [?\C-c])
+          ([?\C-y] . [?\C-v])
+          ;; search
+          ([?\C-s] . [?\C-f])))
+
   ;; Enable EXWM
   (exwm-enable)
   ;; Other configurations
@@ -52,10 +79,70 @@
   :ensure t
 
   :config
+  (j0ni-exwm-setup)
+  (exwm-systemtray-enable)
+  :init
   (require 'exwm-config)
   (require 'exwm-systemtray)
   (require 'exwm-cm)
-  (j0ni-exwm-setup)
-  (exwm-systemtray-enable))
+  ;; Set the initial workspace number.
+  (setq exwm-workspace-number 1)
+  (setq exwm-input-global-keys
+        `(
+          ;; Bind "s-r" to exit char-mode and fullscreen mode.
+          ([?\s-r] . exwm-reset)
+          ;; Bind "s-w" to switch workspace interactively.
+          ([?\s-w] . exwm-workspace-switch)
+          ;; Bind "s-0" to "s-9" to switch to a workspace by its index.
+          ,@(mapcar (lambda (i)
+                      `(,(kbd (format "s-%d" i)) .
+                        (lambda ()
+                          (interactive)
+                          (exwm-workspace-switch-create ,i))))
+                    (number-sequence 0 9))
+          ;; Bind "s-&" to launch applications ('M-&' also works if the output
+          ;; buffer does not bother you).
+          ([?\s-&] . (lambda (command)
+		       (interactive (list (read-shell-command "$ ")))
+		       (start-process-shell-command command nil command)))
+          ;; Bind "s-<f2>" to "slock", a simple X display locker.
+          ([s-f2] . (lambda ()
+		      (interactive)
+		      (start-process "" nil "/usr/bin/slock")))))
+  (setq exwm-input-simulation-keys
+        '(
+          ;; movement
+          ([?\C-b] . [left])
+          ([?\M-b] . [C-left])
+          ([?\C-f] . [right])
+          ([?\M-f] . [C-right])
+          ([?\C-p] . [up])
+          ([?\C-n] . [down])
+          ([?\C-a] . [home])
+          ([?\C-e] . [end])
+          ([?\M-v] . [prior])
+          ([?\C-v] . [next])
+          ([?\C-d] . [delete])
+          ([?\C-k] . [S-end delete])
+          ;; cut/paste.
+          ([?\C-w] . [?\C-x])
+          ([?\M-w] . [?\C-c])
+          ([?\C-y] . [?\C-v])
+          ;; search
+          ([?\C-s] . [?\C-f])))
+  ;; Make class name the buffer name
+  (add-hook 'exwm-update-class-hook
+            (lambda ()
+              (exwm-workspace-rename-buffer exwm-class-name)))
+
+  (add-hook 'exwm-update-title-hook
+            (lambda ()
+              (when (or (not exwm-instance-name))
+                (exwm-workspace-rename-buffer exwm-title))))
+
+  (exwm-enable)
+
+  (exwm-config-misc))
+
 
 (provide 'j0ni-exwm)

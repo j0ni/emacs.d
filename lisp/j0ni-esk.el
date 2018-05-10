@@ -118,6 +118,8 @@
   (add-to-list 'safe-local-variable-values '(whitespace-line-column . 80))
 
   ;; Set this to whatever browser you use
+  ;; (setq browse-url-browser-function 'eww-browse-url)
+  (setq browse-url-browser-function 'browse-url-default-browser)
   ;; (setq browse-url-browser-function 'browse-url-firefox)
   ;; (setq browse-url-browser-function 'browse-default-macosx-browser)
   ;; (setq browse-url-browser-function 'browse-default-windows-browser)
@@ -239,14 +241,14 @@ comment as a filename."
 
   ;; This is a little hacky since VC doesn't support git add internally
   (eval-after-load 'vc
-    (define-key vc-prefix-map "i"
-      '(lambda () (interactive)
+    '(define-key vc-prefix-map "i"
+       (lambda () (interactive)
          (if (not (eq 'Git (vc-backend buffer-file-name)))
              (vc-register)
            (shell-command (format "git add %s" buffer-file-name))
            (message "Staged changes.")))))
 
-  ;; Activate occur easily inside isearch
+  ;; activate occur easily inside isearch
   (define-key isearch-mode-map (kbd "C-o")
     (lambda () (interactive)
       (let ((case-fold-search isearch-case-fold-search))

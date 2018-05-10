@@ -112,6 +112,7 @@
      (paredit-annotate-functions-with-examples)))
 
 (defun enable-paren-handling ()
+  (interactive)
   (when (fboundp 'autopair-mode)
     (autopair-mode -1))
   (paredit-mode 1)
