@@ -1,12 +1,17 @@
 ;;; j0ni-gui.el --- stuff for GUI only
 
 ;; I guess this kind of counts as GUI
-(package-require 'eyebrowse)
-(eyebrowse-mode t)
+;; (package-require 'eyebrowse)
+;; (eyebrowse-mode t)
 
-(package-require 'smart-mode-line)
+;; make the fringe (gutter) smaller
+;; the argument is a width in pixels (the default is 8)
+(if (fboundp 'fringe-mode)
+    (fringe-mode 6))
 
-(setq sml/position-percentage-format nil)
+(use-package smart-mode-line
+  :init
+  (setq sml/position-percentage-format nil))
 
 ;; (custom-theme-set-faces
 ;;  '(mode-line-inactive ((t :inverse-video nil)))
@@ -65,10 +70,13 @@
       (if (boundp 'j0ni-theme)
           (cond ((theme-is-one-of '(moe-light
                                     moe
-                                    moe-theme))
+                                    moe-theme
+                                    eziam-light))
                  (setq sml/theme nil))
                 ((theme-is-one-of '(spacemacs-light
-                                    solarized-light))
+                                    solarized-light
+                                    spacemacs-light
+                                    tao-yang))
                  (setq sml/theme 'respectful))
                 (t
                  (setq sml/theme 'light)))
@@ -93,8 +101,7 @@
                              (_ "gray30"))))
   (sml/setup)
   (apply-font-settings)
-  (set-mode-line-box)
-  (nyan-mode 1))
+  (set-mode-line-box))
 
 (setq desktop-dirname             "~/.emacs.d/desktop/"
       desktop-base-file-name      "emacs.desktop"
