@@ -85,8 +85,8 @@
 ;; Key-bindings for some global commands
 (global-set-key "\C-cl" 'org-store-link)
 (global-set-key "\C-cc" 'org-capture)
-(global-set-key "\C-ca" 'org-agenda)
-(global-set-key "\C-cb" 'org-iswitchb)
+;; (global-set-key "\C-ca" 'org-agenda)
+;; (global-set-key "\C-cb" 'org-iswitchb)
 
 ;; org-capture
 (setq org-default-notes-file (concat j0ni-org-dir "captured.org"))
@@ -97,10 +97,6 @@
          "* %<%H:%M> %?\n** How do I feel?\n** What have I been doing?\n** What shall I do next?")
         ("t" "Task" entry (file+headline "" "Tasks")
          "* TODO %?\n%u")))
-
-;; org-fstree
-(package-require 'org-fstree)
-(require 'org-fstree)
 
 ;; deft
 (package-require 'deft)
@@ -115,12 +111,5 @@
 (add-hook 'org-mode-hook
           (lambda ()
             (add-hook 'before-save-hook 'org-update-all-dblocks nil 'local-only)))
-
-;; let's try synchronizing with github
-;; (package-require 'org-sync)
-;; (require 'org-sync-github)
-;; (setq org-sync-github-auth '("j0ni" . "blah"))
-
-(package-require 'org-trello)
 
 (provide 'j0ni-org)
