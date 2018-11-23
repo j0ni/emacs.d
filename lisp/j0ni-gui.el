@@ -223,6 +223,32 @@
   (setq spacemacs-theme-org-agenda-height nil)
   (setq spacemacs-theme-org-height nil)
 
+  ;; Noctilux
+
+  ;; "For test purposes only; when in GUI mode, forces Noctilux to use the 256
+  ;; degraded color mode to test the approximate color values for accuracy."
+  (setq noctilux-degrade nil)
+
+  ;; "Sets the level of highlighting to use in diff-like modes. '(high normal low)"
+  (setq noctilux-diff-mode 'normal)
+
+  ;; "Stops Noctilux from displaying bold when nil."
+  (setq noctilux-bold t)
+
+  ;; "Stops Noctilux from displaying underlines when nil."
+  (setq noctilux-underline t)
+
+  ;; "Stops Noctilux from displaying italics when nil."
+  (setq noctilux-italic nil)
+
+  ;; "Stick with normal! It's been carefully tested. Setting this option to high
+  ;; or low does use the same Noctilux palette but simply shifts some values up
+  ;; or down in order to expand or compress the tonal range displayed." '(high normal low)
+  (setq noctilux-contrast 'normal)
+
+  ;; (custom-set-faces
+  ;;  '(show-paren-match ((t (:background "#5f5f5f")))))
+
   ;; some customizations
   ;; (set-face-attribute 'eval-sexp-fu-flash ((t (:background "#101010" :foreground "white"))))
   ;; (set-face-attribute 'nrepl-eval-sexp-fu-flash ((t (:background "#101010" :foreground "white"))))
