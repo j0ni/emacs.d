@@ -1,19 +1,24 @@
-;;; j0ni-lisp.el -- Lisps
+;;; j0ni-lisp.el Lisps
 
 ;; initially copied from bodil's emacs config
+
+;; (use-package ediprolog
+;;   :ensure t
+;;   :commands ediprolog-dwim
+;;   :init
+;;   (setq ediprolog-program "/usr/bin/swipl")
+;;   :bind (("C-c C-e" . ediprolog-dwim)))
 
 (require 'j0ni-defuns)
 
 (packages-require '(elein
                     kibit-helper
-                    racket-mode
                     ;; geiser
                     hy-mode
                     indent-guide))
 
 (setq j0ni-lisp-modes '(scheme-mode
-                        racket-mode
-                        ;; geiser
+                        faceup
                         emacs-lisp-mode
                         lisp-mode
                         hy-mode))
@@ -32,14 +37,12 @@
 (define-key lisp-mode-shared-map (kbd "C-c v") 'eval-buffer)
 (define-key lisp-mode-shared-map (kbd "C-c C-v") 'eval-buffer)
 
-(package-require 'highlight-parentheses)
-;; (add-lisp-hook 'highlight-parentheses-mode)
 (add-lisp-hook 'indent-guide-mode)
 
 ;; Make em light up
 (require 'highlight)
-(packages-require '(eval-sexp-fu hl-sexp))
-(require 'eval-sexp-fu)
+(use-package eval-sexp-fu)
+
 ;; Highlight sexp under cursor
 ;; (add-lisp-hook 'hl-sexp-mode)
 ;; (require 'hl-sexp)
@@ -47,10 +50,28 @@
 ;;   (set-face-background 'hl-sexp-face "gray95"))
 
 ;; Paredit for all lisps
-(packages-require '(paredit diminish))
+(use-package smartparens
+  :config
+  (when (fboundp 'autopair-mode)
+    (autopair-mode -1))
+  (require 'smartparens-config)
+  ;; (smartparens-global-mode 1)
+  (sp-use-paredit-bindings)
+  ;; (show-smartparens-global-mode 1)
+  (add-to-list 'sp-ignore-modes-list #'org-mode)
+  (add-to-list 'sp-ignore-modes-list #'org-agenda-mode)
+  ;; (smartparens-global-strict-mode 1)
+  :bind
+  ("C-k" . sp-kill-hybrid-sexp))
 
-(eval-after-load 'paredit
-  '(progn
+(use-package paredit
+  :diminish "par"
+
+  :config
+  (add-lisp-hook #'turn-off-smartparens-mode)
+  (add-lisp-hook #'paredit-mode)
+
+  (progn
      (defun paredit-barf-all-the-way-backward ()
        (interactive)
        (paredit-split-sexp)
@@ -111,20 +132,19 @@
      (paredit-annotate-mode-with-examples)
      (paredit-annotate-functions-with-examples)))
 
+;; (use-package lispy)
+
 (defun enable-paren-handling ()
   (interactive)
-  (when (fboundp 'autopair-mode)
-    (autopair-mode -1))
-  (paredit-mode 1)
-  (diminish 'paredit-mode "par"))
+  (paredit-mode 1))
 
-(add-lisp-hook 'enable-paren-handling)
+;; (add-lisp-hook 'enable-paren-handling)
 
 ;; Make paredit play nice with eldoc
-(eval-after-load "eldoc"
-  '(eldoc-add-command
-    'paredit-backward-delete
-    'paredit-close-round))
+;; (eval-after-load "eldoc"
+;;   '(eldoc-add-command
+;;     paredit-backward-delete
+;;     paredit-close-round))
 
 ;; Rainbow delimiters
 (package-require 'rainbow-delimiters)
@@ -236,8 +256,6 @@
 (defun enable-eros-mode ()
   (eros-mode 1))
 
-;; (define-key emacs-lisp-mode-map (kbd "M-.") 'find-function-at-point)
-
 (packages-require '(elisp-slime-nav diminish eros))
 
 (defun elisp-slime-nav-mode-setup ()
@@ -253,25 +271,49 @@
 
 ;; Slime for common lisp
 
-(load (expand-file-name "~/quicklisp/slime-helper.el"))
-(setq inferior-lisp-program "/usr/bin/sbcl")
-;; (setq inferior-lisp-program "/usr/local/bin/lisp")
-(slime-setup '(slime-fancy slime-asdf slime-tramp slime-banner))
+;; (use-package slime
+;;   :defer t
+;;   :init
+;;   (setq inferior-lisp-program
+;;         "/usr/bin/sbcl --no-linedit --dynamic-space-size=5120 --no-inform")
+;;   (setq slime-contribs '(slime-quicklisp
+;;                          slime-fancy
+;;                          slime-hyperdoc
+;;                          slime-asdf
+;;                          slime-banner
+;;                          slime-repl)))
 
-(defun slime-repl-mode-custom ()
-  (paredit-mode t)
-  (define-key slime-repl-mode-map
-    (read-kbd-macro paredit-backward-delete-key) nil))
+;; (use-package slime-docker :defer t)
+;; (use-package slime-company
+;;   :defer t
+;;   :requires company
+;;   :init
+;;   (add-to-list 'company-backends 'company-slime)
+;;   :hook
+;;   (slime))
 
-(add-hook 'slime-repl-mode-hook 'slime-repl-mode-custom)
+(use-package sly
+  :defer t
+  :init
+  (setq inferior-lisp-program
+        "/usr/bin/sbcl --no-linedit --dynamic-space-size=5120 --no-inform"))
+
+(use-package sly-quicklisp
+  :defer t
+  :requires sly)
 
 ;; Racket
 
-(add-hook 'racket-mode-hook      #'racket-unicode-input-method-enable)
-(add-hook 'racket-repl-mode-hook #'racket-unicode-input-method-enable)
+(use-package racket-mode
+  :init
+  (add-to-list 'auto-mode-alist '("\\.rkt$" . racket-mode))
+  (setq racket-smart-open-bracket-enable t)
+  (setq racket-program "/home/joni/racket/bin/racket")
+  (add-hook 'racket-mode-hook      #'racket-unicode-input-method-enable)
+  (add-hook 'racket-repl-mode-hook #'racket-unicode-input-method-enable)
+  (add-hook 'racket-mode-hook      'my-racket-mode-hook)
+  (add-hook 'racket-repl-mode-hook 'my-racket-repl-mode-hook))
 
-(package-require 'racket-mode)
-(setq racket-smart-open-bracket-enable t)
 
 (defun my-racket-mode-hook ()
   (interactive)
@@ -282,21 +324,36 @@
 (defun my-racket-repl-mode-hook ()
   (enable-paren-handling))
 
-(add-hook 'racket-mode-hook 'my-racket-mode-hook)
-(add-hook 'racket-repl-mode-hook 'my-racket-repl-mode-hook)
 
 ;; Geiser
 
-;; (setq geiser-active-implementations '(racket chicken guile))
-;; (setq geiser-repl-history-filename "~/.emacs.d/geiser-history")
+(use-package geiser
+  :init
+  (setq geiser-active-implementations '(chicken guile chez))
+  (setq geiser-repl-history-filename "~/.emacs.d/geiser-history")
+  (setq geiser-scheme-implementation 'chicken))
 
 ;; baseline scheme
-;; (setq scheme-program-name "csi -:c")
-
+(setq scheme-program-name "csi -:c")
+;; (setq scheme-program-name "chez-scheme --optimize-level 0 --debug-on-exception")
+;; geiser-implementations-alist
 ;; tell scheme-mode about the test extension
 (put 'test-group 'scheme-indent-function 1)
 
+(use-package scheme-complete
+  :after scheme
+  :bind (:map scheme-mode-map
+         ("TAB" . scheme-complete-or-indent))
+
+  :init
+  (setq lisp-indent-function 'scheme-smart-indent-function)
+  (add-hook 'scheme-mode-hook
+            (lambda ()
+              (make-local-variable 'eldoc-documentation-function)
+              (setq eldoc-documentation-function 'scheme-get-current-symbol-info)
+              (eldoc-mode))))
+
 ;; Shen
-(package-require 'shen-mode)
+;; (package-require 'shen-mode)
 
 (provide 'j0ni-lisp)

@@ -1,16 +1,21 @@
 ;;; j0ni-git.el
 
 ;; magit
-(package-require 'magit)
+(use-package magit
+  :init
+  (setq magit-last-seen-setup-instructions "1.4.0")
+  (setq magit-completing-read-function 'ivy-completing-read)
+  (setq magit-diff-refine-hunk t)
+  :bind
+  (("C-x g" . magit-status)
+   ("C-x M-g" . magit-dispatch-popup)))
 
 ;; (require 'magithub)
 ;; (magithub-feature-autoinject t)
 
-(global-set-key (kbd "C-x g") 'magit-status)
-(setq magit-last-seen-setup-instructions "1.4.0")
 ;; (setq magit-popup-use-prefix-argument 'popup)
-(setq magit-completing-read-function 'ivy-completing-read)
-(setq magit-diff-refine-hunk t)
+
+
 
 ;; file edit modes
 (packages-require '(gitignore-mode

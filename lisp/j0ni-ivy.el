@@ -1,65 +1,99 @@
 ;;; j0ni-ivy.el
 
-(packages-require '(swiper ivy ivy-hydra flx counsel avy smex))
+(use-package ivy
+  :init
+  (setq ivy-use-virtual-buffers t)
+  (setq ivy-height 20)
+  (setq ivy-length 200)
+  ;; (setq ivy-count-format "")
+  (setq confirm-nonexistent-file-or-buffer t)
+  (setq ivy-re-builders-alist
+        '((read-file-name-internal . ivy--regex-fuzzy)
+          (t . ivy--regex-plus)))
+  ;; w00t
+  (setq ivy-extra-directories nil)
 
-(ivy-mode t)
-(diminish 'ivy-mode)
 
-(setq ivy-use-virtual-buffers t)
-(setq ivy-height 15)
-(setq ivy-length 200)
-;; (setq ivy-count-format "")
-(setq confirm-nonexistent-file-or-buffer t)
+  :config (ivy-mode t)
+
+  :bind (("C-c C-r" . ivy-resume)
+         :map ivy-minibuffer-map
+         ("RET" . ivy-done))
+
+  :diminish ivy-mode)
+
+;; (ivy-mode t)
+;; (diminish 'ivy-mode)
+
+;; (setq ivy-use-virtual-buffers t)
+;; (setq ivy-height 20)
+;; (setq ivy-length 200)
+;; ;; (setq ivy-count-format "")
+;; (setq confirm-nonexistent-file-or-buffer t)
 
 
-(avy-setup-default)
+(use-package avy
+  :config
+  (avy-setup-default)
+  :bind
+  (("C-c C-j" . avy-resume)
+   ("M-g w" . avy-goto-word-1)
+   ("C-'" . avy-goto-char-2)))
 
-(global-set-key (kbd "C-s") 'swiper)
-(global-set-key (kbd "M-x") 'counsel-M-x)
-(global-set-key (kbd "C-x C-f") 'counsel-find-file)
+(use-package swiper
+  :after ivy
+  :bind (("C-s" . swiper))
+  :config
+  ;; https://github.com/abo-abo/swiper/issues/419
+  (advice-add 'swiper--action :after (lambda (throwaway-arg)
+                                       (recenter))))
 
-;; Hmmm... I doubt I'll ever use these
-(global-set-key (kbd "<f1> f") 'counsel-describe-function)
-(global-set-key (kbd "<f1> v") 'counsel-describe-variable)
-(global-set-key (kbd "<f1> l") 'counsel-load-library)
-(global-set-key (kbd "<f2> i") 'counsel-info-lookup-symbol)
-(global-set-key (kbd "<f2> u") 'counsel-unicode-char)
 
-;; (global-set-key (kbd "C-c g") 'counsel-git)
-(global-set-key (kbd "C-c j") 'counsel-git-grep)
-(global-set-key (kbd "C-c s") 'counsel-ag)
-;; (global-set-key (kbd "C-x l") 'counsel-locate)
-;; (global-set-key (kbd "C-S-o") 'counsel-rhythmbox)
+;; (global-set-key (kbd "C-s") 'swiper)
 
-(global-set-key (kbd "C-c C-r") 'ivy-resume)
+(use-package counsel
+  :ensure t
+  :after ivy
+  :bind (("M-x" . counsel-M-x)
+         ("C-x C-f" . counsel-find-file)
+
+         ;; Hmmm... I doubt I'll ever use these
+         ("<f1> f" . counsel-describe-function)
+         ("<f1> v" . counsel-describe-variable)
+         ("<f1> l" . counsel-load-library)
+         ("<f2> i" . counsel-info-lookup-symbol)
+         ("<f2> u" . counsel-unicode-char)
+
+         ;; (global-set-key (kbd "C-c g") 'counsel-git)
+         ("C-c j" . counsel-git-grep) ;; cuz it might be gif :P
+         ("C-c s" . counsel-ag)
+         ("C-x l" . counsel-locate)
+
+         ;; (global-set-key (kbd "C-c g") 'counsel-git)
+         ("C-c j" . counsel-git-grep) ;; cuz it might be gif :P
+         ("C-c s" . counsel-ag)
+         ("C-x l" . counsel-locate)
+         ;; (global-set-key (kbd "C-S-o") 'counsel-rhythmbox)
+
+         ("C-\\" . counsel-company)))
 
 ;; I have no use for dired
-(define-key ivy-minibuffer-map (kbd "RET") 'ivy-done)
-
-(setq ivy-re-builders-alist
-      '((read-file-name-internal . ivy--regex-fuzzy)
-        (t . ivy--regex-plus)))
-
-;; w00t
-(setq ivy-extra-directories nil)
-
-;; (setq ivy-re-builders-alist
-;;       '((t . ivy--regex-plus)))
+;; (define-key ivy-minibuffer-map (kbd "RET") 'ivy-done)
 
 ;; set elsewhere
 ;; (setq magit-completing-read-function 'ivy-completing-read)
 ;; (setq projectile-completion-system 'ivy)
 
-;; https://github.com/abo-abo/swiper/issues/419
-(advice-add 'swiper--action :after (lambda (throwaway-arg)
-                                     (recenter)))
+(use-package counsel-projectile
+  :after (:all projectile ivy)
+  :init
+  (setq projectile-keymap-prefix (kbd "C-c C-p"))
+  :config (counsel-projectile-mode))
 
 (use-package imenu-anywhere
-  :ensure t
-  :init
-  (global-set-key (kbd "C-.") 'imenu-anywhere))
+  :bind (("C-." . imenu-anywhere)))
 
-(use-package ivy-lobsters
-  :ensure t)
+;; (use-package ivy-lobsters
+;;   :ensure t)
 
 (provide 'j0ni-ivy)

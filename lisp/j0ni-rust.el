@@ -1,14 +1,7 @@
 ;;; j0ni-rust.el -- configuration for the rust programming language
 
-(packages-require '(rust-mode
-                    racer
-                    company-racer
-                    flycheck-rust
-                    toml-mode
-                    cargo))
-
-;; Set path to racer binary
-;; (setq racer-cmd (concat-home ".cargo/bin/racer"))
+(use-package toml-mode
+  :ensure t)
 
 (defvar j0ni-rust-root
   (string-trim
@@ -19,49 +12,42 @@
 
 (setenv "RUST_SRC_PATH" (concat j0ni-rust-root "/lib/rustlib/src/rust/src"))
 
-;; Set path to rust src directory
-;; (setq racer-rust-src-path (getenv "RUST_SRC_PATH"))
-(setq racer-rust-src-path (concat j0ni-rust-root "/lib/rustlib/src/rust/src"))
+(use-package flycheck-rust
+  :hook (rust-mode . flycheck-rust-setup))
 
-;; Load rust-mode when you open `.rs` files
-(add-to-list 'auto-mode-alist '("\\.rs$" . rust-mode))
-
-;; (defun rust-mode-setup ()
-;;   (racer-activate)
-;;   (racer-turn-on-eldoc)
-;;   )
-
-;; flycheck
-(add-hook 'flycheck-mode-hook #'flycheck-rust-setup)
-
-(defun rust-mode-setup ()
-  (interactive)
-  (racer-mode 1)
-  (smartparens-mode 1)
-  (cargo-minor-mode 1)
-  (define-key rust-mode-map (kbd "TAB") #'company-indent-or-complete-common)
+(use-package rust-mode
+  :ensure t
+  :init
   (setq company-tooltip-align-annotations t)
-  (define-key rust-mode-map (kbd "C-c C-f") #'rustfmt-format-buffer)
-  (define-key rust-mode-map (kbd "M-q") #'rustfmt-format-buffer)
-  (flycheck-mode 1))
+  (setq rust-format-on-save t)
+  ;; (setq comment-auto-fill-only-comments t)
+  ;; (setq rust-match-angle-brackets nil)
+  (add-to-list 'auto-mode-alist '("\\.rs$" . rust-mode))
+  :config
+  (defun rust-mode-setup ()
+    (smartparens-mode 1)
+    (flycheck-mode 1))
+  (add-hook 'rust-mode-hook 'rust-mode-setup)
+  :bind
+  (("TAB" . company-indent-or-complete-common)))
 
-(add-hook 'rust-mode-hook 'rust-mode-setup)
+(use-package racer
+  ;; :hook (rust-mode . racer-mode)
+  :init
+  (setq racer-rust-src-path (concat j0ni-rust-root "/lib/rustlib/src/rust/src"))
+  :config
+  (defun racer-mode-setup ()
+    (eldoc-mode 1)
+    (company-mode 1))
+  (add-hook 'racer-mode-hook 'racer-mode-setup)
+  :bind (("C-c C-d" . racer-describe)))
 
-(defun racer-mode-setup ()
-  (eldoc-mode 1)
-  (company-mode 1))
+(use-package cargo
+  :hook (rust-mode . cargo-minor-mode))
 
-(add-hook 'racer-mode-hook 'racer-mode-setup)
-
-;; rustfmt is in its infancy - there's a lot of discussion about
-;; specific brokenness here:
-;;   https://users.rust-lang.org/t/try-rustfmt-on-your-code/3588
-;; and here:
-;;   https://users.rust-lang.org/t/please-help-test-rustfmt/5386
-;; and of course here:
-;;   https://github.com/rust-lang-nursery/rustfmt/issues
-;; when its settled, we can have it run like gofmt
-
-(add-hook 'rust-mode-hook #'rustfmt-enable-on-save)
+(use-package company-racer
+  :ensure t
+  :config
+  (add-to-list 'company-backends 'company-racer))
 
 (provide 'j0ni-rust)

@@ -1,50 +1,62 @@
 ;;; j0ni-complete.el -- Auto completion
 
-(package-require 'company)
-(require 'company)
-(add-hook 'after-init-hook 'global-company-mode)
-;; (global-set-key (kbd "C-\\") 'company-complete)
-(diminish 'company-mode)
-
-(setq company-global-modes '(not term-mode org-mode))
-
-(setq company-minimum-prefix-length 2
-      company-selection-wrap-around t
-      company-show-numbers t
-      company-tooltip-align-annotations t
-      company-idle-delay .5)
+(use-package company
+  :diminish nil
+  :config
+  (global-company-mode)
+  :init
+  (setq company-global-modes '(not term-mode org-mode))
+  (setq company-minimum-prefix-length 2
+        company-selection-wrap-around t
+        company-show-numbers nil
+        company-tooltip-align-annotations t
+        company-tooltip-idle-delay nil
+        ;; company-tooltip-idle-delay 0.5
+        company-idle-delay nil
+        ;; company-idle-delay 0.5
+        ;; company-frontends '()
+        company-frontends '(company-pseudo-tooltip-unless-just-one-frontend
+                            company-preview-if-just-one-frontend
+                            company-echo-metadata-frontend)))
 
 ;; Javascript
-(package-require 'company-tern)
-(add-to-list 'company-backends 'company-tern)
+(use-package company-tern
+  :init
+  (add-to-list 'company-backends 'company-tern))
 
 ;; Go Lang
-(package-require 'company-go)
-(add-to-list 'company-backends 'company-go)
+(use-package company-go
+  :init
+  (add-to-list 'company-backends 'company-go))
 
 ;; Python
-(package-require 'company-anaconda)
-(add-to-list 'company-backends '(company-anaconda :with company-capf))
+(use-package company-anaconda
+  :init
+  (add-to-list 'company-backends '(company-anaconda :with company-capf)))
 
 ;; Ruby
-(package-require 'company-inf-ruby)
-(add-to-list 'company-backends 'company-inf-ruby)
+(use-package company-inf-ruby
+  :init
+  (add-to-list 'company-backends 'company-inf-ruby))
 
 ;; Haskell
-(package-require 'company-ghc)
-(add-to-list 'company-backends 'company-ghc)
+(use-package company-ghc
+  :init
+  (add-to-list 'company-backends 'company-ghc))
 
 ;; Rust
-(package-require 'company-racer)
-(add-to-list 'company-backends 'company-racer)
+(use-package company-racer
+  :init
+  (add-to-list 'company-backends 'company-racer))
 
 ;; Etags
 ;; (package-require 'company-etags)
 ;; (require 'company-etags)
 ;; (add-to-list 'company-backends 'company-etags)
 
-(package-require 'merlin)
-(add-to-list 'company-backends 'merlin-company-backend)
+(use-package merlin
+  :init
+  (add-to-list 'company-backends 'merlin-company-backend))
 
 
 (provide 'j0ni-complete)
