@@ -22,16 +22,14 @@
                     gitconfig-mode))
 
 ;; contributed bits
-(add-to-list 'load-path j0ni-git-contrib-dir)
-(require 'git)
+;; (add-to-list 'load-path j0ni-git-contrib-dir)
+;; (require 'git)
 
 ;; git gutter
 (packages-require '(git-messenger
                     diminish))
 
 (use-package diff-hl
-  :ensure t
-  :defer t
   :diminish "dhl"
   :commands
   (diff-hl-mode
@@ -41,18 +39,15 @@
    diff-hl-margin-mode
    global-diff-hl-mode)
   :init
-  (add-hook 'emacs-startup-hook 'global-diff-hl-mode)
-  ;; (add-hook 'prog-mode-hook 'turn-on-diff-hl-mode)
-  ;; (add-hook 'org-mode-hook 'turn-on-diff-hl-mode)
-  ;; (add-hook 'vc-dir-mode-hook 'turn-on-diff-hl-mode)
+  (add-hook 'prog-mode-hook 'turn-on-diff-hl-mode)
+  (add-hook 'org-mode-hook 'turn-on-diff-hl-mode)
+  (add-hook 'vc-dir-mode-hook 'turn-on-diff-hl-mode)
   :config
+  (global-diff-hl-mode 1)
   (eval-after-load 'magit
-    '(add-hook 'magit-post-refresh-hook 'diff-hl-magit-post-refresh))
-  ;; (global-diff-hl-mode)
-  (diff-hl-flydiff-mode 1)
+    (add-hook 'magit-post-refresh-hook 'diff-hl-magit-post-refresh))
+  ;; (diff-hl-flydiff-mode 1)
   )
-
-;; (global-diff-hl-mode 1)
 
 ;; git-messenger
 (setq git-messenger:show-detail t)
