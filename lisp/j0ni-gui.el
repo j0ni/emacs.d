@@ -18,20 +18,27 @@
 ;;  '(sml/modes     ((t :foreground nil :inherit sml/filename :weight
 ;;  normal))))
 
-;; indent-guide - don't switch it on though, just have it there fore
-;; when I need it
-(package-require 'indent-guide)
-(eval-after-load 'indent-guide
-  '(progn
-     (setq indent-guide-char "|")
-     (setq indent-guide-recursive nil)
-     (diminish 'indent-guide-mode)))
+(use-package indent-guide
+  :init
+  (setq indent-guide-char "|")
+  (setq indent-guide-recursive nil)
+  :diminish nil)
+
+(use-package golden-ratio
+  :ensure t
+  :diminish nil
+  :config
+  (golden-ratio-mode 1)
+  (add-to-list 'buffer-list-update-hook #'golden-ratio)
+  :init
+  (setq golden-ratio-auto-scale t))
 
 (require 'color)
 
-(package-require 'nyan-mode)
-;; doesn't do small very well
-;; (setq nyan-bar-length 32)
+(use-package nyan-mode
+  :ensure t
+  :config
+  (nyan-mode 1))
 
 ;; I keep switching between dark and light themes; dark is nice, there are
 ;; more usable variants, but light is better for my eyes I think. Light looks
