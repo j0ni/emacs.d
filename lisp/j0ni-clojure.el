@@ -80,8 +80,10 @@
       cider-words-of-inspiration                 '("")
       cider-prefer-local-resources               t
       cider-inject-dependencies-at-jack-in       t
+      ;; cider-lein-parameters                      "nrepl :middleware \"['cider.nrepl/cider-middleware]\""
       cider-eldoc-display-context-dependent-info t
       cider-pprint-fn                            'fipp
+      cider-clojure-cli-global-options           "-A:dev"
       cider-jdk-src-paths                        '("~/Scratch/java8-src"
                                                    "~/Scratch/clojure1.9-src")
       cider-cljs-lein-repl                       "(do (use 'figwheel-sidecar.repl-api) (start-figwheel!) (cljs-repl))")
@@ -101,10 +103,11 @@
 (defun cider-repl-customizations ()
   (interactive)
   (define-key cider-repl-mode-map (kbd "C-r") 'cider-repl-previous-matching-input)
-  (define-key cider-repl-mode-map (kbd "C-s") 'cider-repl-next-matching-input)
+  (define-key cider-repl-mode-map (kbd "C-s") 'swiper)
   (define-key cider-repl-mode-map (kbd "C-c C-M-r") 'isearch-backward-regexp)
-  (define-key cider-repl-mode-map (kbd "C-c C-M-s") 'isearch-forward-regexp)
   (define-key cider-repl-mode-map (kbd "C-c M-c") 'my-cider-make-connection-default)
+  ;; (define-key cider-repl-mode-map (kbd "C-j") 'cider-repl-return)
+  (define-key cider-repl-mode-map (kbd "RET") 'cider-repl-newline-and-indent)
   (subword-mode 1)
   (diminish 'subword-mode)
   (enable-paren-handling))
