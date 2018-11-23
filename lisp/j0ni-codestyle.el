@@ -1,6 +1,6 @@
 ;;; j0ni-codestyle.el -- Indentation styles et al for all modes in one central location
 
-;; Tab indentation is a disease; a cancer of this planet.
+;; Don't use tabs
 (set-default 'indent-tabs-mode nil)
 
 ;; Always newline-and-indent
@@ -54,13 +54,13 @@
 ;;                                     message-mode))
 ;; (add-hooks ethan-wspace-disabled-modes (lambda () (ethan-wspace-mode -1)))
 
-(package-require 'ws-butler)
-(ws-butler-global-mode 1)
-
-(add-to-list 'ws-butler-global-exempt-modes 'message-mode)
-(add-to-list 'ws-butler-global-exempt-modes 'mu4e-compose-mode)
-(add-to-list 'ws-butler-global-exempt-modes 'mml-mode)
-(add-to-list 'ws-butler-global-exempt-modes 'ein:notebook-mode)
-(add-to-list 'ws-butler-global-exempt-modes 'ein:notebook-multilang-mode)
+(use-package ws-butler
+  :config
+  (ws-butler-global-mode 1)
+  (add-to-list 'ws-butler-global-exempt-modes 'message-mode)
+  (add-to-list 'ws-butler-global-exempt-modes 'mu4e-compose-mode)
+  (add-to-list 'ws-butler-global-exempt-modes 'mml-mode)
+  (add-to-list 'ws-butler-global-exempt-modes 'ein:notebook-mode)
+  (add-to-list 'ws-butler-global-exempt-modes 'ein:notebook-multilang-mode))
 
 (provide 'j0ni-codestyle)
