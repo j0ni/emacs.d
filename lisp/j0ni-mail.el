@@ -48,6 +48,7 @@
         mu4e-drafts-folder "/Gmail/drafts"
         mu4e-trash-folder "/Gmail/trash"
         mu4e-update-interval 300
+        mu4e-hide-index-messages t
         mu4e-confirm-quit nil
         mu4e-use-fancy-chars nil ;; they actually look shit
         ;; mu4e-html2text-command "pandoc -f html -t plain"
@@ -58,6 +59,7 @@
         shr-color-visible-luminance-min 70
         mu4e-headers-sort-direction 'ascending
         mu4e-headers-skip-duplicates t
+        mu4e-change-filenames-when-moving t
         mu4e-headers-hide-predicate nil
         mu4e-headers-include-related nil
         mu4e-split-view 'single-window
@@ -71,7 +73,9 @@
         mu4e-date-format-long "%FT%T%z"
         mu4e-headers-date-format "%F"
         mu4e-headers-time-format "%T"
-        mu4e-headers-long-date-format "%FT%T%z")
+        mu4e-headers-long-date-format "%FT%T%z"
+        mu4e-view-use-gnus nil
+        mm-inline-large-images 'resize)
 
   (require 'mu4e-contrib)
   ;; (setq mu4e-html2text-command 'mu4e-shr2text)
@@ -80,10 +84,11 @@
   (setq mu4e-user-mail-address-list '("j@lollyshouse.ca"
                                       "jonathan.irving@gmail.com"
                                       "jon@motiva.ai"
+                                      "j0ni@fastmail.com"
                                       "j0ni@protonmail.com"
                                       "jon@arity.ca")
-        user-full-name "J Irving"
-        mu4e-compose-signature "Jonathan Irving\nhttps://j0ni.ca")
+        user-full-name "Jon Irving"
+        mu4e-compose-signature "Jonathan Irving\nhttps://j0ni.ca\nQuod non potest esse momenti")
 
   (setq mu4e-bookmarks
         '(("date:24h..now AND NOT flag:trashed" "Last day's messages" ?t)
@@ -122,6 +127,14 @@
            "Last 7 days (Proton)"
            ?p)
 
+          ("date:30d..now AND (maildir:/Fastmail/INBOX OR maildir:/Fastmail/sent-mail) AND NOT flag:trashed"
+           "Last 30 days (Fastmail)"
+           ?F)
+
+          ("date:7d..now AND (maildir:/Fastmail/INBOX OR maildir:/Fastmail/sent-mail) AND NOT flag:trashed"
+           "Last 7 days (Fastmail)"
+           ?f)
+
           ;; ("date:today..now AND NOT flag:trashed AND (maildir:/Motiva/INBOX OR maildir:/Motiva/sent-mail)"
           ;;  "Today's messages (Motiva)"
           ;;  ?m)
@@ -154,11 +167,11 @@
                  (account
                   (cond
                    ((string-match "j@appcanary.com" from) "appcanary")
-                   ((string-match "j@lollyshouse.ca" from) "proton")
+                   ((string-match "j@lollyshouse.ca" from) "fastmail")
                    ((string-match "jon@motiva.ai" from) "motiva")
                    ((string-match "j0ni@protonmail.com" from) "proton")
-                   ((string-match "jon@arity.ca" from) "proton")
-                   (t "proton"))))
+                   ((string-match "jon@arity.ca" from) "gmail")
+                   (t "gmail"))))
             (setq message-sendmail-extra-arguments (list '"-a" account))))))
 
   (add-hook 'message-send-mail-hook 'choose-msmtp-account)
@@ -188,6 +201,7 @@
        (user-mail-address "jonathan.irving@gmail.com")
        (mu4e-sent-messages-behavior ,'delete)
        (mu4e-compose-signature "Jonathan Irving\nhttps://j0ni.ca"))
+
       ("Proton"
        (mu4e-sent-messages-behavior ,'sent)
        (mu4e-sent-folder "/Proton/sent-mail")
@@ -197,6 +211,19 @@
                                 ("/Proton/sent-mail" . ?s)
                                 ("/Proton/drafts"    . ?d)
                                 ("/Proton/trash"     . ?t)))
+       (user-mail-address "j0ni@protonmail.ch")
+       (user-full-name "Jon Irving")
+       (mu4e-compose-signature "Jonathan Irving\nhttps://j0ni.ca\nhttps://keybase.io/j0ni"))
+
+      ("Fastmail"
+       (mu4e-sent-messages-behavior ,'sent)
+       (mu4e-sent-folder "/Fastmail/sent-mail")
+       (mu4e-trash-folder "/Fastmail/trash")
+       (mu4e-drafts-folder "/Fastmail/drafts")
+       (mu4e-maildir-shortcuts (("/Fastmail/INBOX"     . ?i)
+                                ("/Fastmail/sent-mail" . ?s)
+                                ("/Fastmail/drafts"    . ?d)
+                                ("/Fastmail/trash"     . ?t)))
        (user-mail-address "j@lollyshouse.ca")
        (user-full-name "Jon Irving")
        (mu4e-compose-signature "Jonathan Irving\nhttps://j0ni.ca\nhttps://keybase.io/j0ni"))
@@ -307,7 +334,8 @@
     (set-fill-column 72)
     (turn-on-auto-fill)
     ;; (flyspell-mode)
-    (mml-secure-message-sign-pgpmime))
+    ;; (mml-secure-message-sign-pgpmime)
+    )
 
   (add-hook 'mu4e-compose-mode-hook 'my-compose-mode-setup)
   (add-hook 'message-mode-hook 'my-compose-mode-setup)
