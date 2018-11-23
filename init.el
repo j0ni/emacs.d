@@ -110,37 +110,25 @@
 
 (defvar j0ni-installed-themes
   '(soothe-theme
-    ;; late-night-theme
+    nova-theme
+    sunburn-theme
+    zenburn-theme
     noctilux-theme
     cyberpunk-theme
-    subatomic-theme
     ir-black-theme
-    twilight-theme
-    twilight-bright-theme
-    twilight-anti-bright-theme
-    zenburn-theme
-    bubbleberry-theme
     darkburn-theme
     gotham-theme
     solarized-theme
     phoenix-dark-pink-theme
     phoenix-dark-mono-theme
-    dakrone-theme
-    dakrone-light-theme
-    ;; color-theme-github
+    eziam-theme
     clues-theme
-    sublime-themes
     flatland-theme
     flatland-black-theme
     tao-theme
-    darcula-theme
-    firecode-theme
-    ujelly-theme
     tango-2-theme
     tangotango-theme
     tango-plus-theme
-    ;; spacegray-theme
-    ;; purple-haze-theme
     flatui-theme
     moe-theme
     minimal-theme
@@ -151,15 +139,10 @@
     color-theme-sanityinc-tomorrow
     base16-theme
     goose-theme
-    anti-zenburn-theme
     sourcerer-theme
     spacegray-theme
-    oceanic-theme
-    airline-themes
     monochrome-theme
     reykjavik-theme
-    occidental-theme
-    badwolf-theme
     arjen-grey-theme
     rebecca-theme
     dracula-theme))
@@ -174,20 +157,20 @@
 ;; (defvar j0ni-theme 'material)
 ;; (defvar j0ni-theme 'material-light)
 ;; (defvar j0ni-theme 'solarized-light)
-;; (defvar j0ni-theme 'solarized-dark)
+;; (setq j0ni-theme 'solarized-dark)
 ;; (defvar j0ni-theme 'tomorrow-night-eighties)
 ;; (defvar j0ni-theme 'monochrome)
-;; (defvar j0ni-theme 'plan9)
-;; (defvar j0ni-theme 'anti-zenburn)
-;; (defvar j0ni-theme 'spacemacs-dark)
+;; (setq j0ni-theme 'plan9)
+;; (setq j0ni-theme 'tao-yang)
 ;; (setq j0ni-theme 'spacemacs-light)
 ;; (defvar j0ni-theme 'sanityinc-tomorrow-night)
-;; - (defvar j0ni-theme 'sanityinc-tomorrow-bright)
+;; (defvar j0ni-theme 'sanityinc-tomorrow-bright)
 ;; (defvar j0ni-theme 'sanityinc-tomorrow-floraverse)
 ;; (defvar j0ni-theme 'sanityinc-tomorrow-floraverse-boost)
 ;; (defvar j0ni-theme 'bubbleberry)
-;; (defvar j0ni-theme 'zenburn)
+;; (setq j0ni-theme 'zenburn)
 (setq j0ni-theme 'dracula)
+;; (setq j0ni-theme 'eziam-light)
 ;; (defvar j0ni-theme 'rebecca)
 ;; (defvar j0ni-theme 'lawrence)
 ;; (defvar j0ni-theme 'darkburn)
@@ -209,7 +192,7 @@
 ;; (defvar j0ni-theme 'moe-dark)
 ;; (defvar j0ni-theme 'moe-light)
 ;; (defvar j0ni-theme 'cyberpunk)
-;; (defvar j0ni-theme 'noctilux)
+;; (setq j0ni-theme 'noctilux)
 ;; (defvar j0ni-theme 'ujelly)
 ;; (defvar j0ni-theme 'clues)
 ;; (defvar j0ni-theme 'flatui)
@@ -218,12 +201,13 @@
 ;; (defvar j0ni-theme 'monochrome)
 ;; (defvar j0ni-theme 'sexy-monochrome)
 ;; (defvar j0ni-theme 'reykjavik)
-;; (defvar j0ni-theme 'arjen-grey)
+;; (setq j0ni-theme 'arjen-grey)
 ;; (defvar j0ni-theme 'flatland)
 ;; (setq j0ni-theme 'adwaita)
 
+(defvar j0ni-theme-tint)
 ;; 'dark 'mid 'light
-(defvar j0ni-theme-tint 'dark)
+(setq j0ni-theme-tint 'dark)
 
 ;; experimenting with a new thing
 ;; (global-font-lock-mode -1)
@@ -263,7 +247,8 @@
                       (concat-home ".miniconda3/bin")
                       "/usr/local/bin"))
 
-(setq j0ni-git-contrib-dir "/usr/local/share/emacs/site-lisp/git")
+;; (setq j0ni-git-contrib-dir "/usr/share/emacs/site-lisp/git")
+;; (setq j0ni-git-contrib-dir "/usr/share/git/emacs")
 
 (setq j0ni-org-dir (concat-home "Dropbox/OrgMode/"))
 (setq j0ni-notebook (concat j0ni-org-dir "notebook.org"))
@@ -306,7 +291,8 @@
 ;; Set paths to custom.el and loaddefs.el
 (setq autoload-file (concat dotfiles-dir "loaddefs.el"))
 (setq custom-file (concat dotfiles-dir "custom.el"))
-(load custom-file)
+(when (file-exists-p custom-file)
+  (load custom-file))
 
 ;; Detect online status, from ESK
 (require 'cl)
@@ -315,8 +301,8 @@
   (if (and (functionp 'network-interface-list)
            (network-interface-list))
       (some (lambda (iface) (unless (equal "lo" (car iface))
-                              (member 'up (first (last (network-interface-info
-                                                        (car iface)))))))
+                         (member 'up (first (last (network-interface-info
+                                                   (car iface)))))))
             (network-interface-list))
     t))
 
@@ -341,6 +327,7 @@
 (setq package-user-dir (concat dotfiles-dir "elpa"))
 (setq package-archives '(("org" . "http://orgmode.org/elpa/")
                          ("melpa" . "https://melpa.org/packages/")
+                         ;; ("melpa-backup" . "https://www.mirrorservice.org/sites/melpa.org/packages/")
                          ("melpa-stable" . "https://stable.melpa.org/packages/")
                          ("gnu" . "https://elpa.gnu.org/packages/")))
 ;; seems to work now?
@@ -384,24 +371,25 @@
 
 (setq j0ni-pkg-full
       '(;; j0ni-exwm
-        j0ni-evil
-        j0ni-snippets
+        ;; j0ni-evil
+        ;; j0ni-snippets
         j0ni-esk
         j0ni-eshell
         j0ni-defuns
         j0ni-misc
+        j0ni-gui
         j0ni-ibuffer
         j0ni-codestyle ;; what even is this
         j0ni-lisp
-        j0ni-elixir
+        ;; j0ni-elixir
         j0ni-clojure
         j0ni-erlang
-        j0ni-julia
+        ;; j0ni-julia
         ;; j0ni-flycheck
         ;; j0ni-ido
         j0ni-ivy
         ;; j0ni-helm
-        j0ni-ml
+        ;; j0ni-ml
         j0ni-go
         j0ni-js
         j0ni-git
@@ -409,7 +397,7 @@
         j0ni-markup
         j0ni-markdown
         j0ni-haskell
-        j0ni-purescript
+        ;; j0ni-purescript
         j0ni-rust
         j0ni-org
         j0ni-python
@@ -418,8 +406,7 @@
         ;; j0ni-jabber
         ;; j0ni-powerline
         j0ni-mail
-        j0ni-twitter
-        j0ni-gui
+        ;; j0ni-twitter
         j0ni-audio
         ;; j0ni-scala
         ))
@@ -438,12 +425,17 @@
 
 ;; Open for business
 
+(use-package 2048-game)
+
 (require 'server)
 (unless (server-running-p)
   (server-start))
 ;; ## added by OPAM user-setup for emacs / base ## 56ab50dc8996d2bb95e7856a6eddb17b ## you can edit, but keep this line
-(require 'opam-user-setup "~/.emacs.d/opam-user-setup.el")
+;; (require 'opam-user-setup "~/.emacs.d/opam-user-setup.el")
+
 ;; ## end of OPAM user-setup addition for emacs / base ## keep this line
 
 ;; start desktop saving
 ;; (boot-desktop)
+
+;; (setq redisplay-dont-pause t)
