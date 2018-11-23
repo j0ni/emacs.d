@@ -125,15 +125,6 @@
 ;; (moe-theme-set-color 'white)
 ;; (moe-dark)
 ;; (require 'lawrence-theme)
-;; (blink-cursor-mode +1)
-
-(defun apply-font-settings (&optional default-font linum-font antialias)
-  "Apply font choices across the board."
-  (interactive)
-  (when (display-graphic-p)
-    (set-face-attribute 'default nil
-                        :font (font-spec :name (or default-font j0ni-default-font)
-                                         :antialias (or antialias j0ni-antialias)))))
 
 (defun set-font-dwim (&optional size font ln-spc antialias)
   (interactive)
@@ -166,17 +157,40 @@
   (global-set-key (kbd "C-+") 'j0ni-inc-font-size)
   (global-set-key (kbd "C--") 'j0ni-dec-font-size)
 
-  (defun normalize-fonts ()
-    "Removes underlining and bold decorations."
+  (defvar base-face-list nil)
+
+  (defun base-weight (face)
+    (let ((original-weight (alist-get face base-face-list 'not-found)))
+      (if (not (equal 'not-found original-weight))
+          original-weight
+        ;; (message "Setting %s weight to %s" face (face-attribute face :weight))
+        (setq base-face-list
+              (cons `(,face . ,(face-attribute face :weight)) base-face-list))
+        (alist-get face base-face-list))))
+
+  (defun apply-font-settings (&optional default-font antialias)
     (interactive)
     (mapc
-     (lambda (face) (set-face-attribute face nil
-                                   :weight 'normal
-                                   :underline nil))
+     (lambda (face)
+       (cond ;; do nothing if the weight is neither of these - preserving
+        ;; inherited properties
+        ((equal 'bold (base-weight face))
+         (set-face-attribute
+          face nil
+          :weight j0ni-bold-font-weight
+          :font (font-spec :name (or default-font j0ni-default-font)
+                           :antialias (or antialias j0ni-antialias))))
+
+        ((equal 'normal (base-weight face))
+         (set-face-attribute
+          face nil
+          :weight j0ni-font-weight
+          :font (font-spec :name (or default-font j0ni-default-font)
+                           :antialias (or antialias j0ni-antialias))))))
      (face-list)))
 
   ;; run the setup
-  (set-font-dwim)
+  ;; (set-font-dwim)
   ;; (normalize-fonts)
   )
 
@@ -264,7 +278,7 @@
   ;; (set-face-background 'ivy-minibuffer-match-face-1 "grey30")
 
   (load-theme j0ni-theme)
-  (apply-font-settings)
+  ;; (apply-font-settings)
 
   ;; (normalize-fonts)
 
