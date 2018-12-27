@@ -14,6 +14,9 @@
 
 (require 'python)
 
+(use-package blacken
+  :hook (python-mode . blacken-mode))
+
 (setq python-check-command "pylint")
 (setq python-fill-docstring-style 'pep-257-nn)
 
@@ -42,10 +45,10 @@
   "Setup Flycheck for the current virtualenv."
   (setq-local flycheck-executable-find #'flycheck-virtualenv-executable-find))
 
-(use-package py-autopep8
-  :init
-  (setq py-autopep8-options '("--max-line-length=120"))
-  :hook (python-mode . py-autopep8-enable-on-save))
+;; (use-package py-autopep8
+;;   :init
+;;   (setq py-autopep8-options '("--max-line-length=120"))
+;;   :hook (python-mode . py-autopep8-enable-on-save))
 
 (package-require 'smartparens)
 (add-hook 'python-mode-hook 'turn-on-smartparens-mode)
