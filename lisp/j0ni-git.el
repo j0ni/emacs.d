@@ -14,8 +14,7 @@
 ;; (magithub-feature-autoinject t)
 
 ;; (setq magit-popup-use-prefix-argument 'popup)
-
-
+(use-package forge :after magit)
 
 ;; file edit modes
 (packages-require '(gitignore-mode
