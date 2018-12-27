@@ -37,3 +37,14 @@ timelog
 type-break
 /desktop/emacs.desktop
 /desktop/lock
+.cask/
+.mc-lists.el
+anaconda-mode/
+bookmarks
+forge-database.sqlite
+ido.last
+jars/
+org-clock-save.el
+quelpa/
+smex-items
+speed-type/
