@@ -3,18 +3,29 @@
 (use-package ivy
   :init
   (setq ivy-use-virtual-buffers t)
-  (setq ivy-height 20)
+  (setq ivy-height 10)
+  ;; (setq ivy-height 20)
   (setq ivy-length 200)
   ;; (setq ivy-count-format "")
   (setq confirm-nonexistent-file-or-buffer t)
   (setq ivy-re-builders-alist
         '((read-file-name-internal . ivy--regex-fuzzy)
           (t . ivy--regex-plus)))
+  ;; (setq ivy-format-function (lambda (cands)
+  ;;                             (ivy--format-function-generic
+  ;;                              (lambda (str)
+  ;;                                (ivy--add-face str 'ivy-current-match))
+  ;;                              #'identity
+  ;;                              cands
+  ;;                              " | ")))
+  (setq ivy-format-function 'ivy-format-function-default)
+  (setq ivy-display-function nil)
   ;; w00t
   (setq ivy-extra-directories nil)
 
-
-  :config (ivy-mode t)
+  :config
+  (require 'smex)
+  (ivy-mode t)
 
   :bind (("C-c C-r" . ivy-resume)
          :map ivy-minibuffer-map
