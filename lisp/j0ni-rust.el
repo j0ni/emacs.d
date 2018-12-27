@@ -9,14 +9,12 @@
      (shell-command "rustc --print sysroot" standard-output))))
 
 (setenv "LD_LIBRARY_PATH" (concat j0ni-rust-root "/lib"))
-
 (setenv "RUST_SRC_PATH" (concat j0ni-rust-root "/lib/rustlib/src/rust/src"))
 
 (use-package flycheck-rust
   :hook (rust-mode . flycheck-rust-setup))
 
 (use-package rust-mode
-  :ensure t
   :init
   (setq company-tooltip-align-annotations t)
   (setq rust-format-on-save t)
@@ -28,8 +26,9 @@
     (smartparens-mode 1)
     (flycheck-mode 1))
   (add-hook 'rust-mode-hook 'rust-mode-setup)
-  :bind
-  (("TAB" . company-indent-or-complete-common)))
+  ;; :bind
+  ;; (("TAB" . company-indent-or-complete-common))
+  )
 
 (use-package racer
   ;; :hook (rust-mode . racer-mode)
