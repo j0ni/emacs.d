@@ -110,6 +110,9 @@
 
 (defvar j0ni-installed-themes
   '(soothe-theme
+    nord-theme
+    monotropic-theme
+    doom-themes
     nova-theme
     sunburn-theme
     zenburn-theme
@@ -145,7 +148,8 @@
     reykjavik-theme
     arjen-grey-theme
     rebecca-theme
-    dracula-theme))
+    ;; dracula-theme
+    ))
 
 (defvar j0ni-theme)
 ;; Theme I like at the moment
@@ -169,8 +173,6 @@
 ;; (defvar j0ni-theme 'sanityinc-tomorrow-floraverse-boost)
 ;; (defvar j0ni-theme 'bubbleberry)
 ;; (setq j0ni-theme 'zenburn)
-(setq j0ni-theme 'dracula)
-;; (setq j0ni-theme 'eziam-light)
 ;; (defvar j0ni-theme 'rebecca)
 ;; (defvar j0ni-theme 'lawrence)
 ;; (defvar j0ni-theme 'darkburn)
@@ -197,17 +199,23 @@
 ;; (defvar j0ni-theme 'clues)
 ;; (defvar j0ni-theme 'flatui)
 ;; (defvar j0ni-theme 'subatomic)
-;; (defvar j0ni-theme 'ir-black)
 ;; (defvar j0ni-theme 'monochrome)
 ;; (defvar j0ni-theme 'sexy-monochrome)
 ;; (defvar j0ni-theme 'reykjavik)
 ;; (setq j0ni-theme 'arjen-grey)
 ;; (defvar j0ni-theme 'flatland)
 ;; (setq j0ni-theme 'adwaita)
+;; (setq j0ni-theme 'nord)
+;; (setq j0ni-theme 'goose)
+;; (setq j0ni-theme 'adwaita)
+;; (setq j0ni-theme 'eziam-light)
+;; (setq j0ni-theme 'ir-black)
+;; (setq j0ni-theme 'dracula)
+(setq j0ni-theme 'monotropic)
 
 (defvar j0ni-theme-tint)
 ;; 'dark 'mid 'light
-(setq j0ni-theme-tint 'dark)
+(setq j0ni-theme-tint 'light)
 
 ;; experimenting with a new thing
 ;; (global-font-lock-mode -1)
