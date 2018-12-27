@@ -51,6 +51,8 @@
 
 ;; Paredit for all lisps
 (use-package smartparens
+  :init
+  (setq sp-hybrid-kill-excessive-whitespace nil)
   :config
   (when (fboundp 'autopair-mode)
     (autopair-mode -1))
@@ -61,8 +63,9 @@
   (add-to-list 'sp-ignore-modes-list #'org-mode)
   (add-to-list 'sp-ignore-modes-list #'org-agenda-mode)
   ;; (smartparens-global-strict-mode 1)
-  :bind
-  ("C-k" . sp-kill-hybrid-sexp))
+  ;; :bind
+  ;; ("C-k" . sp-kill-hybrid-sexp)
+  )
 
 (use-package paredit
   :diminish "par"
