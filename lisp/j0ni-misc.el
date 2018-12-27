@@ -26,8 +26,20 @@
 ;;          ("C->" . mc/mark-next-like-this)
 ;;          ("C-<" . mc/mark-previous-like-this)))
 
+;; get the `r` key in the debugger for nice formatting and frame selection
+(require 'pp-debug)
+
+(use-package drag-stuff
+  :config
+  (drag-stuff-global-mode 1)
+  :bind
+  (("M-p" . drag-stuff-up)
+   ("M-n" . drag-stuff-down)))
 
 (use-package format-sql)
+(use-package sql-indent
+  :hook
+  ((sql-mode . sqlind-minor-mode)))
 
 (use-package imenu-list
   :bind
