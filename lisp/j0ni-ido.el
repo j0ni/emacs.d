@@ -17,32 +17,45 @@
       ido-handle-duplicate-virtual-buffers 2)
 
 ;; Make sure ido is really everywhere
-(package-require 'ido-ubiquitous)
-(ido-ubiquitous-mode)
+(use-package ido-completing-read+
+  :config
+  (ido-ubiquitous-mode 1))
 
 ;; flx-ido
-(package-require 'flx-ido)
-(flx-ido-mode)
-(setq ido-use-faces nil
-      flx-ido-use-faces t)
+(use-package flx-ido
+  :config
+  (flx-ido-mode)
+
+  :init
+  (setq ido-use-faces nil
+        flx-ido-use-faces t))
 
 ;; Use smex to provide ido-like interface for M-x
-(package-require 'smex)
-(smex-initialize)
-(global-set-key (kbd "M-x") 'smex)
-(global-set-key (kbd "M-X") 'smex-major-mode-commands)
-(setq smex-save-file (concat user-emacs-directory ".smex-items"))
+(use-package smex
+  :config
+  (smex-initialize)
+
+  :bind
+  (("M-x" . smex)
+   ("M-X" .smex-major-mode-commands))
+
+  :init
+  (setq smex-save-file (concat user-emacs-directory ".smex-items")))
 
 ;; This is the old M-x.
 (global-set-key (kbd "C-c C-c M-x") 'execute-extended-command)
 
 ;; Vertical ido
-(package-require 'ido-vertical-mode)
-;; (ido-vertical-mode)
-(setq ido-vertical-define-keys 'C-n-C-p-up-down-left-right)
+(use-package ido-vertical-mode
+  ;; :config
+  ;; (ido-vertical-mode)
+  :init
+  (setq ido-vertical-define-keys 'C-n-C-p-up-down-left-right))
 
-(package-require 'ido-grid-mode)
-(ido-grid-mode 1)
+(use-package ido-grid-mode
+  ;; :config
+  ;; (ido-grid-mode 1)
+  )
 
 ;; ido-imenu
 (require 'imenu)
@@ -90,8 +103,9 @@ Symbols matching the text at point are put first in the completion list."
 
 (set-default 'imenu-auto-rescan t)
 
-(package-require 'idomenu)
-(global-set-key (kbd "C-t") 'idomenu)
+(use-package idomenu
+  :bind
+  (("C-t" . idomenu)))
 
 (defun recentf-ido-find-file ()
   "Find a recent file using Ido."
