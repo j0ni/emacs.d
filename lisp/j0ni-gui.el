@@ -4,6 +4,14 @@
 ;; (package-require 'eyebrowse)
 ;; (eyebrowse-mode t)
 
+;; (defun install-my-themes (themes)
+;;   (cons 'progn (mapcar #'(lambda (theme) `(use-package ,theme :defer t))
+;;                        themes)))
+
+;; (eval-and-compile
+;;   (install-my-themes j0ni-installed-themes))
+(packages-require j0ni-installed-themes)
+
 ;; make the fringe (gutter) smaller
 ;; the argument is a width in pixels (the default is 8)
 (if (fboundp 'fringe-mode)
@@ -29,19 +37,18 @@
   (setq indent-guide-recursive nil)
   :diminish nil)
 
+
 (use-package golden-ratio
-  :ensure t
   :diminish nil
-  :config
-  (golden-ratio-mode 1)
-  (add-to-list 'buffer-list-update-hook #'golden-ratio)
+  ;; :config
+  ;; (golden-ratio-mode 1)
+  ;; (add-to-list 'buffer-list-update-hook #'golden-ratio)
   :init
   (setq golden-ratio-auto-scale t))
 
 (require 'color)
 
 (use-package nyan-mode
-  :ensure t
   :config
   (nyan-mode 1))
 
@@ -60,49 +67,6 @@
     (eval-after-load 'indent-guide
       `(set-face-foreground 'indent-guide-face ,color))))
 
-(defun customize-light-or-dark (&optional tint)
-  (interactive)
-  (unless tint (setf tint j0ni-theme-tint))
-  ;; (message (prin1-to-string tint))
-  (cond
-   ((eq 'light tint)
-    (progn
-      (if (boundp 'j0ni-theme)
-          (cond ((theme-is-one-of '(moe-light
-                                    moe
-                                    moe-theme
-                                    eziam-light))
-                 (setq sml/theme nil))
-                ((theme-is-one-of '(spacemacs-light
-                                    solarized-light
-                                    spacemacs-light
-                                    tao-yang))
-                 (setq sml/theme 'respectful))
-                (t
-                 (setq sml/theme 'light)))
-        (setq sml/theme nil))))
-
-   ((eq 'mid tint)
-    (setq sml/theme 'respectful))
-
-   (t
-    (progn ;; default to dark
-      (if (theme-is-one-of '(base16-greenscreen-dark
-                             solarized-theme
-                             moe-dark
-                             tango-dark))
-          (setq sml/theme nil)
-        (setq sml/theme 'respectful)))))
-
-  (unless (theme-is-one-of '(phoenix-dark-pink))
-    (set-indent-guide-face (pcase tint
-                             ('light "gray80")
-                             ('mid "gray70")
-                             (_ "gray30"))))
-  (sml/setup)
-  (apply-font-settings)
-  (set-mode-line-box))
-
 (setq desktop-dirname             "~/.emacs.d/desktop/"
       desktop-base-file-name      "emacs.desktop"
       desktop-base-lock-name      "lock"
@@ -118,7 +82,7 @@
     (desktop-read desktop-dirname)
     (desktop-save-mode 1)))
 
-(packages-require j0ni-installed-themes)
+;; (packages-require j0ni-installed-themes)
 ;; (require 'moe-theme)
 ;; (setq moe-theme-highlight-buffer-id t)
 
@@ -143,56 +107,56 @@
   (set-face-attribute 'mode-line nil :box '(:style released-button))
   (set-face-attribute 'mode-line-inactive nil :box '(:style released-button)))
 
-(when (display-graphic-p)
-  ;; Only define these fns if we have a GUI, but make them reusable
-  (defun j0ni-inc-font-size ()
-    (interactive "*")
-    (setq j0ni-font-size (+ j0ni-font-size 1))
-    (set-font-dwim))
-  (defun j0ni-dec-font-size ()
-    (interactive "*")
-    (setq j0ni-font-size (- j0ni-font-size 1))
-    (set-font-dwim))
+(defun j0ni-inc-font-size ()
+  (interactive "*")
+  (setq j0ni-font-size (+ j0ni-font-size 1))
+  (set-font-dwim))
+(defun j0ni-dec-font-size ()
+  (interactive "*")
+  (setq j0ni-font-size (- j0ni-font-size 1))
+  (set-font-dwim))
 
-  (global-set-key (kbd "C-+") 'j0ni-inc-font-size)
-  (global-set-key (kbd "C--") 'j0ni-dec-font-size)
+(global-set-key (kbd "C-+") 'j0ni-inc-font-size)
+(global-set-key (kbd "C--") 'j0ni-dec-font-size)
 
-  (defvar base-face-list nil)
+(defvar base-face-list nil)
 
-  (defun base-weight (face)
-    (let ((original-weight (alist-get face base-face-list 'not-found)))
-      (if (not (equal 'not-found original-weight))
-          original-weight
-        ;; (message "Setting %s weight to %s" face (face-attribute face :weight))
-        (setq base-face-list
-              (cons `(,face . ,(face-attribute face :weight)) base-face-list))
-        (alist-get face base-face-list))))
+(defun base-weight (face)
+  (let ((original-weight (alist-get face base-face-list 'not-found)))
+    (if (not (equal 'not-found original-weight))
+        original-weight
+      ;; (message "Setting %s weight to %s" face (face-attribute face :weight))
+      (setq base-face-list
+            (cons `(,face . ,(face-attribute face :weight)) base-face-list))
+      (alist-get face base-face-list))))
 
-  (defun apply-font-settings (&optional default-font antialias)
-    (interactive)
-    (mapc
-     (lambda (face)
-       (cond ;; do nothing if the weight is neither of these - preserving
-        ;; inherited properties
-        ((equal 'bold (base-weight face))
-         (set-face-attribute
-          face nil
-          :weight j0ni-bold-font-weight
-          :font (font-spec :name (or default-font j0ni-default-font)
-                           :antialias (or antialias j0ni-antialias))))
+(defun apply-font-settings (&optional default-font antialias)
+  (interactive)
+  (mapc
+   (lambda (face)
+     (cond ;; do nothing if the weight is neither of these - preserving
+      ;; inherited properties
+      ((equal 'bold (base-weight face))
+       (set-face-attribute
+        face nil
+        :weight j0ni-bold-font-weight
+        :family 'retina
+        :font (font-spec :name (or default-font j0ni-default-font)
+                         :antialias (or antialias j0ni-antialias))))
 
-        ((equal 'normal (base-weight face))
-         (set-face-attribute
-          face nil
-          :weight j0ni-font-weight
-          :font (font-spec :name (or default-font j0ni-default-font)
-                           :antialias (or antialias j0ni-antialias))))))
-     (face-list)))
+      ((equal 'normal (base-weight face))
+       (set-face-attribute
+        face nil
+        :weight j0ni-font-weight
+        :family 'retina
+        :font (font-spec :name (or default-font j0ni-default-font)
+                         :antialias (or antialias j0ni-antialias))))))
+   (face-list)))
 
-  ;; run the setup
-  ;; (set-font-dwim)
-  ;; (normalize-fonts)
-  )
+;; run the setup
+;; (set-font-dwim)
+;; (normalize-fonts)
+
 
 (when (boundp 'j0ni-theme)
   ;; Solarized specific tweaks
@@ -303,7 +267,7 @@
   ;; (set-face-background 'ivy-current-match "grey90")
   ;; (set-face-background 'ivy-minibuffer-match-face-1 "grey30")
 
-  (load-theme j0ni-theme)
+  ;; (load-theme j0ni-theme)
   ;; (apply-font-settings)
 
   ;; (normalize-fonts)
@@ -321,10 +285,43 @@
   ;;    `(js2-function-param ((t (:foreground ,fg))))))
   )
 
-(when (boundp 'j0ni-theme-tint)
-  (customize-light-or-dark j0ni-theme-tint))
-
 ;; (global-hl-line-mode 1)
+
+(use-package circadian
+  :after indent-guide
+  :init
+  (setq calendar-latitude 43.671780)
+  (setq calendar-longitude -79.322891)
+  (setq circadian-themes `((:sunrise . ,j0ni-light-theme)
+                           (:sunset  . ,j0ni-dark-theme)))
+  :config
+  ;; note that this executes in a black hole, so if it fails, there will be no
+  ;; messaging, or indication as to where it failed.
+  (defun after-circadian-load-theme (theme)
+    ;; TODO make this interactive
+
+    (cond
+     ((eq theme j0ni-light-theme)
+      (progn (setq sml/theme 'automatic)
+             (set-indent-guide-face "gray60")))
+     ((eq theme j0ni-dark-theme)
+      (progn (setq sml/theme 'respectful)
+             (set-indent-guide-face "gray30")))
+
+     (t (message "theme didn't match j0ni vars: %s" theme)))
+
+    (sml/setup)
+    (set-mode-line-box)
+    (set-font-dwim)
+    (message "finished circadian hook"))
+
+  (add-hook 'circadian-after-load-theme-hook
+            #'after-circadian-load-theme)
+
+  ;; (circadian-setup)
+
+  :diminish nil)
+
 
 ;; take care of stupid eww behaviour
 (advice-add

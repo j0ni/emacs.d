@@ -42,11 +42,11 @@
   ;;       smtpmail-smtp-service 25)
 
   ;; default
-  (setq mu4e-sent-folder "/Gmail/sent-mail"
+  (setq mu4e-sent-folder "/Fastmail/sent-mail"
         mu4e-auto-retrieve-keys t
         mu4e-decryption-policy t
-        mu4e-drafts-folder "/Gmail/drafts"
-        mu4e-trash-folder "/Gmail/trash"
+        mu4e-drafts-folder "/Fastmail/drafts"
+        mu4e-trash-folder "/Fastmail/trash"
         mu4e-update-interval 300
         mu4e-hide-index-messages t
         mu4e-confirm-quit nil
@@ -95,37 +95,8 @@
           ("date:24h..now" "Last day's messages (with trash)" ?T)
           ("date:7d..now AND NOT flag:trashed" "Last 7 days" ?w)
           ("date:1y..now AND NOT flag:trashed" "Last year" ?Y)
-          ("(maildir:/Gmail/INBOX OR maildir:/Gmail/sent-mail) AND date:1y..now AND NOT flag:trashed" "Last year (Gmail)" ?y)
           ("date:7d..now" "Last 7 days (with trash)" ?W)
           ("mime:image/*" "Messages with images" ?i)
-
-          ("date:3y..now AND (maildir:/Circle/INBOX OR maildir:/Circle/sent-mail) AND NOT flag:trashed"
-           "Last 3 years (Circle)"
-           ?C)
-
-          ("date:24h..now AND (maildir:/Gmail/INBOX OR maildir:/Gmail/sent-mail) AND NOT flag:trashed"
-           "Last day's messages (Gmail)"
-           ?g)
-
-          ("date:7d..now AND (maildir:/Gmail/INBOX OR maildir:/Gmail/sent-mail) AND NOT flag:trashed"
-           "Last 7 days (Gmail)"
-           ?G)
-
-          ("date:7d..now AND maildir:/Gmail/Clojure AND NOT flag:trashed"
-           "Last 7 days (Clojure)"
-           ?c)
-
-          ("NOT flag:trashed AND (maildir:/Skalera/INBOX OR maildir:/Skalera/sent-mail)"
-           "All messages (Skalera)"
-           ?s)
-
-          ("date:30d..now AND (maildir:/Proton/INBOX OR maildir:/Proton/sent-mail) AND NOT flag:trashed"
-           "Last 30 days (Proton)"
-           ?P)
-
-          ("date:7d..now AND (maildir:/Proton/INBOX OR maildir:/Proton/sent-mail) AND NOT flag:trashed"
-           "Last 7 days (Proton)"
-           ?p)
 
           ("date:30d..now AND (maildir:/Fastmail/INBOX OR maildir:/Fastmail/sent-mail) AND NOT flag:trashed"
            "Last 30 days (Fastmail)"
@@ -166,12 +137,9 @@
                          (message-fetch-field "from")))
                  (account
                   (cond
-                   ((string-match "j@appcanary.com" from) "appcanary")
                    ((string-match "j@lollyshouse.ca" from) "fastmail")
                    ((string-match "jon@motiva.ai" from) "motiva")
-                   ((string-match "j0ni@protonmail.com" from) "proton")
-                   ((string-match "jon@arity.ca" from) "gmail")
-                   (t "gmail"))))
+                   (t "fastmail"))))
             (setq message-sendmail-extra-arguments (list '"-a" account))))))
 
   (add-hook 'message-send-mail-hook 'choose-msmtp-account)
@@ -190,32 +158,7 @@
   ;; name under ~/Maildir), followed by (variable value) pairs:
 
   (defvar my-mu4e-account-alist
-    `(("Gmail"
-       (mu4e-sent-folder "/Gmail/sent-mail")
-       (mu4e-drafts-folder "/Gmail/drafts")
-       (mu4e-maildir-shortcuts (("/Gmail/INBOX"     . ?i)
-                                ("/Gmail/all-mail"  . ?a)
-                                ("/Gmail/sent-mail" . ?s)
-                                ("/Gmail/drafts"    . ?d)
-                                ("/Gmail/trash"     . ?t)))
-       (user-mail-address "jonathan.irving@gmail.com")
-       (mu4e-sent-messages-behavior ,'delete)
-       (mu4e-compose-signature "Jonathan Irving\nhttps://j0ni.ca"))
-
-      ("Proton"
-       (mu4e-sent-messages-behavior ,'sent)
-       (mu4e-sent-folder "/Proton/sent-mail")
-       (mu4e-trash-folder "/Proton/trash")
-       (mu4e-drafts-folder "/Proton/drafts")
-       (mu4e-maildir-shortcuts (("/Proton/INBOX"     . ?i)
-                                ("/Proton/sent-mail" . ?s)
-                                ("/Proton/drafts"    . ?d)
-                                ("/Proton/trash"     . ?t)))
-       (user-mail-address "j0ni@protonmail.ch")
-       (user-full-name "Jon Irving")
-       (mu4e-compose-signature "Jonathan Irving\nhttps://j0ni.ca\nhttps://keybase.io/j0ni"))
-
-      ("Fastmail"
+    `(("Fastmail"
        (mu4e-sent-messages-behavior ,'sent)
        (mu4e-sent-folder "/Fastmail/sent-mail")
        (mu4e-trash-folder "/Fastmail/trash")
@@ -371,8 +314,8 @@
 
 (defun sign-off-email ()
   (interactive)
-  (insert "   cheers, J\n   ")
-  ;; (insert (format-time-string "%Y-%m-%d @ %H:%M:%S %z\n"))
+  (insert "   cheers, Jon\n   ")
+  (insert (format-time-string "%Y-%m-%d @ %H:%M:%S %z\n"))
   )
 
 (add-to-list 'auto-mode-alist '("mutt-ship-.*$" . message-mode))

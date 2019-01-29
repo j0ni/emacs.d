@@ -68,7 +68,7 @@
   )
 
 (use-package paredit
-  :diminish "par"
+  :diminish "Par"
 
   :config
   (add-lisp-hook #'turn-off-smartparens-mode)
@@ -241,8 +241,8 @@
 
 ;;; Emacs Lisp
 
-(lambda-as-lambda 'emacs-lisp-mode "(\\(\\<lambda\\>\\)")
-(lambda-as-lambda 'scheme-mode "(\\(\\<lambda\\>\\)")
+;; (lambda-as-lambda 'emacs-lisp-mode "(\\(\\<lambda\\>\\)")
+;; (lambda-as-lambda 'scheme-mode "(\\(\\<lambda\\>\\)")
 
 (defun remove-elc-on-save ()
   "If you're saving an elisp file, likely the .elc is no longer valid."
@@ -270,7 +270,7 @@
 ;; GNOME won't allow C-M-x for some stupid reason
 (require 'edebug)
 (define-key emacs-lisp-mode-map (kbd "C-c C-c") #'edebug-eval-defun)
-(define-key emacs-lisp-mode-map (kbd "C-c d") 'toggle-debug-on-error)
+(define-key emacs-lisp-mode-map (kbd "C-c d") #'toggle-debug-on-error)
 
 ;; Slime for common lisp
 
@@ -307,15 +307,17 @@
 
 ;; Racket
 
+(use-package faceup)
 (use-package racket-mode
+  :after (faceup)
   :init
   (add-to-list 'auto-mode-alist '("\\.rkt$" . racket-mode))
   (setq racket-smart-open-bracket-enable t)
   (setq racket-program "/home/joni/racket/bin/racket")
   (add-hook 'racket-mode-hook      #'racket-unicode-input-method-enable)
   (add-hook 'racket-repl-mode-hook #'racket-unicode-input-method-enable)
-  (add-hook 'racket-mode-hook      'my-racket-mode-hook)
-  (add-hook 'racket-repl-mode-hook 'my-racket-repl-mode-hook))
+  (add-hook 'racket-mode-hook      #'my-racket-mode-hook)
+  (add-hook 'racket-repl-mode-hook #'my-racket-repl-mode-hook))
 
 
 (defun my-racket-mode-hook ()

@@ -10,24 +10,18 @@
    ein
    ob-ipython
    anaconda-mode
-   conda))
+   ;; conda
+   ))
 
 (require 'python)
 
 (use-package blacken
   :hook (python-mode . blacken-mode))
 
-(setq python-check-command "pylint")
-(setq python-fill-docstring-style 'pep-257-nn)
-
 ;; (add-hook 'python-mode-hook 'pyenv-mode)
 (add-hook 'python-mode-hook 'anaconda-mode)
 (add-hook 'python-mode-hook 'anaconda-eldoc-mode)
 
-;; (add-to-list 'python-shell-extra-pythonpaths "/home/joni/Scratch/TheGuild/AGLP2P/SAMpy")
-
-;; (setq python-shell-interpreter "ipython"
-;;       python-shell-interpreter-args "--classic --profile=emacs -i")
 (setq python-shell-interpreter "python"
       python-shell-interpreter-args "-i")
 
@@ -67,14 +61,14 @@
 (add-hook 'ein:notebook-mode-hook 'turn-on-smartparens-mode)
 
 ;; switch these on to work with python
-(setq conda-anaconda-home "/home/joni/miniconda3")
+;; (setq conda-anaconda-home "/home/joni/miniconda3")
 ;; if you want interactive shell support, include:
-(conda-env-initialize-interactive-shells)
+;; (conda-env-initialize-interactive-shells)
 ;; if you want eshell support, include:
-(conda-env-initialize-eshell)
+;; (conda-env-initialize-eshell)
 ;; if you want auto-activation (see below for details), include:
 ;; (conda-env-autoactivate-mode t)
 
-(add-hook 'anaconda-mode-hook 'conda-env-autoactivate-mode)
+;; (add-hook 'anaconda-mode-hook 'conda-env-autoactivate-mode)
 
 (provide 'j0ni-python)

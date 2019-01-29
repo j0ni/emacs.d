@@ -1,20 +1,18 @@
 ;;; j0ni-misc --- stuff that doesn't go anywhere else
 
 (packages-require
- '(diminish
-   dash
-   ssh-config-mode
+ '(ssh-config-mode
    adaptive-wrap
-   auto-compile
-   browse-kill-ring
-   ;; apache-mode
-   log4j-mode
-   highlight-symbol
-   csv-mode
    http-twiddle
    paredit-everywhere
    debbugs
    terraform-mode))
+
+(use-package csv-mode)
+
+(use-package browse-kill-ring
+  :config
+  (browse-kill-ring-default-keybindings))
 
 ;; (use-package smart-tab
 ;;   ;; :config (global-smart-tab-mode)
@@ -85,20 +83,24 @@
 (setq redisplay-dont-pause t)
 
 ;; find-file-in-project
-(package-require 'find-file-in-project)
-(setq ffip-full-paths t)
+(use-package find-file-in-project
+  :init
+  (setq ffip-full-paths t))
 
 (use-package all-the-icons-dired
   ;; M-x all-the-icons-install-fonts
   :commands (all-the-icons-dired-mode))
 
 ;; Useful for figuring out complicated old code
-(add-hook 'prog-mode-hook 'highlight-symbol-mode)
-(progn
-  (global-set-key [(control f3)] 'highlight-symbol)
-  (global-set-key [f3] 'highlight-symbol-next)
-  (global-set-key [(shift f3)] 'highlight-symbol-prev)
-  (global-set-key [(meta f3)] 'highlight-symbol-query-replace))
+(use-package highlight-symbol
+  :init
+  (add-hook 'prog-mode-hook 'highlight-symbol-mode)
+  :bind
+  (("C-<f3>" . highlight-symbol)
+   ("<f3>" . highlight-symbol-next)
+   ("S-<f3>" . highlight-symbol-prev)
+   ("M-<f3>" . highlight-symbol-query-replace)))
+
 
 ;; undo-tree
 (use-package undo-tree
@@ -189,18 +191,19 @@
 (setq tramp-default-method "ssh")
 
 ;; info
-(package-require 'sicp)
+(use-package sicp)
 ;; (add-to-list 'Info-directory-list "/usr/local/share/info/")
 
 ;; clock in the mode-line
 (setq display-time-format "%H:%M")
 (setq display-time-default-load-average nil)
 
-(package-require 'buffer-move)
-(global-set-key (kbd "<C-S-up>")     'buf-move-up)
-(global-set-key (kbd "<C-S-down>")   'buf-move-down)
-(global-set-key (kbd "<C-S-left>")   'buf-move-left)
-(global-set-key (kbd "<C-S-right>")  'buf-move-right)
+(use-package buffer-move
+  :bind
+  (("C-S-<up>" . buf-move-up)
+   ("C-S-<down>" . buf-move-down)
+   ("C-S-<left>" . buf-move-left)
+   ("C-S-<right>" . buf-move-right)))
 
 (use-package window-number
   :config

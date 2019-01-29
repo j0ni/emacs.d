@@ -3,7 +3,7 @@
 (use-package ivy
   :init
   (setq ivy-use-virtual-buffers t)
-  (setq ivy-height 10)
+  (setq ivy-height 15)
   ;; (setq ivy-height 20)
   (setq ivy-length 200)
   ;; (setq ivy-count-format "")
@@ -24,7 +24,7 @@
   (setq ivy-extra-directories nil)
 
   :config
-  (require 'smex)
+  (use-package smex)
   (ivy-mode t)
 
   :bind (("C-c C-r" . ivy-resume)
@@ -75,14 +75,9 @@
          ("<f2> i" . counsel-info-lookup-symbol)
          ("<f2> u" . counsel-unicode-char)
 
-         ;; (global-set-key (kbd "C-c g") 'counsel-git)
+         ("C-c g" . counsel-git)
          ("C-c j" . counsel-git-grep) ;; cuz it might be gif :P
-         ("C-c s" . counsel-ag)
-         ("C-x l" . counsel-locate)
-
-         ;; (global-set-key (kbd "C-c g") 'counsel-git)
-         ("C-c j" . counsel-git-grep) ;; cuz it might be gif :P
-         ("C-c s" . counsel-ag)
+         ("C-c a g" . counsel-ag)
          ("C-x l" . counsel-locate)
          ;; (global-set-key (kbd "C-S-o") 'counsel-rhythmbox)
 

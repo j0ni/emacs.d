@@ -13,8 +13,6 @@
 ;; Unrepl.el
 
 (use-package spiral
-  :ensure t
-
   :init
   (add-hook 'spiral-repl-mode-hook #'spiral-repl-setup))
 
@@ -153,10 +151,7 @@
        (DELETE 2)
        (HEAD 2)
        (ANY 2)
-       (context 2)
-       (insert! 2)
-       (update! 2)
-       (delete! 2))
+       (context 2))
 
      ;; I can't make my mind up about this. It makes sense
      ;; semantically, but it looks shit when the first value is an

@@ -1,4 +1,4 @@
-;;; init.el --- new init, based on Bodil Stokke's
+;;; init.el --- user init file -*- no-byte-compile: t -*-
 
 
 ;; Good chance this is what I want :P
@@ -26,22 +26,24 @@
   ;; (setq j0ni-font-face "Fira Mono")
   ;; (setq j0ni-font-face "Fira Code")
   ;; (setq j0ni-font-face "Fira Code Light")
-  ;; (setq j0ni-font-face "Envy Code R")
+  (setq j0ni-font-face "Envy Code R")
+  (setq j0ni-font-face "Agave")
+  (setq j0ni-font-face "Monoid")
   ;; (setq j0ni-font-face "Source Code Variable")
   ;; (setq j0ni-font-face "Courier Prime Code")
   ;; (setq j0ni-font-face "Go Mono")
-  (setq j0ni-font-face "PragmataPro Mono Liga")
+  ;; (setq j0ni-font-face "PragmataPro Mono Liga")
   ;; (setq j0ni-font-face "Operator Mono Book")
   ;; (setq j0ni-font-face "Lucida Grande Mono")
   ;; (setq j0ni-font-face "Lucida Console")
   ;; (setq j0ni-font-face "Noto Sans Mono")
   ;; (setq j0ni-font-face "Linux Biolinum G")
-  (setq j0ni-font-face "Lucida Grande Mono Nrw")
+  ;; (setq j0ni-font-face "Lucida Grande Mono Nrw")
   ;; (setq j0ni-font-face "Operator Mono")
   ;; (setq j0ni-font-face "Mensch")
   (setq j0ni-font-weight 'regular)
   (setq j0ni-bold-font-weight 'regular)
-  (setq j0ni-font-size 11)
+  (setq j0ni-font-size 8)
   (setq j0ni-line-spacing 6)
   (setq j0ni-antialias t)
 
@@ -54,17 +56,18 @@
 ;; (setq background-mode 'light)
 
 (eval-after-load "j0ni-gui"
-  (progn
-    (add-hook 'after-change-major-mode-hook (lambda ()
-                                              (when (fboundp 'set-font-dwim)
-                                                (set-font-dwim))))
-    (add-hook 'lisp-interaction-mode-hook (lambda ()
-                                            (when (fboundp 'set-font-dwim)
-                                              (set-font-dwim))
-                                            (redisplay)))))
-(add-hook 'window-setup-hook (lambda ()
-                               (when (fboundp 'set-font-dwim)
-                                 (set-font-dwim))))
+  '(progn
+     (add-hook 'after-change-major-mode-hook #'(lambda ()
+                                                 (when (fboundp 'set-font-dwim)
+                                                   (set-font-dwim))))
+     (add-hook 'lisp-interaction-mode-hook #'(lambda ()
+                                               (when (fboundp 'set-font-dwim)
+                                                 (set-font-dwim))
+                                               ;; (redisplay)
+                                               ))))
+(add-hook 'window-setup-hook #'(lambda ()
+                                 (when (fboundp 'set-font-dwim)
+                                   (set-font-dwim))))
 
 (defun insert-shrug ()
   (interactive)
@@ -104,7 +107,7 @@
     (add-to-list 'load-path sdir)))
 
 ;; Themes we want to install
-(require 'color-theme-tomorrow)
+;; (require 'color-theme-tomorrow)
 ;; (require 'lawrence-theme)
 ;; (color-theme-tomorrow-night)
 
@@ -116,6 +119,7 @@
     nova-theme
     sunburn-theme
     zenburn-theme
+    anti-zenburn-theme
     noctilux-theme
     cyberpunk-theme
     ir-black-theme
@@ -148,74 +152,21 @@
     reykjavik-theme
     arjen-grey-theme
     rebecca-theme
-    ;; dracula-theme
+    dracula-theme
+    apropospriate-theme
     ))
 
-(defvar j0ni-theme)
-;; Theme I like at the moment
-;; (defvar j0ni-theme 'phoenix-dark-pink)
-;; (defvar j0ni-theme 'phoenix-dark-mono)
-;; (defvar j0ni-theme 'late-night)
-;; (defvar j0ni-theme 'tango-dark)
-;; (defvar j0ni-theme 'tango-2)
-;; (defvar j0ni-theme 'material)
-;; (defvar j0ni-theme 'material-light)
-;; (defvar j0ni-theme 'solarized-light)
-;; (setq j0ni-theme 'solarized-dark)
-;; (defvar j0ni-theme 'tomorrow-night-eighties)
-;; (defvar j0ni-theme 'monochrome)
-;; (setq j0ni-theme 'plan9)
-;; (setq j0ni-theme 'tao-yang)
-;; (setq j0ni-theme 'spacemacs-light)
-;; (defvar j0ni-theme 'sanityinc-tomorrow-night)
-;; (defvar j0ni-theme 'sanityinc-tomorrow-bright)
-;; (defvar j0ni-theme 'sanityinc-tomorrow-floraverse)
-;; (defvar j0ni-theme 'sanityinc-tomorrow-floraverse-boost)
-;; (defvar j0ni-theme 'bubbleberry)
-;; (setq j0ni-theme 'zenburn)
-;; (defvar j0ni-theme 'rebecca)
-;; (defvar j0ni-theme 'lawrence)
-;; (defvar j0ni-theme 'darkburn)
-;; (defvar j0ni-theme 'base16-apathy-dark)
-;; (defvar j0ni-theme 'base16-ashes-dark)
-;; (defvar j0ni-theme 'base16-solarized-dark)
-;; (defvar j0ni-theme 'base16-green-screen)
-;; (defvar j0ni-theme 'base16-grayscale-dark)
-;; (defvar j0ni-theme 'base16-atelier-cave-light)
-;; (defvar j0ni-theme 'base16-default-dark)
-;; (defvar j0ni-theme 'sourcerer)
-;; (defvar j0ni-theme 'base16-isotope)
-;; (defvar j0ni-theme 'base16-ir-black)
-;; (defvar j0ni-theme 'base16-ocean)
-;; (defvar j0ni-theme 'mccarthy)
-;; (defvar j0ni-theme 'github)
-;; (defvar j0ni-theme 'fogus)
-;; (defvar j0ni-theme 'gotham)
-;; (defvar j0ni-theme 'moe-dark)
-;; (defvar j0ni-theme 'moe-light)
-;; (defvar j0ni-theme 'cyberpunk)
-;; (setq j0ni-theme 'noctilux)
-;; (defvar j0ni-theme 'ujelly)
-;; (defvar j0ni-theme 'clues)
-;; (defvar j0ni-theme 'flatui)
-;; (defvar j0ni-theme 'subatomic)
-;; (defvar j0ni-theme 'monochrome)
-;; (defvar j0ni-theme 'sexy-monochrome)
-;; (defvar j0ni-theme 'reykjavik)
-;; (setq j0ni-theme 'arjen-grey)
-;; (defvar j0ni-theme 'flatland)
-;; (setq j0ni-theme 'adwaita)
-;; (setq j0ni-theme 'nord)
-;; (setq j0ni-theme 'goose)
-;; (setq j0ni-theme 'adwaita)
-;; (setq j0ni-theme 'eziam-light)
-;; (setq j0ni-theme 'ir-black)
-;; (setq j0ni-theme 'dracula)
-(setq j0ni-theme 'monotropic)
 
+(defvar j0ni-theme)
+(defvar j0ni-light-theme)
+(defvar j0ni-dark-theme)
 (defvar j0ni-theme-tint)
+
+(setq j0ni-dark-theme 'dracula)
+(setq j0ni-light-theme 'anti-zenburn)
+
 ;; 'dark 'mid 'light
-(setq j0ni-theme-tint 'light)
+(setq j0ni-theme-tint 'dark)
 
 ;; experimenting with a new thing
 ;; (global-font-lock-mode -1)
@@ -255,9 +206,6 @@
                       (concat-home ".miniconda3/bin")
                       "/usr/local/bin"))
 
-;; (setq j0ni-git-contrib-dir "/usr/share/emacs/site-lisp/git")
-;; (setq j0ni-git-contrib-dir "/usr/share/git/emacs")
-
 (setq j0ni-org-dir (concat-home "Dropbox/OrgMode/"))
 (setq j0ni-notebook (concat j0ni-org-dir "notebook.org"))
 (setq j0ni-org-dropbox (concat-home "Dropbox/Apps/MobileOrg"))
@@ -266,8 +214,6 @@
 ;; Switch some stuff off...
 (dolist (mode '(menu-bar-mode tool-bar-mode scroll-bar-mode))
   (when (fboundp mode) (funcall mode -1)))
-
-;; (setq mac-command-modifier 'meta)
 
 ;; Always ALWAYS use UTF-8
 (set-terminal-coding-system 'utf-8)
@@ -347,23 +293,45 @@
 ;; (add-to-list 'package-pinned-packages '(clj-refactor . "melpa-stable") t)
 ;; (add-to-list 'package-pinned-packages '(clojure-mode . "melpa-stable") t)
 
-;; (package-initialize)
-
-;; quelpa - allows us to install packages from git (amongst other things)
-;; (if (require 'quelpa nil t)
-;;     (quelpa-self-upgrade)
-;;   (with-temp-buffer
-;;     (url-insert-file-contents "https://raw.github.com/quelpa/quelpa/master/bootstrap.el")
-;;     (eval-buffer)))
+(package-initialize)
 
 (when (esk-online?)
-  (package-refresh-contents))
+  (package-refresh-contents)
 
-(when (not (package-installed-p 'use-package))
-  (package-install 'use-package))
+  (when (not (package-installed-p 'use-package))
+    (package-install 'use-package))
+  (when (not (package-installed-p 'diminish))
+    (package-install 'diminish))
+  (when (not (package-installed-p 'bind-key))
+    (package-install 'bind-key)))
 
-(require 'use-package)
+(setq use-package-verbose t)
+(eval-when-compile
+  (require 'use-package))
+(require 'diminish)
+(require 'bind-key)
 (setq use-package-always-ensure t)
+
+(use-package auto-compile
+  :init
+  (setq load-prefer-newer t)
+  :config
+  (auto-compile-on-load-mode)
+  (auto-compile-on-save-mode))
+
+(use-package dracula-theme
+  :no-require t
+  :init
+  (setq sml/theme 'respectful)
+  :config
+  (message "configuring dracula")
+  (load-theme 'dracula)
+  ;; (set-indent-guide-face "gray30")
+  (eval-after-load "j0ni-gui"
+    '(progn
+       (sml/setup)
+       (set-mode-line-box)
+       (set-font-dwim))))
 
 (defun package-require (pkg)
   "Install a package only if it's not already installed."
@@ -375,14 +343,12 @@
   (dolist (pkg pkg-list)
     (package-require pkg)))
 
-(use-package diminish)
-
 (setq j0ni-pkg-full
       '(;; j0ni-exwm
         ;; j0ni-evil
         ;; j0ni-snippets
         j0ni-esk
-        j0ni-eshell
+        ;; j0ni-eshell
         j0ni-defuns
         j0ni-misc
         j0ni-gui
@@ -391,7 +357,7 @@
         j0ni-lisp
         ;; j0ni-elixir
         j0ni-clojure
-        j0ni-erlang
+        ;; j0ni-erlang
         ;; j0ni-julia
         ;; j0ni-flycheck
         ;; j0ni-ido
@@ -415,7 +381,7 @@
         ;; j0ni-powerline
         j0ni-mail
         ;; j0ni-twitter
-        j0ni-audio
+        ;; j0ni-audio
         ;; j0ni-scala
         ))
 
