@@ -6,23 +6,8 @@
 ;; don't do both of these things, or there will be much confusion. decisions,
 ;; decisions
 
-;; (add-hook 'clojure-mode-hook #'clojure-mode-setup--spiral)
 ;; (add-hook 'clojure-mode-hook #'clojure-mode-setup--inf-clojure)
 (add-hook 'clojure-mode-hook #'clojure-mode-setup--cider)
-
-;; Unrepl.el
-
-(use-package spiral
-  :init
-  (add-hook 'spiral-repl-mode-hook #'spiral-repl-setup))
-
-(defun spiral-repl-setup ()
-  (enable-paren-handling)
-  (eldoc-mode 1))
-
-(defun clojure-mode-setup--spiral ()
-  (clojure-mode-common-setup)
-  (spiral-mode t))
 
 ;; Inf-Clojure
 
@@ -80,7 +65,7 @@
       cider-inject-dependencies-at-jack-in       t
       ;; cider-lein-parameters                      "nrepl :middleware \"['cider.nrepl/cider-middleware]\""
       cider-eldoc-display-context-dependent-info t
-      cider-pprint-fn                            'fipp
+      cider-pprint-fn                            'puget
       cider-clojure-cli-global-options           "-A:dev"
       cider-jdk-src-paths                        '("~/Scratch/java8-src"
                                                    "~/Scratch/clojure1.9-src")
