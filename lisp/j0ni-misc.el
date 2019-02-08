@@ -44,6 +44,7 @@
   ("C-," . imenu-list-smart-toggle)
 
   :init
+  (setq imenu-list-auto-resize t)
   (setq imenu-list-focus-after-activation t))
 
 (use-package pinentry
