@@ -24,11 +24,12 @@
   ;; (setq j0ni-font-face "Linux Libertine Mono")
   ;; (setq j0ni-font-face "Fira Mono Medium")
   ;; (setq j0ni-font-face "Fira Mono")
-  ;; (setq j0ni-font-face "Fira Code")
+  (setq j0ni-font-face "Fira Code")
+  (setq j0ni-font-face "M+ 1M")
   ;; (setq j0ni-font-face "Fira Code Light")
-  (setq j0ni-font-face "Envy Code R")
-  (setq j0ni-font-face "Agave")
-  (setq j0ni-font-face "Monoid")
+  ;; (setq j0ni-font-face "Envy Code R")
+  ;; (setq j0ni-font-face "Agave")
+  ;; (setq j0ni-font-face "Monoid")
   ;; (setq j0ni-font-face "Source Code Variable")
   ;; (setq j0ni-font-face "Courier Prime Code")
   ;; (setq j0ni-font-face "Go Mono")
@@ -41,9 +42,9 @@
   ;; (setq j0ni-font-face "Lucida Grande Mono Nrw")
   ;; (setq j0ni-font-face "Operator Mono")
   ;; (setq j0ni-font-face "Mensch")
-  (setq j0ni-font-weight 'regular)
+  (setq j0ni-font-weight 'light)
   (setq j0ni-bold-font-weight 'regular)
-  (setq j0ni-font-size 8)
+  (setq j0ni-font-size 12)
   (setq j0ni-line-spacing 6)
   (setq j0ni-antialias t)
 
@@ -319,6 +320,8 @@
   (auto-compile-on-load-mode)
   (auto-compile-on-save-mode))
 
+(use-package speed-type)
+
 (use-package dracula-theme
   :no-require t
   :init
@@ -330,8 +333,22 @@
   (eval-after-load "j0ni-gui"
     '(progn
        (sml/setup)
-       (set-mode-line-box)
+       ;; (set-mode-line-box)
        (set-font-dwim))))
+
+;; (use-package grayscale-theme
+;;   :no-require t
+;;   :init
+;;   (setq sml/theme 'respectful)
+;;   :config
+;;   (load-theme 'grayscale)
+;;   (eval-after-load "j0ni-gui"
+;;     '(progn
+;;        (sml/setup)
+;;        ;; (set-mode-line-box)
+;;        (set-font-dwim))))
+
+(use-package focus)
 
 (defun package-require (pkg)
   "Install a package only if it's not already installed."
@@ -363,7 +380,7 @@
         ;; j0ni-ido
         j0ni-ivy
         ;; j0ni-helm
-        ;; j0ni-ml
+        j0ni-ml
         j0ni-go
         j0ni-js
         j0ni-git
