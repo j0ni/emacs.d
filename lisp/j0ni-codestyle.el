@@ -4,7 +4,7 @@
 (set-default 'indent-tabs-mode nil)
 
 ;; Always newline-and-indent
-(define-key global-map (kbd "RET") 'newline-and-indent)
+;; (define-key global-map (kbd "RET") 'newline-and-indent)
 
 ;; Aggressively indent
 (package-require 'aggressive-indent)
