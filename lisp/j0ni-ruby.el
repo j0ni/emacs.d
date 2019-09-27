@@ -1,6 +1,6 @@
 ;;; j0ni-ruby.el
 
-(package-require 'ruby-mode)
+;; (require 'ruby-mode)
 (autoload 'ruby-mode "ruby-mode" nil t)
 
 (add-to-list 'auto-mode-alist '("Capfile" . ruby-mode))
@@ -12,53 +12,54 @@
 (add-to-list 'auto-mode-alist '("\\.rabl$" . ruby-mode))
 (add-to-list 'auto-mode-alist '("\\.ru$" . ruby-mode))
 
-(package-require 'smartparens)
+(use-package robe
+  :defer t
+  :hook (ruby-mode))
+
 (defun ruby-mode-custom ()
   (interactive)
   (setq ruby-deep-arglist t
         ruby-deep-indent-paren nil
         show-trailing-whitespace nil)
   (inf-ruby-minor-mode t)
-  (smartparens-mode +1)
-  (robe-mode +1))
+  (electric-layout-mode t)
+  (electric-pair-mode t))
 
 (add-hook 'ruby-mode-hook 'ruby-mode-custom)
 
-(packages-require
- '(autopair
-   ruby-additional))
+;; (packages-require
+;;  '(autopair
+;;    ruby-additional))
 
-(eval-after-load 'ruby-mode
-  '(progn
-     (require 'ruby-mode-indent-fix)
-     (require 'ruby-additional)))
+;; (eval-after-load 'ruby-mode
+;;   '(progn
+;;      (require 'ruby-mode-indent-fix)
+;;      (require 'ruby-additional)))
 
 (eval-after-load 'company
   '(push 'company-robe company-backends))
 
-(package-require 'rspec-mode)
-;; (eval-after-load 'rspec-mode
-;;   '(rspec-install-snippets))
+(use-package rspec-mode
+  :defer t)
 
-(package-require 'inf-ruby)
+(use-package inf-ruby
+  :defer t
+  :commands (inf-ruby-minor-mode inf-ruby-switch-setup)
+  :config
+  (add-to-list 'inf-ruby-implementations '("tux" . "tux")))
+
 (add-hook 'after-init-hook 'inf-ruby-switch-setup)
-;; (add-to-list 'inf-ruby-implementations '("pry-nocolor" . "pry --no-color"))
-;; (add-to-list 'inf-ruby-implementations '("pry-simple" . "pry --simple-prompt"))
+
 (setq inf-ruby-default-implementation "pry")
-(eval-after-load 'inf-ruby-minor-mode
-  '(add-to-list 'inf-ruby-implementations '("tux" . "tux")))
 
 ;; extra stuff, mostly for rails
-(packages-require
- '(feature-mode
-   web-mode
-   rinari
-   robe
-   ruby-electric
-   ruby-tools
-   chruby))
-
-(chruby-use "ruby-2.4.3")
+;; (packages-require
+;;  '(feature-mode
+;;    web-mode
+;;    rinari
+;;    ruby-electric
+;;    ruby-tools
+;;    chruby))
 
 (package-require 'rhtml-mode)
 (add-hook 'rhtml-mode-hook 'turn-off-auto-fill)

@@ -7,7 +7,7 @@
 ;; (define-key global-map (kbd "RET") 'newline-and-indent)
 
 ;; Aggressively indent
-(package-require 'aggressive-indent)
+;; (use-package aggressive-indent)
 ;; sadly new clojure indentation code slows this down
 ;; (add-hook 'prog-mode-hook (lambda () (aggressive-indent-mode 1)))
 
@@ -31,7 +31,7 @@
 
 ;; Default formatting style for C based modes
 (setq c-default-style "bsd")
-(setq-default c-basic-offset 4)
+(setq-default c-basic-offset 8)
 
 ;; I mean, _seriously_...
 (setq sentence-end-double-space nil)

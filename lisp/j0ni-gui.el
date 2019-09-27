@@ -4,22 +4,10 @@
 ;; (package-require 'eyebrowse)
 ;; (eyebrowse-mode t)
 
-;; (defun install-my-themes (themes)
-;;   (cons 'progn (mapcar #'(lambda (theme) `(use-package ,theme :defer t))
-;;                        themes)))
+;; (packages-require j0ni-installed-themes)
 
-;; (eval-and-compile
-;;   (install-my-themes j0ni-installed-themes))
-(packages-require j0ni-installed-themes)
-
-;; make the fringe (gutter) smaller
-;; the argument is a width in pixels (the default is 8)
 (if (fboundp 'fringe-mode)
-    (fringe-mode 6))
-
-(use-package smart-mode-line
-  :init
-  (setq sml/position-percentage-format nil))
+    (fringe-mode 8))
 
 ;; (custom-theme-set-faces
 ;;  '(mode-line-inactive ((t :inverse-video nil)))
@@ -33,24 +21,40 @@
 
 (use-package indent-guide
   :init
-  (setq indent-guide-char "|")
+  (setq indent-guide-char ":")
   (setq indent-guide-recursive nil)
   :diminish nil)
 
-
 (use-package golden-ratio
   :diminish nil
-  ;; :config
-  ;; (golden-ratio-mode 1)
-  ;; (add-to-list 'buffer-list-update-hook #'golden-ratio)
+  :config
+  (golden-ratio-mode 1)
+  (add-hook 'buffer-list-update-hook #'golden-ratio)
+  (eval-after-load 'j0ni-misc
+    '(progn
+       (add-to-list 'golden-ratio-extra-commands 'window-number-switch)
+       (add-to-list 'golden-ratio-extra-commands 'window-number-select)))
+
   :init
-  (setq golden-ratio-auto-scale t))
+  ;; somehow this breaks with a single vertical split when set
+  ;; see https://github.com/roman/golden-ratio.el/issues/55
+  (setq golden-ratio-auto-scale nil))
 
 (require 'color)
 
 (use-package nyan-mode
+  :init
+  (setq nyan-animate-nyancat nil)
+  (setq nyan-wavy-trail nil)
+
+  :diminish nil
+
   :config
   (nyan-mode 1))
+
+;; (use-package sml-modeline
+;;   :init (setq sml-modeline-len 24)
+;;   :config (sml-modeline-mode))
 
 ;; I keep switching between dark and light themes; dark is nice, there are
 ;; more usable variants, but light is better for my eyes I think. Light looks
@@ -90,16 +94,20 @@
 ;; (moe-dark)
 ;; (require 'lawrence-theme)
 
-(defun set-font-dwim (&optional size font ln-spc antialias)
+(defun set-font-dwim (&rest size font ln-spc antialias weight)
   (interactive)
-  (when (display-graphic-p)
-    (let ((ln-spc (or ln-spc j0ni-line-spacing))
-          (font (or font j0ni-font-face))
-          (size (or size j0ni-font-size))
-          (antialias (or antialias j0ni-antialias)))
-      (setq j0ni-default-font (concat font "-" (format "%d" size)))
-      (setq-default line-spacing ln-spc)
-      (apply-font-settings))))
+  (let* ((ln-spc (or ln-spc j0ni-line-spacing))
+         (font (or font j0ni-font-face))
+         (size (or size j0ni-font-size))
+         (antialias (or antialias j0ni-antialias))
+         (weight (or weight j0ni-font-weight))
+         (font-name (concat font "-" (format "%d" size)))
+         (spec (font-spec :weight weight
+                          :name font-name
+                          :antialias antialias)))
+    (set-frame-font spec nil t)
+    (setq-default line-spacing ln-spc)
+    font-name))
 
 (defun set-mode-line-box ()
   "Makes a nice popout box around the mode line."
@@ -116,8 +124,8 @@
   (setq j0ni-font-size (- j0ni-font-size 1))
   (set-font-dwim))
 
-(global-set-key (kbd "C-+") 'j0ni-inc-font-size)
-(global-set-key (kbd "C--") 'j0ni-dec-font-size)
+(define-key global-map (kbd "C-+") 'j0ni-inc-font-size)
+(define-key global-map (kbd "C--") 'j0ni-dec-font-size)
 
 (defvar base-face-list nil)
 
@@ -132,31 +140,31 @@
 
 (defun apply-font-settings (&optional default-font antialias)
   (interactive)
-  (mapc
-   (lambda (face)
-     (cond ;; do nothing if the weight is neither of these - preserving
-      ;; inherited properties
-      ((equal 'bold (base-weight face))
-       (set-face-attribute
-        face nil
-        :weight j0ni-bold-font-weight
-        :family 'retina
-        :font (font-spec :name (or default-font j0ni-default-font)
-                         :antialias (or antialias j0ni-antialias))))
+  (let ((font-name (or default-font (set-font-dwim))))
+    (mapc
+     (lambda (face)
+       (cond ;; do nothing if the weight is neither of these - preserving
+        ;; inherited properties
+        ((equal 'bold (base-weight face))
+         (set-face-attribute
+          face nil
+          :weight j0ni-bold-font-weight
+          :width 'semi-condensed
+          :font (font-spec :weight 'regular :name font-name
+                           :antialias (or antialias j0ni-antialias))))
 
-      ((equal 'normal (base-weight face))
-       (set-face-attribute
-        face nil
-        :weight j0ni-font-weight
-        :family 'retina
-        :font (font-spec :name (or default-font j0ni-default-font)
-                         :antialias (or antialias j0ni-antialias))))))
-   (face-list)))
+        ((equal 'normal (base-weight face))
+         (set-face-attribute
+          face nil
+          :weight j0ni-font-weight
+          :width 'semi-condensed
+          :font (font-spec :weight 'light :name font-name
+                           :antialias (or antialias j0ni-antialias))))))
+     (face-list))))
 
 ;; run the setup
 ;; (set-font-dwim)
 ;; (normalize-fonts)
-
 
 (when (boundp 'j0ni-theme)
   ;; Solarized specific tweaks
@@ -285,43 +293,66 @@
   ;;    `(js2-function-param ((t (:foreground ,fg))))))
   )
 
-;; (global-hl-line-mode 1)
+(global-hl-line-mode 1)
 
 (use-package circadian
-  :after indent-guide
+  :after (indent-guide smart-mode-line)
   :init
+  ;; Osaka
+  ;; (setq calendar-latitude 34.69374)
+  ;; (setq calendar-longitude 135.50218)
+  ;; Toronto
   (setq calendar-latitude 43.671780)
   (setq calendar-longitude -79.322891)
-  (setq circadian-themes `((:sunrise . ,j0ni-light-theme)
-                           (:sunset  . ,j0ni-dark-theme)))
+  (setq circadian-themes `((:sunrise . ,(cl-first j0ni-light-theme))
+                           (:sunset  . ,(cl-first j0ni-dark-theme))))
   :config
   ;; note that this executes in a black hole, so if it fails, there will be no
   ;; messaging, or indication as to where it failed.
-  (defun after-circadian-load-theme (theme)
-    ;; TODO make this interactive
+  (defun after-circadian-load-theme (&optional theme)
+    (interactive)
+    (let ((theme (or theme (cl-first j0ni-light-theme)))
+          (theme-config (if (eq theme (cl-first j0ni-light-theme))
+                            j0ni-light-theme
+                          j0ni-dark-theme)))
+      (cl-destructuring-bind (theme sml-theme indent-guide-color alpha) theme-config
+        ;; (rainbow-delimiters--define-depth-faces)
+        (set-frame-parameter (selected-frame) 'alpha alpha)
+        (add-to-list 'default-frame-alist `(alpha . ,alpha))
+        (setq sml/theme sml-theme)
+        (set-indent-guide-face (symbol-name indent-guide-color))
+        (sml/setup)
+        (set-font-dwim)))
 
-    (cond
-     ((eq theme j0ni-light-theme)
-      (progn (setq sml/theme 'automatic)
-             (set-indent-guide-face "gray60")))
-     ((eq theme j0ni-dark-theme)
-      (progn (setq sml/theme 'respectful)
-             (set-indent-guide-face "gray30")))
-
-     (t (message "theme didn't match j0ni vars: %s" theme)))
-
-    (sml/setup)
-    (set-mode-line-box)
-    (set-font-dwim)
     (message "finished circadian hook"))
 
-  (add-hook 'circadian-after-load-theme-hook
-            #'after-circadian-load-theme)
-
-  ;; (circadian-setup)
+  (add-hook 'circadian-after-load-theme-hook #'after-circadian-load-theme)
+  (circadian-setup)
 
   :diminish nil)
 
+(use-package smart-mode-line
+  :init
+  (setq sml/position-percentage-format "%p")
+  (setq sml/theme nil)
+  :config
+  ;; for default theme
+  ;; (set-indent-guide-face "grey80")
+  (sml/setup))
+
+;; (use-package darkroom)
+
+(use-package fold-dwim
+  :commands
+  (fold-dwim-toggle fold-dwim-hide-all fold-dwim-show-all)
+
+  :init
+  (global-set-key (kbd "<f7>")      'fold-dwim-toggle)
+  (global-set-key (kbd "<M-f7>")    'fold-dwim-hide-all)
+  (global-set-key (kbd "<S-M-f7>")  'fold-dwim-show-all)
+  ;; (global-set-key (kbd "<M-`>") #'fold-dwim-toggle)
+  ;; (global-set-key (kbd "<M-~>") #'fold-dwim-show-all)
+  )
 
 ;; take care of stupid eww behaviour
 (advice-add

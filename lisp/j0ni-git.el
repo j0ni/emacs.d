@@ -6,6 +6,7 @@
   (setq magit-last-seen-setup-instructions "1.4.0")
   (setq magit-completing-read-function 'ivy-completing-read)
   (setq magit-diff-refine-hunk t)
+  (setq magit-bury-buffer-function 'magit-mode-quit-window)
   :bind
   (("C-x g" . magit-status)
    ("C-x M-g" . magit-dispatch-popup)))
@@ -17,16 +18,15 @@
 (use-package forge :after magit)
 
 ;; file edit modes
-(packages-require '(gitignore-mode
-                    gitconfig-mode))
+(use-package gitignore-mode)
+(use-package gitconfig-mode)
 
 ;; contributed bits
 ;; (add-to-list 'load-path j0ni-git-contrib-dir)
 ;; (require 'git)
 
 ;; git gutter
-(packages-require '(git-messenger
-                    diminish))
+(use-package git-messenger)
 
 (use-package diff-hl
   :diminish "dhl"
@@ -41,8 +41,9 @@
   (add-hook 'prog-mode-hook 'turn-on-diff-hl-mode)
   (add-hook 'org-mode-hook 'turn-on-diff-hl-mode)
   (add-hook 'vc-dir-mode-hook 'turn-on-diff-hl-mode)
+  (add-hook 'diff-hl-mode-hook 'diff-hl-flydiff-mode)
   :config
-  (global-diff-hl-mode 1)
+  ;; (global-diff-hl-mode 1)
   (eval-after-load 'magit
     (add-hook 'magit-post-refresh-hook 'diff-hl-magit-post-refresh))
   ;; (diff-hl-flydiff-mode 1)
@@ -52,9 +53,9 @@
 (setq git-messenger:show-detail t)
 (global-set-key (kbd "C-x v p") 'git-messenger:popup-message)
 
-(package-require 'git-timemachine)
+(use-package git-timemachine)
+(use-package browse-at-remote)
 
-(package-require 'browse-at-remote)
 ;; (global-set-key (kbd "C-c g g") 'browse-at-remote)
 
 ;; (packages-require '(pcache
@@ -62,8 +63,8 @@
 ;;                     gh
 ;;                     gist))
 
-(packages-require '(git-link
-                    github-browse-file))
+(use-package git-link)
+(use-package github-browse-file)
 
 (setq git-link-open-in-browser t)
 

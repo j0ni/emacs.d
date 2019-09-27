@@ -2,7 +2,6 @@
 
 ;; (package-require 'popup)
 (use-package yasnippet
-  :ensure t
   :init
   (setq yas-snippet-dirs (list (concat dotfiles-dir "snippets")))
   (require 'snippet-helpers)
@@ -13,11 +12,9 @@
   (add-hook 'prog-mode-hook #'yas-minor-mode))
 
 (use-package aws-snippets
-  :ensure t
   :after yasnippet)
 
 (use-package buster-snippets
-  :ensure t
   :after yasnippet)
 
 (use-package clojure-snippets

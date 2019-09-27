@@ -1,7 +1,6 @@
 ;;; j0ni-evil.el -- Evil-mode setup
 
 ;; (use-package evil-cleverparens
-;;   :ensure t
 ;;   :commands evil-cleverparens-mode
 ;;   :init
 ;;   (setq evil-move-beyond-eol t)

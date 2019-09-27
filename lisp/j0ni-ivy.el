@@ -1,5 +1,7 @@
 ;;; j0ni-ivy.el
 
+(use-package smex)
+
 (use-package ivy
   :init
   (setq ivy-use-virtual-buffers t)
@@ -22,34 +24,26 @@
   (setq ivy-display-function nil)
   ;; w00t
   (setq ivy-extra-directories nil)
-
-  :config
-  (use-package smex)
   (ivy-mode t)
 
   :bind (("C-c C-r" . ivy-resume)
-         :map ivy-minibuffer-map
-         ("RET" . ivy-done))
+         ;; :map ivy-minibuffer-map
+         ;; ("RET" . ivy-done)
+         )
 
-  :diminish ivy-mode)
+  :diminish nil)
 
-;; (ivy-mode t)
-;; (diminish 'ivy-mode)
+;; (cl-defmethod xref-backend-identifier-completion-table ((_backend (eql etags)))
+;;   (lambda (string pred action)
+;;     (complete-with-action action tags-completion-table string pred)))
 
-;; (setq ivy-use-virtual-buffers t)
-;; (setq ivy-height 20)
-;; (setq ivy-length 200)
-;; ;; (setq ivy-count-format "")
-;; (setq confirm-nonexistent-file-or-buffer t)
-
-
-(use-package avy
-  :config
-  (avy-setup-default)
-  :bind
-  (("C-c C-j" . avy-resume)
-   ("M-g w" . avy-goto-word-1)
-   ("C-'" . avy-goto-char-2)))
+;; (use-package avy
+;;   :config
+;;   (avy-setup-default)
+;;   :bind
+;;   (("C-c C-j" . avy-resume)
+;;    ("M-g w" . avy-goto-word-1)
+;;    ("C-'" . avy-goto-char-2)))
 
 (use-package swiper
   :after ivy
@@ -58,13 +52,11 @@
   ;; https://github.com/abo-abo/swiper/issues/419
   (advice-add 'swiper--action :after (lambda (throwaway-arg)
                                        (recenter))))
-
-
 ;; (global-set-key (kbd "C-s") 'swiper)
 
 (use-package counsel
-  :ensure t
   :after ivy
+  :diminish nil
   :bind (("M-x" . counsel-M-x)
          ("C-x C-f" . counsel-find-file)
 
@@ -81,14 +73,15 @@
          ("C-x l" . counsel-locate)
          ;; (global-set-key (kbd "C-S-o") 'counsel-rhythmbox)
 
-         ("C-\\" . counsel-company)))
+         ("C-\\" . counsel-company)
+         ("C-," . counsel-imenu)))
 
 ;; I have no use for dired
 ;; (define-key ivy-minibuffer-map (kbd "RET") 'ivy-done)
 
-;; set elsewhere
-;; (setq magit-completing-read-function 'ivy-completing-read)
-;; (setq projectile-completion-system 'ivy)
+;; externals
+(setq magit-completing-read-function 'ivy-completing-read)
+(setq projectile-completion-system 'ivy)
 
 (use-package counsel-projectile
   :after (:all projectile ivy)
@@ -98,8 +91,5 @@
 
 (use-package imenu-anywhere
   :bind (("C-." . imenu-anywhere)))
-
-;; (use-package ivy-lobsters
-;;   :ensure t)
 
 (provide 'j0ni-ivy)

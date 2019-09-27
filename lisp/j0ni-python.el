@@ -3,24 +3,35 @@
 ;; for AGL - gotta find a better place for this
 (setenv "AGL_ENV" "local")
 
-(packages-require
- '(virtualenv
-   pytest
-   pyenv-mode
-   ein
-   ob-ipython
-   anaconda-mode
-   ;; conda
-   ))
+;; (packages-require
+;;  '(virtualenv
+;;    pytest
+;;    pyenv-mode))
+
+;; (use-package lispy)
+;; (require 'lpy)
+;; (add-hook 'python-mode-hook 'lpy-mode)
+
+(use-package virtualenv)
+(use-package pytest)
+;; (use-package pyenv-mode)
+
+;; (use-package elpy
+;;   :init
+;;   (elpy-enable)
+;;   (setq elpy-modules (delq 'elpy-module-highlight-indentation elpy-modules)))
 
 (require 'python)
 
-(use-package blacken
-  :hook (python-mode . blacken-mode))
+(add-hook 'python-mode-hook #'eglot-ensure)
 
-;; (add-hook 'python-mode-hook 'pyenv-mode)
-(add-hook 'python-mode-hook 'anaconda-mode)
-(add-hook 'python-mode-hook 'anaconda-eldoc-mode)
+;; (use-package blacken
+;;   :hook (python-mode . blacken-mode))
+
+;; (use-package anaconda-mode
+;;   :init
+;;   (add-hook 'python-mode-hook 'anaconda-mode)
+;;   (add-hook 'python-mode-hook 'anaconda-eldoc-mode))
 
 (setq python-shell-interpreter "python"
       python-shell-interpreter-args "-i")
@@ -39,14 +50,8 @@
   "Setup Flycheck for the current virtualenv."
   (setq-local flycheck-executable-find #'flycheck-virtualenv-executable-find))
 
-;; (use-package py-autopep8
-;;   :init
-;;   (setq py-autopep8-options '("--max-line-length=120"))
-;;   :hook (python-mode . py-autopep8-enable-on-save))
-
-(package-require 'smartparens)
-(add-hook 'python-mode-hook 'turn-on-smartparens-mode)
-(add-hook 'inferior-python-mode-hook 'turn-on-smartparens-mode)
+(add-hook 'python-mode-hook #'turn-on-smartparens-mode)
+(add-hook 'inferior-python-mode-hook #'turn-on-smartparens-mode)
 
 (defun projectile-pyenv-mode-set ()
   "Set pyenv version matching project name."
@@ -57,18 +62,11 @@
 
 ;; (add-hook 'projectile-switch-project-hook 'projectile-pyenv-mode-set)
 
-(add-hook 'ein:connect-mode-hook 'ein:jedi-setup)
-(add-hook 'ein:notebook-mode-hook 'turn-on-smartparens-mode)
+;; (use-package conda
+;;   :init
+;;   (setq conda-anaconda-home "/home/joni/miniconda3")
 
-;; switch these on to work with python
-;; (setq conda-anaconda-home "/home/joni/miniconda3")
-;; if you want interactive shell support, include:
-;; (conda-env-initialize-interactive-shells)
-;; if you want eshell support, include:
-;; (conda-env-initialize-eshell)
-;; if you want auto-activation (see below for details), include:
-;; (conda-env-autoactivate-mode t)
-
-;; (add-hook 'anaconda-mode-hook 'conda-env-autoactivate-mode)
+;;   :config
+;;   (conda-env-autoactivate-mode t))
 
 (provide 'j0ni-python)

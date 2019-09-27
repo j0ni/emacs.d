@@ -1,13 +1,8 @@
 ;;; j0ni-misc --- stuff that doesn't go anywhere else
 
-(packages-require
- '(ssh-config-mode
-   adaptive-wrap
-   http-twiddle
-   paredit-everywhere
-   debbugs
-   terraform-mode))
-
+(use-package ssh-config-mode)
+(use-package paredit-everywhere)
+(use-package terraform-mode)
 (use-package csv-mode)
 
 (use-package browse-kill-ring
@@ -35,17 +30,18 @@
    ("M-n" . drag-stuff-down)))
 
 (use-package format-sql)
+
 (use-package sql-indent
   :hook
   ((sql-mode . sqlind-minor-mode)))
 
-(use-package imenu-list
-  :bind
-  ("C-," . imenu-list-smart-toggle)
+;; (use-package imenu-list
+;;   :bind
+;;   ("C-," . imenu-list-smart-toggle)
 
-  :init
-  (setq imenu-list-auto-resize t)
-  (setq imenu-list-focus-after-activation t))
+;;   :init
+;;   (setq imenu-list-auto-resize t)
+;;   (setq imenu-list-focus-after-activation t))
 
 (use-package pinentry
   :init
@@ -57,22 +53,22 @@
   :init
   (pinentry-start))
 
-(use-package dumb-jump
-  :bind (("M-g o" . dumb-jump-go-other-window)
-         ("M-g j" . dumb-jump-go)
-         ("M-g i" . dumb-jump-go-prompt)
-         ("M-g x" . dumb-jump-go-prefer-external)
-         ("M-g z" . dumb-jump-go-prefer-external-other-window)
+;; (use-package dumb-jump
+;;   :bind (("M-g o" . dumb-jump-go-other-window)
+;;          ("M-g j" . dumb-jump-go)
+;;          ("M-g i" . dumb-jump-go-prompt)
+;;          ("M-g x" . dumb-jump-go-prefer-external)
+;;          ("M-g z" . dumb-jump-go-prefer-external-other-window)
 
-         ;; lets see how this goes
-         ("M-." . dumb-jump-go)
-         ("M-," . dumb-jump-back))
+;;          ;; lets see how this goes
+;;          ("M-." . dumb-jump-go)
+;;          ("M-," . dumb-jump-back))
 
-  :init
-  (setq dumb-jump-selector 'ivy)
-  (setq dumb-jump-force-searcher 'ag)
+;;   :init
+;;   (setq dumb-jump-selector 'ivy)
+;;   (setq dumb-jump-force-searcher 'ag)
 
-  :config (dumb-jump-mode))
+;;   :config (dumb-jump-mode))
 
 ;; manage history better
 ;; (add-hook 'after-init-hook 'session-initialize)
@@ -84,17 +80,18 @@
 (setq redisplay-dont-pause t)
 
 ;; find-file-in-project
-(use-package find-file-in-project
-  :init
-  (setq ffip-full-paths t))
+;; (use-package find-file-in-project
+;;   :init
+;;   (setq ffip-full-paths t))
 
-(use-package all-the-icons-dired
-  ;; M-x all-the-icons-install-fonts
-  :commands (all-the-icons-dired-mode))
+;; (use-package all-the-icons-dired
+;;   ;; M-x all-the-icons-install-fonts
+;;   :commands (all-the-icons-dired-mode))
 
 ;; Useful for figuring out complicated old code
 (use-package highlight-symbol
   :init
+  (setq hi-lock-auto-select-face t)
   (add-hook 'prog-mode-hook 'highlight-symbol-mode)
   :bind
   (("C-<f3>" . highlight-symbol)
@@ -111,16 +108,14 @@
 
 ;; projectile
 (use-package projectile
+  :demand t
   :config
   (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
-  (projectile-mode +1)
+  ;; (projectile-mode t)
   :init
-  (setq projectile-completion-system 'ivy)
+  ;; set elsewhere
+  ;; (setq projectile-completion-system 'ivy)
   :diminish projectile-mode)
-
-;; wc-mode
-(package-require 'wc-mode)
-(require 'wc-mode)
 
 ;; Show column numbers in modeline
 (setq column-number-mode t)
@@ -133,11 +128,12 @@
 ;; should take care of this. But I'm not sure I want auto-fill at all tbh.
 ;; (setq-default comment-auto-fill-only-comments t)
 
-(package-require 'smartparens)
-(require 'smartparens-config)
+(use-package smartparens
+  :config
+  (require 'smartparens-config))
 
 ;; Docker
-(package-require 'dockerfile-mode)
+(use-package dockerfile-mode)
 
 ;; map start of file and end of file commands to nicer key combos
 (global-set-key (read-kbd-macro "M-[") 'beginning-of-buffer)
@@ -150,19 +146,56 @@
 ;; deal with broken find-file-at-point
 (setq ffap-machine-p-known 'reject)
 
+;; (use-package sublimity
+;;   :init
+;;   (setq sublimity-scroll-weight 5)
+;;   (setq sublimity-scroll-drift-length 10)
+;;   ;; (setq sublimity-map-size 20)
+;;   ;; (setq sublimity-map-fraction 0.3)
+;;   ;; (setq sublimity-map-text-scale -7)
+;;   :config
+;;   (require 'sublimity)
+;;   (require 'sublimity-scroll)
+;;   ;; (require 'sublimity-map)
+;;   ;; (require 'sublimity-attractive)
+;;   (sublimity-mode 1))
+
 ;; nice scrolling
-(setq scroll-margin 0)
+;; (use-package smooth-scrolling
+;;   :init
+;;   (setq smooth-scroll-margin 2)
+
+;;   :config
+;;   (smooth-scrolling-mode))
+
+(setq scroll-step 0)
+(setq scroll-margin 2)
+(setq auto-window-vscroll nil)
+;; be sure to set this to 0 in any auto-scrolling buffers
 (setq scroll-conservatively 100000)
-(setq scroll-preserve-screen-position 1)
+;; (setq scroll-conservatively 1)
+(setq scroll-preserve-screen-position t)
+(setq mouse-wheel-scroll-amount '(1 ((shift) . 1))) ; one line at a time
+(setq mouse-wheel-progressive-speed t)              ; don't accelerate scrolling
+
+;; whitespace
+(setq whitespace-line-column 100)
+(setq whitespace-style '(face trailing lines-tail tabs))
+(add-hook 'prog-mode-hook #'whitespace-mode)
+
+;; don't hassle me about following symlinks
+(setq vc-follow-symlinks t)
 
 ;; don't eat my shell
 (setq-default comint-prompt-read-only t)
 
 ;; disable backup
-(setq backup-inhibited t)
+;; (setq backup-inhibited t)
+(setq backup-by-copying t)
 
-;; don't auto-save
-(setq auto-save-default nil)
+;; let's try auto-saving into the current file
+(setq auto-save-default t)
+(auto-save-visited-mode 1)
 
 ;; which-key
 (use-package which-key
@@ -182,8 +215,8 @@
 (use-package kotlin-mode)
 
 ;; puppet-mode sucks right now
-(package-require 'puppet-mode)
-(add-hook 'puppet-mode 'turn-on-smartparens-mode)
+;; (use-package puppet-mode)
+;; (add-hook 'puppet-mode 'turn-on-smartparens-mode)
 
 ;; winner restores unintentionally closed windows
 (winner-mode t)
@@ -198,13 +231,6 @@
 ;; clock in the mode-line
 (setq display-time-format "%H:%M")
 (setq display-time-default-load-average nil)
-
-(use-package buffer-move
-  :bind
-  (("C-S-<up>" . buf-move-up)
-   ("C-S-<down>" . buf-move-down)
-   ("C-S-<left>" . buf-move-left)
-   ("C-S-<right>" . buf-move-right)))
 
 (use-package window-number
   :config

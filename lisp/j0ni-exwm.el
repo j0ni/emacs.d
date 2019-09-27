@@ -25,8 +25,6 @@
   )
 
 (use-package exwm
-  :ensure t
-
   :config
   (j0ni-exwm-setup)
   ;; (exwm-systemtray-enable)

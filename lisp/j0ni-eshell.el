@@ -18,7 +18,7 @@
      (setenv "PAGER" "cat")
      ;; (set-face-attribute 'eshell-prompt nil :foreground "turquoise1")
      (add-hook 'eshell-mode-hook ;; for some reason this needs to be a hook
-               '(lambda () (define-key eshell-mode-map "\C-a" 'eshell-bol)))
+               #'(lambda () (define-key eshell-mode-map "\C-a" 'eshell-bol)))
      (setq eshell-cmpl-cycle-completions nil)
 
      ;; TODO: submit these via M-x report-emacs-bug
@@ -108,7 +108,7 @@
                                           (buffer-name))))
                                     (buffer-list))))
          (buffer (cond ((eq 1 (length buffers)) (first buffers))
-                       ((< 1 (length buffers)) (ido-completing-read
+                       ((< 1 (length buffers)) (ivy-completing-read
                                                 "Eshell buffer: " buffers nil t
                                                 nil nil (first buffers)))
                        (t (eshell)))))

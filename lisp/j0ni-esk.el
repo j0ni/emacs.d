@@ -107,15 +107,13 @@
         shift-select-mode nil
         mouse-yank-at-point t
         uniquify-buffer-name-style 'forward
-        whitespace-style '(face trailing lines-tail tabs)
-        whitespace-line-column 80
         ediff-window-setup-function 'ediff-setup-windows-plain
         save-place-file (concat user-emacs-directory "places")
         backup-directory-alist `(("." . ,(concat user-emacs-directory "backups")))
         diff-switches "-u")
 
   (add-to-list 'safe-local-variable-values '(lexical-binding . t))
-  (add-to-list 'safe-local-variable-values '(whitespace-line-column . 80))
+  (add-to-list 'safe-local-variable-values '(whitespace-line-column . 100))
 
   ;; Set this to whatever browser you use
   ;; (setq browse-url-browser-function 'eww-browse-url)
@@ -171,21 +169,8 @@ comment as a filename."
 
 ;; end misc
 
-;; starter kit bindings
+;; some starter kit bindings
 (progn
-  ;; It's all about the project.
-  (global-set-key (kbd "C-c f") 'find-file-in-project)
-
-  ;; You know, like Readline.
-  (global-set-key (kbd "C-M-h") 'backward-kill-word)
-
-  ;; Turn on the menu bar for exploring new modes
-  (global-set-key (kbd "C-<f10>") 'menu-bar-mode)
-
-  ;; Font size
-  (define-key global-map (kbd "C-+") 'text-scale-increase)
-  (define-key global-map (kbd "C--") 'text-scale-decrease)
-
   ;; Jump to a definition in the current file. (Protip: this is awesome.)
   (global-set-key (kbd "C-x C-i") 'imenu)
 

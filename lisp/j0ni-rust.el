@@ -4,48 +4,50 @@
 
 (use-package toml-mode)
 
-(defvar j0ni-rust-root
+(use-package flycheck-rust
+  :commands (flycheck-rust-setup))
+
+(use-package cargo
+  :init
+  (add-hook 'rust-mode-hook #'cargo-minor-mode)
+
+  :commands (cargo-minor-mode))
+
+(defun get-rust-root ()
   (string-trim
    (with-output-to-string
      (shell-command "rustc --print sysroot" standard-output))))
 
-(setenv "LD_LIBRARY_PATH" (concat j0ni-rust-root "/lib"))
-(setenv "RUST_SRC_PATH" (concat j0ni-rust-root "/lib/rustlib/src/rust/src"))
-
-(use-package flycheck-rust
-  :hook (rust-mode . flycheck-rust-setup))
+(defvar j0ni-rust-root)
+(defun set-rust-root ()
+  (interactive)
+  (setq j0ni-rust-root (get-rust-root)))
 
 (use-package rust-mode
   :init
   (setq company-tooltip-align-annotations t)
   (setq rust-format-on-save t)
-  ;; (setq comment-auto-fill-only-comments t)
-  ;; (setq rust-match-angle-brackets nil)
   (add-to-list 'auto-mode-alist '("\\.rs$" . rust-mode))
 
   :config
-  (defun rust-mode-setup ()
-    (electric-pair-mode 1)
-    (electric-layout-mode 1)
-    (flycheck-mode 1))
-  (add-hook 'rust-mode-hook 'rust-mode-setup))
+  ;; (add-hook 'rust-mode-hook #'eglot-ensure)
+  ;; (add-hook 'rust-mode-hook #'lsp)
+  (add-hook 'rust-mode-hook #'electric-pair-mode t)
+  (add-hook 'rust-mode-hook #'electric-layout-mode t)
+  (add-hook 'rust-mode-hook #'rainbow-delimiters-mode t)
+  (set-rust-root))
+
 
 (use-package racer
-  :hook (rust-mode . racer-mode)
-
+  :commands racer-mode
   :init
-  (setq racer-rust-src-path (concat j0ni-rust-root "/lib/rustlib/src/rust/src"))
-
+  (setenv "CARGO_HOME" (concat-home ".cargo"))
+  (add-hook 'rust-mode-hook #'racer-mode)
   :config
-  (defun racer-mode-setup ()
-    (eldoc-mode 1)
-    (company-mode 1))
-  (add-hook 'racer-mode-hook 'racer-mode-setup)
+  (add-hook 'racer-mode-hook #'eldoc-mode)
+  (add-hook 'racer-mode-hook #'company-mode)
 
   :bind (("C-c C-d" . racer-describe)))
-
-(use-package cargo
-  :hook (rust-mode . cargo-minor-mode))
 
 (use-package company-racer
   :config

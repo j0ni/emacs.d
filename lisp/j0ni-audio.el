@@ -1,8 +1,6 @@
 ;;; j0ni-audio.el
 
-(package-require 'jack-connect)
-
-(use-package ivy-mpdel
-  :ensure t)
+(use-package jack-connect)
+(use-package ivy-mpdel)
 
 (provide 'j0ni-audio)

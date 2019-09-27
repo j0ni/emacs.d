@@ -1,29 +1,28 @@
 ;;; markup.el -- HTML and friends
 
 ;; textile-mode
-(package-require 'textile-mode)
-(require 'textile-mode)
-(add-to-list 'auto-mode-alist '("\\.textile\\'" . textile-mode))
+;; (use-package textile-mode)
+;; (require 'textile-mode)
+;; (add-to-list 'auto-mode-alist '("\\.textile\\'" . textile-mode))
 
 ;; less + css
-(package-require 'less-css-mode)
+;; (use-package less-css-mode)
 
 ;; set up css-mode
-(package-require 'css-mode)
-(autoload 'css-mode "css-mode" nil t)
+;; (use-package css-mode)
 
 ;; disable scss compilation
-(package-require 'scss-mode)
-(setq scss-compile-at-save nil)
+;; (use-package scss-mode
+;;   :init
+;;   (setq scss-compile-at-save nil))
 
-(package-require 'smartparens)
-(add-hook 'scss-mode-hook 'turn-on-smartparens-mode)
+
+;; (use-package smartparens)
+;; (add-hook 'scss-mode-hook 'turn-on-smartparens-mode)
 
 ;; Colourise colour names in certain modes
-(package-require 'rainbow-mode)
-(dolist (mode '(css-mode less-css-mode html-mode nxhtml-mode nxhtml-mumamo-mode))
-  (add-hook (intern (concat (symbol-name mode) "-hook"))
-            (lambda () (rainbow-mode))))
+(use-package rainbow-mode
+  :hook (html-mode nxhtml-mode nxhtml-mumamo-mode))
 
 ;; ;; nXhtml
 ;; (autoload 'nxhtml-mumamo-mode "autostart" nil t)
@@ -38,7 +37,7 @@
 ;;   '(setq mumamo-per-buffer-local-vars (delq 'buffer-file-name mumamo-per-buffer-local-vars)))
 
 ;; Some paredit for HTML
-(package-require 'tagedit)
+(use-package tagedit)
 (eval-after-load "sgml-mode"
   '(progn
      (define-key sgml-mode-map (kbd "C-<right>") 'tagedit-forward-slurp-tag)
@@ -54,7 +53,7 @@
 
 ;; Engage web-mode
 
-(package-require 'web-mode)
+(use-package web-mode)
 ;; (setq web-mode-engines-alist
 ;;       '(("underscorejs" . "\\.ejs\\'")))
 ;; (add-to-list 'auto-mode-alist '("\\.ejs\\'" . web-mode))
@@ -71,14 +70,9 @@
 
 (add-hook 'html-mode-hook 'turn-off-auto-fill)
 
-;; jade and stylus modes
-(packages-require '(jade-mode stylus-mode))
-(add-to-list 'auto-mode-alist '("\\.styl$" . stylus-mode))
-(add-to-list 'auto-mode-alist '("\\.jade$" . jade-mode))
-
 ;; Skewer
-(package-require 'skewer-mode)
-(add-hook 'css-mode-hook 'skewer-css-mode)
+(use-package skewer-mode)
+;; (add-hook 'css-mode-hook 'skewer-css-mode)
 (add-hook 'html-mode-hook 'skewer-html-mode)
 
 (add-hook

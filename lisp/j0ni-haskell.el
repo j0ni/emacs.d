@@ -1,19 +1,27 @@
 ;;; j0ni-haskell.el
 
 (use-package intero
+  ;; :config
+  ;; (add-hook 'intero-mode-hook 'eldoc-box-hover-mode)
   :commands intero-mode)
+
 
 (use-package haskell-mode
   :commands haskell-mode
   :config
-  (add-hook 'haskell-mode-hook 'intero-mode))
+  ;; (add-hook 'haskell-mode-hook 'haskell-indentation-mode)
+  ;; (add-hook 'haskell-mode-hook 'interactive-haskell-mode)
+  ;; (add-hook 'haskell-mode-hook 'haskell-doc-mode)
+  (add-hook 'haskell-mode-hook 'intero-mode)
+  ;; (add-hook 'haskell-mode-hook 'eglot-ensure)
+  )
 
 ;; Put ghc-show-info in a popup
-(package-require 'popup)
-(defun ghc-show-info-popup ()
-  (interactive)
-  (popup-tip (ghc-get-info (ghc-things-at-point))
-             :around t :scroll-bar t))
+;; (use-package popup)
+;; (defun ghc-show-info-popup ()
+;;   (interactive)
+;;   (popup-tip (ghc-get-info (ghc-things-at-point))
+;;              :around t :scroll-bar t))
 
 ;; (define-key haskell-mode-map (kbd "C-c TAB") 'ghc-show-info-popup)
 ;; (define-key haskell-mode-map (kbd "C-c C-i") 'ghc-show-info-popup)
@@ -37,7 +45,7 @@
 ;;   '(add-hook 'flycheck-mode-hook #'flycheck-haskell-setup))
 
 ;;; Idris (for want of a better place to put it)
-(package-require 'idris-mode)
-(add-to-list 'auto-mode-alist '("\\.idr$" . idris-mode))
+;; (use-package idris-mode)
+;; (add-to-list 'auto-mode-alist '("\\.idr$" . idris-mode))
 
 (provide 'j0ni-haskell)

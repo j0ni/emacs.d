@@ -5,6 +5,7 @@
 (when (file-exists-p mu-path)
   (add-to-list 'load-path mu-path)
   (require 'mu4e)
+  (require 'mu4e-contrib)
   ;; (require 'smtpmail)
 
   ;; use it everywhere to send mail
@@ -77,7 +78,6 @@
         mu4e-view-use-gnus nil
         mm-inline-large-images 'resize)
 
-  (require 'mu4e-contrib)
   ;; (setq mu4e-html2text-command 'mu4e-shr2text)
 
   ;; something about ourselves
@@ -88,7 +88,7 @@
                                       "j0ni@protonmail.com"
                                       "jon@arity.ca")
         user-full-name "Jon Irving"
-        mu4e-compose-signature "Jonathan Irving\nhttps://j0ni.ca\nQuod non potest esse momenti")
+        mu4e-compose-signature "Jonathan Irving\nhttps://j0ni.ca")
 
   (setq mu4e-bookmarks
         '(("date:24h..now AND NOT flag:trashed" "Last day's messages" ?t)
@@ -284,11 +284,21 @@
   (add-hook 'message-mode-hook 'my-compose-mode-setup)
 
   ;; Citation
-  (package-require 'mu-cite)
-  (setq mail-citation-hook 'mu-cite-original)
-  (setq message-citation-hook 'mu-cite-original)
-  (setq mu-cite-top-format '(">>>>>> " from " at " date ":\n\n"))
-  (setq mu-cite-prefix-format '("  > "))
+  ;; (setq message-indentation-spaces 3)
+  (setq message-citation-line-function 'message-insert-formatted-citation-line)
+  (setq message-citation-line-format " On %e %B %Y %R %Z, %f wrote:\n")
+  (setq message-yank-prefix " > ")
+  (setq message-yank-cited-prefix " > ")
+  (setq message-yank-empty-prefix " > ")
+
+  ;; (setq message-cite-style
+  ;;       '((message-cite-function 'message-cite-original)
+
+  ;;         (message-cite-reply-position 'above)
+  ;;         (message-yank-prefix "> ")
+  ;;         (message-yank-cited-prefix "> ")
+  ;;         (message-yank-empty-prefix "> ")
+  ;;         ))
 
   ;; Eliding
   (setq message-elide-ellipsis "[... elided ...]")
@@ -318,6 +328,6 @@
   (insert (format-time-string "%Y-%m-%d @ %H:%M:%S %z\n"))
   )
 
-(add-to-list 'auto-mode-alist '("mutt-ship-.*$" . message-mode))
+(add-to-list 'auto-mode-alist '("mutt-odo-.*$" . message-mode))
 
 (provide 'j0ni-mail)

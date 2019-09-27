@@ -3,7 +3,6 @@
 ;; initially copied from bodil's emacs config
 
 ;; (use-package ediprolog
-;;   :ensure t
 ;;   :commands ediprolog-dwim
 ;;   :init
 ;;   (setq ediprolog-program "/usr/bin/swipl")
@@ -11,11 +10,8 @@
 
 (require 'j0ni-defuns)
 
-(packages-require '(elein
-                    kibit-helper
-                    ;; geiser
-                    hy-mode
-                    indent-guide))
+(use-package hy-mode)
+(use-package indent-guide)
 
 (setq j0ni-lisp-modes '(scheme-mode
                         faceup
@@ -37,10 +33,12 @@
 (define-key lisp-mode-shared-map (kbd "C-c v") 'eval-buffer)
 (define-key lisp-mode-shared-map (kbd "C-c C-v") 'eval-buffer)
 
-(add-lisp-hook 'indent-guide-mode)
+(add-lisp-hook #'indent-guide-mode)
+;; for various code folding bits
+(add-lisp-hook #'hs-minor-mode)
 
 ;; Make em light up
-(require 'highlight)
+;; (require 'highlight)
 (use-package eval-sexp-fu)
 
 ;; Highlight sexp under cursor
@@ -135,6 +133,8 @@
      (paredit-annotate-mode-with-examples)
      (paredit-annotate-functions-with-examples)))
 
+;; (use-package fennel-mode)
+
 ;; (use-package lispy)
 
 (defun enable-paren-handling ()
@@ -150,7 +150,7 @@
 ;;     paredit-close-round))
 
 ;; Rainbow delimiters
-(package-require 'rainbow-delimiters)
+(use-package rainbow-delimiters)
 (add-lisp-hook 'rainbow-delimiters-mode)
 
 ;; Lambdas
@@ -259,7 +259,9 @@
 (defun enable-eros-mode ()
   (eros-mode 1))
 
-(packages-require '(elisp-slime-nav diminish eros))
+(use-package elisp-slime-nav)
+(use-package diminish)
+(use-package eros)
 
 (defun elisp-slime-nav-mode-setup ()
   (elisp-slime-nav-mode 1))
@@ -319,7 +321,6 @@
   (add-hook 'racket-mode-hook      #'my-racket-mode-hook)
   (add-hook 'racket-repl-mode-hook #'my-racket-repl-mode-hook))
 
-
 (defun my-racket-mode-hook ()
   (interactive)
   (enable-paren-handling)
@@ -336,27 +337,29 @@
   :init
   (setq geiser-active-implementations '(chicken guile chez))
   (setq geiser-repl-history-filename "~/.emacs.d/geiser-history")
-  (setq geiser-scheme-implementation 'chicken))
+  (setq geiser-scheme-implementation 'chicken)
+  (setq geiser-chicken-binary "/usr/bin/chicken-csi"))
 
 ;; baseline scheme
-(setq scheme-program-name "csi -:c")
+(setq scheme-program-name "chicken-csi -:c")
 ;; (setq scheme-program-name "chez-scheme --optimize-level 0 --debug-on-exception")
 ;; geiser-implementations-alist
 ;; tell scheme-mode about the test extension
 (put 'test-group 'scheme-indent-function 1)
 
-(use-package scheme-complete
-  :after scheme
-  :bind (:map scheme-mode-map
-         ("TAB" . scheme-complete-or-indent))
+;; (use-package scheme-complete
+;;   :after scheme
+;;   :bind (:map scheme-mode-map
+;;          ("TAB" . scheme-complete-or-indent))
 
-  :init
-  (setq lisp-indent-function 'scheme-smart-indent-function)
-  (add-hook 'scheme-mode-hook
-            (lambda ()
-              (make-local-variable 'eldoc-documentation-function)
-              (setq eldoc-documentation-function 'scheme-get-current-symbol-info)
-              (eldoc-mode))))
+;;   :init
+;;   (add-hook 'scheme-mode-hook
+;;             (lambda ()
+;;               (make-local-variable 'lisp-indent-function)
+;;               (setq-local lisp-indent-function 'scheme-smart-indent-function)
+;;               (make-local-variable 'eldoc-documentation-function)
+;;               (setq-local eldoc-documentation-function #'scheme-get-current-symbol-info)
+;;               (eldoc-mode 1))))
 
 ;; Shen
 ;; (package-require 'shen-mode)
