@@ -32,11 +32,14 @@
   :config
   ;; (add-hook 'rust-mode-hook #'eglot-ensure)
   ;; (add-hook 'rust-mode-hook #'lsp)
-  (add-hook 'rust-mode-hook #'electric-pair-mode t)
-  (add-hook 'rust-mode-hook #'electric-layout-mode t)
-  (add-hook 'rust-mode-hook #'rainbow-delimiters-mode t)
-  (set-rust-root))
+  (defun rust-mode-setup ()
+    (electric-pair-mode t)
+    (electric-layout-mode t)
+    (rainbow-delimiters-mode t)
+    (set-rust-root)
+    (flycheck-rust-setup))
 
+  (add-hook 'rust-mode-hook #'rust-mode-setup))
 
 (use-package racer
   :commands racer-mode
