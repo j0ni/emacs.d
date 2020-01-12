@@ -120,11 +120,11 @@
 
 (opam-auto-tools-setup)
 ;; ## end of OPAM user-setup addition for emacs / base ## keep this line
-;; ## added by OPAM user-setup for emacs / tuareg ## eab2b9efe848c1cad6e46ae415ffb619 ## you can edit, but keep this line
+;; ## added by OPAM user-setup for emacs / tuareg ## 668f6bbe46e37348c808a385f4e8fc2b ## you can edit, but keep this line
 ;; Set to autoload tuareg from its original switch when not found in current
 ;; switch (don't load tuareg-site-file as it adds unwanted load-paths)
 (defun opam-tuareg-autoload (fct file doc args)
-  (let ((load-path (cons "/home/joni/.opam/default/share/emacs/site-lisp" load-path)))
+  (let ((load-path (cons "/home/joni/.opam/ocaml-system/share/emacs/site-lisp" load-path)))
     (load file))
   (apply fct args))
 (when (not (member "tuareg" opam-tools-installed))
@@ -143,12 +143,12 @@
   (dolist (ext '(".cmo" ".cmx" ".cma" ".cmxa" ".cmxs" ".cmt" ".cmti" ".cmi" ".annot"))
     (add-to-list 'completion-ignored-extensions ext)))
 ;; ## end of OPAM user-setup addition for emacs / tuareg ## keep this line
-;; ## added by OPAM user-setup for emacs / ocp-indent ## aa9e71eade8012f653b88e63655663a6 ## you can edit, but keep this line
+;; ## added by OPAM user-setup for emacs / ocp-indent ## 9b1ba6d80509be66ea1113cb41de99d8 ## you can edit, but keep this line
 ;; Load ocp-indent from its original switch when not found in current switch
 (when (not (assoc "ocp-indent" opam-tools-installed))
-  (autoload 'ocp-setup-indent "/home/joni/.opam/default/share/emacs/site-lisp/ocp-indent.el" "Improved indentation for Tuareg mode")
-  (autoload 'ocp-indent-caml-mode-setup "/home/joni/.opam/default/share/emacs/site-lisp/ocp-indent.el" "Improved indentation for Caml mode")
+  (autoload 'ocp-setup-indent "/home/joni/.opam/ocaml-system/share/emacs/site-lisp/ocp-indent.el" "Improved indentation for Tuareg mode")
+  (autoload 'ocp-indent-caml-mode-setup "/home/joni/.opam/ocaml-system/share/emacs/site-lisp/ocp-indent.el" "Improved indentation for Caml mode")
   (add-hook 'tuareg-mode-hook 'ocp-setup-indent t)
   (add-hook 'caml-mode-hook 'ocp-indent-caml-mode-setup  t)
-  (setq ocp-indent-path "/home/joni/.opam/default/bin/ocp-indent"))
+  (setq ocp-indent-path "/home/joni/.opam/ocaml-system/bin/ocp-indent"))
 ;; ## end of OPAM user-setup addition for emacs / ocp-indent ## keep this line
