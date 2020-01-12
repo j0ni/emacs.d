@@ -36,10 +36,10 @@
   (add-to-list 'company-backends 'company-go))
 
 ;; Python
-(use-package company-jedi
-  :after (company)
-  :init
-  (add-to-list 'company-backends 'company-jedi))
+;; (use-package company-jedi
+;;   :after (company)
+;;   :init
+;;   (add-to-list 'company-backends 'company-jedi))
 
 ;; Python
 ;; (use-package company-anaconda

@@ -42,15 +42,15 @@
   :commands racer-mode
   :init
   (setenv "CARGO_HOME" (concat-home ".cargo"))
-  (add-hook 'rust-mode-hook #'racer-mode)
+  ;; (add-hook 'rust-mode-hook #'racer-mode)
   :config
   (add-hook 'racer-mode-hook #'eldoc-mode)
   (add-hook 'racer-mode-hook #'company-mode)
 
   :bind (("C-c C-d" . racer-describe)))
 
-(use-package company-racer
-  :config
-  (add-to-list 'company-backends 'company-racer))
+;; (use-package company-racer
+;;   :config
+;;   (add-to-list 'company-backends 'company-racer))
 
 (provide 'j0ni-rust)

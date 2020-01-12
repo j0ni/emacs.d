@@ -37,6 +37,7 @@
 (use-package lsp-mode
   :commands lsp
   :init
+  (setq lsp-enable-indentation nil)
   (setq lsp-auto-configure t)
   (setq lsp-enable-xref t)
   (setq lsp-prefer-flymake t)

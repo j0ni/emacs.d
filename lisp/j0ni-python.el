@@ -1,7 +1,7 @@
 ;;; j0ni-python.el -- Python configuration
 
 ;; for AGL - gotta find a better place for this
-(setenv "AGL_ENV" "local")
+;; (setenv "AGL_ENV" "local")
 
 ;; (packages-require
 ;;  '(virtualenv
@@ -22,11 +22,12 @@
 ;;   (setq elpy-modules (delq 'elpy-module-highlight-indentation elpy-modules)))
 
 (require 'python)
+(add-hook 'python-mode-hook #'lsp)
 
-(add-hook 'python-mode-hook #'eglot-ensure)
+;; (add-hook 'python-mode-hook #'eglot-ensure)
 
-;; (use-package blacken
-;;   :hook (python-mode . blacken-mode))
+(use-package blacken
+  :hook (python-mode . blacken-mode))
 
 ;; (use-package anaconda-mode
 ;;   :init
@@ -62,11 +63,10 @@
 
 ;; (add-hook 'projectile-switch-project-hook 'projectile-pyenv-mode-set)
 
-;; (use-package conda
-;;   :init
-;;   (setq conda-anaconda-home "/home/joni/miniconda3")
-
-;;   :config
-;;   (conda-env-autoactivate-mode t))
+(use-package conda
+  :init
+  (setq conda-anaconda-home "~/.conda")
+  :config
+  (conda-env-autoactivate-mode t))
 
 (provide 'j0ni-python)

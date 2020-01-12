@@ -1,9 +1,11 @@
 ;;; j0ni-haskell.el
 
-(use-package intero
-  ;; :config
-  ;; (add-hook 'intero-mode-hook 'eldoc-box-hover-mode)
-  :commands intero-mode)
+;; (use-package intero
+;;   :init
+;;   (setq intero-pop-to-repl nil)
+;;   ;; :config
+;;   ;; (add-hook 'intero-mode-hook 'eldoc-box-hover-mode)
+;;   :commands intero-mode)
 
 
 (use-package haskell-mode
@@ -12,10 +14,12 @@
   ;; (add-hook 'haskell-mode-hook 'haskell-indentation-mode)
   ;; (add-hook 'haskell-mode-hook 'interactive-haskell-mode)
   ;; (add-hook 'haskell-mode-hook 'haskell-doc-mode)
-  (add-hook 'haskell-mode-hook 'intero-mode)
+  ;; (add-hook 'haskell-mode-hook 'intero-mode)
   ;; (add-hook 'haskell-mode-hook 'eglot-ensure)
+  (add-hook 'haskell-mode-hook #'lsp)
   )
 
+(use-package lsp-haskell)
 ;; Put ghc-show-info in a popup
 ;; (use-package popup)
 ;; (defun ghc-show-info-popup ()
