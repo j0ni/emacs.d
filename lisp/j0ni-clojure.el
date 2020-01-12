@@ -21,8 +21,9 @@
   :config
   (add-hook 'clojure-mode-hook #'paredit-mode)
   (add-hook 'clojure-mode-hook #'rainbow-delimiters-mode)
-  (add-hook 'clojure-mode-hook #'indent-guide-mode)
-  (add-hook 'clojure-mode-hook #'clj-refactor-mode)
+  ;; (add-hook 'clojure-mode-hook #'indent-guide-mode)
+  ;; (add-hook 'clojure-mode-hook #'clj-refactor-mode)
+  (add-hook 'clojure-mode-hook #'hl-sexp-mode)
   (add-hook 'clojure-mode-hook #'turn-on-eldoc-mode)
   (dolist (form '(test
                   tests
@@ -103,14 +104,14 @@
 ;;   :commands lsp-ui-mode)
 
 (use-package inf-clojure
-  :defer t
+  ;; :defer t
 
   :init
   (setq inf-clojure-prompt-read-only nil)
-  ;; (add-hook 'clojure-mode-hook #'inf-clojure-minor-mode)
 
   :config
   ;; (add-hook 'inf-clojure-mode-hook #'enable-paredit-mode)
+  ;; (add-hook 'clojure-mode-hook #'inf-clojure-minor-mode)
   (add-hook 'inf-clojure-mode-hook #'turn-on-eldoc-mode))
 
 (use-package paredit
@@ -145,6 +146,7 @@
         cider-clojure-cli-global-options           "-A:dev"
         ;; cider-jdk-src-paths                        '("~/Scratch/java8-src"
         ;;                                              "~/Scratch/clojure1.9-src")
+        cider-lein-parameters                      "with-profile -user repl :headless :host localhost"
         )
 
   (defun cider-repl-customizations ()
