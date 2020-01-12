@@ -1,5 +1,8 @@
 ;;; init.el --- user init file -*- no-byte-compile: t -*-
 
+(setq straight-use-package-by-default t)
+(setq straight-vc-git-default-protocol 'ssh)
+
 (defvar bootstrap-version)
 (let ((bootstrap-file
        (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
@@ -14,8 +17,20 @@
   (load bootstrap-file nil 'nomessage))
 
 (straight-use-package 'org-plus-contrib)
+(require 'org)
+
 (straight-use-package 'use-package)
-(setq straight-use-package-by-default t)
+
+(defun update-straight-packages ()
+  (interactive)
+  (dolist (package '(gnu-elpa-mirror melpa org))
+    (let ((p (symbol-name package)))
+      (straight-pull-package p)
+      (straight-normalize-package package)
+      (straight-rebuild-package p)))
+  (straight-pull-all)
+  (straight-normalize-all)
+  (straight-rebuild-all))
 
 ;; Good chance this is what I want :P
 (progn
@@ -28,7 +43,7 @@
   (defvar j0ni-bold-font-weight)
   ;; old
   (defvar j0ni-default-font)
-  ;; (setq j0ni-font-face "Consolas")
+  (setq j0ni-font-face "Consolas")
   ;; (setq j0ni-font-face "iosevka term")
   ;; (setq j0ni-font-face "Droid Sans Mono Dotted for Powerline")
   ;; (setq j0ni-font-face "Hack")
@@ -38,7 +53,7 @@
   ;; (setq j0ni-font-face "Fira Mono")
   ;; (setq j0ni-font-face "Fira Code")
   ;; (setq j0ni-font-face "Fira Code Light")
-  (setq j0ni-font-face "Envy Code R")
+  ;; (setq j0ni-font-face "Envy Code R")
   ;; (setq j0ni-font-face "Agave")
   ;; (setq j0ni-font-face "Source Code Variable")
   ;; (setq j0ni-font-face "Courier Prime Code")
@@ -51,19 +66,20 @@
   ;; (setq j0ni-font-face "Lucida Grande Mono Nrw")
   ;; (setq j0ni-font-face "Operator Mono")
   ;; (setq j0ni-font-face "Lucida Grande Mono")
-  ;; (setq j0ni-font-face "Monoid")
-  ;; (setq j0ni-font-face "PragmataPro Mono")
+  (setq j0ni-font-face "Monoid")
+  ;; q(setq j0ni-font-face "PragmataPro Mono")
   ;; (setq j0ni-font-face "Inconsolata")
   ;; (setq j0ni-font-face "Mensch")
-  ;; (setq j0ni-font-face "M+ 1M")
+  ;; (setq j0ni-font-face "M+ 1mn")
+  ;; (setq j0ni-font-face "D2Coding")
   ;; (setq j0ni-font-face "Go Mono")
-  ;; (setq j0ni-font-face "Iosevka")
+  ;; (setq j0ni-font-face "Iosevka ss10")
   ;; (setq j0ni-font-face "IBM Plex Mono")
   (setq j0ni-font-weight 'regular)
   ;; (setq j0ni-bold-font-weight 'regular)
-  (setq j0ni-font-size 11)
+  (setq j0ni-font-size 10)
   ;; (setq j0ni-line-spacing 8)
-  (setq j0ni-line-spacing 0)
+  (setq j0ni-line-spacing 1)
   (setq j0ni-antialias t)
 
   (setq j0ni-default-font "Lucida Grande Mono Nrw-11")
@@ -128,6 +144,12 @@
                     (or (buffer-file-name) load-file-name)))
 (add-to-list 'load-path (concat dotfiles-dir "lisp"))
 
+;; (add-to-list 'load-path "/home/joni/Scratch/rust/emacs-tree-sitter")
+;; (require 'tree-sitter)
+;; (ts-require-language 'rust)
+;; (ts-require-language 'haskell)
+;; (add-to-list 'tree-sitter-major-mode-language-alist '(haskell-mode . haskell))
+
 ;; Add every subdirectory of ~/.emacs.d/site-lisp to the load path
 (dolist (sdir (directory-files (concat dotfiles-dir "site-lisp") t "\\w+"))
   (when (file-directory-p sdir)
@@ -179,21 +201,6 @@
 ;;     apropospriate-theme
 ;;     ))
 
-
-(defvar j0ni-theme)
-(defvar j0ni-light-theme)
-(defvar j0ni-dark-theme)
-;; (defvar j0ni-theme-tint)
-
-;; (setq j0ni-dark-theme 'spacemacs-dark)
-;; (setq j0ni-light-theme 'spacemacs-light)
-;; (setq j0ni-dark-theme 'gruvbox)
-(setq j0ni-light-theme '(leuven light SlateGray2 (100 . 70)))
-;; (setq j0ni-light-theme 'darktooth)
-;; (setq j0ni-dark-theme '(zenburn respectful grey40))
-;; (setq j0ni-dark-theme '(dracula respectful grey30 (90 . 50)))
-(setq j0ni-dark-theme '(zerodark respectful grey30 (95 . 50)))
-;; (setq j0ni-dark-theme '(leuven light SlateGray2 (100 . 70)))
 
 ;; 'dark 'mid 'light
 ;; (setq j0ni-theme-tint 'dark)
@@ -357,137 +364,6 @@
 ;;           (feebleline-git-branch          :face feebleline-git-face :pre " - ")
 ;;           (feebleline-project-name        :align right))))
 
-(defun initialize-and-load-theme (theme &optional indent-guide-color sml-theme)
-  (interactive
-   (list
-    (intern (completing-read "Load custom theme: "
-                             (mapcar 'symbol-name
-                                     (custom-available-themes))))
-    (read-color "Indent guide color: ")))
-  (let ((sml-theme (or sml-theme 'respectful)))
-    (load-theme theme t)
-    (eval-after-load "j0ni-gui"
-      `(progn
-         (setq sml/theme ,(symbol-name sml-theme))
-         (sml/setup)
-         (set-font-dwim)
-         (when ,indent-guide-color
-           (set-indent-guide-face ,indent-guide-color)))))
-  ;; (eval-after-load 'highlight-symbol
-  ;;   '(set-face-attribute 'highlight-symbol-face nil :box t))
-  )
-
-(use-package dracula-theme
-  :no-require t
-  ;; :config
-  ;; (initialize-and-load-theme 'dracula "grey30")
-  )
-
-(use-package chocolate-theme
-  :no-require t
-  ;; :config (initialize-and-load-theme 'chocolate "grey30")
-  )
-
-(use-package zenburn-theme
-  :no-require t
-  ;; :config
-  ;; (initialize-and-load-theme 'zenburn "grey30")
-  )
-
-(use-package cyberpunk-theme
-  :no-require t
-  ;; :config
-  ;; (initialize-and-load-theme 'cyberpunk "grey30")
-  )
-
-(use-package reverse-theme
-  :no-require t
-  ;; :config
-  ;; (initialize-and-load-theme 'reverse "grey30")
-  )
-
-(use-package leuven-theme
-  :no-require t
-  ;; :config
-  ;; (initialize-and-load-theme 'leuven "SlateGray2" 'light)
-  )
-
-(use-package nord-theme
-  :no-require t
-  :init
-  (setq nord-comment-brightness 15)
-  ;; :config
-  ;; (initialize-and-load-theme 'nord "grey30")
-  )
-
-(use-package nova-theme
-  :no-require t
-  ;; :config
-  ;; (initialize-and-load-theme 'nova "grey40")
-  )
-
-(use-package spacemacs-theme
-  :no-require t
-  ;; :config
-  ;; (initialize-and-load-theme 'spacemacs-dark "grey30")
-  ;; (initialize-and-load-theme 'spacemacs-light "grey80")
-  )
-
-(use-package gruvbox-theme
-  :no-require t
-  ;; :config
-  ;; (initialize-and-load-theme 'gruvbox-light-medium "AntiqueWhite3")
-  )
-
-(use-package tangotango-theme
-  :no-require t
-  ;; :config
-  ;; (initialize-and-load-theme 'tangotango "grey30")
-  )
-
-(use-package zerodark-theme :no-require t)
-
-(use-package doom-themes
-  :no-require t
-  ;; :config
-  ;; (initialize-and-load-theme 'doom-nord-light "grey100")
-  ;; (initialize-and-load-theme 'doom-solarized-light "grey70")
-  ;; (initialize-and-load-theme 'doom-one-light "grey80")
-  )
-
-;; (use-package phoenix-dark-pink-theme
-;;   :no-require t
-;;   :config
-;;   (initialize-and-load-theme 'phoenix-dark-pink))
-;; (load "~/Scratch/emacs/phoenix-dark-mono/phoenix-dark-mono-theme.el")
-;; (initialize-and-load-theme 'phoenix-dark-pink)
-
-(use-package plan9-theme
-  :no-require t
-  ;; :config
-  ;; (initialize-and-load-theme 'plan9 "gold")
-  )
-
-(use-package sunburn-theme
-  :no-require t
-  ;; :config
-  ;; (initialize-and-load-theme 'sunburn "grey30")
-)
-
-;; (use-package olivetti)
-
-;; (use-package grayscale-theme
-;;   :no-require t
-;;   :init
-;;   (setq sml/theme 'respectful)
-;;   :config
-;;   (load-theme 'grayscale)
-;;   (eval-after-load "j0ni-gui"
-;;     '(progn
-;;        (sml/setup)
-;;        ;; (set-mode-line-box)
-;;        (set-font-dwim))))
-
 ;; (use-package focus)
 
 ;; (defun package-require (pkg)
@@ -551,15 +427,16 @@
 
 (setq-default fill-column 80)
 
+
 ;; Emacs disables a bunch of commands by default so as not to confuse new users.
 ;; This enables them all.
 (setq disabled-command-function nil)
 
 ;; Open for business
 
-(require 'server)
-(unless (server-running-p)
-  (server-start))
+;; (require 'server)
+;; (unless (server-running-p)
+;;   (server-start))
 
 ;; start desktop saving
 ;; (boot-desktop)

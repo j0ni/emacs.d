@@ -42,15 +42,15 @@
 
 (require 'color)
 
-(use-package nyan-mode
-  :init
-  (setq nyan-animate-nyancat nil)
-  (setq nyan-wavy-trail nil)
+;; (use-package nyan-mode
+;;   :init
+;;   (setq nyan-animate-nyancat nil)
+;;   (setq nyan-wavy-trail nil)
 
-  :diminish nil
+;;   :diminish nil
 
-  :config
-  (nyan-mode 1))
+;;   :config
+;;   (nyan-mode 1))
 
 ;; (use-package sml-modeline
 ;;   :init (setq sml-modeline-len 24)
@@ -293,19 +293,155 @@
   ;;    `(js2-function-param ((t (:foreground ,fg))))))
   )
 
-(global-hl-line-mode 1)
+;; (global-hl-line-mode 1)
+;; (global-display-fill-column-indicator-mode)
+
+(defun initialize-and-load-theme (theme &optional indent-guide-color sml-theme)
+  (interactive
+   (list
+    (intern (completing-read "Load custom theme: "
+                             (mapcar 'symbol-name
+                                     (custom-available-themes))))
+    (read-color "Indent guide color: ")))
+  (let ((sml-theme (or sml-theme 'respectful)))
+    (load-theme theme t)
+    (eval-after-load "j0ni-gui"
+      `(progn
+         (setq sml/theme ,(symbol-name sml-theme))
+         (sml/setup)
+         (set-font-dwim)
+         (when ,indent-guide-color
+           (set-indent-guide-face ,indent-guide-color)))))
+  ;; (eval-after-load 'highlight-symbol
+  ;;   '(set-face-attribute 'highlight-symbol-face nil :box t))
+  )
+
+(use-package synthwave-theme
+  :straight (synthwave-theme
+             :type git
+             :host github
+             :repo "TroyFletcher/emacs-synthwave-theme"
+             :fork (:host github :repo "j0ni/emacs-synthwave-theme")))
+
+(use-package hemisu-theme :no-require t)
+(use-package dracula-theme :no-require t)
+
+(use-package chocolate-theme :no-require t)
+
+(use-package zenburn-theme :no-require t)
+
+(use-package cyberpunk-theme :no-require t)
+
+(use-package reverse-theme :no-require t)
+
+(use-package leuven-theme :no-require t)
+
+(use-package nord-theme
+  :no-require t
+  :init
+  (setq nord-comment-brightness 15))
+
+(use-package nova-theme :no-require t)
+
+(use-package spacemacs-theme :no-require t)
+
+(use-package gruvbox-theme :no-require t)
+
+(use-package tangotango-theme :no-require t)
+
+(use-package zerodark-theme :no-require t)
+(use-package one-themes :no-require t)
+
+(use-package doom-themes :no-require)
+
+(use-package phoenix-dark-pink-theme :no-require t)
+;; alternatively....
+;; (load "~/Scratch/emacs/phoenix-dark-mono/phoenix-dark-mono-theme.el")
+;; (initialize-and-load-theme 'phoenix-dark-pink)
+
+(use-package plan9-theme :no-require t)
+
+(use-package sunburn-theme :no-require t)
+
+;; (use-package olivetti)
+
+(use-package grayscale-theme :no-require t)
+
+(use-package redo-plus
+  :no-require t
+  :init
+  (require 'redo+))
+
+
+(defvar j0ni-theme)
+(defvar j0ni-light-theme)
+(defvar j0ni-dark-theme)
+;; (defvar j0ni-theme-tint)
+
+;; (setq j0ni-dark-theme 'spacemacs-dark)
+;; (setq j0ni-light-theme 'spacemacs-light)
+;; (setq j0ni-dark-theme 'gruvbox)
+;; (setq j0ni-light-theme 'darktooth)
+;; (setq j0ni-dark-theme '(zenburn respectful grey40))
+;; (setq j0ni-dark-theme '(dracula respectful grey30 (90 . 50)))
+;; (setq j0ni-dark-theme '(leuven light SlateGray2 (100 . 70)))
+
+;; (after-circadian-load-theme j0ni-dark-theme)
+(use-package powerline)
+(use-package airline-themes)
+(use-package smart-mode-line-powerline-theme)
+(use-package smart-mode-line-atom-one-dark-theme)
+(use-package doom-modeline
+  :init
+  (setq doom-modeline-icon nil)
+  (setq doom-modeline-height 1.2)
+  (setq doom-modeline-vcs-max-length 30)
+  (setq doom-modeline-buffer-file-name-style 'truncate-with-project)
+  ;; or `find-in-project' if it's installed
+  (setq doom-modeline-project-detection 'ffip))
+
+(use-package dim)
+(dim-minor-names
+ '((company-mode "" company)
+   (highlight-symbol-mode "" highlight-symbol)
+   (whitespace-mode " _" whitespace)
+   (ivy-mode "" ivy)
+   (elisp-slime-nav-mode "" elisp-slime-nav)
+   (ws-butler-mode "" ws-butler)
+   (golden-ratio-mode "" golden-ratio)
+   (projectile-mode "" projectile)
+   (indent-guide-mode "" indent-guide)
+   (which-key-mode "" which-key)
+   (undo-tree-mode "" undo-tree)
+   (hs-minor-mode "" hideshow)
+   (paredit-mode " ()" paredit)
+   (subword-mode "" subword)
+   (cider-mode " cider" cider)
+   (auto-revert-mode "" nil)
+   (drag-stuff-mode "" drag-stuff)
+   ;; (tree-sitter-mode "" nil)
+   ))
+
 
 (use-package circadian
   :after (indent-guide smart-mode-line)
   :init
+  (setq j0ni-light-theme '(leuven light SlateGray2 (100 . 70)))
+  ;; (setq j0ni-dark-theme '(dracula respectful grey30 (90 . 90)))
+  (setq j0ni-dark-theme '(doom-wilmersdorf respectful grey20 (100 . 95)))
+  ;; (setq j0ni-dark-theme '(doom-vibrant respectful grey30 (100 . 95)))
   ;; Osaka
   ;; (setq calendar-latitude 34.69374)
   ;; (setq calendar-longitude 135.50218)
   ;; Toronto
   (setq calendar-latitude 43.671780)
   (setq calendar-longitude -79.322891)
-  (setq circadian-themes `((:sunrise . ,(cl-first j0ni-light-theme))
+  (setq calendar-location-name "Toronto, Canada")
+  (setq circadian-themes `(;(:sunrise . ,(cl-first j0ni-light-theme))
+                           ;("08:00" . ,(cl-first j0ni-dark-theme))
                            (:sunset  . ,(cl-first j0ni-dark-theme))))
+  ;; (straight-check-package "synthwave-theme")
+  ;; (straight-rebuild-package "synthwave-theme")
   :config
   ;; note that this executes in a black hole, so if it fails, there will be no
   ;; messaging, or indication as to where it failed.
@@ -315,13 +451,17 @@
           (theme-config (if (eq theme (cl-first j0ni-light-theme))
                             j0ni-light-theme
                           j0ni-dark-theme)))
-      (cl-destructuring-bind (theme sml-theme indent-guide-color alpha) theme-config
+      (cl-destructuring-bind (theme ml-theme indent-guide-color alpha) theme-config
         ;; (rainbow-delimiters--define-depth-faces)
         (set-frame-parameter (selected-frame) 'alpha alpha)
         (add-to-list 'default-frame-alist `(alpha . ,alpha))
-        (setq sml/theme sml-theme)
         (set-indent-guide-face (symbol-name indent-guide-color))
-        (sml/setup)
+        (set-face-foreground 'fill-column-indicator (symbol-name indent-guide-color))
+        ;; (powerline-default-theme)
+        ;; (load-theme (intern (symbol-name ml-theme)) t)
+        ;; (setq sml/theme ml-theme)
+        ;; (sml/setup)
+        (doom-modeline-mode)
         (set-font-dwim)))
 
     (message "finished circadian hook"))
@@ -329,7 +469,17 @@
   (add-hook 'circadian-after-load-theme-hook #'after-circadian-load-theme)
   (circadian-setup)
 
-  :diminish nil)
+  )
+
+(use-package celestial-mode-line
+  :after (circadian)
+  :init
+  (require 'solar)
+  :config
+  (if (null global-mode-string)
+      (setq global-mode-string '("" celestial-mode-line-string))
+    (append global-mode-string '(celestial-mode-line-string)))
+  (celestial-mode-line-start-timer))
 
 (use-package smart-mode-line
   :init
