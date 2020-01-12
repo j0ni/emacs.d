@@ -2,17 +2,25 @@
 
 (use-package smex)
 
-(use-package ivy-rich
-  :after (ivy counsel)
+(use-package prescient
+  :config
+  (prescient-persist-mode 1))
+
+(use-package ivy-prescient
+  :after (:all ivy counsel prescient)
 
   :config
-  (setcdr (assq t ivy-format-functions-alist) #'ivy-format-function-line)
-  (ivy-rich-mode 1)
+  (ivy-prescient-mode 1))
 
-  (defun ivy-rich-reset ()
-    (interactive)
-    (ivy-rich-mode -1)
-    (ivy-rich-mode 1))
+(use-package company-prescient
+  :after (prescient)
+
+ :config
+  (company-prescient-mode 1))
+
+(use-package ivy-rich
+  :defer t
+  :after (:all ivy counsel)
 
   :init
   (setq ivy-rich-display-transformers-list
@@ -33,7 +41,7 @@
             (ivy-rich-counsel-find-file-truename (:face font-lock-doc-face))))
           counsel-M-x
           (:columns
-           ((counsel-M-x-transformer (:width 40))
+           ((counsel-M-x-transformer (:width 45))
             (ivy-rich-counsel-function-docstring (:face font-lock-doc-face))))
           counsel-describe-function
           (:columns
@@ -52,24 +60,11 @@
            ((ivy-rich-candidate (:width 40))
             (ivy-rich-package-version (:width 16 :face font-lock-comment-face))
             (ivy-rich-package-archive-summary (:width 7 :face font-lock-builtin-face))
-            (ivy-rich-package-install-summary (:face font-lock-doc-face)))))))
-
-
-(use-package prescient
-  :config
-  (prescient-persist-mode 1))
-
-(use-package ivy-prescient
-  :after (ivy counsel prescient)
+            (ivy-rich-package-install-summary (:face font-lock-doc-face))))))
 
   :config
-  (ivy-prescient-mode 1))
-
-(use-package company-prescient
-  :after (prescient)
-
-  :config
-  (company-prescient-mode 1))
+  (setcdr (assq t ivy-format-functions-alist) #'ivy-format-function-line)
+  (ivy-rich-mode t))
 
 (use-package ivy
   :init
@@ -89,10 +84,12 @@
   ;;                              #'identity
   ;;                              cands
   ;;                              " | ")))
-  (setq ivy-format-function 'ivy-format-function-default)
-  (setq ivy-display-function nil)
+  ;; (setq ivy-format-function 'ivy-format-function-default)
+  ;; (setq ivy-display-function nil)
   ;; w00t
   (setq ivy-extra-directories nil)
+
+  :config
   (ivy-mode t)
 
   :bind (("C-c C-r" . ivy-resume)
@@ -101,6 +98,11 @@
          )
 
   :diminish nil)
+
+(use-package ivy-posframe
+  :init
+  (setq ivy-posframe-display-functions-alist
+        '((t . ivy-posframe-display-at-frame-top-center))))
 
 ;; (cl-defmethod xref-backend-identifier-completion-table ((_backend (eql etags)))
 ;;   (lambda (string pred action)

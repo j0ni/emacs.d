@@ -35,30 +35,30 @@
   ;; Set the initial workspace number.
   (setq exwm-workspace-number 1)
   (setq exwm-input-global-keys
-     `(
-       ;; Bind "s-r" to exit char-mode and fullscreen mode.
-       ([?\s-r] . exwm-reset)
-       ;; Bind "s-w" to switch workspace interactively.
-       ([?\s-w] . exwm-workspace-switch)
-       ;; Bind "s-0" to "s-9" to switch to a workspace by its index.
-       ,@(mapcar (lambda (i)
-                   `(,(kbd (format "s-%d" i)) .
-                     (lambda ()
-                       (interactive)
-                       (exwm-workspace-switch-create ,i))))
-                 (number-sequence 0 9))
-       ;; Bind "s-&" to launch applications ('M-&' also works if the output
-       ;; buffer does not bother you).
-       ([?\s-&] . (lambda (command)
-		    (interactive (list (read-shell-command "$ ")))
-		    (start-process-shell-command command nil command)))
+        `(
+          ;; Bind "s-r" to exit char-mode and fullscreen mode.
+          ([?\s-r] . exwm-reset)
+          ;; Bind "s-w" to switch workspace interactively.
+          ([?\s-w] . exwm-workspace-switch)
+          ;; Bind "s-0" to "s-9" to switch to a workspace by its index.
+          ,@(mapcar (lambda (i)
+                      `(,(kbd (format "s-%d" i)) .
+                        (lambda ()
+                          (interactive)
+                          (exwm-workspace-switch-create ,i))))
+                    (number-sequence 0 9))
+          ;; Bind "s-&" to launch applications ('M-&' also works if the output
+          ;; buffer does not bother you).
+          ([?\s-&] . (lambda (command)
+		       (interactive (list (read-shell-command "$ ")))
+		       (start-process-shell-command command nil command)))
 
-       ([?\s-l] . (lambda ()
-                    (interactive)
-                    (start-process-shell-command "Lock" nil "/usr/bin/i3lock -e -n -c ff5555")))
-       ([?\s-d] . (lambda ()
-                    (interactive)
-                    (start-process-shell-command "Rofi" nil "/usr/bin/rofi -show combi -dpi 144")))))
+          ([?\s-l] . (lambda ()
+                       (interactive)
+                       (start-process-shell-command "Lock" nil "/usr/bin/i3lock -e -n -c ff5555")))
+          ([?\s-d] . (lambda ()
+                       (interactive)
+                       (start-process-shell-command "Rofi" nil "/usr/bin/rofi -show combi -dpi 144")))))
   (setq exwm-input-simulation-keys
         '(
           ;; movement
@@ -90,9 +90,11 @@
               (when (or (not exwm-instance-name))
                 (exwm-workspace-rename-buffer exwm-title))))
 
-  (exwm-enable)
+  ;; (exwm-enable)
 
-  (exwm-config-misc))
+  (exwm-config-ido)
+  (exwm-config-misc)
+  )
 
 
 (provide 'j0ni-exwm)

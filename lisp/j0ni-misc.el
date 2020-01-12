@@ -22,6 +22,8 @@
 ;; get the `r` key in the debugger for nice formatting and frame selection
 (require 'pp-debug)
 
+(use-package fish-mode)
+
 (use-package drag-stuff
   :config
   (drag-stuff-global-mode 1)
@@ -111,11 +113,23 @@
   :demand t
   :config
   (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
-  ;; (projectile-mode t)
+  (projectile-mode t)
   :init
+  (setq projectile-mode-line-function
+        '(lambda ()
+           (format " project[%s]" (projectile-project-name))))
   ;; set elsewhere
   ;; (setq projectile-completion-system 'ivy)
+  (setq projectile-completion-system 'ido)
+
   :diminish projectile-mode)
+
+(use-package projectile-ripgrep)
+
+(use-package deadgrep)
+
+(add-to-list 'load-path "~/Scratch/emacs/emacs-libvterm")
+(require 'vterm)
 
 ;; Show column numbers in modeline
 (setq column-number-mode t)
@@ -196,6 +210,8 @@
 ;; let's [edit to add: NOT] try auto-saving into the current file
 (setq auto-save-default nil)
 ;; (auto-save-visited-mode 1)
+;; (setq auto-save-interval 500)
+;; (setq auto-save-visited-interval 300)
 
 ;; which-key
 (use-package which-key
@@ -211,8 +227,17 @@
   :hook
   (ag-mode . toggle-truncate-lines))
 
+(grep-apply-setting
+ 'grep-find-command
+ '("rg -n -H --no-heading -e '' $(git rev-parse --show-toplevel || pwd)" . 27))
+
+(use-package rg)
+
 ;; kotlin
-(use-package kotlin-mode)
+(use-package kotlin-mode
+  :config (require 'kotlin-mode-lexer))
+(use-package gradle-mode
+  :hook (kotlin-mode))
 
 ;; puppet-mode sucks right now
 ;; (use-package puppet-mode)
@@ -251,9 +276,6 @@
 ;; (setq shr-color-visible-distance-min 100)
 
 (use-package yaml-mode)
-;; (autoload 'yaml-mode "yaml-mode" nil t)
-(add-to-list 'auto-mode-alist '("\\.yml$" . yaml-mode))
-(add-to-list 'auto-mode-alist '("\\.yaml$" . yaml-mode))
 
 (add-hook 'prog-mode-hook 'display-line-numbers-mode)
 ;; (add-hook 'prog-mode-hook 'display-fill-column-indicator-mode)

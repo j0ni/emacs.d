@@ -21,9 +21,6 @@
 ;; (add-hook 'scss-mode-hook 'turn-on-smartparens-mode)
 
 ;; Colourise colour names in certain modes
-(use-package rainbow-mode
-  :hook (html-mode nxhtml-mode nxhtml-mumamo-mode))
-
 ;; ;; nXhtml
 ;; (autoload 'nxhtml-mumamo-mode "autostart" nil t)
 ;; (add-to-list 'auto-mode-alist '("\\.\\(html\\|ejs\\|jsp\\)$" . nxhtml-mumamo-mode))

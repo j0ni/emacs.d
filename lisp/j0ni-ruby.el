@@ -66,9 +66,9 @@
 (add-hook 'ruby-mode 'turn-off-auto-fill)
 
 ;; set up yaml mode, for want of a better place
-(package-require 'yaml-mode)
-(autoload 'yaml-mode "yaml-mode" nil t)
-(add-to-list 'auto-mode-alist '("\\.yml$" . yaml-mode))
-(add-to-list 'auto-mode-alist '("\\.yaml$" . yaml-mode))
+;; (package-require 'yaml-mode)
+;; (autoload 'yaml-mode "yaml-mode" nil t)
+;; (add-to-list 'auto-mode-alist '("\\.yml$" . yaml-mode))
+;; (add-to-list 'auto-mode-alist '("\\.yaml$" . yaml-mode))
 
 (provide 'j0ni-ruby)

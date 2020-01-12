@@ -11,6 +11,8 @@
 
 ;; Inf-Clojure
 
+(straight-use-package 'flycheck-clj-kondo)
+
 (use-package clojure-mode
   ;; :after (cider clj-refactor)
   :defer t
@@ -22,8 +24,8 @@
   (add-hook 'clojure-mode-hook #'paredit-mode)
   (add-hook 'clojure-mode-hook #'rainbow-delimiters-mode)
   ;; (add-hook 'clojure-mode-hook #'indent-guide-mode)
-  ;; (add-hook 'clojure-mode-hook #'clj-refactor-mode)
   (add-hook 'clojure-mode-hook #'hl-sexp-mode)
+  (add-hook 'clojure-mode-hook #'clj-refactor-mode)
   (add-hook 'clojure-mode-hook #'turn-on-eldoc-mode)
   (dolist (form '(test
                   tests
@@ -32,6 +34,7 @@
                   ;; core.match
                   match))
     (put-clojure-indent form 'defun))
+
   (define-clojure-indent
     (for-all 1)
     (defroutes 'defun)
@@ -60,7 +63,10 @@
   (defvar clojure-mode-with-hyphens-as-word-sep-syntax-table
     (let ((st (make-syntax-table clojure-mode-syntax-table)))
       (modify-syntax-entry ?- "w" st)
-      st)))
+      st))
+
+  ;; linting
+  (require 'flycheck-clj-kondo))
 
 ;; (use-package monroe
 ;;   :init
@@ -143,7 +149,7 @@
         cider-prefer-local-resources               t
         cider-inject-dependencies-at-jack-in       t
         cider-eldoc-display-context-dependent-info t
-        cider-clojure-cli-global-options           "-A:dev"
+        cider-clojure-cli-global-options           "-A:dev:bench:measure:inspect"
         ;; cider-jdk-src-paths                        '("~/Scratch/java8-src"
         ;;                                              "~/Scratch/clojure1.9-src")
         cider-lein-parameters                      "with-profile -user repl :headless :host localhost"
@@ -158,7 +164,7 @@
     ;; (define-key cider-repl-mode-map (kbd "C-j") 'cider-repl-return)
     (define-key cider-repl-mode-map (kbd "RET") 'cider-repl-newline-and-indent)
     (subword-mode 1)
-    (diminish 'subword-mode)
+    ;; (diminish 'subword-mode)
     (make-local-variable 'scroll-conservatively)
     (setq scroll-conservatively 0)
     ;; (paredit-mode 1)
@@ -171,7 +177,8 @@
   (use-package cider-eval-sexp-fu)
   (add-hook 'cider-mode-hook #'turn-on-eldoc-mode)
   ;; (setq eldoc-echo-area-use-multiline-p nil)
-  (diminish 'eldoc-mode))
+  ;; (diminish 'eldoc-mode)
+  )
 
 (use-package clj-refactor
   :after (cider)

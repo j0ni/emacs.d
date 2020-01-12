@@ -66,4 +66,7 @@
   (add-to-list 'ws-butler-global-exempt-modes 'ein:notebook-mode)
   (add-to-list 'ws-butler-global-exempt-modes 'ein:notebook-multilang-mode))
 
+(setq-default display-fill-column-indicator-column 100)
+(setq-default display-fill-column-indicator-character (string-to-char ":"))
+
 (provide 'j0ni-codestyle)

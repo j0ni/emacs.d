@@ -8,6 +8,6 @@
   (add-to-list 'auto-mode-alist '("\\.mdown\\'" . markdown-mode))
   (add-hook 'markdown-mode-hook #'visual-line-mode))
 
-(use-package markdown-toc)
+;; (use-package markdown-toc)
 
 (provide 'j0ni-markdown)

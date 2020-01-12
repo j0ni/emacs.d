@@ -11,4 +11,6 @@
 (setq tuareg-indent-align-with-first-arg nil)
 (setq tuareg-match-patterns-aligned t)
 
+(setq lsp-merlin-command "ocamlmerlin-server server")
+
 (provide 'j0ni-ml)

@@ -16,6 +16,7 @@
       (eval-print-last-sexp)))
   (load bootstrap-file nil 'nomessage))
 
+;; install the org hack as early as possible
 (straight-use-package 'org-plus-contrib)
 (require 'org)
 
@@ -26,7 +27,7 @@
   (dolist (package '(gnu-elpa-mirror melpa org))
     (let ((p (symbol-name package)))
       (straight-pull-package p)
-      (straight-normalize-package package)
+      (straight-normalize-package p)
       (straight-rebuild-package p)))
   (straight-pull-all)
   (straight-normalize-all)
@@ -44,42 +45,43 @@
   ;; old
   (defvar j0ni-default-font)
   (setq j0ni-font-face "Consolas")
+  ;; (setq j0ni-font-face "Cuprum")
   ;; (setq j0ni-font-face "iosevka term")
   ;; (setq j0ni-font-face "Droid Sans Mono Dotted for Powerline")
   ;; (setq j0ni-font-face "Hack")
-  ;; (setq j0ni-font-face "Liberation Mono")
   ;; (setq j0ni-font-face "Linux Libertine Mono")
   ;; (setq j0ni-font-face "Fira Mono Medium")
   ;; (setq j0ni-font-face "Fira Mono")
   ;; (setq j0ni-font-face "Fira Code")
-  ;; (setq j0ni-font-face "Fira Code Light")
   ;; (setq j0ni-font-face "Envy Code R")
-  ;; (setq j0ni-font-face "Agave")
+  (setq j0ni-font-face "Agave")
   ;; (setq j0ni-font-face "Source Code Variable")
   ;; (setq j0ni-font-face "Courier Prime Code")
   ;; (setq j0ni-font-face "Operator Mono Book")
   (setq j0ni-font-face "Lucida Console Patched")
   ;; (setq j0ni-font-face "Terminus (TTF)")
   ;; (setq j0ni-font-face "DejaVu Sans Mono")
+  ;; (setq j0ni-font-face "Liberation Mono")
+  ;; (setq j0ni-font-face "Bitstream Vera Sans Mono")
   ;; (setq j0ni-font-face "Noto Sans Mono")
   ;; (setq j0ni-font-face "Linux Biolinum G")
   ;; (setq j0ni-font-face "Lucida Grande Mono Nrw")
   ;; (setq j0ni-font-face "Operator Mono")
   ;; (setq j0ni-font-face "Lucida Grande Mono")
   (setq j0ni-font-face "Monoid")
-  ;; q(setq j0ni-font-face "PragmataPro Mono")
+  ;; (setq j0ni-font-face "PragmataPro Mono")
   ;; (setq j0ni-font-face "Inconsolata")
   ;; (setq j0ni-font-face "Mensch")
   ;; (setq j0ni-font-face "M+ 1mn")
-  ;; (setq j0ni-font-face "D2Coding")
   ;; (setq j0ni-font-face "Go Mono")
   ;; (setq j0ni-font-face "Iosevka ss10")
   ;; (setq j0ni-font-face "IBM Plex Mono")
+  ;; (setq j0ni-font-face "agave")
   (setq j0ni-font-weight 'regular)
   ;; (setq j0ni-bold-font-weight 'regular)
   (setq j0ni-font-size 10)
   ;; (setq j0ni-line-spacing 8)
-  (setq j0ni-line-spacing 1)
+  (setq j0ni-line-spacing 2)
   (setq j0ni-antialias t)
 
   (setq j0ni-default-font "Lucida Grande Mono Nrw-11")
@@ -144,72 +146,16 @@
                     (or (buffer-file-name) load-file-name)))
 (add-to-list 'load-path (concat dotfiles-dir "lisp"))
 
-;; (add-to-list 'load-path "/home/joni/Scratch/rust/emacs-tree-sitter")
-;; (require 'tree-sitter)
-;; (ts-require-language 'rust)
-;; (ts-require-language 'haskell)
-;; (add-to-list 'tree-sitter-major-mode-language-alist '(haskell-mode . haskell))
-
 ;; Add every subdirectory of ~/.emacs.d/site-lisp to the load path
 (dolist (sdir (directory-files (concat dotfiles-dir "site-lisp") t "\\w+"))
   (when (file-directory-p sdir)
     (add-to-list 'load-path sdir)))
-
-;; Themes we want to install
-;; (require 'color-theme-tomorrow)
-;; (require 'lawrence-theme)
-;; (color-theme-tomorrow-night)
-
-;; (defvar j0ni-installed-themes
-;;   '(nord-theme
-;;     monotropic-theme
-;;     challenger-deep-theme
-;;     kaolin-themes
-;;     doom-themes
-;;     nova-theme
-;;     darktooth-theme
-;;     sunburn-theme
-;;     zenburn-theme
-;;     anti-zenburn-theme
-;;     noctilux-theme
-;;     cyberpunk-theme
-;;     ir-black-theme
-;;     darkburn-theme
-;;     gotham-theme
-;;     solarized-theme
-;;     ;; phoenix-dark-pink-theme
-;;     phoenix-dark-mono-theme
-;;     clues-theme
-;;     tao-theme
-;;     flatui-theme
-;;     moe-theme
-;;     minimal-theme
-;;     sexy-monochrome-theme
-;;     plan9-theme
-;;     spacemacs-theme
-;;     material-theme
-;;     color-theme-sanityinc-tomorrow
-;;     ;; base16-theme
-;;     goose-theme
-;;     sourcerer-theme
-;;     spacegray-theme
-;;     monochrome-theme
-;;     reykjavik-theme
-;;     arjen-grey-theme
-;;     rebecca-theme
-;;     dracula-theme
-;;     apropospriate-theme
-;;     ))
-
 
 ;; 'dark 'mid 'light
 ;; (setq j0ni-theme-tint 'dark)
 
 (defun concat-home (path)
   (concat (getenv "HOME") "/" path))
-
-;; (add-to-list 'custom-theme-load-path (concat-home "Scratch/emacs/phoenix-dark-pink"))
-;; (require 'phoenix-dark-pink-theme)
 
 ;; Go bits
 (defvar j0ni-go-path)
@@ -222,7 +168,6 @@
 (defvar j0ni-notebook)
 (defvar j0ni-org-dropbox)
 (defvar j0ni-agenda-files)
-
 
 (setq j0ni-go-path (list
                     (concat-home "Scratch/go")))
@@ -292,55 +237,6 @@
 ;; set up TLS before doing anything with package
 (setq gnutls-trustfiles (split-string (shell-command-to-string "python -m certifi")))
 (setq gnutls-verify-error t)
-;; (setq gnutls-log-level 2)
-;; because builtin tls is bollocks (until Emacs 25?)
-;; (setq tls-checktrust 'always)
-;; (setq tls-program
-;;       (list
-;;        (format "gnutls-cli --x509cafile %s -p %%p %%h"
-;;                (cl-first gnutls-trustfiles))))
-
-;; This breaks in Emacs 25.0.92.2
-;; (when (and (< emacs-major-version 25)
-;;            (fboundp 'gnutls-available-p))
-;;   (fmakunbound 'gnutls-available-p))
-
-;; ELPA etc
-;; (require 'package)
-;; (setq package-user-dir (concat dotfiles-dir "elpa"))
-;; (setq package-archives '(("org" . "https://orgmode.org/elpa/")
-;;                          ("melpa" . "https://melpa.org/packages/")
-;;                          ;; ("melpa-backup" . "https://www.mirrorservice.org/sites/melpa.org/packages/")
-;;                          ("melpa-stable" . "https://stable.melpa.org/packages/")
-;;                          ("gnu" . "https://elpa.gnu.org/packages/")))
-;; seems to work now?
-;; (setq package-check-signature nil)
-
-;;; Sometimes CIDER breaks and I need to retreat to stable
-;;
-;; (add-to-list 'package-pinned-packages '(cider . "melpa-stable") t)
-;; (add-to-list 'package-pinned-packages '(clj-refactor . "melpa-stable") t)
-;; (add-to-list 'package-pinned-packages '(clojure-mode . "melpa-stable") t)
-
-;; (when (< emacs-major-version 27)
-;;   (package-initialize))
-
-;; (eval-when-compile
-;;   (require 'package)
-;;   (when (esk-online?)
-;;     (when (not (package-installed-p 'use-package))
-;;       (package-refresh-contents)
-;;       (package-install 'use-package)
-;;       (require 'use-package))
-;;     (when (not (package-installed-p 'diminish))
-;;       (package-install 'diminish)
-;;       (require 'diminish))
-;;     (when (not (package-installed-p 'bind-key))
-;;       (package-install 'bind-key)
-;;       (require 'bind-key))))
-
-;; (setq use-package-always-ensure t)
-;; (setq use-package-verbose t)
 
 (use-package auto-compile
   :init
@@ -351,30 +247,7 @@
 
 (use-package speed-type)
 
-;; (use-package feebleline
-;;   ;; :config
-;;   ;; (feebleline-mode 1)
-;;   :init
-;;   (setq feebleline-msg-functions
-;;         '((feebleline-line-number         :post "" :fmt "%5s")
-;;           (feebleline-column-number       :pre ":" :fmt "%-2s")
-;;           (feebleline-file-directory      :face feebleline-dir-face :post "")
-;;           (feebleline-file-or-buffer-name :face font-lock-keyword-face :post "")
-;;           (feebleline-file-modified-star  :face font-lock-warning-face :post "")
-;;           (feebleline-git-branch          :face feebleline-git-face :pre " - ")
-;;           (feebleline-project-name        :align right))))
-
 ;; (use-package focus)
-
-;; (defun package-require (pkg)
-;;   "Install a package only if it's not already installed."
-;;   (when (not (package-installed-p pkg))
-;;     (package-install pkg)))
-
-;; (defun packages-require (pkg-list)
-;;   "Install a list of packages using package-require."
-;;   (dolist (pkg pkg-list)
-;;     (package-require pkg)))
 
 (setq j0ni-pkg-full
       '(;; j0ni-exwm
@@ -427,7 +300,6 @@
 
 (setq-default fill-column 80)
 
-
 ;; Emacs disables a bunch of commands by default so as not to confuse new users.
 ;; This enables them all.
 (setq disabled-command-function nil)
@@ -446,3 +318,4 @@
 ;; don't do that here, see j0ni-ml above
 ;;(require 'opam-user-setup "~/.emacs.d/opam-user-setup.el")
 ;; ## end of OPAM user-setup addition for emacs / base ## keep this line
+;; (exwm-enable)

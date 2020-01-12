@@ -11,7 +11,7 @@
 (require 'j0ni-defuns)
 
 (use-package hy-mode :defer t)
-(use-package indent-guide)
+(use-package indent-guide :defer t)
 
 (setq j0ni-lisp-modes '(scheme-mode
                         faceup
@@ -44,9 +44,7 @@
 ;; Highlight sexp under cursor
 (use-package hl-sexp
   :config
-  (add-lisp-hook #'hl-sexp-mode)
-  ;; (set-face-background 'hl-sexp-face "gray95")
-  )
+  (add-lisp-hook #'hl-sexp-mode))
 
 ;; Paredit for all lisps
 (use-package smartparens
@@ -261,14 +259,13 @@
   (eros-mode 1))
 
 (use-package elisp-slime-nav)
-(use-package diminish)
 (use-package eros)
 
 (defun elisp-slime-nav-mode-setup ()
   (elisp-slime-nav-mode 1))
 
 (add-hook 'emacs-lisp-mode-hook 'elisp-slime-nav-mode-setup)
-(eval-after-load 'elisp-slime-nav '(diminish 'elisp-slime-nav-mode))
+;; (eval-after-load 'elisp-slime-nav '(diminish 'elisp-slime-nav-mode))
 
 ;; GNOME won't allow C-M-x for some stupid reason
 (require 'edebug)
@@ -308,6 +305,10 @@
   :defer t
   :requires sly)
 
+(use-package sly-macrostep
+  :defer t
+  :requires sly)
+
 ;; Racket
 
 (use-package faceup)
@@ -330,7 +331,6 @@
 
 (defun my-racket-repl-mode-hook ()
   (enable-paren-handling))
-
 
 ;; Geiser
 

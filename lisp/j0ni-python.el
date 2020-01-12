@@ -12,8 +12,12 @@
 ;; (require 'lpy)
 ;; (add-hook 'python-mode-hook 'lpy-mode)
 
-(use-package virtualenv)
+;; (use-package virtualenv)
 (use-package pytest)
+(use-package pyvenv
+  :commands (pyvenv-activate pyvenv-workon))
+;; global mode for picking up local `pyvenv-workon` settings
+;; (pyvenv-mode 1)
 ;; (use-package pyenv-mode)
 
 ;; (use-package elpy
@@ -23,8 +27,6 @@
 
 (require 'python)
 (add-hook 'python-mode-hook #'lsp)
-
-;; (add-hook 'python-mode-hook #'eglot-ensure)
 
 (use-package blacken
   :hook (python-mode . blacken-mode))
@@ -68,5 +70,9 @@
   (setq conda-anaconda-home "~/.conda")
   :config
   (conda-env-autoactivate-mode t))
+
+(add-hook 'python-mode-hook (lambda ()
+                              (setq lsp-pyls-plugins-yapf-enabled nil)
+                              (lsp)))
 
 (provide 'j0ni-python)

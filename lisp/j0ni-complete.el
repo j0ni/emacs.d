@@ -1,11 +1,15 @@
 ;;; j0ni-complete.el -- Auto completion
 
+(use-package company-prescient)
+
 (use-package company
   :bind (("M-\\" . company-complete))
   :commands (global-company-mode)
   :diminish nil
   :config
   (global-company-mode)
+  (company-prescient-mode t)
+  (prescient-persist-mode t)
   :init
   (setq company-global-modes '(not term-mode org-mode))
   (setq company-minimum-prefix-length 2

@@ -91,4 +91,13 @@
 
 (add-hook 'ido-setup-hook 'ido-my-setup-hook)
 
+;; There are some parts of ivy we actually like
+(use-package swiper
+  :init (use-package ivy)
+  :bind (("C-s" . swiper))
+  :config
+  ;; https://github.com/abo-abo/swiper/issues/419
+  (advice-add 'swiper--action :after (lambda (throwaway-arg)
+                                       (recenter))))
+
 (provide 'j0ni-ido)

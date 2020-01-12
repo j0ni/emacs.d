@@ -1,15 +1,15 @@
 ;;; j0ni-lsp.el -- Language server support
 
-;; (use-package eglot
-;;   :commands (eglot-ensure)
+(use-package eglot
+  :commands (eglot-ensure)
 
-;;   ;; :init
-;;   ;; (add-hook 'rust-mode-hook 'eglot-ensure)
+  ;; :init
+  ;; (add-hook 'rust-mode-hook 'eglot-ensure)
 
-;;   :config
-;;   (setq eglot-put-doc-in-help-buffer nil)
-;;   (setq eglot-auto-display-help-buffer t)
-;;   )
+  ;; :init
+  ;; (setq eglot-put-doc-in-help-buffer nil)
+  ;; (setq eglot-auto-display-help-buffer t)
+  )
 
 ;; (use-package eldoc-box
 ;;   :after (eglot)
@@ -47,7 +47,13 @@
   )
 
 ;; (use-package lsp-ui :commands lsp-ui-mode)
-(use-package company-lsp :commands company-lsp)
-;; (use-package dap-mode)
+(use-package company-lsp
+  :commands company-lsp
+  :init (push 'company-lsp company-backends))
+(use-package lsp-ivy)
+(use-package dap-mode)
+
+;; languages
+;; (use-package lsp-haskell)
 
 (provide 'j0ni-lsp)

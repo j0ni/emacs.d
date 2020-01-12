@@ -62,6 +62,7 @@
 ;;                     logito
 ;;                     gh
 ;;                     gist))
+(use-package gist :defer t)
 
 (use-package git-link)
 (use-package github-browse-file)

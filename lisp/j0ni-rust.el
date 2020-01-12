@@ -31,26 +31,23 @@
 
   :config
   ;; (add-hook 'rust-mode-hook #'eglot-ensure)
-  ;; (add-hook 'rust-mode-hook #'lsp)
-  (defun rust-mode-setup ()
-    (electric-pair-mode t)
-    (electric-layout-mode t)
-    (rainbow-delimiters-mode t)
-    (set-rust-root)
-    (flycheck-rust-setup))
+  (add-hook 'rust-mode-hook #'lsp)
+  (add-hook 'rust-mode-hook #'electric-pair-mode)
+  (add-hook 'rust-mode-hook #'electric-layout-mode)
+  (add-hook 'rust-mode-hook #'rainbow-delimiters-mode)
+  (add-hook 'rust-mode-hook #'set-rust-root)
+  )
 
-  (add-hook 'rust-mode-hook #'rust-mode-setup))
+;; (use-package racer
+;;   :commands racer-mode
+;;   :init
+;;   (setenv "CARGO_HOME" (concat-home ".cargo"))
+;;   (add-hook 'rust-mode-hook #'racer-mode)
+;;   :config
+;;   (add-hook 'racer-mode-hook #'eldoc-mode)
+;;   (add-hook 'racer-mode-hook #'company-mode)
 
-(use-package racer
-  :commands racer-mode
-  :init
-  (setenv "CARGO_HOME" (concat-home ".cargo"))
-  ;; (add-hook 'rust-mode-hook #'racer-mode)
-  :config
-  (add-hook 'racer-mode-hook #'eldoc-mode)
-  (add-hook 'racer-mode-hook #'company-mode)
-
-  :bind (("C-c C-d" . racer-describe)))
+;;   :bind (("C-c C-d" . racer-describe)))
 
 ;; (use-package company-racer
 ;;   :config

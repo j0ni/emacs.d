@@ -1,6 +1,6 @@
 ;;; j0ni-org.el
 
-(use-package org
+(use-package org-plus-contrib
   :init
   ;; Set to the location of your Org files on your local system
   (setq org-directory j0ni-org-dir)
