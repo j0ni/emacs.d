@@ -2,6 +2,75 @@
 
 (use-package smex)
 
+(use-package ivy-rich
+  :after (ivy counsel)
+
+  :config
+  (setcdr (assq t ivy-format-functions-alist) #'ivy-format-function-line)
+  (ivy-rich-mode 1)
+
+  (defun ivy-rich-reset ()
+    (interactive)
+    (ivy-rich-mode -1)
+    (ivy-rich-mode 1))
+
+  :init
+  (setq ivy-rich-display-transformers-list
+        '(ivy-switch-buffer
+          (:columns
+           ((ivy-rich-candidate (:width 40))
+            (ivy-rich-switch-buffer-size (:width 7))
+            (ivy-rich-switch-buffer-indicators (:width 4 :face error :align right))
+            (ivy-rich-switch-buffer-major-mode (:width 30 :face warning))
+            (ivy-rich-switch-buffer-project (:width 20 :face success))
+            (ivy-rich-switch-buffer-path
+             (:width (lambda (x) (ivy-rich-switch-buffer-shorten-path x (ivy-rich-minibuffer-width 0.4))))))
+           :predicate
+           (lambda (cand) (get-buffer cand)))
+          counsel-find-file
+          (:columns
+           ((ivy-read-file-transformer)
+            (ivy-rich-counsel-find-file-truename (:face font-lock-doc-face))))
+          counsel-M-x
+          (:columns
+           ((counsel-M-x-transformer (:width 40))
+            (ivy-rich-counsel-function-docstring (:face font-lock-doc-face))))
+          counsel-describe-function
+          (:columns
+           ((counsel-describe-function-transformer (:width 40))
+            (ivy-rich-counsel-function-docstring (:face font-lock-doc-face))))
+          counsel-describe-variable
+          (:columns
+           ((counsel-describe-variable-transformer (:width 40))
+            (ivy-rich-counsel-variable-docstring (:face font-lock-doc-face))))
+          counsel-recentf
+          (:columns
+           ((ivy-rich-candidate (:width 0.8))
+            (ivy-rich-file-last-modified-time (:face font-lock-comment-face))))
+          package-install
+          (:columns
+           ((ivy-rich-candidate (:width 40))
+            (ivy-rich-package-version (:width 16 :face font-lock-comment-face))
+            (ivy-rich-package-archive-summary (:width 7 :face font-lock-builtin-face))
+            (ivy-rich-package-install-summary (:face font-lock-doc-face)))))))
+
+
+(use-package prescient
+  :config
+  (prescient-persist-mode 1))
+
+(use-package ivy-prescient
+  :after (ivy counsel prescient)
+
+  :config
+  (ivy-prescient-mode 1))
+
+(use-package company-prescient
+  :after (prescient)
+
+  :config
+  (company-prescient-mode 1))
+
 (use-package ivy
   :init
   (setq ivy-use-virtual-buffers t)
@@ -67,8 +136,8 @@
          ("<f2> i" . counsel-info-lookup-symbol)
          ("<f2> u" . counsel-unicode-char)
 
-         ("C-c g" . counsel-git)
-         ("C-c j" . counsel-git-grep) ;; cuz it might be gif :P
+         ;; ("C-c j" . counsel-git)
+         ("C-c g" . counsel-git-grep)
          ("C-c a g" . counsel-ag)
          ("C-x l" . counsel-locate)
          ;; (global-set-key (kbd "C-S-o") 'counsel-rhythmbox)
@@ -85,9 +154,12 @@
 
 (use-package counsel-projectile
   :after (:all projectile ivy)
+
   :init
   (setq projectile-keymap-prefix (kbd "C-c C-p"))
-  :config (counsel-projectile-mode))
+
+  :config
+  (counsel-projectile-mode 1))
 
 (use-package imenu-anywhere
   :bind (("C-." . imenu-anywhere)))
