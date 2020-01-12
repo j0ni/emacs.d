@@ -54,6 +54,9 @@
 ;;                                     message-mode))
 ;; (add-hooks ethan-wspace-disabled-modes (lambda () (ethan-wspace-mode -1)))
 
+(setq-default display-fill-column-indicator-column 100)
+(setq-default display-fill-column-indicator-character (string-to-char ":"))
+
 (use-package ws-butler
   :config
   (ws-butler-global-mode 1)
