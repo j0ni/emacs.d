@@ -190,12 +190,12 @@
 (setq-default comint-prompt-read-only t)
 
 ;; disable backup
-;; (setq backup-inhibited t)
+(setq backup-inhibited t)
 (setq backup-by-copying t)
 
-;; let's try auto-saving into the current file
-(setq auto-save-default t)
-(auto-save-visited-mode 1)
+;; let's [edit to add: NOT] try auto-saving into the current file
+(setq auto-save-default nil)
+;; (auto-save-visited-mode 1)
 
 ;; which-key
 (use-package which-key
@@ -249,5 +249,15 @@
 ;; for making eww usable
 ;; (setq shr-color-visible-luminance-min 100)
 ;; (setq shr-color-visible-distance-min 100)
+
+(use-package yaml-mode)
+;; (autoload 'yaml-mode "yaml-mode" nil t)
+(add-to-list 'auto-mode-alist '("\\.yml$" . yaml-mode))
+(add-to-list 'auto-mode-alist '("\\.yaml$" . yaml-mode))
+
+(add-hook 'prog-mode-hook 'display-line-numbers-mode)
+;; (add-hook 'prog-mode-hook 'display-fill-column-indicator-mode)
+
+(use-package vterm)
 
 (provide 'j0ni-misc)

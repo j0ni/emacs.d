@@ -10,7 +10,7 @@
 
 (require 'j0ni-defuns)
 
-(use-package hy-mode)
+(use-package hy-mode :defer t)
 (use-package indent-guide)
 
 (setq j0ni-lisp-modes '(scheme-mode
@@ -33,7 +33,7 @@
 (define-key lisp-mode-shared-map (kbd "C-c v") 'eval-buffer)
 (define-key lisp-mode-shared-map (kbd "C-c C-v") 'eval-buffer)
 
-(add-lisp-hook #'indent-guide-mode)
+;; (add-lisp-hook #'indent-guide-mode)
 ;; for various code folding bits
 (add-lisp-hook #'hs-minor-mode)
 
@@ -42,10 +42,11 @@
 (use-package eval-sexp-fu)
 
 ;; Highlight sexp under cursor
-;; (add-lisp-hook 'hl-sexp-mode)
-;; (require 'hl-sexp)
-;; (eval-after-load 'hl-sexp-mode
-;;   (set-face-background 'hl-sexp-face "gray95"))
+(use-package hl-sexp
+  :config
+  (add-lisp-hook #'hl-sexp-mode)
+  ;; (set-face-background 'hl-sexp-face "gray95")
+  )
 
 ;; Paredit for all lisps
 (use-package smartparens

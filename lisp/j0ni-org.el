@@ -30,7 +30,7 @@
   (setq org-startup-indented t)
 
   ;; Set agenda file(s)
-  (setq org-agenda-files (concat j0ni-org-dir "Agenda/"))
+  (setq org-agenda-files (list (concat j0ni-org-dir "Agenda/")))
 
   ;; prevent org-mode hijacking arrow keys
   (setq org-replace-disputed-keys t)
