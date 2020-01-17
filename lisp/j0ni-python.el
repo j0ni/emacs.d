@@ -68,6 +68,7 @@
 (use-package conda
   :init
   (setq conda-anaconda-home "~/.conda")
+  (setq-default conda-project-env-name "userbase")
   :config
   (conda-env-autoactivate-mode t))
 

@@ -45,9 +45,8 @@
   (setq nyan-animate-nyancat nil)
   (setq nyan-wavy-trail nil)
 
-  ;; :config
-  ;; (nyan-mode 1)
-  )
+  :config
+  (nyan-mode 1))
 
 ;; I keep switching between dark and light themes; dark is nice, there are
 ;; more usable variants, but light is better for my eyes I think. Light looks
@@ -346,6 +345,10 @@
 (use-package spacemacs-theme :no-require t)
 (use-package gruvbox-theme :no-require t)
 (use-package tangotango-theme :no-require t)
+
+(use-package zerodark-theme :no-require t)
+(use-package one-themes :no-require t)
+
 (use-package phoenix-dark-pink-theme :no-require t)
 ;; alternatively....
 ;; (load "~/Scratch/emacs/phoenix-dark-mono/phoenix-dark-mono-theme.el")
@@ -368,6 +371,8 @@
 (use-package airline-themes)
 (use-package smart-mode-line-atom-one-dark-theme)
 (use-package smart-mode-line-powerline-theme)
+(use-package doom-themes)
+(use-package find-file-in-project)
 (use-package doom-modeline
   :init
   (setq doom-modeline-icon nil)
@@ -376,23 +381,6 @@
   (setq doom-modeline-buffer-file-name-style 'truncate-with-project)
   ;; or `find-in-project' if it's installed
   (setq doom-modeline-project-detection 'ffip))
-
-;; (use-package maple-minibuffer
-;;   :straight (:host github :repo "honmaple/emacs-maple-minibuffer")
-;;   :hook (after-init . maple-minibuffer-mode)
-;;   :config
-;;   (setq maple-minibuffer:position-type 'window-bottom-left
-;;         maple-minibuffer:height nil
-;;         maple-minibuffer:border-color "gray50"
-;;         maple-minibuffer:width 100)
-
-;;   ;; more custom parameters for frame
-;;   (defun maple-minibuffer:parameters ()
-;;     "Maple minibuffer parameters."
-;;     `((height . ,(or maple-minibuffer:height 10))
-;;       (width . ,(or maple-minibuffer:width (window-pixel-width)))
-;;       (left-fringe . 5)
-;;       (right-fringe . 5))))
 
 (defun sml-hook (theme)
   (lambda ()
@@ -410,6 +398,15 @@
   (setq rainbow-x-colors nil)
   :hook
   (html-mode nxhtml-mode nxhtml-mumamo-mode))
+
+
+(use-package solaire-mode
+  :hook
+  (((change-major-mode after-revert ediff-prepare-buffer) . turn-on-solaire-mode)
+   (minibuffer-setup . solaire-mode-in-minibuffer))
+  :config
+  (solaire-global-mode 1)
+  (solaire-mode-swap-bg))
 
 (use-package dim)
 (dim-minor-names
@@ -438,8 +435,10 @@
   :after (doom-modeline)
   :commands (circadian-setup)
   :init
-  (setq j0ni-light-theme `(leuven light SlateGray2 (100 . 100)))
-  (setq j0ni-dark-theme `(doom-wilmersdorf respectful grey30 (100 . 100)))
+  (setq j0ni-light-theme '(leuven light SlateGray2 (100 . 70)))
+  ;; (setq j0ni-dark-theme '(dracula respectful grey30 (90 . 90)))
+  (setq j0ni-dark-theme '(doom-one respectful grey20 (100 . 95)))
+  ;; (setq j0ni-dark-theme '(doom-vibrant respectful grey30 (100 . 95)))
 
   ;; Leeds
   ;; (setq calendar-latitude 53.835711)
@@ -476,6 +475,7 @@
         (custom-set-faces
          '(mode-line ((t (:height 1.0))))
          '(mode-line-inactive ((t (:height 1.0)))))
+        (doom-themes-visual-bell-config)
         (set-font-dwim)))
 
     (message "finished circadian hook"))
@@ -484,15 +484,15 @@
   (circadian-setup)
   )
 
-(use-package celestial-mode-line
-  :after (circadian)
-  :init
-  (require 'solar)
-  :config
-  (if (null global-mode-string)
-      (setq global-mode-string '("" celestial-mode-line-string))
-    (append global-mode-string '(celestial-mode-line-string)))
-  (celestial-mode-line-start-timer))
+;; (use-package celestial-mode-line
+;;   :after (:all circadian doom-modeline-mode)
+;;   :init
+;;   (require 'solar)
+;;   :config
+;;   (if (null global-mode-string)
+;;       (setq global-mode-string '("" celestial-mode-line-string))
+;;     (append global-mode-string '(celestial-mode-line-string)))
+;;   (celestial-mode-line-start-timer))
 
 (use-package smart-mode-line
   :init
@@ -532,5 +532,7 @@
 (advice-add
  #'shr-colorize-region
  :around (defun shr-no-colourise-region (&rest ignore)))
+
+(use-package darkroom)
 
 (provide 'j0ni-gui)

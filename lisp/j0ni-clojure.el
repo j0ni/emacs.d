@@ -81,39 +81,12 @@
 
 ;;   (define-key monroe-interaction-mode-map (kbd "C-x C-j") 'mhc-monroe-run))
 
-;; (use-package lsp-mode
-;;   :commands lsp
-;;   :config
-;;   (add-to-list 'lsp-language-id-configuration '(clojure-mode . "clojure-mode"))
-;;   :init
-;;   (setq lsp-enable-indentation nil)
-;;   (setq lsp-enable-xref t)
-;;   ;; (setq lsp-enable-links nil)
-;;   (add-hook 'clojure-mode-hook #'lsp)
-;;   (add-hook 'clojurec-mode-hook #'lsp)
-;;   (add-hook 'clojurescript-mode-hook #'lsp))
-
-;; (use-package company-lsp
-;;   :after company
-;;   :commands company-lsp
-;;   :init
-;;   (add-to-list 'company-backends 'company-lsp))
-
-;; (use-package lsp-ui
-;;   :hook ((lsp-mode . lsp-ui-mode))
-;;   :config
-;;   (define-key lsp-ui-mode-map [remap xref-find-apropos] #'lsp-ui-peek-find-definitions)
-;;   (define-key lsp-ui-mode-map [remap paredit-convolute-sexp] #'lsp-ui-peek-find-references)
-;;   :init
-;;   (setq lsp-ui-doc-enable nil)
-;;   (setq lsp-ui-sideline-enable nil)
-;;   :commands lsp-ui-mode)
-
 (use-package inf-clojure
   ;; :defer t
 
   :init
   (setq inf-clojure-prompt-read-only nil)
+  ;; (setq inf-clojure-generic-cmd "planck -d")
 
   :config
   ;; (add-hook 'inf-clojure-mode-hook #'enable-paredit-mode)
@@ -124,6 +97,10 @@
   :diminish nil)
 (use-package rainbow-delimiters
   :diminish nil)
+
+(defvar dogma (with-temp-buffer
+                (insert-file-contents (concat-home ".mutt/dogma"))
+                (split-string (buffer-string) "\n" t)))
 
 (use-package cider
   :diminish nil
@@ -136,7 +113,7 @@
         cider-font-lock-dynamically                nil ;; '(macro core function var) ;; nil
         cider-use-overlays                         t ; display eval results inline
         cider-overlays-use-font-lock               nil ; font lock the results
-        cider-show-error-buffer                    'except-in-repl
+        cider-show-error-buffer                    t ; 'except-in-repl
         cider-stacktrace-default-filters           '(project)
         cider-buffer-name-show-port                t
         cider-repl-history-size                    10000
@@ -145,7 +122,7 @@
         cider-known-endpoints                      nil
         cider-repl-history-file                    (concat-home ".cider-repl-history")
         nrepl-buffer-name-show-port                t
-        cider-words-of-inspiration                 '("")
+        cider-words-of-inspiration                 dogma
         cider-prefer-local-resources               t
         cider-inject-dependencies-at-jack-in       t
         cider-eldoc-display-context-dependent-info t
