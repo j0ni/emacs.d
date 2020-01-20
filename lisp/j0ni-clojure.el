@@ -24,7 +24,7 @@
   (add-hook 'clojure-mode-hook #'paredit-mode)
   (add-hook 'clojure-mode-hook #'rainbow-delimiters-mode)
   ;; (add-hook 'clojure-mode-hook #'indent-guide-mode)
-  (add-hook 'clojure-mode-hook #'hl-sexp-mode)
+  ;; (add-hook 'clojure-mode-hook #'hl-sexp-mode)
   (add-hook 'clojure-mode-hook #'clj-refactor-mode)
   (add-hook 'clojure-mode-hook #'turn-on-eldoc-mode)
   (dolist (form '(test

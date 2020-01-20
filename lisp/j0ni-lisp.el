@@ -42,9 +42,7 @@
 (use-package eval-sexp-fu)
 
 ;; Highlight sexp under cursor
-(use-package hl-sexp
-  :config
-  (add-lisp-hook #'hl-sexp-mode))
+(use-package hl-sexp)
 
 ;; Paredit for all lisps
 (use-package smartparens
@@ -294,6 +292,8 @@
 ;;   (add-to-list 'company-backends 'company-slime)
 ;;   :hook
 ;;   (slime))
+
+(load "/home/joni/quicklisp/clhs-use-local.el" t)
 
 (use-package sly
   :defer t

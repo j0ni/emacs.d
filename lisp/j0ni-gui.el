@@ -183,9 +183,10 @@
 (use-package synthwave-theme
   :straight (:host github
              :repo "TroyFletcher/emacs-synthwave-theme"
-             :fork (:host github
-                    :repo "j0ni/emacs-synthwave-theme"
-                    :branch "j0ni/autoloads")))
+             ;; :fork (:host github
+             ;;        :repo "j0ni/emacs-synthwave-theme"
+             ;;        :branch "j0ni/autoloads")
+             ))
 
 (use-package doom-themes
   :init
@@ -470,12 +471,14 @@
         (add-to-list 'default-frame-alist `(alpha . ,alpha))
         (set-indent-guide-face (symbol-name indent-guide-color))
         (set-face-foreground 'fill-column-indicator (symbol-name indent-guide-color))
-        (doom-modeline-mode)
-        (doom-themes-org-config)
-        (custom-set-faces
-         '(mode-line ((t (:height 1.0))))
-         '(mode-line-inactive ((t (:height 1.0)))))
-        (doom-themes-visual-bell-config)
+        ;; (doom-modeline-mode)
+        ;; (doom-themes-org-config)
+        ;; (custom-set-faces
+        ;;  '(mode-line ((t (:height 1.0))))
+        ;;  '(mode-line-inactive ((t (:height 1.0)))))
+        ;; (doom-themes-visual-bell-config)
+        (setq sml/theme ml-theme)
+        (sml/setup)
         (set-font-dwim)))
 
     (message "finished circadian hook"))
