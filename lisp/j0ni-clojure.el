@@ -90,20 +90,19 @@
 
   :config
   ;; (add-hook 'inf-clojure-mode-hook #'enable-paredit-mode)
-  ;; (add-hook 'clojure-mode-hook #'inf-clojure-minor-mode)
+  (add-hook 'clojure-mode-hook #'inf-clojure-minor-mode)
   (add-hook 'inf-clojure-mode-hook #'turn-on-eldoc-mode))
 
-(use-package paredit
-  :diminish nil)
-(use-package rainbow-delimiters
-  :diminish nil)
+(use-package paredit)
+(use-package rainbow-delimiters)
+(use-package eval-sexp-fu)
 
 (defvar dogma (with-temp-buffer
                 (insert-file-contents (concat-home ".mutt/dogma"))
                 (split-string (buffer-string) "\n" t)))
 
 (use-package cider
-  :diminish nil
+  :defer t
 
   :init
   (setq cider-repl-pop-to-buffer-on-connect        t
@@ -150,7 +149,6 @@
   (add-hook 'cider-repl-mode-hook #'cider-repl-customizations)
 
   :config
-  (use-package eval-sexp-fu)
   (use-package cider-eval-sexp-fu)
   (add-hook 'cider-mode-hook #'turn-on-eldoc-mode)
   ;; (setq eldoc-echo-area-use-multiline-p nil)
@@ -158,6 +156,7 @@
   )
 
 (use-package clj-refactor
+  :defer t
   :after (cider)
 
   :config

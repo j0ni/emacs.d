@@ -117,6 +117,7 @@
   (set-font-dwim))
 
 (define-key global-map (kbd "C-+") 'j0ni-inc-font-size)
+(define-key global-map (kbd "C-=") 'j0ni-inc-font-size)
 (define-key global-map (kbd "C--") 'j0ni-dec-font-size)
 
 (defvar base-face-list nil)
@@ -372,7 +373,6 @@
 (use-package airline-themes)
 (use-package smart-mode-line-atom-one-dark-theme)
 (use-package smart-mode-line-powerline-theme)
-(use-package doom-themes)
 (use-package find-file-in-project)
 (use-package doom-modeline
   :init
@@ -436,10 +436,9 @@
   :after (doom-modeline)
   :commands (circadian-setup)
   :init
-  (setq j0ni-light-theme '(leuven light SlateGray2 (100 . 70)))
-  ;; (setq j0ni-dark-theme '(dracula respectful grey30 (90 . 90)))
-  (setq j0ni-dark-theme '(doom-one respectful grey20 (100 . 95)))
-  ;; (setq j0ni-dark-theme '(doom-vibrant respectful grey30 (100 . 95)))
+  (setq j0ni-light-theme `(leuven light SlateGray2 (100 . 100)))
+  (setq j0ni-dark-theme `(doom-wilmersdorf respectful grey30 (100 . 100)))
+  (setq j0ni-dark-theme `(doom-one respectful grey30 (100 . 100)))
 
   ;; Leeds
   ;; (setq calendar-latitude 53.835711)
@@ -487,15 +486,15 @@
   (circadian-setup)
   )
 
-;; (use-package celestial-mode-line
-;;   :after (:all circadian doom-modeline-mode)
-;;   :init
-;;   (require 'solar)
-;;   :config
-;;   (if (null global-mode-string)
-;;       (setq global-mode-string '("" celestial-mode-line-string))
-;;     (append global-mode-string '(celestial-mode-line-string)))
-;;   (celestial-mode-line-start-timer))
+(use-package celestial-mode-line
+  :after (:all circadian smart-mode-line)
+  :init
+  (require 'solar)
+  :config
+  (if (null global-mode-string)
+      (setq global-mode-string '("" celestial-mode-line-string))
+    (append global-mode-string '(celestial-mode-line-string)))
+  (celestial-mode-line-start-timer))
 
 (use-package smart-mode-line
   :init
