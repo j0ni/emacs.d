@@ -9,16 +9,6 @@
 (if (fboundp 'fringe-mode)
     (fringe-mode 8))
 
-;; (custom-theme-set-faces
-;;  '(mode-line-inactive ((t :inverse-video nil)))
-;;  '(mode-line     ((t :inverse-video nil)))
-;;  '(sml/global    ((t :inherit font-lock-preprocessor-face)))
-;;  '(sml/filename  ((t :inherit mode-line-buffer-id)))
-;;  '(sml/prefix    ((t :inherit (font-lock-variable-name-face sml/global))))
-;;  '(sml/read-only ((t :inherit (font-lock-type-face sml/not-modified))))
-;;  '(sml/modes     ((t :foreground nil :inherit sml/filename :weight
-;;  normal))))
-
 (use-package indent-guide
   :init
   (setq indent-guide-char ":")
@@ -40,13 +30,13 @@
 
 (require 'color)
 
-(use-package nyan-mode
-  :init
-  (setq nyan-animate-nyancat nil)
-  (setq nyan-wavy-trail nil)
+;; (use-package nyan-mode
+;;   :init
+;;   (setq nyan-animate-nyancat nil)
+;;   (setq nyan-wavy-trail nil)
 
-  :config
-  (nyan-mode 1))
+;;   :config
+;;   (nyan-mode 1))
 
 ;; I keep switching between dark and light themes; dark is nice, there are
 ;; more usable variants, but light is better for my eyes I think. Light looks
@@ -77,14 +67,6 @@
   (let ((desktop-load-locked-desktop "ask"))
     (desktop-read desktop-dirname)
     (desktop-save-mode 1)))
-
-;; (packages-require j0ni-installed-themes)
-;; (require 'moe-theme)
-;; (setq moe-theme-highlight-buffer-id t)
-
-;; (moe-theme-set-color 'white)
-;; (moe-dark)
-;; (require 'lawrence-theme)
 
 (defun set-font-dwim (&rest size font ln-spc antialias weight)
   (interactive)
@@ -179,28 +161,7 @@
   ;;   '(set-face-attribute 'highlight-symbol-face nil :box t))
   )
 
-(use-package zerodark-theme :no-require t)
-(use-package one-themes :no-require t)
-(use-package synthwave-theme
-  :straight (:host github
-             :repo "TroyFletcher/emacs-synthwave-theme"
-             ;; :fork (:host github
-             ;;        :repo "j0ni/emacs-synthwave-theme"
-             ;;        :branch "j0ni/autoloads")
-             ))
-
-(use-package doom-themes
-  :init
-  (setq doom-outrun-electric-brighter-modeline nil)
-  (setq doom-outrun-electric-brighter-comments nil)
-  (setq doom-outrun-electric-comment-bg nil)
-  )
-
-(use-package color-theme-sanityinc-tomorrow)
-
 (use-package minions)
-
-(use-package paper-theme)
 
 (when (boundp 'j0ni-theme)
   ;; Solarized specific tweaks
@@ -251,86 +212,36 @@
 
   ;; "Stick with normal! It's been carefully tested. Setting this option to high
   ;; or low does use the same Noctilux palette but simply shifts some values up
-  ;; or down in order to expand or compress the tonal range displayed." '(high normal low)
-  (setq noctilux-contrast 'normal)
-
-  ;; (custom-set-faces
-  ;;  '(show-paren-match ((t (:background "#5f5f5f")))))
-
-  ;; some customizations
-  ;; (set-face-attribute 'eval-sexp-fu-flash ((t (:background "#101010" :foreground "white"))))
-  ;; (set-face-attribute 'nrepl-eval-sexp-fu-flash ((t (:background "#101010" :foreground "white"))))
-  ;; (custom-set-faces
-  ;;  '(rainbow-delimiters-depth-9-face ((t (:foreground "#7fff7f"))))
-  ;;  '(rainbow-delimiters-depth-8-face ((t (:foreground "#5fdf5f"))))
-  ;;  '(rainbow-delimiters-depth-7-face ((t (:foreground "#3fbf3f"))))
-  ;;  '(rainbow-delimiters-depth-6-face ((t (:foreground "#1f9f1f"))))
-  ;;  '(rainbow-delimiters-depth-5-face ((t (:foreground "#7fff7f"))))
-  ;;  '(rainbow-delimiters-depth-4-face ((t (:foreground "#5fdf5f"))))
-  ;;  '(rainbow-delimiters-depth-3-face ((t (:foreground "#3fbf3f"))))
-  ;;  '(rainbow-delimiters-depth-2-face ((t (:foreground "#1f9f1f"))))
-  ;;  '(rainbow-delimiters-depth-1-face ((t (:foreground "#7fff7f"))))
-  ;;  '(eval-sexp-fu-flash ((t (:foreground "green"))))
-  ;;  '(nrepl-eval-sexp-fu-flash ((t (:foreground "green"))))
-  ;;  '(hl-sexp-face ((t (:background "black"))))
-  ;;  '(git-gutter:separator ((t (:background "black"))))
-  ;;  '(git-gutter:modified ((t (:background "black"))))
-  ;;  '(git-gutter:added ((t (:background "black"))))
-  ;;  '(git-gutter:deleted ((t (:background "black"))))
-  ;;  '(git-gutter:unchanged ((t (:background "black"))))
-  ;;  )
-
-  ;; company-mode hack
-  ;; (let ((bg (face-attribute 'default :background)))
-  ;;   (custom-set-faces
-  ;;    `(company-tooltip ((t (:inherit default :background ,(color-lighten-name bg 2)))))
-  ;;    `(company-scrollbar-bg ((t (:background ,(color-lighten-name bg 10)))))
-  ;;    `(company-scrollbar-fg ((t (:background ,(color-lighten-name bg 5)))))
-  ;;    `(company-tooltip-selection ((t (:inherit font-lock-function-name-face))))
-  ;;    `(company-tooltip-common ((t (:inherit font-lock-function-name-face))))
-  ;;    `(company-tooltip-common-selection ((t (:inherit font-lock-function-name-face))))))
-
-  ;; clues maybe needs this
-  ;;
-  ;; (custom-set-faces `(mode-line ((t (:foreground "#777777" :background
-  ;;  "#111111" :box nil :height 140 :font ,j0ni-font)))) ;;
-  ;;  `(highlight-symbol-face ((t (:underline t :background "orange")))) )
-  ;;  (custom-set-faces `(mode-line ((t (:height 140 :font ,j0ni-font)))))
-  ;;  (custom-set-faces `(mode-line ((t (:foreground black :background
-  ;;  "#333333" :box nil :height 140 :font ,j0ni-font)))))
-
-  ;; (custom-set-faces
-  ;;  '(racket-keyword-argument-face ((t (:inherit default))))
-  ;;  '(racket-paren-face ((t (:inherit default))))
-  ;;  '(racket-selfeval-face ((t (:inherit default)))))
-
-  ;; (add-to-list 'default-frame-alist '(height . 40))
-  ;; (add-to-list 'default-frame-alist '(width . 120))
-
-  ;; this is my ivy hack for anti-zenburn
-  ;; (set-face-background 'ivy-current-match "grey90")
-  ;; (set-face-background 'ivy-minibuffer-match-face-1 "grey30")
-
-  ;; (load-theme j0ni-theme)
-  ;; (apply-font-settings)
-
-  ;; (normalize-fonts)
-
-  ;; noctilux & fogus hack
-  ;; (let ((fg (face-attribute 'font-lock-comment-face :foreground)))
-  ;;   (custom-set-faces
-  ;;    `(font-lock-doc-face ((t (:foreground ,(color-lighten-name fg 10)))))
-  ;;    `(font-lock-comment-face ((t (:foreground ,(color-lighten-name fg 5)))))
-  ;;    `(font-lock-comment-delimiter-face ((t (:foreground ,(color-lighten-name fg 5)))))))
-
-  ;; avoid javascript default funcion param name setting
-  ;; (let ((fg (face-attribute 'font-lock-variable-name-face :foreground)))
-  ;;   (custom-set-faces
-  ;;    `(js2-function-param ((t (:foreground ,fg))))))
-  )
+  ;; or down in order to expand or compress the tonal range displayed." '(high
+  ;; normal low)
+  (setq noctilux-contrast 'normal))
 
 ;; (global-hl-line-mode 1)
 ;; (global-display-fill-column-indicator-mode)
+
+(use-package paper-theme)
+(use-package zerodark-theme :no-require t)
+(use-package one-themes :no-require t)
+(use-package synthwave-theme
+  :straight (:host github
+             :repo "TroyFletcher/emacs-synthwave-theme"
+             ;; :fork (:host github
+             ;;        :repo "j0ni/emacs-synthwave-theme"
+             ;;        :branch "j0ni/autoloads")
+             ))
+
+(use-package doom-themes
+  :init
+  (setq doom-outrun-electric-brighter-modeline nil)
+  (setq doom-outrun-electric-brighter-comments nil)
+  (setq doom-outrun-electric-comment-bg nil)
+  (setq doom-themes-enable-bold t)
+  (setq doom-themes-enable-bold t)
+  :config
+  (doom-themes-visual-bell-config)
+  (doom-themes-org-config))
+
+(use-package color-theme-sanityinc-tomorrow)
 
 (use-package hemisu-theme :no-require t)
 (use-package dracula-theme :no-require t)
@@ -347,7 +258,7 @@
 (use-package spacemacs-theme :no-require t)
 (use-package gruvbox-theme :no-require t)
 (use-package tangotango-theme :no-require t)
-
+(use-package flatland-theme :no-require t)
 (use-package zerodark-theme :no-require t)
 (use-package one-themes :no-require t)
 
@@ -379,9 +290,47 @@
   (setq doom-modeline-icon nil)
   (setq doom-modeline-height 1.2)
   (setq doom-modeline-vcs-max-length 30)
-  (setq doom-modeline-buffer-file-name-style 'truncate-with-project)
+  (setq doom-modeline-buffer-file-name-style 'relative-from-project)
   ;; or `find-in-project' if it's installed
-  (setq doom-modeline-project-detection 'ffip))
+  (setq doom-modeline-project-detection 'ffip)
+
+  :config
+  (doom-modeline-def-modeline 'mhcat-line
+    '(bar
+      workspace-name
+      window-number
+      modals
+      matches
+      buffer-info
+      remote-host
+      buffer-position
+      word-count
+      parrot
+      selection-info)
+    '(objed-state
+      misc-info
+      persp-name
+      battery
+      grip
+      irc
+      mu4e
+      gnus
+      github
+      debug
+      lsp
+      minor-modes
+      input-method
+      indent-info
+      buffer-encoding
+      major-mode
+      process
+      vcs
+      checker))
+
+  (defun setup-custom-doom-modeline ()
+    (doom-modeline-set-modeline 'mhcat-line 'default))
+
+  (add-hook 'doom-modeline-mode-hook 'setup-custom-doom-modeline))
 
 (defun sml-hook (theme)
   (lambda ()
@@ -452,6 +401,7 @@
   (setq calendar-latitude 43.671780)
   (setq calendar-longitude -79.322891)
   (setq calendar-location-name "Toronto, Canada")
+
   (setq circadian-themes `((:sunrise . ,(cl-first j0ni-light-theme))
                            ("08:00" . ,(cl-first j0ni-dark-theme))
                            (:sunset  . ,(cl-first j0ni-dark-theme))))
@@ -470,14 +420,13 @@
         (add-to-list 'default-frame-alist `(alpha . ,alpha))
         (set-indent-guide-face (symbol-name indent-guide-color))
         (set-face-foreground 'fill-column-indicator (symbol-name indent-guide-color))
-        ;; (doom-modeline-mode)
-        ;; (doom-themes-org-config)
-        ;; (custom-set-faces
-        ;;  '(mode-line ((t (:height 1.0))))
-        ;;  '(mode-line-inactive ((t (:height 1.0)))))
-        ;; (doom-themes-visual-bell-config)
-        (setq sml/theme ml-theme)
-        (sml/setup)
+        (doom-modeline-mode)
+        (custom-set-faces
+         '(mode-line ((t (:height 1.0))))
+         '(mode-line-inactive ((t (:height 1.0)))))
+
+        ;;(setq sml/theme ml-theme)
+        ;;(sml/setup)
         (set-font-dwim)))
 
     (message "finished circadian hook"))
@@ -486,15 +435,15 @@
   (circadian-setup)
   )
 
-(use-package celestial-mode-line
-  :after (:all circadian smart-mode-line)
-  :init
-  (require 'solar)
-  :config
-  (if (null global-mode-string)
-      (setq global-mode-string '("" celestial-mode-line-string))
-    (append global-mode-string '(celestial-mode-line-string)))
-  (celestial-mode-line-start-timer))
+;; (use-package celestial-mode-line
+;;   :after (:all circadian smart-mode-line)
+;;   :init
+;;   (require 'solar)
+;;   :config
+;;   (if (null global-mode-string)
+;;       (setq global-mode-string '("" celestial-mode-line-string))
+;;     (append global-mode-string '(celestial-mode-line-string)))
+;;   (celestial-mode-line-start-timer))
 
 (use-package smart-mode-line
   :init
@@ -514,7 +463,7 @@
 
 (use-package wttrin
   :init
-  (setq wttrin-default-cities '("Toronto")))
+  (setq wttrin-default-cities '("Toronto" "Osaka" "Tokyo")))
 
 ;; (use-package darkroom)
 
