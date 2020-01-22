@@ -70,7 +70,8 @@
   (setq conda-anaconda-home "~/.conda")
   (setq-default conda-project-env-name "userbase")
   :config
-  (conda-env-autoactivate-mode t))
+  ;; (conda-env-autoactivate-mode t)
+  )
 
 (add-hook 'python-mode-hook (lambda ()
                               (setq lsp-pyls-plugins-yapf-enabled nil)
