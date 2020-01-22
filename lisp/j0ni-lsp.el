@@ -40,13 +40,14 @@
   (setq lsp-enable-indentation nil)
   (setq lsp-auto-configure t)
   (setq lsp-enable-xref t)
+  (setq lsp-enable-snippet nil)
   (setq lsp-prefer-flymake t)
   (setq lsp-auto-guess-root t)
   (setq lsp-eldoc-render-all t)
   (setq lsp-signature-render-all t)
   )
 
-;; (use-package lsp-ui :commands lsp-ui-mode)
+;; (use-package lsp-ui :commands lsp-ui-mode :defer t)
 (use-package company-lsp
   :commands company-lsp
   :init (push 'company-lsp company-backends))

@@ -1,11 +1,10 @@
 ;;; j0ni-haskell.el
 
-(use-package lsp-haskell)
 (use-package haskell-mode
   :commands haskell-mode
   :init
   (add-hook 'haskell-mode-hook 'haskell-decl-scan-mode)
-  (add-hook 'haskell-mode-hook #'lsp)
+  ;; (add-hook 'haskell-mode-hook #'lsp)
   (setq haskell-mode-stylish-haskell-path "brittany"))
 
 (use-package lsp-haskell)
