@@ -21,7 +21,7 @@
   ;; (setq clojure-indent-style 'always-align)
 
   :config
-  (add-hook 'clojure-mode-hook #'paredit-mode)
+  (add-hook 'clojure-mode-hook #'enable-paredit-mode)
   (add-hook 'clojure-mode-hook #'rainbow-delimiters-mode)
   ;; (add-hook 'clojure-mode-hook #'indent-guide-mode)
   ;; (add-hook 'clojure-mode-hook #'hl-sexp-mode)
@@ -68,18 +68,19 @@
   ;; linting
   (require 'flycheck-clj-kondo))
 
-;; (use-package monroe
-;;   :init
-;;   (setq monroe-detail-stacktraces t)
-;;   (add-hook 'clojure-mode-hook #'clojure-enable-monroe)
+(use-package monroe
+  :commands (clojure-enable-monroe)
+  :init
+  (setq monroe-detail-stacktraces t)
+  ;; (add-hook 'clojure-mode-hook #'clojure-enable-monroe)
 
-;;   :config
-;;   (defun mhc-monroe-run ()
-;;     (interactive)
-;;     (monroe-eval-buffer)
-;;     (monroe-input-sender (get-buffer-process monroe-repl-buffer) "(-main)"))
+  :config
+  (defun mhc-monroe-run ()
+    (interactive)
+    (monroe-eval-buffer)
+    (monroe-input-sender (get-buffer-process monroe-repl-buffer) "(-main)"))
 
-;;   (define-key monroe-interaction-mode-map (kbd "C-x C-j") 'mhc-monroe-run))
+  (define-key monroe-interaction-mode-map (kbd "C-x C-j") 'mhc-monroe-run))
 
 (use-package inf-clojure
   ;; :defer t
@@ -90,7 +91,7 @@
 
   :config
   ;; (add-hook 'inf-clojure-mode-hook #'enable-paredit-mode)
-  (add-hook 'clojure-mode-hook #'inf-clojure-minor-mode)
+  ;; (add-hook 'clojure-mode-hook #'inf-clojure-minor-mode)
   (add-hook 'inf-clojure-mode-hook #'turn-on-eldoc-mode))
 
 (use-package paredit)
