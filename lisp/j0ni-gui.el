@@ -1,42 +1,29 @@
 ;;; j0ni-gui.el --- stuff for GUI only
 
-;; I guess this kind of counts as GUI
-;; (package-require 'eyebrowse)
-;; (eyebrowse-mode t)
+(use-package eyebrowse
+  :config (eyebrowse-mode 1))
 
-;; (packages-require j0ni-installed-themes)
-
-(if (fboundp 'fringe-mode)
-    (fringe-mode 8))
+(when (fboundp 'fringe-mode)
+  (fringe-mode 8))
 
 (use-package indent-guide
   :init
   (setq indent-guide-char ":")
   (setq indent-guide-recursive nil))
 
-(use-package golden-ratio
-  :config
-  (golden-ratio-mode 1)
-  (add-hook 'buffer-list-update-hook #'golden-ratio)
-  (eval-after-load 'j0ni-misc
-    '(progn
-       (add-to-list 'golden-ratio-extra-commands 'window-number-switch)
-       (add-to-list 'golden-ratio-extra-commands 'window-number-select)))
-
+(use-package zoom
   :init
-  ;; somehow this breaks with a single vertical split when set
-  ;; see https://github.com/roman/golden-ratio.el/issues/55
-  (setq golden-ratio-auto-scale nil))
+  (setq zoom-size '(0.618 . 0.618))
+  (setq temp-buffer-resize-mode t)
+  :config
+  (zoom-mode 1))
+
+
+(use-package beacon
+  :config
+  (beacon-mode 1))
 
 (require 'color)
-
-;; (use-package nyan-mode
-;;   :init
-;;   (setq nyan-animate-nyancat nil)
-;;   (setq nyan-wavy-trail nil)
-
-;;   :config
-;;   (nyan-mode 1))
 
 ;; I keep switching between dark and light themes; dark is nice, there are
 ;; more usable variants, but light is better for my eyes I think. Light looks
@@ -81,13 +68,8 @@
                           :antialias antialias)))
     (set-frame-font spec nil t)
     (setq-default line-spacing ln-spc)
+    ;; (setq-default cursor-type 'box)
     font-name))
-
-(defun set-mode-line-box ()
-  "Makes a nice popout box around the mode line."
-  (interactive)
-  (set-face-attribute 'mode-line nil :box '(:style released-button))
-  (set-face-attribute 'mode-line-inactive nil :box '(:style released-button)))
 
 (defun j0ni-inc-font-size ()
   (interactive "*")
@@ -102,133 +84,9 @@
 (define-key global-map (kbd "C-=") 'j0ni-inc-font-size)
 (define-key global-map (kbd "C--") 'j0ni-dec-font-size)
 
-(defvar base-face-list nil)
-
-(defun base-weight (face)
-  (let ((original-weight (alist-get face base-face-list 'not-found)))
-    (if (not (equal 'not-found original-weight))
-        original-weight
-      ;; (message "Setting %s weight to %s" face (face-attribute face :weight))
-      (setq base-face-list
-            (cons `(,face . ,(face-attribute face :weight)) base-face-list))
-      (alist-get face base-face-list))))
-
-(defun apply-font-settings (&optional default-font antialias)
-  (interactive)
-  (let ((font-name (or default-font (set-font-dwim))))
-    (mapc
-     (lambda (face)
-       (cond ;; do nothing if the weight is neither of these - preserving
-        ;; inherited properties
-        ((equal 'bold (base-weight face))
-         (set-face-attribute
-          face nil
-          :weight j0ni-bold-font-weight
-          :width 'semi-condensed
-          :font (font-spec :weight 'regular :name font-name
-                           :antialias (or antialias j0ni-antialias))))
-
-        ((equal 'normal (base-weight face))
-         (set-face-attribute
-          face nil
-          :weight j0ni-font-weight
-          :width 'semi-condensed
-          :font (font-spec :weight 'light :name font-name
-                           :antialias (or antialias j0ni-antialias))))))
-     (face-list))))
-
-;; run the setup
-;; (set-font-dwim)
-;; (normalize-fonts)
-
-(defun initialize-and-load-theme (theme &optional indent-guide-color sml-theme)
-  (interactive
-   (list
-    (intern (completing-read "Load custom theme: "
-                             (mapcar 'symbol-name
-                                     (custom-available-themes))))
-    (read-color "Indent guide color: ")))
-  (let ((sml-theme (or sml-theme 'respectful)))
-    (load-theme theme t)
-    (eval-after-load "j0ni-gui"
-      `(progn
-         (setq sml/theme ,(symbol-name sml-theme))
-         (sml/setup)
-         (set-font-dwim)
-         (when ,indent-guide-color
-           (set-indent-guide-face ,indent-guide-color)))))
-  ;; (eval-after-load 'highlight-symbol
-  ;;   '(set-face-attribute 'highlight-symbol-face nil :box t))
-  )
-
-(use-package minions)
-
-(when (boundp 'j0ni-theme)
-  ;; Solarized specific tweaks
-
-  ;; Don't change the font for some headings and titles
-  (setq solarized-use-variable-pitch nil)
-
-  ;; make the modeline high contrast
-  ;; (setq solarized-high-contrast-mode-line t)
-
-  ;; Use less bolding
-  (setq solarized-use-less-bold t)
-
-  ;; Use less colors for indicators such as git:gutter, flycheck and similar
-  ;; (setq solarized-emphasize-indicators nil)
-
-  ;; Don't change size of org-mode headlines (but keep other size-changes)
-  (setq solarized-scale-org-headlines nil)
-
-  ;; Avoid all font-size changes
-  (setq solarized-height-minus-1 1)
-  (setq solarized-height-plus-1 1)
-  (setq solarized-height-plus-2 1)
-  (setq solarized-height-plus-3 1)
-  (setq solarized-height-plus-4 1)
-
-  ;; Spacemacs specific tweaks
-  (setq spacemacs-theme-org-agenda-height nil)
-  (setq spacemacs-theme-org-height nil)
-
-  ;; Noctilux
-
-  ;; "For test purposes only; when in GUI mode, forces Noctilux to use the 256
-  ;; degraded color mode to test the approximate color values for accuracy."
-  (setq noctilux-degrade nil)
-
-  ;; "Sets the level of highlighting to use in diff-like modes. '(high normal low)"
-  (setq noctilux-diff-mode 'normal)
-
-  ;; "Stops Noctilux from displaying bold when nil."
-  (setq noctilux-bold t)
-
-  ;; "Stops Noctilux from displaying underlines when nil."
-  (setq noctilux-underline t)
-
-  ;; "Stops Noctilux from displaying italics when nil."
-  (setq noctilux-italic nil)
-
-  ;; "Stick with normal! It's been carefully tested. Setting this option to high
-  ;; or low does use the same Noctilux palette but simply shifts some values up
-  ;; or down in order to expand or compress the tonal range displayed." '(high
-  ;; normal low)
-  (setq noctilux-contrast 'normal))
-
-;; (global-hl-line-mode 1)
-;; (global-display-fill-column-indicator-mode)
-
-(use-package paper-theme)
-(use-package zerodark-theme :no-require t)
-(use-package one-themes :no-require t)
-(use-package synthwave-theme
-  :straight (:host github
-             :repo "TroyFletcher/emacs-synthwave-theme"
-             ;; :fork (:host github
-             ;;        :repo "j0ni/emacs-synthwave-theme"
-             ;;        :branch "j0ni/autoloads")
-             ))
+;; (use-package minions
+;;   :config
+;;   (minions-mode 1))
 
 (use-package doom-themes
   :init
@@ -236,61 +94,39 @@
   (setq doom-outrun-electric-brighter-comments nil)
   (setq doom-outrun-electric-comment-bg nil)
   (setq doom-themes-enable-bold t)
-  (setq doom-themes-enable-bold t)
   :config
   (doom-themes-visual-bell-config)
   (doom-themes-org-config))
 
-(use-package color-theme-sanityinc-tomorrow)
-
-(use-package hemisu-theme :no-require t)
 (use-package dracula-theme :no-require t)
-(use-package chocolate-theme :no-require t)
 (use-package zenburn-theme :no-require t)
-(use-package cyberpunk-theme :no-require t)
 (use-package reverse-theme :no-require t)
 (use-package leuven-theme :no-require t)
-(use-package nord-theme
-  :no-require t
-  :init
-  (setq nord-comment-brightness 15))
-(use-package nova-theme :no-require t)
-(use-package spacemacs-theme :no-require t)
 (use-package gruvbox-theme :no-require t)
-(use-package tangotango-theme :no-require t)
-(use-package flatland-theme :no-require t)
 (use-package zerodark-theme :no-require t)
-(use-package one-themes :no-require t)
 
-(use-package phoenix-dark-pink-theme :no-require t)
-;; alternatively....
-;; (load "~/Scratch/emacs/phoenix-dark-mono/phoenix-dark-mono-theme.el")
-;; (initialize-and-load-theme 'phoenix-dark-pink)
-(use-package plan9-theme :no-require t)
-(use-package sunburn-theme :no-require t)
-(use-package grayscale-theme :no-require t)
 (use-package redo-plus
   :no-require t
   :init
   (require 'redo+))
 
-(defvar j0ni-theme)
-(defvar j0ni-light-theme)
-(defvar j0ni-dark-theme)
-;; (defvar j0ni-theme-tint)
-
-;; (after-circadian-load-theme j0ni-dark-theme)
-(use-package powerline)
-(use-package airline-themes)
-(use-package smart-mode-line-atom-one-dark-theme)
-(use-package smart-mode-line-powerline-theme)
 (use-package find-file-in-project)
+(use-package all-the-icons)
+(use-package ghub
+  :config (require 'ghub))
+(use-package async
+  :config (require 'async))
 (use-package doom-modeline
   :init
+  ;; Nope
+  (setq doom-modeline-major-mode-icon nil)
+  ;; (setq doom-modeline-icon (display-graphic-p))
   (setq doom-modeline-icon nil)
-  (setq doom-modeline-height 1.2)
+  (setq doom-modeline-height 25)
+  (setq doom-modeline-github t)
   (setq doom-modeline-vcs-max-length 30)
-  (setq doom-modeline-buffer-file-name-style 'relative-from-project)
+  (setq doom-modeline-buffer-file-name-style 'truncate-with-project)
+  (setq doom-modeline-lsp t)
   ;; or `find-in-project' if it's installed
   (setq doom-modeline-project-detection 'ffip)
 
@@ -310,7 +146,6 @@
     '(objed-state
       misc-info
       persp-name
-      battery
       grip
       irc
       mu4e
@@ -330,17 +165,8 @@
   (defun setup-custom-doom-modeline ()
     (doom-modeline-set-modeline 'mhcat-line 'default))
 
-  (add-hook 'doom-modeline-mode-hook 'setup-custom-doom-modeline))
-
-(defun sml-hook (theme)
-  (lambda ()
-    (setq sml/theme theme)
-    (sml/setup)))
-
-(defun powerline-hook (theme)
-  (lambda ()
-    (powerline-default-theme)
-    (load-theme theme)))
+  ;; (add-hook 'doom-modeline-mode-hook 'setup-custom-doom-modeline)
+  )
 
 (use-package rainbow-mode
   :init
@@ -348,7 +174,6 @@
   (setq rainbow-x-colors nil)
   :hook
   (html-mode nxhtml-mode nxhtml-mumamo-mode))
-
 
 (use-package solaire-mode
   :hook
@@ -358,36 +183,24 @@
   (solaire-global-mode 1)
   (solaire-mode-swap-bg))
 
-(use-package dim)
-(dim-minor-names
- '((company-mode "" company)
-   (auto-revert-mode "" nil)
-   (highlight-symbol-mode "" highlight-symbol)
-   (whitespace-mode " _" whitespace)
-   (ivy-mode "" ivy)
-   (elisp-slime-nav-mode "" elisp-slime-nav)
-   (ws-butler-mode "" ws-butler)
-   (golden-ratio-mode "" golden-ratio)
-   (projectile-mode "" projectile)
-   (indent-guide-mode "" indent-guide)
-   (which-key-mode "" which-key)
-   (undo-tree-mode "" undo-tree)
-   (hs-minor-mode "" hideshow)
-   (paredit-mode " ()" paredit)
-   (subword-mode "" subword)
-   (cider-mode " cider" cider)
-   (auto-revert-mode "" autorevert)
-   (drag-stuff-mode "" drag-stuff)
-   ;; (tree-sitter-mode "" nil)
-   ))
+(straight-use-package 'hl-line-plus)
+(hl-line-toggle-when-idle)
+(global-set-key (kbd "C-`") 'hl-line-flash)
+
+(defvar j0ni-theme)
+(defvar j0ni-light-theme)
+(defvar j0ni-dark-theme)
 
 (use-package circadian
   :after (doom-modeline)
   :commands (circadian-setup)
   :init
-  (setq j0ni-light-theme `(leuven light SlateGray2 (100 . 100)))
+  ;; (setq j0ni-light-theme `(leuven light SlateGray2 (100 . 100)))
+  (setq j0ni-light-theme `(doom-nord-light light SlateGray2 (100 . 100)))
   (setq j0ni-dark-theme `(doom-wilmersdorf respectful grey30 (100 . 100)))
-  (setq j0ni-dark-theme `(doom-one respectful grey30 (100 . 100)))
+  ;; (setq j0ni-dark-theme `(doom-outrun-electric respectful grey30 (100 . 100)))
+  (setq j0ni-light-theme `(doom-nova respectful grey30 (100 . 100)))
+  ;; (setq j0ni-dark-theme `(doom-nord respectful grey30 (100 . 100)))
 
   ;; Leeds
   ;; (setq calendar-latitude 53.835711)
@@ -403,37 +216,19 @@
   (setq calendar-location-name "Toronto, Canada")
 
   (setq circadian-themes `((:sunrise . ,(cl-first j0ni-light-theme))
-                           ("08:00" . ,(cl-first j0ni-dark-theme))
+                           ;; ("08:00" . ,(cl-first j0ni-dark-theme))
                            (:sunset  . ,(cl-first j0ni-dark-theme))))
 
   ;; note that this executes in a black hole, so if it fails, there will be no
   ;; messaging, or indication as to where it failed.
   (defun after-circadian-load-theme (&optional theme)
-    (interactive)
-    (let ((theme (or theme (cl-first j0ni-light-theme)))
-          (theme-config (if (eq theme (cl-first j0ni-light-theme))
-                            j0ni-light-theme
-                          j0ni-dark-theme)))
-      (cl-destructuring-bind (theme ml-theme indent-guide-color alpha) theme-config
-        ;; (rainbow-delimiters--define-depth-faces)
-        (set-frame-parameter (selected-frame) 'alpha alpha)
-        (add-to-list 'default-frame-alist `(alpha . ,alpha))
-        (set-indent-guide-face (symbol-name indent-guide-color))
-        (set-face-foreground 'fill-column-indicator (symbol-name indent-guide-color))
-        (doom-modeline-mode)
-        (custom-set-faces
-         '(mode-line ((t (:height 1.0))))
-         '(mode-line-inactive ((t (:height 1.0)))))
+    (doom-modeline-mode t)
+    (set-font-dwim)
+    (message "end of circadian hook"))
 
-        ;;(setq sml/theme ml-theme)
-        ;;(sml/setup)
-        (set-font-dwim)))
+  (add-hook 'circadian-after-load-theme-hook #'after-circadian-load-theme))
 
-    (message "finished circadian hook"))
-
-  (add-hook 'circadian-after-load-theme-hook #'after-circadian-load-theme)
-  (circadian-setup)
-  )
+(circadian-setup)
 
 ;; (use-package celestial-mode-line
 ;;   :after (:all circadian smart-mode-line)
@@ -445,27 +240,18 @@
 ;;     (append global-mode-string '(celestial-mode-line-string)))
 ;;   (celestial-mode-line-start-timer))
 
-(use-package smart-mode-line
-  :init
-  (setq sml/position-percentage-format "%p")
-  (setq sml/theme nil)
-  :config
-  ;; for default theme
-  ;; (set-indent-guide-face "grey80")
-  ;; (sml/setup)
-  nil)
+;; (use-package smart-mode-line
+;;   :init
+;;   (setq sml/position-percentage-format "%p")
+;;   (setq sml/theme 'light)
+;;   :config
+;;   ;; for default theme
+;;   ;; (set-indent-guide-face "grey80")
+;;   ;; (sml/setup)
+;;   )
 
 (use-package dash)
 (use-package tco)
-(use-package equake
-  :config
-  (global-set-key (kbd "C-x C-c") 'equake-check-if-in-equake-frame-before-closing))
-
-(use-package wttrin
-  :init
-  (setq wttrin-default-cities '("Toronto" "Osaka" "Tokyo")))
-
-;; (use-package darkroom)
 
 (use-package fold-dwim
   :commands
