@@ -15,7 +15,7 @@
 (use-package company-prescient
   :after (prescient)
 
- :config
+  :config
   (company-prescient-mode 1))
 
 (use-package ivy-rich
