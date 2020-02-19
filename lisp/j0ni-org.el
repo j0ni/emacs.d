@@ -5,9 +5,6 @@
   ;; Set to the location of your Org files on your local system
   (setq org-directory j0ni-org-dir)
 
-  ;; ensure the journal files get picked up
-  (setq org-agenda-file-regexp "\\`[^.].*\\.org'\\|[0-9]+")
-
   ;; Set to the name of the file where new notes will be stored
   (setq org-mobile-inbox-for-pull (concat j0ni-org-dir "flagged.org"))
 
@@ -15,7 +12,7 @@
   (setq org-mobile-directory j0ni-org-dropbox)
 
   ;; track TODO completion
-  (setq org-log-done 'time)
+  ;; (setq org-log-done 'time)
 
   ;; get a completion note - let's see how easy this is to deal with
   (setq org-log-done 'note)
@@ -30,13 +27,22 @@
   (setq org-startup-indented t)
 
   ;; Set agenda file(s)
-  (setq org-agenda-files (list (concat j0ni-org-dir "Agenda/")))
+  (setq org-agenda-files (list (concat j0ni-org-dir "todo.org")
+                               (concat j0ni-org-dir "journal.org")
+                               (concat j0ni-org-dir "theplan.org")))
+  (setq org-agenda-span 14)
+  ;; (setq org-agenda-start-on-weekday nil)
 
   ;; prevent org-mode hijacking arrow keys
   (setq org-replace-disputed-keys t)
 
+  ;; set our own todo keywords
+  (setq org-todo-keywords
+        '((sequence "TODO" "WAITING" "QUEUED" "PAUSED" "|" "DONE" "ABANDONED")))
+
   ;; switch quickly
   (setq org-use-fast-todo-selection t)
+  (setq org-priority-default ?C)
 
   ;; extra indentation
   (setq org-adapt-indentation t)
@@ -51,19 +57,19 @@
         org-confirm-babel-evaluate nil)
 
   ;; org-capture
+  (require 'org-datetree)
+
   (setq org-default-notes-file (concat j0ni-org-dir "captured.org"))
   (setq org-capture-templates
-        '(("j" "Journal entry" entry (file+datetree "")
-           "* %<%H:%M> %?\n")
-          ("J" "Hinted Journal entry" entry (file+datetree "")
-           "* %<%H:%M> %?\n** How do I feel?\n** What have I been doing?\n** What shall I do next?")
-          ("t" "Task" entry (file+headline "" "Tasks")
-           "* TODO %?\n%u")))
+        `(("j" "Journal" entry (file+datetree ,(concat j0ni-org-dir "journal.org"))
+           "* %T\n  %i\n  %a")
+          ("t" "Task" entry (file+headline ,(concat j0ni-org-dir "todo.org") "Tasks")
+           "* TODO %?\n  %a\n%i")))
 
   :config
   (org-clock-persistence-insinuate)
 
-  (dolist (tag '(orchard home motiva sanity tdg))'
+  (dolist (tag '(orchard home motiva sanity tdg self))'
     (add-to-list 'org-tag-persistent-alist tag))
 
   ;; org-babel
@@ -75,7 +81,7 @@
      ;; (ipython . t)
      (ruby . t)
      ;; (sh . t)
-     (clojure . t)
+     ;; (clojure . t)
      (js . t)
      (lisp . t)
      (sql . t)
@@ -83,33 +89,50 @@
      (scheme . t)))
 
   ;; hook for clojure programming
-  (add-hook 'clojure-mode-hook (lambda () (require 'ob-clojure)))
+  ;; (add-hook 'clojure-mode-hook (lambda () (require 'ob-clojure)))
 
-  (add-hook 'org-mode-hook 'turn-on-auto-fill)
+  (add-hook 'org-mode-hook 'auto-fill-mode)
+  (add-hook 'org-capture-mode-hook 'auto-fill-mode)
   (add-hook 'org-mode-hook
             (lambda ()
               (add-hook
                'before-save-hook 'org-update-all-dblocks nil 'local-only)))
 
-
-  ;; Key-bindings for some global commands
-  ;; (global-set-key "\C-cl" 'org-store-link)
-  ;; (global-set-key "\C-cc" 'org-capture)
-  ;; (global-set-key "\C-ca" 'org-agenda)
-  ;; (global-set-key "\C-cb" 'org-iswitchb)
-
   :bind (("C-c l" . org-store-link)
-         ("C-c c" . org-capture))
+         ("C-c c" . org-capture)
+         ("C-c a" . org-agenda)
+         ("C-c b" . org-iswitchb))
 
-  :commands (org-store-link org-capture)
-  )
+  :commands (org-store-link org-capture))
 
 
 ;; org-journal
-;; (package-require 'org-journal)
+;; (use-package org-journal
+;;   :after org-plus-contrib
+;;   :commands (org-journal-new-entry)
+;;   :custom
+;;   (org-journal-dir (concat j0ni-org-dir "Journal/"))
+;;   (org-journal-date-format "%A, %d %B %Y")
+;;   (org-journal-enable-agenda-integration t)
+;;   (org-journal-extend-today-until 4)
 
-;; (setq org-journal-dir (concat j0ni-org-dir "Journal/"))
-;; (setq org-journal-find-file 'find-file)
+;;   ;; read this and fix this up
+;;   ;; https://orgmode.org/manual/Matching-tags-and-properties.html
+;;   (org-journal-carryover-items "TODO=\"TODO\"")
+
+;;   :config
+;;   ;; integrate with org-capture
+;;   (defun org-journal-find-location ()
+;;     ;; Open today's journal, but specify a non-nil prefix argument in order to
+;;     ;; inhibit inserting the heading; org-capture will insert the heading.
+;;     (org-journal-new-entry t)
+;;     ;; Position point on the journal's top-level heading so that org-capture
+;;     ;; will add the new entry as a child entry.
+;;     (goto-char (point-min)))
+
+;;   (setq org-capture-templates '(("j" "Journal entry" entry (function org-journal-find-location)
+;;                                  "* %(format-time-string org-journal-time-format)%^{Title}\n%i%?"))))
+
 
 ;; jupyter
 (use-package jupyter)
@@ -123,6 +146,15 @@
         deft-text-mode 'org-mode
         deft-use-filename-as-title t
         deft-auto-save-interval 0))
+
+;; Can't get this to work,
+;; (use-package org-sidebar
+;;   :after org-plus-contrib
+;;   :defer t
+;;   :commands (org-sidebar-tree
+;;              org-sidebar-tree-toggle
+;;              org-sidebar
+;;              org-sidebar-toggle))
 
 
 (provide 'j0ni-org)
