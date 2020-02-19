@@ -1,5 +1,8 @@
 ;;; init.el --- user init file -*- no-byte-compile: t -*-
 
+;; on general principle
+(setq load-prefer-newer t)
+
 (setq straight-use-package-by-default t)
 (setq straight-vc-git-default-protocol 'ssh)
 
@@ -79,7 +82,7 @@
   ;; (setq j0ni-font-face "agave")
   (setq j0ni-font-weight 'regular)
   ;; (setq j0ni-bold-font-weight 'regular)
-  (setq j0ni-font-size 12)
+  (setq j0ni-font-size 9)
   ;; (setq j0ni-line-spacing 8)
   (setq j0ni-line-spacing 2)
   (setq j0ni-antialias t)
@@ -165,25 +168,16 @@
 (defvar j0ni-git-contrib-dir)
 ;; Org mode locations
 (defvar j0ni-org-dir)
-(defvar j0ni-notebook)
-(defvar j0ni-org-dropbox)
-(defvar j0ni-agenda-files)
 
 (setq j0ni-go-path (list
                     (concat-home "Scratch/go")))
 
 (setq j0ni-path (list (concat-home ".cabal/bin")
                       (concat-home ".cargo/bin")
-                      (concat-home "Scratch/clojure/leiningen")
-                      (concat-home "Scratch/clojure/boot")
                       (concat-home "Scratch/go/bin")
-                      ;; (concat-home ".miniconda3/bin")
                       "/usr/local/bin"))
 
 (setq j0ni-org-dir (concat-home "Dropbox/OrgMode/"))
-(setq j0ni-notebook (concat j0ni-org-dir "notebook.org"))
-(setq j0ni-org-dropbox (concat-home "Dropbox/Apps/MobileOrg"))
-(setq j0ni-agenda-files (list j0ni-notebook))
 
 ;; Switch some stuff off...
 (dolist (mode '(menu-bar-mode tool-bar-mode scroll-bar-mode))
@@ -249,6 +243,7 @@
 
 ;; (use-package focus)
 
+(defvar j0ni-pkg-full)
 (setq j0ni-pkg-full
       '(;; j0ni-exwm
         ;; j0ni-evil
