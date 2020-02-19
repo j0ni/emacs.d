@@ -1,5 +1,8 @@
 ;;; j0ni-mail.el
 
+(use-package notmuch)
+(use-package counsel-notmuch)
+
 (defvar mu-path "/usr/share/emacs/site-lisp/mu4e")
 
 (when (file-exists-p mu-path)
