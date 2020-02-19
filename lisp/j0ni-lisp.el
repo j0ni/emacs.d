@@ -63,82 +63,77 @@
   )
 
 (use-package paredit
-  :diminish "Par"
-
+  :commands (enable-paredit-mode
+             paredit-backward-delete
+             paredit-close-round)
   :config
   (add-lisp-hook #'turn-off-smartparens-mode)
-  (add-lisp-hook #'paredit-mode)
+  (add-lisp-hook #'enable-paredit-mode)
 
   (progn
-     (defun paredit-barf-all-the-way-backward ()
-       (interactive)
-       (paredit-split-sexp)
-       (paredit-backward-down)
-       (paredit-splice-sexp))
+    (defun paredit-barf-all-the-way-backward ()
+      (interactive)
+      (paredit-split-sexp)
+      (paredit-backward-down)
+      (paredit-splice-sexp))
 
-     (defun paredit-barf-all-the-way-forward ()
-       (interactive)
-       (paredit-split-sexp)
-       (paredit-forward-down)
-       (paredit-splice-sexp)
-       (if (eolp) (delete-horizontal-space)))
+    (defun paredit-barf-all-the-way-forward ()
+      (interactive)
+      (paredit-split-sexp)
+      (paredit-forward-down)
+      (paredit-splice-sexp)
+      (if (eolp) (delete-horizontal-space)))
 
-     (defun paredit-slurp-all-the-way-backward ()
-       (interactive)
-       (catch 'done
-         (while (not (bobp))
-           (save-excursion
-             (paredit-backward-up)
-             (if (eq (char-before) ?\()
-                 (throw 'done t)))
-           (paredit-backward-slurp-sexp))))
+    (defun paredit-slurp-all-the-way-backward ()
+      (interactive)
+      (catch 'done
+        (while (not (bobp))
+          (save-excursion
+            (paredit-backward-up)
+            (if (eq (char-before) ?\()
+                (throw 'done t)))
+          (paredit-backward-slurp-sexp))))
 
-     (defun paredit-slurp-all-the-way-forward ()
-       (interactive)
-       (catch 'done
-         (while (not (eobp))
-           (save-excursion
-             (paredit-forward-up)
-             (if (eq (char-after) ?\))
-                 (throw 'done t)))
-           (paredit-forward-slurp-sexp))))
+    (defun paredit-slurp-all-the-way-forward ()
+      (interactive)
+      (catch 'done
+        (while (not (eobp))
+          (save-excursion
+            (paredit-forward-up)
+            (if (eq (char-after) ?\))
+                (throw 'done t)))
+          (paredit-forward-slurp-sexp))))
 
-     (nconc paredit-commands
-            '("Extreme Barfage & Slurpage"
-              (("C-M-)")
-               paredit-slurp-all-the-way-forward
-               ("(foo (bar |baz) quux zot)"
-                "(foo (bar |baz quux zot))")
-               ("(a b ((c| d)) e f)"
-                "(a b ((c| d)) e f)"))
-              (("C-M-}" "M-F")
-               paredit-barf-all-the-way-forward
-               ("(foo (bar |baz quux) zot)"
-                "(foo (bar|) baz quux zot)"))
-              (("C-M-(")
-               paredit-slurp-all-the-way-backward
-               ("(foo bar (baz| quux) zot)"
-                "((foo bar baz| quux) zot)")
-               ("(a b ((c| d)) e f)"
-                "(a b ((c| d)) e f)"))
-              (("C-M-{" "M-B")
-               paredit-barf-all-the-way-backward
-               ("(foo (bar baz |quux) zot)"
-                "(foo bar baz (|quux) zot)"))))
+    (nconc paredit-commands
+           '("Extreme Barfage & Slurpage"
+             (("C-M-)")
+              paredit-slurp-all-the-way-forward
+              ("(foo (bar |baz) quux zot)"
+               "(foo (bar |baz quux zot))")
+              ("(a b ((c| d)) e f)"
+               "(a b ((c| d)) e f)"))
+             (("C-M-}" "M-F")
+              paredit-barf-all-the-way-forward
+              ("(foo (bar |baz quux) zot)"
+               "(foo (bar|) baz quux zot)"))
+             (("C-M-(")
+              paredit-slurp-all-the-way-backward
+              ("(foo bar (baz| quux) zot)"
+               "((foo bar baz| quux) zot)")
+              ("(a b ((c| d)) e f)"
+               "(a b ((c| d)) e f)"))
+             (("C-M-{" "M-B")
+              paredit-barf-all-the-way-backward
+              ("(foo (bar baz |quux) zot)"
+               "(foo bar baz (|quux) zot)"))))
 
-     (paredit-define-keys)
-     (paredit-annotate-mode-with-examples)
-     (paredit-annotate-functions-with-examples)))
+    (paredit-define-keys)
+    (paredit-annotate-mode-with-examples)
+    (paredit-annotate-functions-with-examples)))
 
 ;; (use-package fennel-mode)
 
 ;; (use-package lispy)
-
-(defun enable-paren-handling ()
-  (interactive)
-  (paredit-mode 1))
-
-;; (add-lisp-hook 'enable-paren-handling)
 
 ;; Make paredit play nice with eldoc
 ;; (eval-after-load "eldoc"
@@ -146,9 +141,9 @@
 ;;     paredit-backward-delete
 ;;     paredit-close-round))
 
-;; Rainbow delimiters
+;; rainbow delimiters
 (use-package rainbow-delimiters)
-(add-lisp-hook 'rainbow-delimiters-mode)
+(add-lisp-hook #'rainbow-delimiters-mode)
 
 ;; Lambdas
 (defun lambda-as-lambda (mode pattern)
@@ -249,49 +244,18 @@
               (if (file-exists-p (concat buffer-file-name "c"))
                   (delete-file (concat buffer-file-name "c"))))))
 
-(add-hook 'emacs-lisp-mode-hook #'turn-on-eldoc-mode)
-(add-hook 'emacs-lisp-mode-hook #'remove-elc-on-save)
-(add-hook 'emacs-lisp-mode-hook #'enable-eros-mode)
-
-(defun enable-eros-mode ()
-  (eros-mode 1))
-
 (use-package elisp-slime-nav)
 (use-package eros)
 
-(defun elisp-slime-nav-mode-setup ()
-  (elisp-slime-nav-mode 1))
+(add-hook 'emacs-lisp-mode-hook #'turn-on-eldoc-mode)
+(add-hook 'emacs-lisp-mode-hook #'remove-elc-on-save)
+(add-hook 'emacs-lisp-mode-hook #'eros-mode)
 
-(add-hook 'emacs-lisp-mode-hook 'elisp-slime-nav-mode-setup)
-;; (eval-after-load 'elisp-slime-nav '(diminish 'elisp-slime-nav-mode))
-
+(add-hook 'emacs-lisp-mode-hook #'elisp-slime-nav-mode)
 ;; GNOME won't allow C-M-x for some stupid reason
 (require 'edebug)
 (define-key emacs-lisp-mode-map (kbd "C-c C-c") #'edebug-eval-defun)
 (define-key emacs-lisp-mode-map (kbd "C-c d") #'toggle-debug-on-error)
-
-;; Slime for common lisp
-
-;; (use-package slime
-;;   :defer t
-;;   :init
-;;   (setq inferior-lisp-program
-;;         "/usr/bin/sbcl --no-linedit --dynamic-space-size=5120 --no-inform")
-;;   (setq slime-contribs '(slime-quicklisp
-;;                          slime-fancy
-;;                          slime-hyperdoc
-;;                          slime-asdf
-;;                          slime-banner
-;;                          slime-repl)))
-
-;; (use-package slime-docker :defer t)
-;; (use-package slime-company
-;;   :defer t
-;;   :requires company
-;;   :init
-;;   (add-to-list 'company-backends 'company-slime)
-;;   :hook
-;;   (slime))
 
 (load "/home/joni/quicklisp/clhs-use-local.el" t)
 
@@ -320,17 +284,13 @@
   (setq racket-program "/home/joni/racket/bin/racket")
   (add-hook 'racket-mode-hook      #'racket-unicode-input-method-enable)
   (add-hook 'racket-repl-mode-hook #'racket-unicode-input-method-enable)
-  (add-hook 'racket-mode-hook      #'my-racket-mode-hook)
-  (add-hook 'racket-repl-mode-hook #'my-racket-repl-mode-hook))
+  (add-hook 'racket-mode-hook      #'my-racket-mode-hook))
 
 (defun my-racket-mode-hook ()
   (interactive)
-  (enable-paren-handling)
+  (paredit-mode 1)
   (rainbow-delimiters-mode 1)
   (define-key racket-mode-map (kbd "C-c SPC") 'racket-align))
-
-(defun my-racket-repl-mode-hook ()
-  (enable-paren-handling))
 
 ;; Geiser
 

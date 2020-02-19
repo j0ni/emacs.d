@@ -67,14 +67,12 @@
 
 (use-package conda
   :init
-  (setq conda-anaconda-home "~/.conda")
+  (setq conda-env-home-directory "~/.conda")
+  (setq conda-anaconda-home "/opt/miniconda3")
   (setq-default conda-project-env-name "userbase")
   :config
-  ;; (conda-env-autoactivate-mode t)
-  )
-
-(add-hook 'python-mode-hook (lambda ()
-                              (setq lsp-pyls-plugins-yapf-enabled nil)
-                              (lsp)))
+  (add-hook 'python-mode-hook (lambda ()
+                                (setq lsp-pyls-plugins-yapf-enabled nil)
+                                (lsp))))
 
 (provide 'j0ni-python)
