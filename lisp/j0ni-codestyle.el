@@ -37,7 +37,7 @@
 (setq sentence-end-double-space nil)
 
 ;; Whitespace
-;; (add-hook 'before-save-hook 'whitespace-cleanup)
+(add-hook 'before-save-hook #'whitespace-cleanup)
 
 ;; Enforce proper whitespace
 ;; (package-require 'ethan-wspace)
@@ -57,14 +57,15 @@
 (setq-default display-fill-column-indicator-column 100)
 (setq-default display-fill-column-indicator-character (string-to-char ":"))
 
-(use-package ws-butler
-  :config
-  (ws-butler-global-mode 1)
-  (add-to-list 'ws-butler-global-exempt-modes 'message-mode)
-  (add-to-list 'ws-butler-global-exempt-modes 'mu4e-compose-mode)
-  (add-to-list 'ws-butler-global-exempt-modes 'mml-mode)
-  (add-to-list 'ws-butler-global-exempt-modes 'ein:notebook-mode)
-  (add-to-list 'ws-butler-global-exempt-modes 'ein:notebook-multilang-mode))
+;; (use-package ws-butler
+;;   :config
+;;   ;; (ws-butler-global-mode 1)
+;;   (add-hook 'prog-mode-hook #'ws-butler-mode)
+;;   (add-to-list 'ws-butler-global-exempt-modes 'message-mode)
+;;   (add-to-list 'ws-butler-global-exempt-modes 'mu4e-compose-mode)
+;;   (add-to-list 'ws-butler-global-exempt-modes 'mml-mode)
+;;   (add-to-list 'ws-butler-global-exempt-modes 'ein:notebook-mode)
+;;   (add-to-list 'ws-butler-global-exempt-modes 'ein:notebook-multilang-mode))
 
 (setq-default display-fill-column-indicator-column 100)
 (setq-default display-fill-column-indicator-character (string-to-char ":"))
