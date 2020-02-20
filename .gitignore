@@ -48,3 +48,6 @@ org-clock-save.el
 quelpa/
 smex-items
 speed-type/
+/straight
+/transient
+/var
