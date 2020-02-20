@@ -7,21 +7,76 @@
   (prescient-persist-mode 1))
 
 (use-package ivy-prescient
-  :after (:all ivy counsel prescient)
-
   :config
   (ivy-prescient-mode 1))
 
 (use-package company-prescient
-  :after (prescient)
-
   :config
   (company-prescient-mode 1))
 
-(use-package ivy-rich
-  :defer t
-  :after (:all ivy counsel)
+(use-package ivy
+  :init
+  (setq ivy-use-virtual-buffers t)
+  (setq ivy-height 15)
+  ;; (setq ivy-height 20)
+  (setq ivy-length 200)
+  ;; (setq ivy-count-format "")
+  (setq confirm-nonexistent-file-or-buffer t)
+  (setq ivy-re-builders-alist
+        '((read-file-name-internal . ivy--regex-fuzzy)
+          (t . ivy--regex-plus)))
+  ;; w00t
+  (setq ivy-extra-directories nil)
 
+  :config
+  (ivy-mode t)
+
+  :bind (("C-c C-r" . ivy-resume)
+         ("C-x b" . ivy-switch-buffer)))
+
+(use-package ivy-posframe
+  :init
+  (setq ivy-posframe-display-functions-alist
+        '((t . ivy-posframe-display-at-frame-top-center))))
+
+(use-package swiper
+  :bind (("C-s" . swiper))
+  :config
+  ;; https://github.com/abo-abo/swiper/issues/419
+  (advice-add 'swiper--action :after (lambda (throwaway-arg)
+                                       (recenter))))
+
+(use-package counsel
+  :diminish nil
+  :bind (("M-x" . counsel-M-x)
+         ("C-x C-f" . counsel-find-file)
+
+         ;; Hmmm... I doubt I'll ever use these
+         ("<f1> f" . counsel-describe-function)
+         ("<f1> v" . counsel-describe-variable)
+         ("<f1> l" . counsel-load-library)
+         ("<f2> i" . counsel-info-lookup-symbol)
+         ("<f2> u" . counsel-unicode-char)
+
+         ("M-y" . counsel-yank-pop)
+
+         ;; ("C-c j" . counsel-git)
+         ;; ("C-c g" . counsel-git-grep)
+         ;; ("C-c a g" . counsel-ag)
+         ("C-x l" . counsel-locate)
+         ;; (global-set-key (kbd "C-S-o") 'counsel-rhythmbox)
+
+         ("C-\\" . counsel-company)
+         ("C-," . counsel-imenu)))
+
+;; I have no use for dired
+;; (define-key ivy-minibuffer-map (kbd "RET") 'ivy-done)
+
+;; externals
+(setq magit-completing-read-function 'ivy-completing-read)
+(setq projectile-completion-system 'ivy)
+
+(use-package ivy-rich
   :init
   (setq ivy-rich-display-transformers-list
         '(ivy-switch-buffer
@@ -66,100 +121,7 @@
   (setcdr (assq t ivy-format-functions-alist) #'ivy-format-function-line)
   (ivy-rich-mode t))
 
-(use-package ivy
-  :init
-  (setq ivy-use-virtual-buffers t)
-  (setq ivy-height 15)
-  ;; (setq ivy-height 20)
-  (setq ivy-length 200)
-  ;; (setq ivy-count-format "")
-  (setq confirm-nonexistent-file-or-buffer t)
-  (setq ivy-re-builders-alist
-        '((read-file-name-internal . ivy--regex-fuzzy)
-          (t . ivy--regex-plus)))
-  ;; (setq ivy-format-function (lambda (cands)
-  ;;                             (ivy--format-function-generic
-  ;;                              (lambda (str)
-  ;;                                (ivy--add-face str 'ivy-current-match))
-  ;;                              #'identity
-  ;;                              cands
-  ;;                              " | ")))
-  ;; (setq ivy-format-function 'ivy-format-function-default)
-  ;; (setq ivy-display-function nil)
-  ;; w00t
-  (setq ivy-extra-directories nil)
-
-  :config
-  (ivy-mode t)
-
-  :bind (("C-c C-r" . ivy-resume)
-         ;; :map ivy-minibuffer-map
-         ;; ("RET" . ivy-done)
-         )
-
-  :diminish nil)
-
-(use-package ivy-posframe
-  :init
-  (setq ivy-posframe-display-functions-alist
-        '((t . ivy-posframe-display-at-frame-top-center))))
-
-;; (cl-defmethod xref-backend-identifier-completion-table ((_backend (eql etags)))
-;;   (lambda (string pred action)
-;;     (complete-with-action action tags-completion-table string pred)))
-
-;; (use-package avy
-;;   :config
-;;   (avy-setup-default)
-;;   :bind
-;;   (("C-c C-j" . avy-resume)
-;;    ("M-g w" . avy-goto-word-1)
-;;    ("C-'" . avy-goto-char-2)))
-
-(use-package swiper
-  :after ivy
-  :bind (("C-s" . swiper))
-  :config
-  ;; https://github.com/abo-abo/swiper/issues/419
-  (advice-add 'swiper--action :after (lambda (throwaway-arg)
-                                       (recenter))))
-;; (global-set-key (kbd "C-s") 'swiper)
-
-(use-package counsel
-  :after ivy
-  :diminish nil
-  :bind (("M-x" . counsel-M-x)
-         ("C-x C-f" . counsel-find-file)
-
-         ;; Hmmm... I doubt I'll ever use these
-         ("<f1> f" . counsel-describe-function)
-         ("<f1> v" . counsel-describe-variable)
-         ("<f1> l" . counsel-load-library)
-         ("<f2> i" . counsel-info-lookup-symbol)
-         ("<f2> u" . counsel-unicode-char)
-
-         ;; ("C-c j" . counsel-git)
-         ("C-c g" . counsel-git-grep)
-         ("C-c a g" . counsel-ag)
-         ("C-x l" . counsel-locate)
-         ;; (global-set-key (kbd "C-S-o") 'counsel-rhythmbox)
-
-         ("C-\\" . counsel-company)
-         ("C-," . counsel-imenu)))
-
-;; I have no use for dired
-;; (define-key ivy-minibuffer-map (kbd "RET") 'ivy-done)
-
-;; externals
-(setq magit-completing-read-function 'ivy-completing-read)
-(setq projectile-completion-system 'ivy)
-
 (use-package counsel-projectile
-  :after (:all projectile ivy)
-
-  :init
-  (setq projectile-keymap-prefix (kbd "C-c C-p"))
-
   :config
   (counsel-projectile-mode 1))
 

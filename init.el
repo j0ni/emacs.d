@@ -55,7 +55,7 @@
   ;; (setq j0ni-font-face "Linux Libertine Mono")
   ;; (setq j0ni-font-face "Fira Mono Medium")
   ;; (setq j0ni-font-face "Fira Mono")
-  (setq j0ni-font-face "Fira Code")
+  (setq j0ni-font-face "Fira Code Retina")
   ;; (setq j0ni-font-face "Envy Code R")
   ;; (setq j0ni-font-face "Agave")
   ;; (setq j0ni-font-face "Source Code Variable")

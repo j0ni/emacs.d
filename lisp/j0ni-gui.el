@@ -216,7 +216,7 @@
   (setq calendar-location-name "Toronto, Canada")
 
   (setq circadian-themes `((:sunrise . ,(cl-first j0ni-light-theme))
-                           ;; ("08:00" . ,(cl-first j0ni-dark-theme))
+                           ("10:00" . ,(cl-first j0ni-dark-theme))
                            (:sunset  . ,(cl-first j0ni-dark-theme))))
 
   ;; note that this executes in a black hole, so if it fails, there will be no

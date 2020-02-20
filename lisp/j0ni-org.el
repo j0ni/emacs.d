@@ -8,9 +8,6 @@
   ;; Set to the name of the file where new notes will be stored
   (setq org-mobile-inbox-for-pull (concat j0ni-org-dir "flagged.org"))
 
-  ;; Set to <your Dropbox root directory>/MobileOrg.
-  (setq org-mobile-directory j0ni-org-dropbox)
-
   ;; track TODO completion
   ;; (setq org-log-done 'time)
 
@@ -63,6 +60,8 @@
   (setq org-capture-templates
         `(("j" "Journal" entry (file+datetree ,(concat j0ni-org-dir "journal.org"))
            "* %T\n  %i\n  %a")
+          ("s" "Shriek" entry (file+datetree ,(concat j0ni-org-dir "shrieks.org"))
+           "* %T\n  %i\n")
           ("t" "Task" entry (file+headline ,(concat j0ni-org-dir "todo.org") "Tasks")
            "* TODO %?\n  %a\n%i")))
 
