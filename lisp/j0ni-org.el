@@ -24,9 +24,11 @@
   (setq org-startup-indented t)
 
   ;; Set agenda file(s)
-  (setq org-agenda-files (list (concat j0ni-org-dir "todo.org")
+  (setq org-agenda-files (list (concat j0ni-org-dir "worlds-end.org")
+                               (concat j0ni-org-dir "todo.org")
                                (concat j0ni-org-dir "journal.org")
-                               (concat j0ni-org-dir "theplan.org")))
+                               (concat j0ni-org-dir "theplan.org")
+                               (concat j0ni-org-dir "shrieks.org")))
   (setq org-agenda-span 14)
   ;; (setq org-agenda-start-on-weekday nil)
 
@@ -59,11 +61,18 @@
   (setq org-default-notes-file (concat j0ni-org-dir "captured.org"))
   (setq org-capture-templates
         `(("j" "Journal" entry (file+datetree ,(concat j0ni-org-dir "journal.org"))
-           "* %T\n  %i\n  %a")
-          ("s" "Shriek" entry (file+datetree ,(concat j0ni-org-dir "shrieks.org"))
-           "* %T\n  %i\n")
-          ("t" "Task" entry (file+headline ,(concat j0ni-org-dir "todo.org") "Tasks")
+           "* %T\n  %?\n\n%a")
+          ("s" "Shriek" entry (file+headline ,(concat j0ni-org-dir "shrieks.org") "Shrieks")
+           "* %T\n%?\n")
+          ("t" "Task" entry (file+headline ,(concat j0ni-org-dir "worlds-end.org") "Inbox")
            "* TODO %?\n  %a\n%i")))
+
+  (add-hook 'org-mode-hook 'auto-fill-mode)
+  (add-hook 'org-capture-mode-hook 'auto-fill-mode)
+  (add-hook 'org-mode-hook
+            (lambda ()
+              (add-hook
+               'before-save-hook 'org-update-all-dblocks nil 'local-only)))
 
   :config
   (org-clock-persistence-insinuate)
@@ -89,13 +98,6 @@
 
   ;; hook for clojure programming
   ;; (add-hook 'clojure-mode-hook (lambda () (require 'ob-clojure)))
-
-  (add-hook 'org-mode-hook 'auto-fill-mode)
-  (add-hook 'org-capture-mode-hook 'auto-fill-mode)
-  (add-hook 'org-mode-hook
-            (lambda ()
-              (add-hook
-               'before-save-hook 'org-update-all-dblocks nil 'local-only)))
 
   :bind (("C-c l" . org-store-link)
          ("C-c c" . org-capture)
